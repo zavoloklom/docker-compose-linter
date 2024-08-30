@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    expose:
+      - '5432'
+    environment:
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=nextcloud
+    restart: always
+
+  nc:
+    image: nextcloud:apache
+    volumes:
+      - nc_data:/var/www/html
+    ports:
+      - '81'
+      - '80:80'
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+    restart: always
+
+volumes:
+  nc_data:
+  db_data:

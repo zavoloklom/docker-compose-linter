@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "rules": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "number",
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "type": "array",
+            "items": [
+              {
+                "type": "number",
+                "enum": [
+                  0,
+                  1,
+                  2
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": true
+              }
+            ],
+            "minItems": 1,
+            "maxItems": 2
+          }
+        ]
+      }
+    },
+    "quiet": {
+      "type": "boolean"
+    },
+    "debug": {
+      "type": "boolean"
+    },
+    "exclude": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

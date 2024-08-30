@@ -1,0 +1,110 @@
+version: '3.9'
+
+services:
+  c-service:
+    build:
+      context: ../../tests/c-service
+      dockerfile: Dockerfile
+      args:
+        - TEST=${TEST}
+    environment:
+      - TEST='HQTb_=d.4*FPN@^;w2)UZ%'
+  test:
+    build: ""
+    image: node
+    container_name: a-service
+  a-service:
+    build:
+      context: ../../tests/a-service
+      dockerfile: Dockerfile
+      args:
+        - TEST=${TEST}
+    container_name: a-service
+    volumes:
+      - '../../app/a-service/:/var/www/app'
+      - '/var/www/app/node_modules'
+    depends_on:
+      c-service:
+        condition: service_started
+      b-service:
+        condition: service_healthy
+    environment:
+      - TEST=${TEST}
+    env_file: ./envs/.env.a-service
+#    command: sh -c "npm run start"
+    command: sh -c "tail -f /dev/null"
+    ports:
+      - "11150:3000"
+      - "11032:3000"
+  b-service:
+    build:
+      context: ../../app/b-service
+      dockerfile: Dockerfile
+      target: builder
+      args:
+        - TEST1=${TEST}
+        - TEST2=${TEST}
+    container_name: b-service
+    depends_on:
+      - kafka
+      - c-service
+    volumes:
+      - '../../app/flexible-forms-client/:/var/www/app'
+      - '/var/www/app/node_modules'
+    env_file: ./envs/.env.b-service
+    command: sh -c "npm run start"
+    ports:
+      - 11131:3000
+  redpanda-console:
+    image: redpandadata/console:unstable
+    command: -c "echo \"$$CONSOLE_CONFIG_FILE\" > /tmp/config.yml; /app/console"
+    entrypoint: /bin/sh
+    container_name: redpanda-console
+    volumes:
+      - ./configurations/redpanda-console/certs/cert.crt:/certs/cert.crt
+    ports:
+      - 11032:8080
+    environment:
+      CONFIG_FILEPATH: /tmp/config.yml
+      CONSOLE_CONFIG_FILE: |
+        kafka:
+          sasl:
+            enabled: false
+          tls:
+            enabled: false
+          schemaRegistry:
+            enabled: true
+            tls:
+              enabled: true
+      KAFKA_BROKERS: kafka:9092
+      KAFKA_SCHEMAREGISTRY_URLS: ${SCHEMA_REGISTRY_URL}
+    depends_on:
+      - kafka
+    restart: unless-stopped
+  zookeeper:
+    image: zookeeper:3.6.3
+    container_name: zookeeper
+    ports:
+      - 11031:2181
+    env_file: ./envs/.env.zookeeper
+    restart: unless-stopped
+  kafka:
+    image: wurstmeister/kafka:2.13-2.8.1
+    container_name: kafka
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    ports:
+      - 11052
+      - 11051:11051
+      - target: 1000
+        published: 8081
+        protocol: tcp
+        mode: host
+    env_file: ./envs/.env.kafka
+    depends_on:
+      - zookeeper
+    restart: unless-stopped
+volumes:
+  kafka_data:
+    driver: local
+
