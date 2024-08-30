@@ -1,0 +1,64 @@
+{
+  "rules": {
+    "no-version-field": 0,
+    "require-project-name-field": 0,
+    "require-quotes-in-ports": [
+      1,
+      {
+        "quoteType": "single"
+      }
+    ],
+    "top-level-properties-order": [
+      2,
+      {
+        "customOrder": [
+          "x-properties",
+          "version",
+          "name",
+          "services",
+          "volumes",
+          "networks",
+          "secrets",
+          "configs"
+        ]
+      }
+    ],
+    "service-keys-order": [
+      1,
+      {
+        "groupOrder": [
+          "Other"
+        ],
+        "groups": {
+          "Other": [
+            "image",
+            "build",
+            "command",
+            "container_name",
+            "volumes",
+            "volumes_from",
+            "ports",
+            "depends_on",
+            "expose",
+            "env_file",
+            "environment",
+            "links",
+            "extra_hosts",
+            "restart",
+            "ulimits",
+            "tty"
+          ]
+        }
+      }
+    ],
+    "service-image-require-explicit-tag": [
+      2,
+      {
+        "prohibitedTags": [
+          "unstable",
+          "latest"
+        ]
+      }
+    ]
+  }
+}
