@@ -58,6 +58,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
+          path: ./dist
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
