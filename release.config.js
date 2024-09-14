@@ -12,9 +12,14 @@ export default {
             },
         ],
         [
-            '@semantic-release/git',
+            '@semantic-release/exec',
             {
                 prepareCmd: 'npm run markdownlint:fix-changelog || true',
+            },
+        ],
+        [
+            '@semantic-release/git',
+            {
                 assets: ['package.json', 'package-lock.json', 'CHANGELOG.md'],
                 // eslint-disable-next-line no-template-curly-in-string
                 message: 'release: ${nextRelease.version} [skip ci]',
