@@ -3,11 +3,18 @@ export default {
     plugins: [
         '@semantic-release/commit-analyzer',
         '@semantic-release/release-notes-generator',
-        '@semantic-release/changelog',
-        '@semantic-release/npm',
+        [
+            '@semantic-release/changelog',
+            {
+                changelogTitle:
+                    '# Changelog' +
+                    '\n\n> This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).',
+            },
+        ],
         [
             '@semantic-release/git',
             {
+                prepareCmd: 'npm run markdownlint:fix-changelog || true',
                 assets: ['package.json', 'package-lock.json', 'CHANGELOG.md'],
                 // eslint-disable-next-line no-template-curly-in-string
                 message: 'release: ${nextRelease.version} [skip ci]',
@@ -28,6 +35,7 @@ export default {
                 ],
             },
         ],
+        '@semantic-release/npm',
     ],
     preset: 'conventionalcommits',
     presetConfig: {

@@ -5,6 +5,11 @@ module.exports = {
     },
     "MD013": {
         "line_length": 120,
-        "ignore_code_blocks": true
+        "ignore_code_blocks": true,
+        "ignore_urls": true,
+        "tables": false
     },
+    "MD024": {
+        "siblings_only": true
+    }
 };
