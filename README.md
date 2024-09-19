@@ -1,10 +1,14 @@
 # Docker Compose Linter
 
+![Logo](./docs/images/logo.png)
+<img src="./docs/images/logo.svg" alt="Docker Compose Linter Logo" height="232" width="auto"/>
+
 [![Latest NPM Release Version](https://img.shields.io/npm/v/dclint?style=flat-square)](https://www.npmjs.com/package/dclint)
 [![Latest Docker Hub Release Version](https://img.shields.io/docker/v/zavoloklom/dclint?style=flat-square&label=Docker%20Hub)](https://hub.docker.com/r/zavoloklom/dclint)
 ![Code Coverage Score](https://img.shields.io/codacy/coverage/2897b4940d094899ba59f1d287cdbd86?style=flat-square&label=Coverage)
 [![Codacy Code Quality Score](https://img.shields.io/codacy/grade/2897b4940d094899ba59f1d287cdbd86?style=flat-square&logo=codacy&label=Code%20Quality)](https://app.codacy.com/gh/zavoloklom/docker-compose-linter/dashboard?utm_source=gl&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=whit&style=flat-square)](https://conventionalcommits.org)
+[![All Contributors](https://img.shields.io/github/all-contributors/zavoloklom/dclint?color=ee8449&style=flat-square)](#contributors)
 
 > **Note**: Docker Compose configurations vary greatly between different projects and setups. While DCLint is stable,
 > there may be edge cases or unique setups that cause issues. If you encounter any problems or have suggestions, please
@@ -28,21 +32,37 @@ robust, maintainable, and free from common pitfalls.
 - **Anchor Support:** Supports YAML anchors for shared configuration sections, with
   [some limitations](#anchor-handling).
 
-## Getting Started
+## Table of Contents
 
-### Installation with Node.js
+- [Usage with Node.js](#usage-with-nodejs)
+- [Usage with Docker](#usage-with-docker)
+- [Rules and Errors](#rules-and-errors)
+- [Configuration](#configuration)
+- [Integration with CI/CD Pipeline](#integration-with-cicd-pipeline)
+- [Alternatives](#alternatives)
+- [Demo](#demo)
+- [Contributing](#contributing)
+- [Changelog](#changelog)
+- [License](#license)
+- [Contacts and Support](#contacts-and-support)
 
-You can install Docker Compose Linter locally in your project or use it directly with npx.
+## Usage with Node.js
+
+You can install Docker Compose Linter globally or use it directly with npx.
 
 > **Note:** DCLint requires Node.js version 18 or higher.
 
-To install it locally:
+To install it globally:
 
 ```shell
-npm install --save-dev dclint
+npm install -g dclint
 ```
 
-### Running the Linter with npx
+And then run by command:
+
+```shell
+dclint .
+```
 
 If you prefer not to install it globally, you can run the linter directly using npx:
 
@@ -277,7 +297,7 @@ configure whether single or double quotes should be used around port numbers. Yo
 In this example, the require-quotes-in-ports rule is enabled at the error level and configured to enforce double quotes
 around ports.
 
-## Integrate into CI/CD Pipeline
+## Integration with CI/CD Pipeline
 
 Automate linting as part of your CI/CD pipeline by adding the Docker run command to your pipeline script. This ensures
 that your Docker Compose files are always checked for errors before deployment.
@@ -310,6 +330,12 @@ And this tools for Docker Compose formatting and fixing:
 - [compose_format](https://github.com/funkwerk/compose_format/)
 - [yamlfix](https://github.com/lyz-code/yamlfix)
 
+## Demo
+
+Here is a short demo of DCLint in action:
+
+![Demo GIF](./docs/images/dclint-demo.gif)
+
 ## Contributing
 
 If you encounter any issues or have suggestions for improvements, feel free to open an
@@ -336,10 +362,16 @@ See the [CHANGELOG.md](./CHANGELOG.md) file for detailed lists of changes for ea
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
 
-## Contact
+## Contacts and Support
 
 If you have any questions or suggestions, feel free to reach out:
 
 - **Email**: [s.kupletsky@gmail.com](mailto:s.kupletsky@gmail.com)
-- **Twitter**: [zavoloklom](https://x.com/zavoloklom)
+- **Х/Twitter**: [zavoloklom](https://x.com/zavoloklom)
+- **Instagram**: [zavoloklom](https://www.instagram.com/zavoloklom/)
 - **GitHub**: [zavoloklom](https://github.com/zavoloklom)
+
+Also, you can support this project with a donation:
+
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=ZKLT8EJ4KWA6L)
+[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/zavoloklom)
