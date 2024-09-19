@@ -11,5 +11,10 @@ module.exports = {
     },
     "MD024": {
         "siblings_only": true
+    },
+    "MD033": {
+        "allowed_elements": [
+            "img",
+        ]
     }
 };
