@@ -350,6 +350,17 @@ in this project, you agree to abide by its terms.
 - [How to set up the project](./CONTRIBUTING.md)
 - [How to add a new rule](./CONTRIBUTING.md#how-to-add-a-new-rule)
 
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## Changelog
 
 The changelog is automatically generated based on
