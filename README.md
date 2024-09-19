@@ -355,6 +355,12 @@ And this tools for Docker Compose formatting and fixing:
 - [compose_format](https://github.com/funkwerk/compose_format/)
 - [yamlfix](https://github.com/lyz-code/yamlfix)
 
+## Demo
+
+Here is a short demo of DCLint in action:
+
+![Demo GIF](./docs/images/dclint-cli-demo.gif)
+
 ## Contributing
 
 If you encounter any issues or have suggestions for improvements, feel free to open an
