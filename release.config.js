@@ -17,6 +17,7 @@ export default {
                 prepareCmd: 'npm run markdownlint:fix-changelog || true',
             },
         ],
+        '@semantic-release/npm',
         [
             '@semantic-release/git',
             {
@@ -40,7 +41,6 @@ export default {
                 ],
             },
         ],
-        '@semantic-release/npm',
     ],
     preset: 'conventionalcommits',
     presetConfig: {
