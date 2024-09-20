@@ -2,6 +2,16 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [1.0.3](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.2...v1.0.3) (2024-09-20)
+
+### CI/CD
+
+- update version for upload-artifact and download-artifact actions ([f3187a6](https://github.com/zavoloklom/docker-compose-linter/commit/f3187a63679c7cbaf1ec5a6f009a4a09a0d4f366))
+
+### Bug Fixes
+
+- handle port value provided with envs ([63c6176](https://github.com/zavoloklom/docker-compose-linter/commit/63c617671f0b55630a9bc36cfc65a734596e7c56)), closes [#8](https://github.com/zavoloklom/docker-compose-linter/issues/8)
+
 ## [1.0.2](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.1...v1.0.2) (2024-09-20)
 
 ### Others
