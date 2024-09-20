@@ -27,16 +27,8 @@ test('extractPublishedPortValue should return empty string for unknown node type
 });
 
 test('parsePortsRange should return array of ports for a range', (t) => {
-    const result = parsePortsRange('3000-3002');
-    t.deepEqual(result, ['3000', '3001', '3002']);
-});
-
-test('parsePortsRange should throw error for invalid range', (t) => {
-    const error = t.throws(() => parsePortsRange('invalid-range'), {
-        instanceOf: Error,
-        message: 'Invalid port range',
-    });
-    t.is(error?.message, 'Invalid port range');
+    t.deepEqual(parsePortsRange('3000-3002'), ['3000', '3001', '3002']);
+    t.deepEqual(parsePortsRange('3000-3000'), ['3000']);
 });
 
 test('parsePortsRange should return single port when no range is specified', (t) => {
@@ -44,10 +36,14 @@ test('parsePortsRange should return single port when no range is specified', (t)
     t.deepEqual(result, ['8080']);
 });
 
-test('parsePortsRange should throw error when start port is greater than end port', (t) => {
-    const error = t.throws(() => parsePortsRange('3003-3001'), {
-        instanceOf: Error,
-        message: 'Invalid port range: start port is greater than end port',
-    });
-    t.is(error?.message, 'Invalid port range: start port is greater than end port');
+test('parsePortsRange should return empty array for invalid range', (t) => {
+    t.deepEqual(parsePortsRange('$TEST'), []);
+    t.deepEqual(parsePortsRange('$TEST-3002'), []);
+    t.deepEqual(parsePortsRange('3000-$TEST'), []);
+    t.deepEqual(parsePortsRange('$TEST-$TEST'), []);
+    t.deepEqual(parsePortsRange('3000-$TEST-$TEST-5000'), []);
+});
+
+test('parsePortsRange should return empty array when start port is greater than end port', (t) => {
+    t.deepEqual(parsePortsRange('3005-3002'), []);
 });

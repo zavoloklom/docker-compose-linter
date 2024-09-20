@@ -34,6 +34,12 @@ services:
         published: 8080
         protocol: tcp
         mode: host
+  g-service:
+    image: nginx:latest
+    ports:
+      - "$WEB_PORT:80"
+      - "$WEB_PORT:81"
+      - "$WEB_PORT-9000:80-81"
 `;
 
 // YAML with unique exported ports using different syntax

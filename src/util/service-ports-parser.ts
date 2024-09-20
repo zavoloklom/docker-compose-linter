@@ -24,24 +24,25 @@ function extractPublishedPortValue(yamlNode: unknown): string {
 function parsePortsRange(port: string): string[] {
     const [start, end] = port.split('-').map(Number);
 
-    if (Number.isNaN(start)) {
-        throw new Error('Invalid port range');
+    if (Number.isNaN(start) || Number.isNaN(end)) {
+        return [];
     }
 
-    if (end && !Number.isNaN(end)) {
-        if (start > end) {
-            throw new Error('Invalid port range: start port is greater than end port');
-        }
-
-        const ports: string[] = [];
-        // eslint-disable-next-line no-plusplus
-        for (let i = start; i <= end; i++) {
-            ports.push(i.toString());
-        }
-        return ports;
+    if (!end) {
+        return [start.toString()];
     }
 
-    return [start.toString()];
+    if (start > end) {
+        // Invalid port range: start port is greater than end port
+        return [];
+    }
+
+    const ports: string[] = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = start; i <= end; i++) {
+        ports.push(i.toString());
+    }
+    return ports;
 }
 
 export { extractPublishedPortValue, parsePortsRange };

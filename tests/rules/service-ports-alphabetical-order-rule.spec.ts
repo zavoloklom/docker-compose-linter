@@ -22,6 +22,7 @@ services:
         published: 8082
         protocol: tcp
         mode: host
+      - "$WEB_PORT:80"
 `;
 
 const yamlWithCorrectPortOrder = `
@@ -29,6 +30,7 @@ services:
   web:
     image: nginx
     ports:
+      - "$WEB_PORT:80"
       - "79"
       - 80:80
       - '81'

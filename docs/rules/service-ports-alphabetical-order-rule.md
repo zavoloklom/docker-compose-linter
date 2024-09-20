@@ -18,6 +18,7 @@ services:
   web:
     image: nginx
     ports:
+      - "${WEB_PORT}:80"
       - '81'
       - "79"
       - 80:80
@@ -36,6 +37,7 @@ services:
   web:
     image: nginx
     ports:
+      - "${WEB_PORT}:80"
       - "79"
       - 80:80
       - '81'
