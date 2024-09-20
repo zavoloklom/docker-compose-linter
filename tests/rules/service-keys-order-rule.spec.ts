@@ -8,12 +8,16 @@ const yamlWithIncorrectOrder = `
 services:
   web:
     image: nginx
+    annotations:
+      - com.example.foo=bar
     ports:
       - 80:80
     environment:
       - NODE_ENV=production
     volumes:
       - ./data:/data
+    cpu_rt_runtime: '400ms'
+    cpu_rt_period: '1400us'
 `;
 
 const yamlWithCorrectOrder = `
@@ -26,6 +30,10 @@ services:
       - NODE_ENV=production
     ports:
       - 80:80
+    annotations:
+      - com.example.foo=bar
+    cpu_rt_period: '1400us'
+    cpu_rt_runtime: '400ms'
 `;
 
 // Helper function to strip spaces and normalize strings for comparison
@@ -40,10 +48,18 @@ test('ServiceKeysOrderRule: should return a warning when service keys are in the
     };
 
     const errors = rule.check(context);
-    t.is(errors.length, 2, 'There should be two warnings when service keys are out of order.');
+    t.is(errors.length, 4, 'There should be two warnings when service keys are out of order.');
 
-    t.true(errors[0].message.includes(`Key "environment" in service "web" is out of order.`));
-    t.true(errors[1].message.includes(`Key "volumes" in service "web" is out of order.`));
+    const expectedMessages = [
+        'Key "ports" in service "web" is out of order.',
+        'Key "environment" in service "web" is out of order.',
+        'Key "volumes" in service "web" is out of order.',
+        'Key "cpu_rt_period" in service "web" is out of order.',
+    ];
+
+    errors.forEach((error, index) => {
+        t.true(error.message.includes(expectedMessages[index]));
+    });
 });
 
 test('ServiceKeysOrderRule: should not return warnings when service keys are in the correct order', (t) => {
