@@ -104,7 +104,7 @@ export default class ServiceKeysOrderRule implements LintRule {
     private getCorrectOrder(keys: string[]): string[] {
         const otherKeys = keys.filter((key) => !Object.values(this.groups).flat().includes(key)).sort();
 
-        return this.groupOrder.flatMap((group) => this.groups[group].concat(otherKeys));
+        return this.groupOrder.flatMap((group) => this.groups[group]).concat(otherKeys);
     }
 
     public check(context: LintContext): LintMessage[] {
