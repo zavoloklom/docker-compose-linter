@@ -2,6 +2,12 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [1.0.4](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.3...v1.0.4) (2024-09-20)
+
+### Bug Fixes
+
+- resolve error "key already set" in Service Keys Order Rule ([336723d](https://github.com/zavoloklom/docker-compose-linter/commit/336723d7ebcdf717f278896f7fbf0d39fce4f5e9)), closes [#9](https://github.com/zavoloklom/docker-compose-linter/issues/9)
+
 ## [1.0.3](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.2...v1.0.3) (2024-09-20)
 
 ### CI/CD
