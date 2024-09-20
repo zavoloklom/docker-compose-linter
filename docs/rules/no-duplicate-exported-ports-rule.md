@@ -53,6 +53,30 @@ Duplicate `ports` can often be the result of simple typographical errors. By cat
 developers can avoid debugging complex port conflicts and ensure their Compose configurations are valid before
 attempting to run them.
 
+## Known Limitations
+
+This rule does not support the detection of duplicate exported ports when ports are defined using environment variables.
+Since environment variables are resolved at runtime, it's impossible to statically determine their values during the
+linting process.
+
+For example, in the following configuration:
+
+```yaml
+services:
+  web:
+    image: image
+    ports:
+      - "${APP_PORT}:80"
+  db:
+    image: image
+    ports:
+      - "8080:80"
+```
+
+The `APP_PORT` environment variable is used to define the external port. However, since its value is not available at
+the time of linting, the rule will not be able to detect if the port conflicts with other services. It's recommended to
+ensure that environment variables used for ports are unique or manually check for conflicts in such cases.
+
 ## Version
 
 This rule was introduced in Docker-Compose-Linter [1.0.0](https://github.com/zavoloklom/docker-compose-linter/releases).
