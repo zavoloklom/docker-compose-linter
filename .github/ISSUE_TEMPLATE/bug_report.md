@@ -1,36 +1,35 @@
 ---
 name: Bug Report
 about: Create a report to help us improve
-title: ''
+title: ""
 labels: bug
-assignees: ''
-
+assignees: ""
 ---
 
-### Version
+## Version
 
 Please specify the version of the project where the issue occurred (e.g., `v1.2.3`, `main`, `commit hash`).
 
-### YAML file where the error occurs
+## YAML file where the error occurs
 
 Paste your YAML file here.
 
-### Command used to run
+## Command used to run
 
 Provide the exact command you used.
 
-### Optional configuration (if different from the default)
+## Optional configuration (if different from the default)
 
 Provide any non-default configuration here.
 
-### Additional context
+## Additional context
 
 Add any other context about the problem here (Node.js/Docker version, etc.).
 
-### Current behavior (console output)
+## Current behavior (console output)
 
 Paste the console output or error message here.
 
-### Expected behavior
+## Expected behavior
 
 Explain what you expected to happen.
