@@ -5,28 +5,15 @@
     Docker Compose Linter
 </h1>
 
+<!-- markdownlint-disable MD013 -->
 <p align="center">
     <a href="https://www.npmjs.com/package/dclint" target="_blank" rel="noopener noreferrer nofollow"><img src="https://img.shields.io/npm/v/dclint?style=for-the-badge" alt="Latest NPM Release Version"></a>
-    <a href="https://hub.docker.com/r/zavoloklom/dclint"
-        target="_blank" rel="noopener noreferrer nofollow">
-        <img src="https://img.shields.io/docker/v/zavoloklom/dclint?style=for-the-badge&label=Docker%20Hub"
-             alt="Latest Docker Hub Release Version">
-    </a>
-    <a href="https://app.codacy.com/gh/zavoloklom/docker-compose-linter/dashboard?utm_source=gl&amp;utm_medium=referral&amp;utm_content=&amp;utm_campaign=Badge_grade"
-       target="_blank" rel="noopener noreferrer nofollow">
-        <img
-            src="https://img.shields.io/codacy/grade/2897b4940d094899ba59f1d287cdbd86?style=for-the-badge&logo=codacy&label=Code%20Quality"
-            alt="Codacy Code Quality Score">
-    </a>
-    <img src="https://img.shields.io/codacy/coverage/2897b4940d094899ba59f1d287cdbd86?style=for-the-badge&label=Coverage"
-         alt="Code Coverage Score">
-    <a href="https://conventionalcommits.org"
-        target="_blank" rel="noopener noreferrer nofollow">
-        <img
-            src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=whit&style=for-the-badge"
-            alt="Conventional Commits">
-    </a>
+    <a href="https://hub.docker.com/r/zavoloklom/dclint" target="_blank" rel="noopener noreferrer nofollow"><img src="https://img.shields.io/docker/v/zavoloklom/dclint?style=for-the-badge&label=Docker%20Hub" alt="Latest Docker Hub Release Version"></a>
+    <a href="https://app.codacy.com/gh/zavoloklom/docker-compose-linter/dashboard?utm_source=gl&amp;utm_medium=referral&amp;utm_content=&amp;utm_campaign=Badge_grade" target="_blank" rel="noopener noreferrer nofollow"><img src="https://img.shields.io/codacy/grade/2897b4940d094899ba59f1d287cdbd86?style=for-the-badge&logo=codacy&label=Code%20Quality" alt="Codacy Code Quality Score"></a>
+    <img src="https://img.shields.io/codacy/coverage/2897b4940d094899ba59f1d287cdbd86?style=for-the-badge&label=Coverage" alt="Code Coverage Score">
+    <a href="https://conventionalcommits.org" target="_blank" rel="noopener noreferrer nofollow"><img src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=whit&style=for-the-badge" alt="Conventional Commits"></a>
 </p>
+<!-- markdownlint-enable MD013 -->
 
 > **Note**: Docker Compose configurations vary greatly between different projects and setups. While DCLint is stable,
 > there may be edge cases or unique setups that cause issues. If you encounter any problems or have suggestions, please
