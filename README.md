@@ -1,14 +1,31 @@
-# Docker Compose Linter
+<!-- markdownlint-disable MD033 -->
+<h1 style="text-align: center">
+    <img src="./docs/images/logo.svg" alt="Docker Compose Linter Logo" height="192" width="auto" />
+</h1>
 
-![Logo](./docs/images/logo.png)
-<img src="./docs/images/logo.svg" alt="Docker Compose Linter Logo" height="232" width="auto"/>
-
-[![Latest NPM Release Version](https://img.shields.io/npm/v/dclint?style=flat-square)](https://www.npmjs.com/package/dclint)
-[![Latest Docker Hub Release Version](https://img.shields.io/docker/v/zavoloklom/dclint?style=flat-square&label=Docker%20Hub)](https://hub.docker.com/r/zavoloklom/dclint)
-![Code Coverage Score](https://img.shields.io/codacy/coverage/2897b4940d094899ba59f1d287cdbd86?style=flat-square&label=Coverage)
-[![Codacy Code Quality Score](https://img.shields.io/codacy/grade/2897b4940d094899ba59f1d287cdbd86?style=flat-square&logo=codacy&label=Code%20Quality)](https://app.codacy.com/gh/zavoloklom/docker-compose-linter/dashboard?utm_source=gl&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=whit&style=flat-square)](https://conventionalcommits.org)
-[![All Contributors](https://img.shields.io/github/all-contributors/zavoloklom/dclint?color=ee8449&style=flat-square)](#contributors)
+<p style="text-align: center">
+    <a href="https://www.npmjs.com/package/dclint" target="_blank" rel="noopener noreferrer nofollow">
+        <img src="https://img.shields.io/npm/v/dclint?style=flat-square"
+             alt="Latest NPM Release Version">
+    </a>
+    <a href="https://hub.docker.com/r/zavoloklom/dclint" target="_blank" rel="noopener noreferrer nofollow">
+        <img src="https://img.shields.io/docker/v/zavoloklom/dclint?style=flat-square&label=Docker%20Hub"
+             alt="Latest Docker Hub Release Version">
+    </a>
+    <img src="https://img.shields.io/codacy/coverage/2897b4940d094899ba59f1d287cdbd86?style=flat-square&label=Coverage"
+         alt="Code Coverage Score">
+    <a href="https://app.codacy.com/gh/zavoloklom/docker-compose-linter/dashboard?utm_source=gl&amp;utm_medium=referral&amp;utm_content=&amp;utm_campaign=Badge_grade"
+       target="_blank" rel="noopener noreferrer nofollow">
+        <img
+            src="https://img.shields.io/codacy/grade/2897b4940d094899ba59f1d287cdbd86?style=flat-square&logo=codacy&label=Code%20Quality"
+            alt="Codacy Code Quality Score">
+    </a>
+    <a href="https://conventionalcommits.org" target="_blank" rel="noopener noreferrer nofollow">
+        <img
+            src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=whit&style=flat-square"
+            alt="Conventional Commits">
+    </a>
+</p>
 
 > **Note**: Docker Compose configurations vary greatly between different projects and setups. While DCLint is stable,
 > there may be edge cases or unique setups that cause issues. If you encounter any problems or have suggestions, please
@@ -334,7 +351,7 @@ And this tools for Docker Compose formatting and fixing:
 
 Here is a short demo of DCLint in action:
 
-![Demo GIF](./docs/images/dclint-demo.gif)
+![Demo GIF](./docs/images/dclint-cli-demo.gif)
 
 ## Contributing
 
@@ -374,6 +391,8 @@ See the [CHANGELOG.md](./CHANGELOG.md) file for detailed lists of changes for ea
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
 
 ## Contacts and Support
+
+If you find this repository helpful, kindly consider showing your appreciation by giving it a star ⭐.
 
 If you have any questions or suggestions, feel free to reach out:
 
