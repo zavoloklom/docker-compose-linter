@@ -6,11 +6,7 @@
 </h1>
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/dclint" 
-        target="_blank" rel="noopener noreferrer nofollow">
-        <img src="https://img.shields.io/npm/v/dclint?style=for-the-badge"
-             alt="Latest NPM Release Version">
-    </a>
+    <a href="https://www.npmjs.com/package/dclint" target="_blank" rel="noopener noreferrer nofollow"><img src="https://img.shields.io/npm/v/dclint?style=for-the-badge" alt="Latest NPM Release Version"></a>
     <a href="https://hub.docker.com/r/zavoloklom/dclint"
         target="_blank" rel="noopener noreferrer nofollow">
         <img src="https://img.shields.io/docker/v/zavoloklom/dclint?style=for-the-badge&label=Docker%20Hub"
