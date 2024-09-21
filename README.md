@@ -16,9 +16,9 @@
 <!-- markdownlint-enable MD013 -->
 
 > **Note**: Docker Compose configurations vary greatly between different projects and setups. While DCLint is stable,
-> there may be edge cases or unique setups that cause issues. If you encounter any problems or have suggestions, please
-> feel free to [open an issue](https://github.com/zavoloklom/docker-compose-linter/issues) or
-> [submit a pull request](#contributing). Your feedback is highly appreciated!
+> there may be edge cases or unique setups that cause issues. If you encounter any problems or have suggestions,
+> please feel free to [open an issue](https://github.com/zavoloklom/docker-compose-linter/issues/new/choose)
+> or [submit a pull request](#contributing). Your feedback is highly appreciated!
 
 Docker Compose Linter (**DCLint**) is a utility designed to analyze, validate and fix Docker Compose files. It helps
 identify errors, style violations, and potential issues in Docker Compose files, ensuring your configurations are
