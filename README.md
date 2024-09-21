@@ -1,9 +1,9 @@
 <!-- markdownlint-disable MD033 -->
-<h1 style="text-align: center">
+<h1 align="center">
     <img src="./docs/images/logo.svg" alt="Docker Compose Linter Logo" height="192" width="auto" />
 </h1>
 
-<p style="text-align: center">
+<p align="center">
     <a href="https://www.npmjs.com/package/dclint" target="_blank" rel="noopener noreferrer nofollow">
         <img src="https://img.shields.io/npm/v/dclint?style=flat-square"
              alt="Latest NPM Release Version">
