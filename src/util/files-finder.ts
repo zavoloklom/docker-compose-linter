@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import path from 'node:path';
+import { basename, join, resolve } from 'node:path';
 import { Logger } from './logger.js';
 import { FileNotFoundError } from '../errors/file-not-found-error.js';
 
@@ -29,36 +29,42 @@ export function findFilesForLinting(paths: string[], recursive: boolean, exclude
             throw new FileNotFoundError(fileOrDir);
         }
 
-        let allFiles: string[] = [];
+        let allPaths: string[] = [];
 
-        const stat = fs.statSync(fileOrDir);
-        if (stat.isDirectory()) {
-            allFiles = fs.readdirSync(fileOrDir).map((f) => path.join(fileOrDir, f));
-        } else if (stat.isFile()) {
-            allFiles.push(fileOrDir);
-        }
+        const fileOrDirStats = fs.statSync(fileOrDir);
 
-        allFiles.forEach((file) => {
-            const fileStat = fs.statSync(file);
-
-            // Skip files and directories listed in the exclude array
-            if (exclude.some((ex) => file.includes(ex))) {
-                logger.debug('UTIL', `Excluding ${file}`);
-                return;
+        if (fileOrDirStats.isDirectory()) {
+            try {
+                allPaths = fs.readdirSync(resolve(fileOrDir)).map((f) => join(fileOrDir, f));
+            } catch (error) {
+                logger.debug('UTIL', `Error reading directory: ${fileOrDir}`, error);
+                allPaths = [];
             }
 
-            if (fileStat.isDirectory()) {
-                if (recursive) {
-                    // If recursive search is enabled, search within the directory
-                    logger.debug('UTIL', `Recursive search is enabled, search within the directory: ${file}`);
-                    const nestedFiles = findFilesForLinting([file], recursive, exclude);
-                    filesToCheck = filesToCheck.concat(nestedFiles);
+            allPaths.forEach((path) => {
+                // Skip files and directories listed in the exclude array
+                if (exclude.some((ex) => path.includes(ex))) {
+                    logger.debug('UTIL', `Excluding ${path}`);
+                    return;
                 }
-            } else if (fileStat.isFile() && dockerComposePattern.test(path.basename(file))) {
-                // Add the file to the list if it matches the pattern
-                filesToCheck.push(file);
-            }
-        });
+
+                const pathStats = fs.statSync(resolve(path));
+
+                if (pathStats.isDirectory()) {
+                    if (recursive) {
+                        // If recursive search is enabled, search within the directory
+                        logger.debug('UTIL', `Recursive search is enabled, search within the directory: ${path}`);
+                        const nestedFiles = findFilesForLinting([path], recursive, exclude);
+                        filesToCheck = filesToCheck.concat(nestedFiles);
+                    }
+                } else if (pathStats.isFile() && dockerComposePattern.test(basename(path))) {
+                    // Add the file to the list if it matches the pattern
+                    filesToCheck.push(path);
+                }
+            });
+        } else if (fileOrDirStats.isFile()) {
+            filesToCheck.push(fileOrDir);
+        }
     });
 
     logger.debug(
