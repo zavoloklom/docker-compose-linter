@@ -50,7 +50,7 @@ npx dclint .
 
 This command will lint your Docker Compose files in the current directory.
 
-### Linting Specific Files
+### Linting Specific Files and Directories
 
 To lint a specific Docker Compose file or a directory containing such files, specify the path relative to your
 project directory:
@@ -58,6 +58,20 @@ project directory:
 ```shell
 npx dclint /path/to/docker-compose.yml
 ```
+
+To lint all Docker Compose files in a specific directory, use the path to the directory:
+
+```shell
+npx dclint /path/to/directory
+```
+
+In this case, `dclint` will search the specified directory for files matching the following
+pattern `/^(docker-)?compose.*\.ya?ml$/`.
+
+It will handle all matching files within the directory and, if [recursive search](./docs/cli.md#-r---recursive) is
+enabled, also in any subdirectories.
+
+Files and directories like `node_modules`, `.git,` or others specified in the exclusion list will be ignored.
 
 ### Display Help and Options
 
@@ -89,13 +103,17 @@ To lint your Docker Compose files, use the following command. This command mount
 docker run -t --rm -v ${PWD}:/app zavoloklom/dclint .
 ```
 
-### Linting Specific Files in Docker
+### Linting Specific Files and Directories in Docker
 
 If you want to lint a specific Docker Compose file or a directory containing such files, specify the path relative
 to your project directory:
 
 ```shell
 docker run -t --rm -v ${PWD}:/app zavoloklom/dclint /app/path/to/docker-compose.yml
+```
+
+```shell
+docker run -t --rm -v ${PWD}:/app zavoloklom/dclint /app/path/to/directory
 ```
 
 ### Display Help in Docker
@@ -168,7 +186,8 @@ Here is an example of a configuration file using JSON format:
 ### Configure Rules
 
 In addition to enabling or disabling rules, some rules may support custom parameters to tailor them to your specific
-needs. For example, the [require-quotes-in-ports](./docs/rules/require-quotes-in-ports-rule.md) rule allows you to configure
+needs. For example, the [require-quotes-in-ports](./docs/rules/require-quotes-in-ports-rule.md) rule allows you to
+configure
 whether single or double quotes should be used around port numbers. You can configure it like this:
 
 ```json
