@@ -2,6 +2,12 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [1.0.6](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.5...v1.0.6) (2024-10-01)
+
+### Bug Fixes
+
+- run checks against any file provided by user and skip regex pattern ([0047590](https://github.com/zavoloklom/docker-compose-linter/commit/0047590e9459e7f13bfab81accd7fbac7c4139d9)), closes [#23](https://github.com/zavoloklom/docker-compose-linter/issues/23)
+
 ## [1.0.5](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.4...v1.0.5) (2024-10-01)
 
 ### Others

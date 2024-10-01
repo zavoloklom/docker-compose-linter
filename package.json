@@ -1,6 +1,6 @@
 {
   "name": "dclint",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A command-line tool for validating and enforcing best practices in Docker Compose files.",
   "keywords": [
     "docker",
