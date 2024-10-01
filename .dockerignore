@@ -1,0 +1,41 @@
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Github
+.github/
+
+# Dockerfile
+Dockerfile
+
+# Documentation
+/documentation
+
+# Dependencies
+/node_modules
+
+# Compiled output and runtime
+/dist
+/.tsimp
+
+# Tests
+/coverage
