@@ -215,9 +215,11 @@ that your Docker Compose files are always checked for errors before deployment.
 
 ```yaml
 lint-docker-compose:
-  image: docker:latest
+  image:
+    name: zavoloklom/dclint
+    entrypoint: [""]
   script:
-    - docker run --rm -i -v ${CI_PROJECT_DIR}:/app zavoloklom/dclint . -f codeclimate -o gl-codequality.json
+    - node --no-warnings /dclint/bin/dclint.js . -r -f codeclimate -o gl-codequality.json
   artifacts:
     reports:
       codequality: gl-codequality.json
