@@ -2,6 +2,22 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [1.0.5](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.4...v1.0.5) (2024-10-01)
+
+### Others
+
+- **deps-dev:** bump @semantic-release/github from 10.3.4 to 10.3.5 ([53e65a8](https://github.com/zavoloklom/docker-compose-linter/commit/53e65a848c6ea1bc82cbb4977eebb7564478d748))
+- **deps-dev:** bump eslint from 8.57.0 to 8.57.1 ([2bbc6e7](https://github.com/zavoloklom/docker-compose-linter/commit/2bbc6e78179fa40fff5529caf0ff407f1449c8ed))
+
+### Documentation
+
+- add pull request template ([3770397](https://github.com/zavoloklom/docker-compose-linter/commit/3770397c3aebc829d8f8d1a8dae297303d3158b0))
+- update github issue templates ([a7ec994](https://github.com/zavoloklom/docker-compose-linter/commit/a7ec99412dcdda18f0405adfe10ed4f8e001a055))
+
+### Bug Fixes
+
+- Search for compose.ya?ml ([0050953](https://github.com/zavoloklom/docker-compose-linter/commit/00509536eac9929613649b805ffbf392dc068598))
+
 ## [1.0.4](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.3...v1.0.4) (2024-09-20)
 
 ### Bug Fixes
