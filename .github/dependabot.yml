@@ -5,7 +5,11 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
+    versioning-strategy: increase-if-necessary
     target-branch: "main"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore(deps-dev)"
     ignore:
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
@@ -17,5 +21,3 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "eslint-plugin-sonarjs"
         update-types: ["version-update:semver-major"]
-    allow:
-      - dependency-type: "all"
