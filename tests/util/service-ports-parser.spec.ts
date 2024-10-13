@@ -1,6 +1,10 @@
 import test from 'ava';
 import { Scalar, YAMLMap } from 'yaml';
-import { extractPublishedPortValue, parsePortsRange } from '../../src/util/service-ports-parser.js';
+import {
+    extractPublishedPortValue,
+    extractPublishedPortInferfaceValue,
+    parsePortsRange,
+} from '../../src/util/service-ports-parser.js';
 
 test('extractPublishedPortValue should return port from scalar value with no IP', (t) => {
     const scalarNode = new Scalar('8080:9000');
@@ -10,6 +14,12 @@ test('extractPublishedPortValue should return port from scalar value with no IP'
 
 test('extractPublishedPortValue should return correct port from scalar value with IP', (t) => {
     const scalarNode = new Scalar('127.0.0.1:3000');
+    const result = extractPublishedPortValue(scalarNode);
+    t.is(result, '3000');
+});
+
+test('extractPublishedPortValue should return correct port from scalar value with IPv6', (t) => {
+    const scalarNode = new Scalar('[::1]:3000');
     const result = extractPublishedPortValue(scalarNode);
     t.is(result, '3000');
 });
@@ -24,6 +34,42 @@ test('extractPublishedPortValue should return published port from map node', (t)
 test('extractPublishedPortValue should return empty string for unknown node type', (t) => {
     const result = extractPublishedPortValue({});
     t.is(result, '');
+});
+
+test('extractPublishedPortInferfaceValue should return listen ip string for scalar without IP', (t) => {
+    const scalarNode = new Scalar('8080:8080');
+    const result = extractPublishedPortInferfaceValue(scalarNode);
+    t.is(result, '');
+});
+
+test('extractPublishedPortInferfaceValue should return listen ip string for scalar without IP and automapped port', (t) => {
+    const scalarNode = new Scalar('8080');
+    const result = extractPublishedPortInferfaceValue(scalarNode);
+    t.is(result, '');
+});
+
+test('extractPublishedPortInferfaceValue should return listen ip string for scalar on 127.0.0.1 with automapped port', (t) => {
+    const scalarNode = new Scalar('127.0.0.1:8080');
+    const result = extractPublishedPortInferfaceValue(scalarNode);
+    t.is(result, '127.0.0.1');
+});
+
+test('extractPublishedPortInferfaceValue should return listen ip string for scalar on 0.0.0.0 with automapped port', (t) => {
+    const scalarNode = new Scalar('0.0.0.0:8080');
+    const result = extractPublishedPortInferfaceValue(scalarNode);
+    t.is(result, '0.0.0.0');
+});
+
+test('extractPublishedPortInferfaceValue should return listen ip string for scalar on ::1 with automapped port', (t) => {
+    const scalarNode = new Scalar('[::1]:8080');
+    const result = extractPublishedPortInferfaceValue(scalarNode);
+    t.is(result, '::1');
+});
+
+test('extractPublishedPortInferfaceValue should return listen ip string for scalar on ::1 without automated port', (t) => {
+    const scalarNode = new Scalar('[::1]:8080:8080');
+    const result = extractPublishedPortInferfaceValue(scalarNode);
+    t.is(result, '::1');
 });
 
 test('parsePortsRange should return array of ports for a range', (t) => {
