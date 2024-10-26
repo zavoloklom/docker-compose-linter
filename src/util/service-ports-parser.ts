@@ -5,8 +5,13 @@ function extractPublishedPortValue(yamlNode: unknown): string {
     if (isScalar(yamlNode)) {
         const value = String(yamlNode.value);
 
-        // Check for host before ports
-        const parts = value.split(':');
+        // Split on single colon
+        const parts = value.split(/:(?![^[]*\])/);
+
+        if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
+            parts[0] = parts[0].slice(1, -1);
+        }
+
         if (net.isIP(parts[0])) {
             return String(parts[1]);
         }
@@ -16,6 +21,31 @@ function extractPublishedPortValue(yamlNode: unknown): string {
 
     if (isMap(yamlNode)) {
         return String(yamlNode.get('published')) || '';
+    }
+
+    return '';
+}
+
+function extractPublishedPortInferfaceValue(yamlNode: unknown): string {
+    if (isScalar(yamlNode)) {
+        const value = String(yamlNode.value);
+
+        // Split on single colon
+        const parts = value.split(/:(?![^[]*\])/);
+
+        if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
+            parts[0] = parts[0].slice(1, -1);
+        }
+
+        if (net.isIP(parts[0])) {
+            return String(parts[0]);
+        }
+
+        return '';
+    }
+
+    if (isMap(yamlNode)) {
+        return String(yamlNode.get('host_ip')) || '';
     }
 
     return '';
@@ -45,4 +75,4 @@ function parsePortsRange(port: string): string[] {
     return ports;
 }
 
-export { extractPublishedPortValue, parsePortsRange };
+export { extractPublishedPortValue, extractPublishedPortInferfaceValue, parsePortsRange };
