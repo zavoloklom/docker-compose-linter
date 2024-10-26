@@ -25,6 +25,7 @@ are robust, maintainable, and free from common pitfalls.
   issues in your files.
 - **Comments Support**: After automated sorting and fixing, comments remain in the correct place, ensuring no important
   information is lost during the formatting process.
+- **Anchor Support:** Supports YAML anchors for shared configuration sections, with [some limitations](#anchor-handling).
 
 ## Getting Started
 
@@ -141,6 +142,38 @@ checks are applied, two important validations are performed, which cannot be
 disabled - [YAML Validity Check](./docs/errors/invalid-yaml.md)
 and [Docker Compose Schema Validation](./docs/errors/invalid-schema.md).
 
+### Anchor Handling
+
+Docker Compose Linter provides support for YAML anchors specifically during schema validation, which enables the reuse
+of configuration sections across different services for cleaner and more maintainable files.
+
+However, note that anchors are neither validated by individual linting rules nor automatically fixed when using
+the `--fix` flag.
+
+When multiple anchors are required in a Docker Compose file, use the following syntax:
+
+```yaml
+x-anchor1: &anchor1
+  ports:
+    - 80
+x-anchor2: &anchor2
+  ports:
+    - 81
+
+services:
+  image: image
+  <<: [ *anchor1, *anchor2 ]
+```
+
+This approach, which combines anchors in a single << line, is preferable to defining each anchor on separate lines (
+e.g., `<< : *anchor1` followed by `<< : *anchor2`).
+
+More information on YAML merge syntax is available in
+the [official YAML documentation](https://yaml.org/type/merge.html) and
+in [known issue with Docker Compose](https://github.com/docker/compose/issues/10411).
+
+For an example of anchor usage, refer to the sample Compose file in `tests/mocks/docker-compose.anchors.yml`.
+
 ## Configuration
 
 DCLint allows you to customize the set of rules used during linting to fit your project's
@@ -217,7 +250,7 @@ that your Docker Compose files are always checked for errors before deployment.
 lint-docker-compose:
   image:
     name: zavoloklom/dclint
-    entrypoint: [""]
+    entrypoint: [ "" ]
   script:
     - node --no-warnings /dclint/bin/dclint.js . -r -f codeclimate -o gl-codequality.json
   artifacts:
