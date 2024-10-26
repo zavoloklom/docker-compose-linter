@@ -43,7 +43,7 @@ class DCLinter {
 
         try {
             context.sourceCode = fs.readFileSync(file, 'utf8');
-            const doc = parseDocument(context.sourceCode);
+            const doc = parseDocument(context.sourceCode, { merge: true });
 
             if (doc.errors && doc.errors.length > 0) {
                 doc.errors.forEach((error) => {

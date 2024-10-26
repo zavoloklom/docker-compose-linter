@@ -1,0 +1,22 @@
+name: fragment-example
+x-shared-links: &shared-links
+  links:
+    - "foo:foo.example.svc.cluster.local"
+    - "bar:bar.example.svc.cluster.local"
+x-shared-image: &shared-image
+  image: traefik/whoami
+x-shared-ports: &shared-ports
+  - '81'
+  - '80:80'
+services:
+  app_bar:
+    image: traefik/whoami
+    <<: *shared-links
+  app_foo:
+    <<: *shared-links
+    image: traefik/whoami:v1.10
+  bar:
+    <<: *shared-image
+    ports: *shared-ports
+  foo:
+    <<: [*shared-image, *shared-links]
