@@ -2,6 +2,28 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [1.0.7](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.6...v1.0.7) (2024-10-26)
+
+### Others
+
+- **deps-dev:** bump @semantic-release/github from 10.3.5 to 11.0.0 ([fcf7151](https://github.com/zavoloklom/docker-compose-linter/commit/fcf715159bdfcf7075a0c5efdbed0f8a9b518d5c))
+- **deps-dev:** bump @stylistic/eslint-plugin from 2.8.0 to 2.9.0 ([73e3f13](https://github.com/zavoloklom/docker-compose-linter/commit/73e3f13b8c4f655521c979bd3df76d51f075b16b))
+- **deps-dev:** bump @types/node from 20.16.5 to 20.16.10 ([2599b91](https://github.com/zavoloklom/docker-compose-linter/commit/2599b917c4c118d47ae0a79743e5717102a43316))
+- **deps-dev:** bump eslint-plugin-import from 2.30.0 to 2.31.0 ([dbcd009](https://github.com/zavoloklom/docker-compose-linter/commit/dbcd0092468e8e1c7857b36feedcbab53ebc64d1))
+- **deps-dev:** bump eslint-plugin-unicorn from 55.0.0 to 56.0.0 ([2a92689](https://github.com/zavoloklom/docker-compose-linter/commit/2a9268923c58dc8c65e2f852f6b18e241af417f2))
+- **deps-dev:** bump esmock from 2.6.7 to 2.6.9 ([98d2f92](https://github.com/zavoloklom/docker-compose-linter/commit/98d2f920caa086145c6493676fd3efff414c6d58))
+- **deps-dev:** bump semantic-release from 24.1.1 to 24.1.2 ([cdc1963](https://github.com/zavoloklom/docker-compose-linter/commit/cdc196300a0145f80ebcd1cf821b79b931b9ee34))
+- update dependabot config ([321fa32](https://github.com/zavoloklom/docker-compose-linter/commit/321fa328276ad68eb9575399bdc8d24310268f6b))
+
+### Documentation
+
+- add yaml anchor handling section ([a7b61bb](https://github.com/zavoloklom/docker-compose-linter/commit/a7b61bb877ed2e0e67dedac1395d2a32113c57df)), closes [#39](https://github.com/zavoloklom/docker-compose-linter/issues/39)
+- change GitLab CI Example ([c421f23](https://github.com/zavoloklom/docker-compose-linter/commit/c421f2315a584adcc6b2414c25fa968e6053ffd8))
+
+### Bug Fixes
+
+- add yaml anchor/fragments support ([4d9826f](https://github.com/zavoloklom/docker-compose-linter/commit/4d9826f59831a583080d13fed2dbad6d3fab5f61)), closes [#39](https://github.com/zavoloklom/docker-compose-linter/issues/39)
+
 ## [1.0.6](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.5...v1.0.6) (2024-10-01)
 
 ### Bug Fixes
