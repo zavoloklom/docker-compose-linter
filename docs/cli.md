@@ -86,6 +86,16 @@ Below is a detailed explanation of each CLI option available in DCLint.
 - **Use Case**: This option is helpful when you only care about critical issues (errors) and want to suppress warnings
   from the output.
 
+### `--max-warnings`
+
+- **Description**: Specifies the maximum number of allowed warnings before triggering a nonzero exit code. If the number
+  of warnings exceeds this limit, the command exits with a failure status. Note that any errors will also cause a
+  nonzero exit code, regardless of this setting.
+- **Type**: `number`
+- **Default**: `-1` (disables warning limit)
+- **Use Case**: This option is useful for enforcing a stricter threshold on warnings. It can be applied when you want to
+  fail the command only if warnings reach a certain level, allowing for flexibility in handling non-critical issues.
+
 ### `-o, --output-file`
 
 - **Description**: Specifies a file to write the linting report to.
