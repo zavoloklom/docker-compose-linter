@@ -78,6 +78,11 @@ const { argv } = yargsLib(hideBin(process.argv))
         description: 'Files or directories to exclude from the search',
         default: [],
     })
+    .option('max-warnings', {
+        type: 'number',
+        description: 'Number of warnings to trigger nonzero exit code',
+        default: -1,
+    })
     .help()
     .alias('version', 'v');
 
@@ -128,6 +133,10 @@ export default async function cli() {
             .filter((result) => result.messages.length > 0);
     }
 
+    // Count errors and warnings
+    const totalErrors = lintResults.reduce((count, result) => count + result.errorCount, 0);
+    const totalWarnings = lintResults.reduce((count, result) => count + result.warningCount, 0);
+
     // Choose and apply the formatter
     const formatter = await loadFormatter(args.formatter);
     const formattedResults = formatter(lintResults);
@@ -139,10 +148,15 @@ export default async function cli() {
         console.log(formattedResults);
     }
 
-    const isValid = lintResults.filter((result) => result.messages.length > 0).length === 0;
-
-    if (!isValid) {
-        logger.debug(LOG_SOURCE.CLI, `${lintResults.length} errors found`);
+    // Determine exit code based on errors and warnings
+    if (totalErrors > 0) {
+        logger.debug(LOG_SOURCE.CLI, `${totalErrors} errors found`);
+        process.exit(1);
+    } else if (args.maxWarnings && args.maxWarnings >= 0 && totalWarnings > args.maxWarnings) {
+        logger.debug(
+            LOG_SOURCE.CLI,
+            `Warning threshold exceeded: ${totalWarnings} warnings (max allowed: ${args.maxWarnings})`,
+        );
         process.exit(1);
     }
 
