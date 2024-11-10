@@ -9,34 +9,34 @@ import type {
   RuleMeta,
 } from '../linter/linter.types.js';
 import { findLineNumberForService } from '../util/line-finder.js';
-import { extractPublishedPortValue, extractPublishedPortInferfaceValue } from '../util/service-ports-parser.js';
+import { extractPublishedPortInterfaceValue } from '../util/service-ports-parser.js';
 
-export default class NoDuplicateExportedPortsRule implements LintRule {
-  public name = 'no-duplicate-exported-ports';
+export default class NoUnboundPortInterfacesRule implements LintRule {
+  public name = 'no-unbound-port-interfaces';
 
   public type: LintMessageType = 'error';
 
   public category: LintRuleCategory = 'security';
 
-  public severity: LintRuleSeverity = 'critical';
+  public severity: LintRuleSeverity = 'major';
 
   public meta: RuleMeta = {
     description:
-      'Ensure that exported ports in Docker Compose are bound to specific Interfaces to prevent accidential exposure of containers.',
-    url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-duplicate-exported-ports-rule.md',
+      'Ensure that exported ports in Docker Compose are bound to specific Interfaces to prevent unintentional exposing services to the network.',
+    url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-unbound-port-interfaces-rule.md',
   };
 
   public fixable = false;
 
   // eslint-disable-next-line class-methods-use-this
-  public getMessage({ serviceName, publishedPort }: { serviceName: string; publishedPort: string }): string {
-    return `Service "${serviceName}" is exporting port "${publishedPort}" without specifing the interface to listen on.`;
+  public getMessage({ serviceName, port }: { serviceName: string; port: string }): string {
+    return `Service "${serviceName}" is exporting port "${port}" without specifying the interface to listen on.`;
   }
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const document = parseDocument(context.sourceCode);
-    const services = document.get('services');
+    const parsedDocument = parseDocument(context.sourceCode);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
 
@@ -52,21 +52,19 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
       if (!isSeq(ports)) return;
 
       ports.items.forEach((portItem) => {
-        const publishedInterface = extractPublishedPortInferfaceValue(portItem);
-        const publishedPort = extractPublishedPortValue(portItem);
+        const publishedInterface = extractPublishedPortInterfaceValue(portItem);
 
         if (publishedInterface === '') {
-          const line = findLineNumberForService(document, context.sourceCode, serviceName, 'ports');
+          const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, 'ports');
           errors.push({
             rule: this.name,
             type: this.type,
             category: this.category,
             severity: this.severity,
-            message:
-              this.getMessage({
-                serviceName,
-                publishedPort,
-              }) + String(ports),
+            message: this.getMessage({
+              serviceName,
+              port: isSeq(portItem) ? portItem.toString() : String(portItem),
+            }),
             line,
             column: 1,
             meta: this.meta,
