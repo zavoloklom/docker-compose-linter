@@ -19,7 +19,6 @@
     "include": {
       "type": "array",
       "items": {
-        "type": "object",
         "$ref": "#/definitions/include"
       },
       "description": "compose sub-projects to be included."
@@ -115,7 +114,7 @@
                 "pull": {"type": ["boolean", "string"]},
                 "target": {"type": "string"},
                 "shm_size": {"type": ["integer", "string"]},
-                "extra_hosts": {"$ref": "#/definitions/list_or_dict"},
+                "extra_hosts": {"$ref": "#/definitions/extra_hosts"},
                 "isolation": {"type": "string"},
                 "privileged": {"type": ["boolean", "string"]},
                 "secrets": {"$ref": "#/definitions/service_config_or_secret"},
@@ -216,7 +215,25 @@
           ]
         },
         "device_cgroup_rules": {"$ref": "#/definitions/list_of_strings"},
-        "devices": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "devices": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"type": "string"},
+              {
+                "type": "object",
+                "required": ["source"],
+                "properties": {
+                  "source": {"type": "string"},
+                  "target": {"type": "string"},
+                  "permissions": {"type": "string"}
+                },
+                "additionalProperties": false,
+                "patternProperties": {"^x-": {}}
+              }
+            ]
+          }
+        },
         "dns": {"$ref": "#/definitions/string_or_list"},
         "dns_opt": {"type": "array","items": {"type": "string"}, "uniqueItems": true},
         "dns_search": {"$ref": "#/definitions/string_or_list"},
@@ -249,7 +266,7 @@
           ]
         },
         "external_links": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
-        "extra_hosts": {"$ref": "#/definitions/list_or_dict"},
+        "extra_hosts": {"$ref": "#/definitions/extra_hosts"},
         "group_add": {
           "type": "array",
           "items": {
@@ -353,6 +370,8 @@
           },
           "uniqueItems": true
         },
+        "post_start": {"type": "array", "items": {"$ref": "#/definitions/service_hook"}},
+        "pre_stop": {"type": "array", "items": {"$ref": "#/definitions/service_hook"}},
         "privileged": {"type": ["boolean", "string"]},
         "profiles": {"$ref": "#/definitions/list_of_strings"},
         "pull_policy": {"type": "string", "enum": [
@@ -483,11 +502,11 @@
             },
             "additionalProperties": false,
             "patternProperties": {"^x-": {}}
-          },
-          "additionalProperties": false,
-          "patternProperties": {"^x-": {}}
+          }
         }
-      }
+      },
+      "additionalProperties": false,
+      "patternProperties": {"^x-": {}}
     },
     "deployment": {
       "id": "#/definitions/deployment",
@@ -625,7 +644,10 @@
           "options":{"$ref": "#/definitions/list_or_dict"}
         },
         "additionalProperties": false,
-        "patternProperties": {"^x-": {}}
+        "patternProperties": {"^x-": {}},
+        "required": [
+          "capabilities"
+        ]
       }
     },
 
@@ -796,6 +818,20 @@
       ]
     },
 
+    "service_hook": {
+      "id": "#/definitions/service_hook",
+      "type": "object",
+      "properties": {
+        "command": {"$ref": "#/definitions/command"},
+        "user": {"type": "string"},
+        "privileged": {"type": ["boolean", "string"]},
+        "working_dir": {"type": "string"},
+        "environment": {"$ref": "#/definitions/list_or_dict"}
+      },
+      "additionalProperties": false,
+      "patternProperties": {"^x-": {}}
+    },
+
     "env_file": {
       "oneOf": [
         {"type": "string"},
@@ -809,6 +845,9 @@
                 "additionalProperties": false,
                 "properties": {
                   "path": {
+                    "type": "string"
+                  },
+                  "format": {
                     "type": "string"
                   },
                   "required": {
@@ -847,6 +886,22 @@
             ".+": {
               "type": ["string", "number", "boolean", "null"]
             }
+          },
+          "additionalProperties": false
+        },
+        {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      ]
+    },
+
+    "extra_hosts": {
+      "oneOf": [
+        {
+          "type": "object",
+          "patternProperties": {
+            ".+": {
+              "type": ["string", "array"]
+            },
+            "uniqueItems": false
           },
           "additionalProperties": false
         },
