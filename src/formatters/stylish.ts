@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { resolve } from 'node:path';
 import chalk from 'chalk';
 import type { LintResult } from '../linter/linter.types.js';
 
@@ -15,31 +15,31 @@ export default function stylishFormatter(results: LintResult[]): string {
     }
 
     // Format the file path header without nested template literals
-    const filePath = chalk.underline(path.resolve(result.filePath));
+    const filePath = chalk.underline(resolve(result.filePath));
     output += `\n${filePath}\n`;
 
-    result.messages.forEach((msg) => {
-      const { type } = msg;
+    result.messages.forEach((message) => {
+      const { type } = message;
       const color = type === 'error' ? chalk.red : chalk.yellow;
-      const line = msg.line.toString().padStart(4, ' ');
-      const column = msg.column.toString().padEnd(4, ' ');
+      const line = message.line.toString().padStart(4, ' ');
+      const column = message.column.toString().padEnd(4, ' ');
 
       // Break down message formatting into separate parts
       const position = chalk.dim(`${line}:${column}`);
       const formattedType = color(type);
-      const ruleInfo = chalk.dim(msg.rule);
+      const ruleInfo = chalk.dim(message.rule);
 
-      output += `${position}  ${formattedType}  ${msg.message}  ${ruleInfo}\n`;
+      output += `${position}  ${formattedType}  ${message.message}  ${ruleInfo}\n`;
 
       // Increment counts without using the ++ operator
       if (type === 'error') {
         errorCount += 1;
-        if (msg.fixable) {
+        if (message.fixable) {
           fixableErrorCount += 1;
         }
       } else {
         warningCount += 1;
-        if (msg.fixable) {
+        if (message.fixable) {
           fixableWarningCount += 1;
         }
       }

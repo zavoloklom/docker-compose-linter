@@ -42,8 +42,8 @@ export default class NoDuplicateContainerNamesRule implements LintRule {
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const doc = parseDocument(context.sourceCode);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(context.sourceCode);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
 
@@ -59,7 +59,7 @@ export default class NoDuplicateContainerNamesRule implements LintRule {
         const containerName = String(service.get('container_name'));
 
         if (containerNames.has(containerName)) {
-          const line = findLineNumberForService(doc, context.sourceCode, serviceName, 'container_name');
+          const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, 'container_name');
           errors.push({
             rule: this.name,
             type: this.type,

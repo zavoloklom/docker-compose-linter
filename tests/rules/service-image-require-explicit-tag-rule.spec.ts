@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import ServiceImageRequireExplicitTagRule from '../../src/rules/service-image-require-explicit-tag-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -93,7 +94,8 @@ services:
 
 const filePath = '/docker-compose.yml';
 
-test('ServiceImageRequireExplicitTagRule: should return a warning when no tag is specified', (t) => {
+// @ts-ignore TS2349
+test('ServiceImageRequireExplicitTagRule: should return a warning when no tag is specified', (t: ExecutionContext) => {
   const rule = new ServiceImageRequireExplicitTagRule();
   const context: LintContext = {
     path: filePath,
@@ -116,7 +118,8 @@ test('ServiceImageRequireExplicitTagRule: should return a warning when no tag is
   });
 });
 
-test('ServiceImageRequireExplicitTagRule: should return a warning when using latest tag', (t) => {
+// @ts-ignore TS2349
+test('ServiceImageRequireExplicitTagRule: should return a warning when using latest tag', (t: ExecutionContext) => {
   const rule = new ServiceImageRequireExplicitTagRule();
   const context: LintContext = {
     path: filePath,
@@ -139,7 +142,8 @@ test('ServiceImageRequireExplicitTagRule: should return a warning when using lat
   });
 });
 
-test('ServiceImageRequireExplicitTagRule: should return a warning when using stable tag', (t) => {
+// @ts-ignore TS2349
+test('ServiceImageRequireExplicitTagRule: should return a warning when using stable tag', (t: ExecutionContext) => {
   const rule = new ServiceImageRequireExplicitTagRule();
   const context: LintContext = {
     path: filePath,
@@ -162,7 +166,8 @@ test('ServiceImageRequireExplicitTagRule: should return a warning when using sta
   });
 });
 
-test('ServiceImageRequireExplicitTagRule: should return a warning when using prohibited tags', (t) => {
+// @ts-ignore TS2349
+test('ServiceImageRequireExplicitTagRule: should return a warning when using prohibited tags', (t: ExecutionContext) => {
   const rule = new ServiceImageRequireExplicitTagRule();
   const context: LintContext = {
     path: filePath,
@@ -187,7 +192,8 @@ test('ServiceImageRequireExplicitTagRule: should return a warning when using pro
   });
 });
 
-test('ServiceImageRequireExplicitTagRule: should use custom prohibitedTags when provided in the constructor', (t) => {
+// @ts-ignore TS2349
+test('ServiceImageRequireExplicitTagRule: should use custom prohibitedTags when provided in the constructor', (t: ExecutionContext) => {
   const rule = new ServiceImageRequireExplicitTagRule({ prohibitedTags: ['unstable', 'preview'] });
 
   const context: LintContext = {
@@ -209,7 +215,8 @@ test('ServiceImageRequireExplicitTagRule: should use custom prohibitedTags when 
   });
 });
 
-test('ServiceImageRequireExplicitTagRule: should not return warnings when a specific version tag or digest is used', (t) => {
+// @ts-ignore TS2349
+test('ServiceImageRequireExplicitTagRule: should not return warnings when a specific version tag or digest is used', (t: ExecutionContext) => {
   const rule = new ServiceImageRequireExplicitTagRule();
   const context: LintContext = {
     path: filePath,

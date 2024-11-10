@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import ServiceKeysOrderRule from '../../src/rules/service-keys-order-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -37,9 +38,10 @@ services:
 `;
 
 // Helper function to strip spaces and normalize strings for comparison
-const normalizeYAML = (yaml: string) => yaml.replace(/\s+/g, ' ').trim();
+const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
-test('ServiceKeysOrderRule: should return a warning when service keys are in the wrong order', (t) => {
+// @ts-ignore TS2349
+test('ServiceKeysOrderRule: should return a warning when service keys are in the wrong order', (t: ExecutionContext) => {
   const rule = new ServiceKeysOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -62,7 +64,8 @@ test('ServiceKeysOrderRule: should return a warning when service keys are in the
   });
 });
 
-test('ServiceKeysOrderRule: should not return warnings when service keys are in the correct order', (t) => {
+// @ts-ignore TS2349
+test('ServiceKeysOrderRule: should not return warnings when service keys are in the correct order', (t: ExecutionContext) => {
   const rule = new ServiceKeysOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -74,7 +77,8 @@ test('ServiceKeysOrderRule: should not return warnings when service keys are in 
   t.is(errors.length, 0, 'There should be no warnings when service keys are in the correct order.');
 });
 
-test('ServiceKeysOrderRule: should fix the order of service keys', (t) => {
+// @ts-ignore TS2349
+test('ServiceKeysOrderRule: should fix the order of service keys', (t: ExecutionContext) => {
   const rule = new ServiceKeysOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectOrder);
 

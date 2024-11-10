@@ -46,17 +46,17 @@ export default class RequireQuotesInPortsRule implements LintRule {
   }
 
   // Static method to extract and process ports
-  private static extractPorts(doc: ParsedNode | null, callback: (port: Scalar) => void) {
-    if (!doc || !isMap(doc)) return;
+  private static extractPorts(document: ParsedNode | null, callback: (port: Scalar) => void) {
+    if (!document || !isMap(document)) return;
 
-    doc.items.forEach((item) => {
+    document.items.forEach((item) => {
       if (!isMap(item.value)) return;
 
       const serviceMap = item.value;
       serviceMap.items.forEach((service) => {
         if (!isMap(service.value)) return;
 
-        const ports = service.value.items.find((i) => isScalar(i.key) && i.key.value === 'ports');
+        const ports = service.value.items.find((node) => isScalar(node.key) && node.key.value === 'ports');
         if (!ports || !isSeq(ports.value)) return;
 
         ports.value.items.forEach((port) => {
@@ -70,9 +70,9 @@ export default class RequireQuotesInPortsRule implements LintRule {
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const doc = parseDocument(context.sourceCode);
+    const parsedDocument = parseDocument(context.sourceCode);
 
-    RequireQuotesInPortsRule.extractPorts(doc.contents, (port) => {
+    RequireQuotesInPortsRule.extractPorts(parsedDocument.contents, (port) => {
       if (port.type !== this.getQuoteType()) {
         errors.push({
           rule: this.name,
@@ -92,15 +92,15 @@ export default class RequireQuotesInPortsRule implements LintRule {
   }
 
   public fix(content: string): string {
-    const doc = parseDocument(content);
+    const parsedDocument = parseDocument(content);
 
-    RequireQuotesInPortsRule.extractPorts(doc.contents, (port) => {
+    RequireQuotesInPortsRule.extractPorts(parsedDocument.contents, (port) => {
       if (port.type !== this.getQuoteType()) {
         // eslint-disable-next-line no-param-reassign
         port.type = this.getQuoteType();
       }
     });
 
-    return doc.toString();
+    return parsedDocument.toString();
   }
 }

@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import RequireProjectNameFieldRule from '../../src/rules/require-project-name-field-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
 
@@ -16,7 +17,8 @@ services:
     image: nginx
 `;
 
-test('RequiredProjectNameFieldRule: should return a warning when "name" field is missing', (t) => {
+// @ts-ignore TS2349
+test('RequiredProjectNameFieldRule: should return a warning when "name" field is missing', (t: ExecutionContext) => {
   const rule = new RequireProjectNameFieldRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -37,7 +39,8 @@ test('RequiredProjectNameFieldRule: should return a warning when "name" field is
   t.is(errors[0].severity, 'minor');
 });
 
-test('RequiredProjectNameFieldRule: should not return warnings when "name" field is present', (t) => {
+// @ts-ignore TS2349
+test('RequiredProjectNameFieldRule: should not return warnings when "name" field is present', (t: ExecutionContext) => {
   const rule = new RequireProjectNameFieldRule();
   const context: LintContext = {
     path: '/docker-compose.yml',

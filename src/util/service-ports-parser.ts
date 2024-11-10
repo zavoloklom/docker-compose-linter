@@ -1,4 +1,4 @@
-import net from 'net';
+import net from 'node:net';
 import { isMap, isScalar } from 'yaml';
 
 function extractPublishedPortValue(yamlNode: unknown): string {
@@ -38,7 +38,7 @@ function parsePortsRange(port: string): string[] {
   }
 
   const ports: string[] = [];
-  // eslint-disable-next-line no-plusplus
+  // eslint-disable-next-line no-plusplus,unicorn/prevent-abbreviations
   for (let i = start; i <= end; i++) {
     ports.push(i.toString());
   }

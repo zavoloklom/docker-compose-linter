@@ -106,8 +106,8 @@ export default class TopLevelPropertiesOrderRule implements LintRule {
   }
 
   public fix(content: string): string {
-    const doc = parseDocument(content);
-    const { contents } = doc;
+    const parsedDocument = parseDocument(content);
+    const { contents } = parsedDocument;
 
     if (!isMap(contents)) return content;
 
@@ -124,14 +124,14 @@ export default class TopLevelPropertiesOrderRule implements LintRule {
     const reorderedMap = new YAMLMap<unknown, unknown>();
 
     correctOrder.forEach((key) => {
-      const item = contents.items.find((i) => isScalar(i.key) && String(i.key.value) === key);
+      const item = contents.items.find((node) => isScalar(node.key) && String(node.key.value) === key);
       if (item) {
         reorderedMap.items.push(item);
       }
     });
 
-    doc.contents = reorderedMap as unknown as typeof doc.contents;
+    parsedDocument.contents = reorderedMap as unknown as typeof parsedDocument.contents;
 
-    return doc.toString();
+    return parsedDocument.toString();
   }
 }

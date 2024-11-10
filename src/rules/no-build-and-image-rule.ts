@@ -44,8 +44,8 @@ export default class NoBuildAndImageRule implements LintRule {
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const doc = parseDocument(context.sourceCode);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(context.sourceCode);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
 
@@ -62,7 +62,7 @@ export default class NoBuildAndImageRule implements LintRule {
       const hasPullPolicy = service.has('pull_policy');
 
       if (hasBuild && hasImage && (!this.checkPullPolicy || !hasPullPolicy)) {
-        const line = findLineNumberForService(doc, context.sourceCode, serviceName, 'build');
+        const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, 'build');
         errors.push({
           rule: this.name,
           type: this.type,

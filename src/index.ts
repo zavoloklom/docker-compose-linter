@@ -1,3 +1,1 @@
-import { DCLinter } from './linter/linter.js';
-
-export { DCLinter };
+export { DCLinter } from './linter/linter.js';

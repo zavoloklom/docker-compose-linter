@@ -43,8 +43,8 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const doc = parseDocument(context.sourceCode);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(context.sourceCode);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
 
@@ -67,7 +67,7 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
 
         currentPortRange.some((port) => {
           if (exportedPortsMap.has(port)) {
-            const line = findLineNumberForService(doc, context.sourceCode, serviceName, 'ports');
+            const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, 'ports');
             errors.push({
               rule: this.name,
               type: this.type,
