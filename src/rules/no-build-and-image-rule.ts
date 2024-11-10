@@ -10,6 +10,10 @@ import type {
 } from '../linter/linter.types.js';
 import { findLineNumberForService } from '../util/line-finder.js';
 
+interface NoBuildAndImageRuleOptions {
+    checkPullPolicy?: boolean;
+}
+
 export default class NoBuildAndImageRule implements LintRule {
     public name = 'no-build-and-image';
 
@@ -26,6 +30,12 @@ export default class NoBuildAndImageRule implements LintRule {
     };
 
     public fixable: boolean = false;
+
+    private readonly checkPullPolicy: boolean;
+
+    constructor(options?: NoBuildAndImageRuleOptions) {
+        this.checkPullPolicy = options?.checkPullPolicy ?? true;
+    }
 
     // eslint-disable-next-line class-methods-use-this
     public getMessage({ serviceName }: { serviceName: string }): string {
@@ -47,7 +57,11 @@ export default class NoBuildAndImageRule implements LintRule {
 
             if (!isMap(service)) return;
 
-            if (service.has('build') && service.has('image')) {
+            const hasBuild = service.has('build');
+            const hasImage = service.has('image');
+            const hasPullPolicy = service.has('pull_policy');
+
+            if (hasBuild && hasImage && (!this.checkPullPolicy || !hasPullPolicy)) {
                 const line = findLineNumberForService(doc, context.sourceCode, serviceName, 'build');
                 errors.push({
                     rule: this.name,

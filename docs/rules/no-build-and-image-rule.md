@@ -1,15 +1,27 @@
 # No Build and Image Rule
 
-Ensures that each service in a Docker Compose configuration uses either build or image, but not both. Using both
+Ensures that each service in a Docker Compose configuration uses either `build` or `image`, but not both. Using both
 directives can cause ambiguity and unpredictable behavior during container creation.
 
-This rule is not fixable, as it requires user intervention to decide whether to keep build or image.
+This rule is not fixable, as it requires user intervention to decide whether to keep `build` or `image`.
 
 - **Rule Name:** no-build-and-image
 - **Type:** error
 - **Category:** best-practice
 - **Severity:** major
 - **Fixable:** false
+
+## Options
+
+- **checkPullPolicy** (boolean): Controls whether the rule should allow the simultaneous use of `build` and `image` if
+  the service also specifies `pull_policy` (Default `true`).
+
+  **Behavior:**
+
+  - If `checkPullPolicy` is `true`, the rule permits both `build` and `image` to be used together, but only if
+    `pull_policy` is present in the service definition.
+  - If `checkPullPolicy` is `false`, the rule enforces that each service uses either `build` or `image` exclusively,
+    regardless of the presence of `pull_policy`.
 
 ## Problematic Code Example
 
@@ -50,7 +62,8 @@ If `pull_policy` is missing from the service definition, Compose attempts to pul
 source if the image isn't found in the registry or platform cache.
 
 Using both directives for the same service can lead to ambiguity and unexpected behavior during the build and deployment
-process. Therefore, this rule enforces that each service should only use one of these directives.
+process. Therefore, this rule enforces that each service should only use one of these directives unless
+`checkPullPolicy` allows both.
 
 ## Version
 
