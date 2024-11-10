@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import esmock from 'esmock';
 import { Logger } from '../src/util/logger.js';
 import type { Config } from '../src/config/config.types.js';
@@ -51,11 +52,13 @@ services:
     image: nginx
 `;
 
+// @ts-ignore TS2339
 test.beforeEach(() => {
   Logger.init(false); // Initialize logger
 });
 
-test('DCLinter: should lint files correctly', async (t) => {
+// @ts-ignore TS2349
+test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
   const mockFindFiles = (): string[] => [mockFilePath];
   const mockLoadLintRules = (): LintRule[] => [mockRule];
   const mockReadFileSync = (): string => mockFileContent;
@@ -83,7 +86,8 @@ test('DCLinter: should lint files correctly', async (t) => {
   t.is(result[0].warningCount, 0, 'There should be no warnings');
 });
 
-test('DCLinter: should lint multiple files correctly', async (t) => {
+// @ts-ignore TS2349
+test('DCLinter: should lint multiple files correctly', async (t: ExecutionContext) => {
   const mockFindFiles = (): string[] => mockFilePaths;
   const mockLoadLintRules = (): LintRule[] => [mockRule];
   const mockReadFileSync = (filePath: string): string => mockFileContent;
@@ -109,7 +113,8 @@ test('DCLinter: should lint multiple files correctly', async (t) => {
   t.is(result[1].messages.length, 1, 'There should be one lint message for the second file');
 });
 
-test('DCLinter: should fix files', async (t) => {
+// @ts-ignore TS2349
+test('DCLinter: should fix files', async (t: ExecutionContext) => {
   const mockFindFiles = (): string[] => [mockFilePath];
   const mockLoadLintRules = (): LintRule[] => [mockRule];
   const mockReadFileSync = (): string => mockFileContent;

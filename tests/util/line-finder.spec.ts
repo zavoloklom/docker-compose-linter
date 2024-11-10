@@ -1,7 +1,9 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { findLineNumberByKey, findLineNumberByValue } from '../../src/util/line-finder.js';
 
-test('findLineNumberByKey: should return the correct line number when the key exists', (t) => {
+// @ts-ignore TS2349
+test('findLineNumberByKey: should return the correct line number when the key exists', (t: ExecutionContext) => {
   const yamlContent = `
 version: '3'
 services:
@@ -15,7 +17,8 @@ services:
   t.is(line, 5, 'Should return the correct line number for the key "image"');
 });
 
-test('findLineNumberByKey: should return 1 when the key does not exist', (t) => {
+// @ts-ignore TS2349
+test('findLineNumberByKey: should return 1 when the key does not exist', (t: ExecutionContext) => {
   const yamlContent = `
 version: '3'
 services:
@@ -29,7 +32,8 @@ services:
   t.is(line, 1, 'Should return 1 when the key does not exist');
 });
 
-test('findLineNumberByKey: should work for nested keys', (t) => {
+// @ts-ignore TS2349
+test('findLineNumberByKey: should work for nested keys', (t: ExecutionContext) => {
   const yamlContent = `
 version: '3'
 services:
@@ -45,7 +49,8 @@ services:
   t.is(line, 6, 'Should return the correct line number for the nested key "ports"');
 });
 
-test('findLineNumberByValue: should return the correct line number when the value exists', (t) => {
+// @ts-ignore TS2349
+test('findLineNumberByValue: should return the correct line number when the value exists', (t: ExecutionContext) => {
   const yamlContent = `
 version: '3'
 services:
@@ -59,7 +64,8 @@ services:
   t.is(line, 5, 'Should return the correct line number for the value "nginx"');
 });
 
-test('findLineNumberByValue: should return 0 when the value does not exist', (t) => {
+// @ts-ignore TS2349
+test('findLineNumberByValue: should return 0 when the value does not exist', (t: ExecutionContext) => {
   const yamlContent = `
 version: '3'
 services:
@@ -73,7 +79,8 @@ services:
   t.is(line, 1, 'Should return 1 when the value does not exist');
 });
 
-test('findLineNumberByValue: should return the correct line number for a value inside an array', (t) => {
+// @ts-ignore TS2349
+test('findLineNumberByValue: should return the correct line number for a value inside an array', (t: ExecutionContext) => {
   const yamlContent = `
 version: '3'
 services:

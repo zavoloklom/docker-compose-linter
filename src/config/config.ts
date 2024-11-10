@@ -3,6 +3,7 @@ import { Ajv } from 'ajv';
 import type { Config } from './config.types.js';
 import { Logger, LOG_SOURCE } from '../util/logger.js';
 import { loadSchema } from '../util/load-schema.js';
+import { ConfigValidationError } from '../errors/config-validation-error.js';
 
 function getDefaultConfig(): Config {
   return {
@@ -23,7 +24,7 @@ async function validateConfig(config: Config): Promise<Config> {
 
   if (!validate(config)) {
     logger.error('Invalid configuration:', validate.errors);
-    process.exit(1);
+    throw new ConfigValidationError(validate.errors);
   }
   logger.debug(LOG_SOURCE.CONFIG, 'Validation complete');
   return config;

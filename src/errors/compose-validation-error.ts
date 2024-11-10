@@ -9,13 +9,13 @@ class ComposeValidationError extends Error {
 
   details: ErrorObject;
 
-  constructor(e: ErrorObject) {
-    super(`Validation error: ${e?.message}`);
+  constructor(error: ErrorObject) {
+    super(`Validation error: ${error?.message}`);
     this.name = 'ComposeValidationError';
-    this.keyword = e.keyword;
-    this.instancePath = e.instancePath;
-    this.schemaPath = e.schemaPath;
-    this.details = e;
+    this.keyword = error.keyword;
+    this.instancePath = error.instancePath;
+    this.schemaPath = error.schemaPath;
+    this.details = error;
   }
 
   toString(): string {

@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import ServiceContainerNameRegexRule from '../../src/rules/service-container-name-regex-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -19,7 +20,8 @@ services:
     container_name: "my-app-123"
 `;
 
-test('ServiceContainerNameRegexRule: should return an error for invalid container name', (t) => {
+// @ts-ignore TS2349
+test('ServiceContainerNameRegexRule: should return an error for invalid container name', (t: ExecutionContext) => {
   const rule = new ServiceContainerNameRegexRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -35,7 +37,8 @@ test('ServiceContainerNameRegexRule: should return an error for invalid containe
   t.true(errors[0].message.includes(expectedMessage));
 });
 
-test('ServiceContainerNameRegexRule: should not return an error for valid container name', (t) => {
+// @ts-ignore TS2349
+test('ServiceContainerNameRegexRule: should not return an error for valid container name', (t: ExecutionContext) => {
   const rule = new ServiceContainerNameRegexRule();
   const context: LintContext = {
     path: '/docker-compose.yml',

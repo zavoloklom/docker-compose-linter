@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import ServicePortsAlphabeticalOrderRule from '../../src/rules/service-ports-alphabetical-order-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -47,9 +48,10 @@ services:
 `;
 
 // Helper function to strip spaces and normalize strings for comparison
-const normalizeYAML = (yaml: string) => yaml.replace(/\s+/g, ' ').trim();
+const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
-test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are not alphabetically ordered', (t) => {
+// @ts-ignore TS2349
+test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are not alphabetically ordered', (t: ExecutionContext) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -63,7 +65,8 @@ test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are 
   t.true(errors[0].message.includes(`Ports in service "web" should be in alphabetical order.`));
 });
 
-test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports are alphabetically ordered', (t) => {
+// @ts-ignore TS2349
+test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports are alphabetically ordered', (t: ExecutionContext) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -75,7 +78,8 @@ test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports a
   t.is(errors.length, 0, 'There should be no warnings when ports are in alphabetical order.');
 });
 
-test('ServicePortsAlphabeticalOrderRule: should fix the order of ports', (t) => {
+// @ts-ignore TS2349
+test('ServicePortsAlphabeticalOrderRule: should fix the order of ports', (t: ExecutionContext) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectPortOrder);
 

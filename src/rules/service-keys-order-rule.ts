@@ -104,13 +104,13 @@ export default class ServiceKeysOrderRule implements LintRule {
   private getCorrectOrder(keys: string[]): string[] {
     const otherKeys = keys.filter((key) => !Object.values(this.groups).flat().includes(key)).sort();
 
-    return this.groupOrder.flatMap((group) => this.groups[group]).concat(otherKeys);
+    return [...this.groupOrder.flatMap((group) => this.groups[group]), ...otherKeys];
   }
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const doc = parseDocument(context.sourceCode);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(context.sourceCode);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
 
@@ -133,7 +133,7 @@ export default class ServiceKeysOrderRule implements LintRule {
         if (expectedIndex === -1) return;
 
         if (expectedIndex < lastSeenIndex) {
-          const line = findLineNumberForService(doc, context.sourceCode, serviceName, key);
+          const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, key);
           errors.push({
             rule: this.name,
             type: this.type,
@@ -155,8 +155,8 @@ export default class ServiceKeysOrderRule implements LintRule {
   }
 
   public fix(content: string): string {
-    const doc = parseDocument(content);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(content);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return content;
 
@@ -174,7 +174,7 @@ export default class ServiceKeysOrderRule implements LintRule {
       const orderedService = new YAMLMap<unknown, unknown>();
 
       correctOrder.forEach((key) => {
-        const item = service.items.find((i) => isScalar(i.key) && i.key.value === key);
+        const item = service.items.find((node) => isScalar(node.key) && node.key.value === key);
         if (item) {
           orderedService.add(item);
         }
@@ -182,7 +182,7 @@ export default class ServiceKeysOrderRule implements LintRule {
 
       keys.forEach((key) => {
         if (!correctOrder.includes(key)) {
-          const item = service.items.find((i) => isScalar(i.key) && i.key.value === key);
+          const item = service.items.find((node) => isScalar(node.key) && node.key.value === key);
           if (item) {
             orderedService.add(item);
           }
@@ -192,6 +192,6 @@ export default class ServiceKeysOrderRule implements LintRule {
       services.set(serviceName, orderedService);
     });
 
-    return doc.toString();
+    return parsedDocument.toString();
   }
 }

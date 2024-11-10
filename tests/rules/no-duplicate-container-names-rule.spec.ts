@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import NoDuplicateContainerNamesRule from '../../src/rules/no-duplicate-container-names-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -25,7 +26,8 @@ services:
     container_name: db_container
 `;
 
-test('NoDuplicateContainerNamesRule: should return an error when duplicate container names are found', (t) => {
+// @ts-ignore TS2349
+test('NoDuplicateContainerNamesRule: should return an error when duplicate container names are found', (t: ExecutionContext) => {
   const rule = new NoDuplicateContainerNamesRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -41,7 +43,8 @@ test('NoDuplicateContainerNamesRule: should return an error when duplicate conta
   t.true(errors[0].message.includes(expectedMessage));
 });
 
-test('NoDuplicateContainerNamesRule: should not return errors when container names are unique', (t) => {
+// @ts-ignore TS2349
+test('NoDuplicateContainerNamesRule: should not return errors when container names are unique', (t: ExecutionContext) => {
   const rule = new NoDuplicateContainerNamesRule();
   const context: LintContext = {
     path: '/docker-compose.yml',

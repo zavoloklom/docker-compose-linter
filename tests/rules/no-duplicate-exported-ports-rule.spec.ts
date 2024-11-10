@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import NoDuplicateExportedPortsRule from '../../src/rules/no-duplicate-exported-ports-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -101,7 +102,8 @@ services:
 
 const filePath = '/docker-compose.yml';
 
-test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate exported ports are found', (t) => {
+// @ts-ignore TS2349
+test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate exported ports are found', (t: ExecutionContext) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
     path: filePath,
@@ -125,7 +127,8 @@ test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate
   });
 });
 
-test('NoDuplicateExportedPortsRule: should not return errors when exported ports are unique', (t) => {
+// @ts-ignore TS2349
+test('NoDuplicateExportedPortsRule: should not return errors when exported ports are unique', (t: ExecutionContext) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
     path: filePath,
@@ -137,7 +140,8 @@ test('NoDuplicateExportedPortsRule: should not return errors when exported ports
   t.is(errors.length, 0, 'There should be no errors when exported ports are unique.');
 });
 
-test('NoDuplicateExportedPortsRule: should return an error when range overlap is detected', (t) => {
+// @ts-ignore TS2349
+test('NoDuplicateExportedPortsRule: should return an error when range overlap is detected', (t: ExecutionContext) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
     path: filePath,

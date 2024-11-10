@@ -17,27 +17,27 @@ export function findFilesForLinting(paths: string[], recursive: boolean, exclude
   if (excludePaths && excludePaths.length > 0) {
     excludePaths.forEach((p) => excludeSet.add(p));
   }
-  const exclude = Array.from(excludeSet);
+  const exclude = [...excludeSet];
   logger.debug('UTIL', `Paths to exclude: ${exclude.toString()}`);
 
   // Regular expression to match [compose*.yml, compose*.yaml, docker-compose*.yml, docker-compose*.yaml] files
   const dockerComposePattern = /^(docker-)?compose.*\.ya?ml$/;
 
-  paths.forEach((fileOrDir) => {
-    if (!fs.existsSync(fileOrDir)) {
-      logger.debug('UTIL', `File or directory not found: ${fileOrDir}`);
-      throw new FileNotFoundError(fileOrDir);
+  paths.forEach((fileOrDirectory) => {
+    if (!fs.existsSync(fileOrDirectory)) {
+      logger.debug('UTIL', `File or directory not found: ${fileOrDirectory}`);
+      throw new FileNotFoundError(fileOrDirectory);
     }
 
     let allPaths: string[] = [];
 
-    const fileOrDirStats = fs.statSync(fileOrDir);
+    const fileOrDirectoryStats = fs.statSync(fileOrDirectory);
 
-    if (fileOrDirStats.isDirectory()) {
+    if (fileOrDirectoryStats.isDirectory()) {
       try {
-        allPaths = fs.readdirSync(resolve(fileOrDir)).map((f) => join(fileOrDir, f));
+        allPaths = fs.readdirSync(resolve(fileOrDirectory)).map((f) => join(fileOrDirectory, f));
       } catch (error) {
-        logger.debug('UTIL', `Error reading directory: ${fileOrDir}`, error);
+        logger.debug('UTIL', `Error reading directory: ${fileOrDirectory}`, error);
         allPaths = [];
       }
 
@@ -55,15 +55,15 @@ export function findFilesForLinting(paths: string[], recursive: boolean, exclude
             // If recursive search is enabled, search within the directory
             logger.debug('UTIL', `Recursive search is enabled, search within the directory: ${path}`);
             const nestedFiles = findFilesForLinting([path], recursive, exclude);
-            filesToCheck = filesToCheck.concat(nestedFiles);
+            filesToCheck = [...filesToCheck, ...nestedFiles];
           }
         } else if (pathStats.isFile() && dockerComposePattern.test(basename(path))) {
           // Add the file to the list if it matches the pattern
           filesToCheck.push(path);
         }
       });
-    } else if (fileOrDirStats.isFile()) {
-      filesToCheck.push(fileOrDir);
+    } else if (fileOrDirectoryStats.isFile()) {
+      filesToCheck.push(fileOrDirectory);
     }
   });
 

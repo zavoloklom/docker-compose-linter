@@ -11,10 +11,12 @@ function findLineNumberByKey(content: string, key: string): number {
   const lines = content.split('\n');
   const regex = new RegExp(`^\\s*${key}:`, 'i');
 
-  for (let i = 0; i < lines.length; i += 1) {
-    if (regex.test(lines[i])) {
-      return i + 1; // Lines start from 1, not 0
+  let lineNumber = 1; // Lines start from 1, not 0
+  for (const line of lines) {
+    if (regex.test(line)) {
+      return lineNumber;
     }
+    lineNumber += 1;
   }
   return 1; // Default to 1 if the key is not found
 }
@@ -34,14 +36,14 @@ function findLineNumberByValue(content: string, value: string): number {
  * Finds the line number where the key is located in the YAML content for a specific service.
  * Searches only within the service block, ensuring boundaries are respected.
  *
- * @param doc The YAML content parsed with lib yaml.
+ * @param document The YAML content parsed with lib yaml.
  * @param content The parsed YAML content as a string.
  * @param serviceName The name of the service in which to search for the key.
  * @param key The key to search for in the content.
  * @returns number The line number where the key is found, or -1 if not found.
  */
-function findLineNumberByKeyForService(doc: Document, content: string, serviceName: string, key: string): number {
-  const services = doc.get('services') as Node;
+function findLineNumberByKeyForService(document: Document, content: string, serviceName: string, key: string): number {
+  const services = document.get('services') as Node;
 
   if (!isMap(services)) {
     return 1;
@@ -95,7 +97,7 @@ function getKeyLine(keyNode: Node, content: string): number {
  * If the key is provided without a value, it returns the line number for the key.
  * If both key and value are provided, it searches for the specific key-value pair within the service.
  *
- * @param doc The YAML content parsed with lib yaml.
+ * @param document
  * @param content The parsed YAML content as a string.
  * @param serviceName The name of the service to search for.
  * @param key The optional key to search for in the service.
@@ -103,13 +105,13 @@ function getKeyLine(keyNode: Node, content: string): number {
  * @returns number The line number where the service, key, or value is found, or 1 if not found.
  */
 function findLineNumberForService(
-  doc: Document,
+  document: Document,
   content: string,
   serviceName: string,
   key?: string,
   value?: string,
 ): number {
-  const services = doc.get('services') as Node;
+  const services = document.get('services') as Node;
   if (!isMap(services)) {
     return 1;
   }
