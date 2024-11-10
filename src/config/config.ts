@@ -19,7 +19,7 @@ async function validateConfig(config: Config): Promise<Config> {
   logger.debug(LOG_SOURCE.CONFIG, 'Starting config validation');
 
   const ajv = new Ajv();
-  const schema = loadSchema('cli-config');
+  const schema = loadSchema('linter-config');
   const validate = ajv.compile(schema);
 
   if (!validate(config)) {
