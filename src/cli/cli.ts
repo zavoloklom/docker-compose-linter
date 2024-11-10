@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -10,7 +12,7 @@ import { Logger, LOG_SOURCE } from '../util/logger.js';
 import { loadFormatter } from '../util/formatter-loader.js';
 
 const packageJson = JSON.parse(
-  readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../../package.json'), 'utf-8'),
+  readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../../package.json'), 'utf8'),
 ) as Record<string, unknown>;
 
 const { argv } = yargsLib(hideBin(process.argv))
@@ -87,41 +89,43 @@ const { argv } = yargsLib(hideBin(process.argv))
   .alias('version', 'v');
 
 export default async function cli() {
-  const args = (await argv) as unknown as CLIConfig;
+  const cliArguments = (await argv) as unknown as CLIConfig;
 
   // Initialize the logger with the final debug and color options
-  Logger.init(args.debug);
+  Logger.init(cliArguments.debug);
   const logger = Logger.getInstance();
 
   logger.debug(LOG_SOURCE.CLI, 'Debug mode is ON');
-  logger.debug(LOG_SOURCE.CLI, 'Arguments:', args);
+  logger.debug(LOG_SOURCE.CLI, 'Arguments:', cliArguments);
 
-  const config = await loadConfig(args.config);
+  const config = await loadConfig(cliArguments.config).catch((error) => {
+    process.exit(1);
+  });
 
   // Override config values with CLI arguments if they are provided
-  if (args.quiet) {
-    config.quiet = args.quiet;
+  if (cliArguments.quiet) {
+    config.quiet = cliArguments.quiet;
   }
-  if (args.debug) {
-    config.debug = args.debug;
+  if (cliArguments.debug) {
+    config.debug = cliArguments.debug;
   }
-  if (args.exclude.length > 0) {
-    config.exclude = args.exclude;
+  if (cliArguments.exclude.length > 0) {
+    config.exclude = cliArguments.exclude;
   }
   logger.debug(LOG_SOURCE.CLI, 'Final config:', config);
 
   const linter = new DCLinter(config);
 
   // Handle the `fix` and `fix-dry-run` flags
-  if (args.fix || args.fixDryRun) {
-    await linter.fixFiles(args.files, args.recursive, args.fixDryRun);
+  if (cliArguments.fix || cliArguments.fixDryRun) {
+    await linter.fixFiles(cliArguments.files, cliArguments.recursive, cliArguments.fixDryRun);
   }
 
   // Always run the linter after attempting to fix issues
-  let lintResults = await linter.lintFiles(args.files, args.recursive);
+  let lintResults = await linter.lintFiles(cliArguments.files, cliArguments.recursive);
 
   // Filter out warnings if `--quiet` is enabled
-  if (args.quiet) {
+  if (cliArguments.quiet) {
     // Keep only files with errors
     lintResults = lintResults
       .map((result) => ({
@@ -138,12 +142,12 @@ export default async function cli() {
   const totalWarnings = lintResults.reduce((count, result) => count + result.warningCount, 0);
 
   // Choose and apply the formatter
-  const formatter = await loadFormatter(args.formatter);
+  const formatter = await loadFormatter(cliArguments.formatter);
   const formattedResults = formatter(lintResults);
 
   // Output results
-  if (args.outputFile) {
-    writeFileSync(args.outputFile, formattedResults);
+  if (cliArguments.outputFile) {
+    writeFileSync(cliArguments.outputFile, formattedResults);
   } else {
     console.log(formattedResults);
   }
@@ -152,10 +156,10 @@ export default async function cli() {
   if (totalErrors > 0) {
     logger.debug(LOG_SOURCE.CLI, `${totalErrors} errors found`);
     process.exit(1);
-  } else if (args.maxWarnings && args.maxWarnings >= 0 && totalWarnings > args.maxWarnings) {
+  } else if (cliArguments.maxWarnings && cliArguments.maxWarnings >= 0 && totalWarnings > cliArguments.maxWarnings) {
     logger.debug(
       LOG_SOURCE.CLI,
-      `Warning threshold exceeded: ${totalWarnings} warnings (max allowed: ${args.maxWarnings})`,
+      `Warning threshold exceeded: ${totalWarnings} warnings (max allowed: ${cliArguments.maxWarnings})`,
     );
     process.exit(1);
   }

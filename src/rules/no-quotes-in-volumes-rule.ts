@@ -31,17 +31,17 @@ export default class NoQuotesInVolumesRule implements LintRule {
     return 'Quotes should not be used in volume names.';
   }
 
-  private static extractVolumes(doc: ParsedNode | null, callback: (volume: Scalar) => void) {
-    if (!doc || !isMap(doc)) return;
+  private static extractVolumes(document: ParsedNode | null, callback: (volume: Scalar) => void) {
+    if (!document || !isMap(document)) return;
 
-    doc.items.forEach((item) => {
+    document.items.forEach((item) => {
       if (!isMap(item.value)) return;
 
       const serviceMap = item.value;
       serviceMap.items.forEach((service) => {
         if (!isMap(service.value)) return;
 
-        const volumes = service.value.items.find((i) => isScalar(i.key) && i.key.value === 'volumes');
+        const volumes = service.value.items.find((node) => isScalar(node.key) && node.key.value === 'volumes');
         if (!volumes || !isSeq(volumes.value)) return;
 
         volumes.value.items.forEach((volume) => {
@@ -55,9 +55,9 @@ export default class NoQuotesInVolumesRule implements LintRule {
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const doc = parseDocument(context.sourceCode);
+    const parsedDocument = parseDocument(context.sourceCode);
 
-    NoQuotesInVolumesRule.extractVolumes(doc.contents, (volume) => {
+    NoQuotesInVolumesRule.extractVolumes(parsedDocument.contents, (volume) => {
       if (volume.type !== 'PLAIN') {
         errors.push({
           rule: this.name,
@@ -78,15 +78,15 @@ export default class NoQuotesInVolumesRule implements LintRule {
 
   // eslint-disable-next-line class-methods-use-this
   public fix(content: string): string {
-    const doc = parseDocument(content);
+    const parsedDocument = parseDocument(content);
 
-    NoQuotesInVolumesRule.extractVolumes(doc.contents, (volume) => {
+    NoQuotesInVolumesRule.extractVolumes(parsedDocument.contents, (volume) => {
       if (volume.type !== 'PLAIN') {
         // eslint-disable-next-line no-param-reassign
         volume.type = 'PLAIN';
       }
     });
 
-    return doc.toString();
+    return parsedDocument.toString();
   }
 }

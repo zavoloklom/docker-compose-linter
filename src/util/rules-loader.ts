@@ -1,15 +1,15 @@
-import path from 'node:path';
+import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
 import type { LintRule, LintMessageType } from '../linter/linter.types.js';
 import type { Config, ConfigRuleLevel, ConfigRule } from '../config/config.types.js';
 import { Logger } from './logger.js';
 
-async function importRule(file: string, rulesDir: string): Promise<LintRule | null> {
+async function importRule(file: string, rulesDirectory: string): Promise<LintRule | null> {
   const logger = Logger.getInstance();
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-    const RuleClass = (await import(path.join(rulesDir, file))).default;
+    const RuleClass = (await import(join(rulesDirectory, file))).default;
 
     if (typeof RuleClass === 'function') {
       return new (RuleClass as new () => LintRule)();
@@ -22,15 +22,15 @@ async function importRule(file: string, rulesDir: string): Promise<LintRule | nu
 }
 
 async function loadLintRules(config: Config): Promise<LintRule[]> {
-  const rulesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../rules');
+  const rulesDirectory = resolve(dirname(fileURLToPath(import.meta.url)), '../rules');
 
   const ruleFiles = fs
-    .readdirSync(rulesDir)
+    .readdirSync(rulesDirectory)
     .filter((file) => file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('d.ts')));
 
   // Parallel import with Promise.all
   const ruleInstances: (LintRule | null)[] = await Promise.all(
-    ruleFiles.map(async (file) => importRule(file, rulesDir)),
+    ruleFiles.map(async (file) => importRule(file, rulesDirectory)),
   );
 
   const activeRules: LintRule[] = [];

@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { resolve } from 'node:path';
 import type { LintResult } from '../linter/linter.types.js';
 import { Logger } from './logger.js';
 
@@ -9,7 +9,7 @@ async function importFormatter(modulePath: string): Promise<FormatterFunction> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const Formatter = (await import(modulePath)).default;
     return Formatter as FormatterFunction;
-  } catch (error) {
+  } catch {
     throw new Error(`Module at ${modulePath} does not export a default formatter.`);
   }
 }
@@ -18,7 +18,7 @@ export async function loadFormatter(formatterName: string): Promise<FormatterFun
   const logger = Logger.getInstance();
 
   if (formatterName.startsWith('.')) {
-    const fullPath = path.resolve(formatterName);
+    const fullPath = resolve(formatterName);
     const formatterModule = await importFormatter(fullPath);
     logger.debug('UTIL', `Using formatter: ${fullPath}`);
     return formatterModule;

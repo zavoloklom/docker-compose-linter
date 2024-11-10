@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string, @stylistic/indent */
 
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import esmock from 'esmock';
 import { Logger } from '../../src/util/logger.js';
 import { FileNotFoundError } from '../../src/errors/file-not-found-error.js';
@@ -19,15 +20,16 @@ const mockFilesInDirectory = ['docker-compose.yml', 'compose.yaml', 'another-fil
 const mockDirectoriesInDirectory = ['another_dir', 'node_modules'];
 const mockFilesInSubDirectory = ['docker-compose.yml', 'another-file.yaml', 'example.txt'];
 
+// @ts-ignore TS2339
 test.beforeEach(() => {
   Logger.init(false); // Initialize logger
 });
 
-const mockReaddirSync = (dir: string): string[] => {
-  if (dir === mockDirectory) {
+const mockReaddirSync = (directory: string): string[] => {
+  if (directory === mockDirectory) {
     return [...mockFilesInDirectory, ...mockDirectoriesInDirectory];
   }
-  if (dir === mockNodeModulesDirectory || dir === mockFolderDirectory) {
+  if (directory === mockNodeModulesDirectory || directory === mockFolderDirectory) {
     return mockFilesInSubDirectory;
   }
   return [];
@@ -43,7 +45,8 @@ const mockStatSync = (filePath: string) => {
 };
 const mockExistsSync = () => true;
 
-test('findFilesForLinting: should handle recursive search and find only compose files in directory and exclude node_modules', async (t) => {
+// @ts-ignore TS2349
+test('findFilesForLinting: should handle recursive search and find only compose files in directory and exclude node_modules', async (t: ExecutionContext) => {
   // Use esmock to mock fs module
   const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder.js')>(
     '../../src/util/files-finder.js',
@@ -65,7 +68,8 @@ test('findFilesForLinting: should handle recursive search and find only compose 
   );
 });
 
-test('findFilesForLinting: should return file directly if file is passed and search only compose in directory', async (t) => {
+// @ts-ignore TS2349
+test('findFilesForLinting: should return file directly if file is passed and search only compose in directory', async (t: ExecutionContext) => {
   // Use esmock to mock fs module
   const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder.js')>(
     '../../src/util/files-finder.js',
@@ -87,7 +91,8 @@ test('findFilesForLinting: should return file directly if file is passed and sea
   );
 });
 
-test('findFilesForLinting: should throw error if path does not exist', async (t) => {
+// @ts-ignore TS2349
+test('findFilesForLinting: should throw error if path does not exist', async (t: ExecutionContext) => {
   // Use esmock to mock fs module
   const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder.js')>(
     '../../src/util/files-finder.js',

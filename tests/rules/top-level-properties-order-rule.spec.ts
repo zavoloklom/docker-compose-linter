@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import TopLevelPropertiesOrderRule, { TopLevelKeys } from '../../src/rules/top-level-properties-order-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -41,9 +42,10 @@ volumes:
 const filePath = '/docker-compose.yml';
 
 // Helper function to normalize YAML strings for comparison
-const normalizeYAML = (yaml: string) => yaml.replace(/\s+/g, ' ').trim();
+const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
-test('TopLevelPropertiesOrderRule: should return a warning when top-level properties are out of order', (t) => {
+// @ts-ignore TS2349
+test('TopLevelPropertiesOrderRule: should return a warning when top-level properties are out of order', (t: ExecutionContext) => {
   const rule = new TopLevelPropertiesOrderRule();
   const context: LintContext = {
     path: filePath,
@@ -60,7 +62,8 @@ test('TopLevelPropertiesOrderRule: should return a warning when top-level proper
   t.true(errors[2].message.includes('Property "networks" is out of order.'));
 });
 
-test('TopLevelPropertiesOrderRule: should not return warnings when top-level properties are in the correct order', (t) => {
+// @ts-ignore TS2349
+test('TopLevelPropertiesOrderRule: should not return warnings when top-level properties are in the correct order', (t: ExecutionContext) => {
   const rule = new TopLevelPropertiesOrderRule();
   const context: LintContext = {
     path: filePath,
@@ -72,7 +75,8 @@ test('TopLevelPropertiesOrderRule: should not return warnings when top-level pro
   t.is(errors.length, 0, 'There should be no warnings when top-level properties are in the correct order.');
 });
 
-test('TopLevelPropertiesOrderRule: should fix the order of top-level properties', (t) => {
+// @ts-ignore TS2349
+test('TopLevelPropertiesOrderRule: should fix the order of top-level properties', (t: ExecutionContext) => {
   const rule = new TopLevelPropertiesOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectOrder);
 
@@ -118,7 +122,8 @@ x-b:
   some-key: some-value
 `;
 
-test('TopLevelPropertiesOrderRule: should return warnings based on custom order', (t) => {
+// @ts-ignore TS2349
+test('TopLevelPropertiesOrderRule: should return warnings based on custom order', (t: ExecutionContext) => {
   const customOrder = [
     TopLevelKeys.Version,
     TopLevelKeys.Services,
@@ -144,7 +149,8 @@ test('TopLevelPropertiesOrderRule: should return warnings based on custom order'
   t.true(errors[3].message.includes('Property "networks" is out of order.'));
 });
 
-test('TopLevelPropertiesOrderRule: should fix the order of top-level properties based on custom order', (t) => {
+// @ts-ignore TS2349
+test('TopLevelPropertiesOrderRule: should fix the order of top-level properties based on custom order', (t: ExecutionContext) => {
   const customOrder = [
     TopLevelKeys.Version,
     TopLevelKeys.Services,

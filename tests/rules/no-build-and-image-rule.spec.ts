@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import NoBuildAndImageRule from '../../src/rules/no-build-and-image-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -47,7 +48,8 @@ services:
 
 const filePath = '/docker-compose.yml';
 
-test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service', (t) => {
+// @ts-ignore TS2349
+test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service', (t: ExecutionContext) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
     path: filePath,
@@ -72,7 +74,8 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
   });
 });
 
-test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service and checkPullPolicy is false', (t) => {
+// @ts-ignore TS2349
+test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service and checkPullPolicy is false', (t: ExecutionContext) => {
   const rule = new NoBuildAndImageRule({ checkPullPolicy: false });
   const context: LintContext = {
     path: filePath,
@@ -97,7 +100,8 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
   });
 });
 
-test('NoBuildAndImageRule: should not return warnings when "build" and "image" are used with pull_policy and checkPullPolicy is true', (t) => {
+// @ts-ignore TS2349
+test('NoBuildAndImageRule: should not return warnings when "build" and "image" are used with pull_policy and checkPullPolicy is true', (t: ExecutionContext) => {
   const rule = new NoBuildAndImageRule({ checkPullPolicy: true });
   const context: LintContext = {
     path: filePath,
@@ -113,7 +117,8 @@ test('NoBuildAndImageRule: should not return warnings when "build" and "image" a
   );
 });
 
-test('NoBuildAndImageRule: should not return warnings when only "build" is used', (t) => {
+// @ts-ignore TS2349
+test('NoBuildAndImageRule: should not return warnings when only "build" is used', (t: ExecutionContext) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
     path: filePath,
@@ -125,7 +130,8 @@ test('NoBuildAndImageRule: should not return warnings when only "build" is used'
   t.is(errors.length, 0, 'There should be no warnings when only "build" is used.');
 });
 
-test('NoBuildAndImageRule: should not return warnings when only "image" is used', (t) => {
+// @ts-ignore TS2349
+test('NoBuildAndImageRule: should not return warnings when only "image" is used', (t: ExecutionContext) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
     path: filePath,

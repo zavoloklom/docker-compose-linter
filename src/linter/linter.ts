@@ -43,20 +43,22 @@ class DCLinter {
 
     try {
       context.sourceCode = fs.readFileSync(file, 'utf8');
-      const doc = parseDocument(context.sourceCode, { merge: true });
+      const parsedDocument = parseDocument(context.sourceCode, { merge: true });
 
-      if (doc.errors && doc.errors.length > 0) {
-        doc.errors.forEach((error) => {
+      if (parsedDocument.errors && parsedDocument.errors.length > 0) {
+        parsedDocument.errors.forEach((error) => {
           throw error;
         });
       }
 
       // Use Record<string, unknown> to type the parsed content safely
-      context.content = doc.toJS() as Record<string, unknown>;
+      context.content = parsedDocument.toJS() as Record<string, unknown>;
       validationComposeSchema(context.content);
-    } catch (e: unknown) {
-      if (e instanceof YAMLError) {
-        const startPos: { line: number; col: number } | undefined = Array.isArray(e.linePos) ? e.linePos[0] : e.linePos;
+    } catch (error: unknown) {
+      if (error instanceof YAMLError) {
+        const startPos: { line: number; col: number } | undefined = Array.isArray(error.linePos)
+          ? error.linePos[0]
+          : error.linePos;
         messages.push({
           rule: 'invalid-yaml',
           category: 'style',
@@ -67,13 +69,13 @@ class DCLinter {
           type: 'error',
           fixable: false,
         });
-      } else if (e instanceof ComposeValidationError) {
+      } else if (error instanceof ComposeValidationError) {
         messages.push({
           rule: 'invalid-schema',
           type: 'error',
           category: 'style',
           severity: 'critical',
-          message: e.toString(),
+          message: error.toString(),
           line: 1,
           column: 1,
           fixable: false,
@@ -89,7 +91,7 @@ class DCLinter {
           type: 'error',
           fixable: false,
         });
-        logger.debug(LOG_SOURCE.LINTER, `Error while processing file ${file}`, e);
+        logger.debug(LOG_SOURCE.LINTER, `Error while processing file ${file}`, error);
       }
 
       return { context: null, messages };
@@ -114,10 +116,10 @@ class DCLinter {
         messages.push(...fileMessages);
       }
 
-      const errorCount = messages.filter((msg) => msg.type === 'error').length;
-      const warningCount = messages.filter((msg) => msg.type === 'warning').length;
-      const fixableErrorCount = messages.filter((msg) => msg.fixable && msg.type === 'error').length;
-      const fixableWarningCount = messages.filter((msg) => msg.fixable && msg.type === 'warning').length;
+      const errorCount = messages.filter((message) => message.type === 'error').length;
+      const warningCount = messages.filter((message) => message.type === 'warning').length;
+      const fixableErrorCount = messages.filter((message) => message.fixable && message.type === 'error').length;
+      const fixableWarningCount = messages.filter((message) => message.fixable && message.type === 'warning').length;
 
       lintResults.push({
         filePath: file,

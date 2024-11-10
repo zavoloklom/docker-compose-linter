@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
 import ServiceDependenciesAlphabeticalOrderRule from '../../src/rules/service-dependencies-alphabetical-order-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
@@ -48,12 +49,13 @@ services:
 `;
 
 // Helper function to normalize YAML
-const normalizeYAML = (yaml: string) => yaml.replace(/\s+/g, ' ').trim();
+const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
 const filePath = '/docker-compose.yml';
 
 // Short syntax tests
-test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when short syntax services are not in alphabetical order', (t) => {
+// @ts-ignore TS2349
+test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when short syntax services are not in alphabetical order', (t: ExecutionContext) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const context: LintContext = {
     path: filePath,
@@ -66,7 +68,8 @@ test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when sho
   t.true(errors[0].message.includes(`Services in "depends_on" for service "web" should be in alphabetical order.`));
 });
 
-test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when short syntax services are in alphabetical order', (t) => {
+// @ts-ignore TS2349
+test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when short syntax services are in alphabetical order', (t: ExecutionContext) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const context: LintContext = {
     path: filePath,
@@ -78,7 +81,8 @@ test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when 
   t.is(errors.length, 0, 'There should be no warnings when short syntax services are in alphabetical order.');
 });
 
-test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of short syntax services', (t) => {
+// @ts-ignore TS2349
+test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of short syntax services', (t: ExecutionContext) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectShortSyntax);
 
@@ -90,7 +94,8 @@ test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of short sy
 });
 
 // Long syntax tests
-test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when long syntax services are not in alphabetical order', (t) => {
+// @ts-ignore TS2349
+test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when long syntax services are not in alphabetical order', (t: ExecutionContext) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const context: LintContext = {
     path: filePath,
@@ -103,7 +108,8 @@ test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when lon
   t.true(errors[0].message.includes(`Services in "depends_on" for service "web" should be in alphabetical order.`));
 });
 
-test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when long syntax services are in alphabetical order', (t) => {
+// @ts-ignore TS2349
+test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when long syntax services are in alphabetical order', (t: ExecutionContext) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const context: LintContext = {
     path: filePath,
@@ -115,7 +121,8 @@ test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when 
   t.is(errors.length, 0, 'There should be no warnings when long syntax services are in alphabetical order.');
 });
 
-test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of long syntax services', (t) => {
+// @ts-ignore TS2349
+test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of long syntax services', (t: ExecutionContext) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectLongSyntax);
 

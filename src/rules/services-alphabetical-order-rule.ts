@@ -50,8 +50,8 @@ export default class ServicesAlphabeticalOrderRule implements LintRule {
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const doc = parseDocument(context.sourceCode);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(context.sourceCode);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
 
@@ -64,7 +64,7 @@ export default class ServicesAlphabeticalOrderRule implements LintRule {
       const misplacedBefore = ServicesAlphabeticalOrderRule.findMisplacedService(processedServices, serviceName);
 
       if (misplacedBefore) {
-        const line = findLineNumberForService(doc, context.sourceCode, serviceName);
+        const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName);
 
         errors.push({
           rule: this.name,
@@ -87,8 +87,8 @@ export default class ServicesAlphabeticalOrderRule implements LintRule {
 
   // eslint-disable-next-line class-methods-use-this
   public fix(content: string): string {
-    const doc = parseDocument(content);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(content);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return content;
 
@@ -104,8 +104,8 @@ export default class ServicesAlphabeticalOrderRule implements LintRule {
       sortedServices.add(item);
     });
 
-    doc.set('services', sortedServices);
+    parsedDocument.set('services', sortedServices);
 
-    return doc.toString();
+    return parsedDocument.toString();
   }
 }

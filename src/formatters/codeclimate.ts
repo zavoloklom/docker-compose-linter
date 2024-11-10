@@ -5,9 +5,12 @@ const generateFingerprint = (data: (string | null)[], hashes: Set<string>): stri
   const hash = createHash('md5');
 
   // Filter out null values and update the hash
-  data.filter(Boolean).forEach((part) => {
-    hash.update(part!.toString()); // Using non-null assertion since filter removed null values
-  });
+  for (const part of data.filter(Boolean)) {
+    hash.update(part!.toString());
+  }
+  // data.filter(Boolean).forEach((part) => {
+  //   hash.update(part!.toString()); // Using non-null assertion since filter removed null values
+  // });
 
   // Hash collisions should not happen, but if they do, a random hash will be generated.
   const hashCopy = hash.copy();

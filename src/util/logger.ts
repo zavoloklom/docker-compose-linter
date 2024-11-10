@@ -55,29 +55,29 @@ class Logger {
     }
   }
 
-  public debug(source: LogSource, ...args: unknown[]): void {
+  public debug(source: LogSource, ...options: unknown[]): void {
     if (this.debugMode) {
       const message = Logger.formatMessage('DEBUG', source);
-      console.debug(message, ...args);
+      console.debug(message, ...options);
     }
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public info(...args: unknown[]): void {
+  public info(...options: unknown[]): void {
     const message = Logger.formatMessage('INFO');
-    console.info(message, ...args);
+    console.info(message, ...options);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public warn(...args: unknown[]): void {
+  public warn(...options: unknown[]): void {
     const message = Logger.formatMessage('WARN');
-    console.warn(message, ...args);
+    console.warn(message, ...options);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public error(...args: unknown[]): void {
+  public error(...options: unknown[]): void {
     const message = Logger.formatMessage('ERROR');
-    console.error(message, ...args);
+    console.error(message, ...options);
   }
 }
 

@@ -34,8 +34,8 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];
-    const doc = parseDocument(context.sourceCode);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(context.sourceCode);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
 
@@ -54,7 +54,7 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
       const sortedPorts = [...extractedPorts].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
       if (JSON.stringify(extractedPorts) !== JSON.stringify(sortedPorts)) {
-        const line = findLineNumberForService(doc, context.sourceCode, serviceName, 'ports');
+        const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, 'ports');
         errors.push({
           rule: this.name,
           type: this.type,
@@ -74,8 +74,8 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
 
   // eslint-disable-next-line class-methods-use-this
   public fix(content: string): string {
-    const doc = parseDocument(content);
-    const services = doc.get('services');
+    const parsedDocument = parseDocument(content);
+    const services = parsedDocument.get('services');
 
     if (!isMap(services)) return content;
 
@@ -95,6 +95,6 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
       });
     });
 
-    return doc.toString();
+    return parsedDocument.toString();
   }
 }

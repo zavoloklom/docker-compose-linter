@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ExecutionContext } from 'ava';
 import NoQuotesInVolumesRule from '../../src/rules/no-quotes-in-volumes-rule.js';
 import type { LintContext } from '../../src/linter/linter.types.js';
 
@@ -17,7 +18,8 @@ services:
       - "data"
 `;
 
-test('NoQuotesInVolumesRule: should not return errors for YAML without quotes in volumes', (t) => {
+// @ts-ignore TS2349
+test('NoQuotesInVolumesRule: should not return errors for YAML without quotes in volumes', (t: ExecutionContext) => {
   const rule = new NoQuotesInVolumesRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -26,10 +28,11 @@ test('NoQuotesInVolumesRule: should not return errors for YAML without quotes in
   };
 
   const errors = rule.check(context);
-  t.deepEqual(errors.length, 0, 'There should be no errors for correct YAML.');
+  t.is(errors.length, 0, 'There should be no errors for correct YAML.');
 });
 
-test('NoQuotesInVolumesRule: should return errors for YAML with quotes in volumes', (t) => {
+// @ts-ignore TS2349
+test('NoQuotesInVolumesRule: should return errors for YAML with quotes in volumes', (t: ExecutionContext) => {
   const rule = new NoQuotesInVolumesRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -44,7 +47,8 @@ test('NoQuotesInVolumesRule: should return errors for YAML with quotes in volume
   t.is(errors[0].severity, 'info');
 });
 
-test('NoQuotesInVolumesRule: should fix YAML with quotes in volumes', (t) => {
+// @ts-ignore TS2349
+test('NoQuotesInVolumesRule: should fix YAML with quotes in volumes', (t: ExecutionContext) => {
   const rule = new NoQuotesInVolumesRule();
   const fixedYAML = rule.fix(incorrectYAML);
 
@@ -52,7 +56,8 @@ test('NoQuotesInVolumesRule: should fix YAML with quotes in volumes', (t) => {
   t.false(fixedYAML.includes('"data"'), 'The volume name should no longer have quotes.');
 });
 
-test('NoQuotesInVolumesRule: should not modify YAML without quotes in volumes', (t) => {
+// @ts-ignore TS2349
+test('NoQuotesInVolumesRule: should not modify YAML without quotes in volumes', (t: ExecutionContext) => {
   const rule = new NoQuotesInVolumesRule();
   const fixedYAML = rule.fix(correctYAML);
 
