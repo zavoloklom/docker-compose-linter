@@ -6,7 +6,7 @@ function extractPublishedPortValue(yamlNode: unknown): string {
     const value = String(yamlNode.value);
 
     // Check for host before ports
-    const parts = value.split(/:(?![^[]*\])/);
+    const parts = value.split(/:(?![^[]*])/);
 
     if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
       parts[0] = parts[0].slice(1, -1);
@@ -20,18 +20,18 @@ function extractPublishedPortValue(yamlNode: unknown): string {
   }
 
   if (isMap(yamlNode)) {
-    return String(yamlNode.get('published')) || '';
+    return yamlNode.get('published')?.toString() || '';
   }
 
   return '';
 }
 
-function extractPublishedPortInferfaceValue(yamlNode: unknown): string {
+function extractPublishedPortInterfaceValue(yamlNode: unknown): string {
   if (isScalar(yamlNode)) {
     const value = String(yamlNode.value);
 
     // Split on single colon
-    const parts = value.split(/:(?![^[]*\])/);
+    const parts = value.split(/:(?![^[]*])/);
 
     if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
       parts[0] = parts[0].slice(1, -1);
@@ -45,7 +45,7 @@ function extractPublishedPortInferfaceValue(yamlNode: unknown): string {
   }
 
   if (isMap(yamlNode)) {
-    return String(yamlNode.get('host_ip')) || '';
+    return yamlNode.get('host_ip')?.toString() || '';
   }
 
   return '';
@@ -75,4 +75,4 @@ function parsePortsRange(port: string): string[] {
   return ports;
 }
 
-export { extractPublishedPortValue, extractPublishedPortInferfaceValue, parsePortsRange };
+export { extractPublishedPortValue, extractPublishedPortInterfaceValue, parsePortsRange };
