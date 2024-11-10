@@ -35,7 +35,7 @@ services:
     command: sh -c "tail -f /dev/null"
     ports:
       - "11150:3000"
-      - "11032:3000"
+      - "127.0.0.1:11032:3000"
   b-service:
     build:
       context: ../../app/b-service
