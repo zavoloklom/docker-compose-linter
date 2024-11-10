@@ -3,7 +3,7 @@ import type { ExecutionContext } from 'ava';
 import { Scalar, YAMLMap } from 'yaml';
 import {
   extractPublishedPortValue,
-  extractPublishedPortInferfaceValue,
+  extractPublishedPortInterfaceValue,
   parsePortsRange,
 } from '../../src/util/service-ports-parser.js';
 
@@ -49,45 +49,67 @@ test('parsePortsRange should return array of ports for a range', (t: ExecutionCo
 });
 
 // @ts-ignore TS2349
-test('extractPublishedPortInferfaceValue should return listen ip string for scalar without IP', (t: ExecutionContext) => {
+test('parsePortsRange should return empty string from map node', (t: ExecutionContext) => {
+  const mapNode = new YAMLMap();
+  const result = extractPublishedPortValue(mapNode);
+  t.is(result, '');
+});
+
+// @ts-ignore TS2349
+test('extractPublishedPortInterfaceValue should return listen ip string for scalar without IP', (t: ExecutionContext) => {
   const scalarNode = new Scalar('8080:8080');
-  const result = extractPublishedPortInferfaceValue(scalarNode);
+  const result = extractPublishedPortInterfaceValue(scalarNode);
   t.is(result, '');
 });
 
 // @ts-ignore TS2349
-test('extractPublishedPortInferfaceValue should return listen ip string for scalar without IP and automapped port', (t: ExecutionContext) => {
+test('extractPublishedPortInterfaceValue should return listen ip string for scalar without IP and automapped port', (t: ExecutionContext) => {
   const scalarNode = new Scalar('8080');
-  const result = extractPublishedPortInferfaceValue(scalarNode);
+  const result = extractPublishedPortInterfaceValue(scalarNode);
   t.is(result, '');
 });
 
 // @ts-ignore TS2349
-test('extractPublishedPortInferfaceValue should return listen ip string for scalar on 127.0.0.1 with automapped port', (t: ExecutionContext) => {
+test('extractPublishedPortInterfaceValue should return listen ip string for scalar on 127.0.0.1 with automapped port', (t: ExecutionContext) => {
   const scalarNode = new Scalar('127.0.0.1:8080');
-  const result = extractPublishedPortInferfaceValue(scalarNode);
+  const result = extractPublishedPortInterfaceValue(scalarNode);
   t.is(result, '127.0.0.1');
 });
 
 // @ts-ignore TS2349
-test('extractPublishedPortInferfaceValue should return listen ip string for scalar on 0.0.0.0 with automapped port', (t: ExecutionContext) => {
+test('extractPublishedPortInterfaceValue should return listen ip string for scalar on 0.0.0.0 with automapped port', (t: ExecutionContext) => {
   const scalarNode = new Scalar('0.0.0.0:8080');
-  const result = extractPublishedPortInferfaceValue(scalarNode);
+  const result = extractPublishedPortInterfaceValue(scalarNode);
   t.is(result, '0.0.0.0');
 });
 
 // @ts-ignore TS2349
-test('extractPublishedPortInferfaceValue should return listen ip string for scalar on ::1 with automapped port', (t: ExecutionContext) => {
+test('extractPublishedPortInterfaceValue should return listen ip string for scalar on ::1 with automapped port', (t: ExecutionContext) => {
   const scalarNode = new Scalar('[::1]:8080');
-  const result = extractPublishedPortInferfaceValue(scalarNode);
+  const result = extractPublishedPortInterfaceValue(scalarNode);
   t.is(result, '::1');
 });
 
 // @ts-ignore TS2349
-test('extractPublishedPortInferfaceValue should return listen ip string for scalar on ::1 without automated port', (t: ExecutionContext) => {
+test('extractPublishedPortInterfaceValue should return listen ip string for scalar on ::1 without automated port', (t: ExecutionContext) => {
   const scalarNode = new Scalar('[::1]:8080:8080');
-  const result = extractPublishedPortInferfaceValue(scalarNode);
+  const result = extractPublishedPortInterfaceValue(scalarNode);
   t.is(result, '::1');
+});
+
+// @ts-ignore TS2349
+test('extractPublishedPortValue should return host_ip from map node', (t: ExecutionContext) => {
+  const mapNode = new YAMLMap();
+  mapNode.set('host_ip', '0.0.0.0');
+  const result = extractPublishedPortInterfaceValue(mapNode);
+  t.is(result, '0.0.0.0');
+});
+
+// @ts-ignore TS2349
+test('extractPublishedPortValue should return empty string from map node', (t: ExecutionContext) => {
+  const mapNode = new YAMLMap();
+  const result = extractPublishedPortInterfaceValue(mapNode);
+  t.is(result, '');
 });
 
 // @ts-ignore TS2349
