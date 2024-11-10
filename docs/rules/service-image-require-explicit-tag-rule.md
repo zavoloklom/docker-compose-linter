@@ -60,8 +60,8 @@ customize which image tags should be flagged as problematic. If not provided, th
 
 ### Example Usage with Custom prohibitedTags
 
-You can specify custom tags that should be prohibited **instead** of the default ones by passing them into
-the rule constructor as follows:
+You can specify custom tags that should be prohibited **instead** of the default ones by passing them into the rule
+constructor as follows:
 
 ```json
 {

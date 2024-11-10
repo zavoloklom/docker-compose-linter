@@ -29,9 +29,9 @@ services:
 
 ## Rule Details and Rationale
 
-This rule ensures that container names in Docker Compose follow the required format defined by the regular
-expression `[a-zA-Z0-9][a-zA-Z0-9_.-]+`. If a container name contains invalid characters, it can lead to errors when
-Docker tries to run the services. This rule identifies invalid names and prevents configuration errors.
+This rule ensures that container names in Docker Compose follow the required format defined by the regular expression
+`[a-zA-Z0-9][a-zA-Z0-9_.-]+`. If a container name contains invalid characters, it can lead to errors when Docker tries
+to run the services. This rule identifies invalid names and prevents configuration errors.
 
 Container names should only consist of letters, numbers, underscores (`_`), hyphens (`-`), and periods (`.`). Any other
 characters, such as `@`, make the configuration invalid. This rule prevents such issues by ensuring that all container

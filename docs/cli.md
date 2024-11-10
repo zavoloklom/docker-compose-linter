@@ -68,8 +68,8 @@ Below is a detailed explanation of each CLI option available in DCLint.
 - **Type**: `string`
 - **Default**: `"stylish"`
 - **Use Case**: Choose a different formatter for the output, such as `json`, to make the results easier to parse by
-  other tools or to fit specific formatting needs. For more information about available formatters please
-  read [Formatters Reference](./formatters.md).
+  other tools or to fit specific formatting needs. For more information about available formatters please read
+  [Formatters Reference](./formatters.md).
 
 ### `-c, --config`
 

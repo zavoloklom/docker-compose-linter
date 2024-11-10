@@ -72,8 +72,8 @@ top-level properties:
 The `customOrder` option allows you to define a custom sequence for the top-level properties. If this option is not
 provided, the default order is used.
 
-If you need to change the order, you can customize it using the `customOrder` option. For example, if you
-want `services` to come first and `networks` to come after `version`, you can define a custom order like this:
+If you need to change the order, you can customize it using the `customOrder` option. For example, if you want
+`services` to come first and `networks` to come after `version`, you can define a custom order like this:
 
 ```json
 {
@@ -102,9 +102,9 @@ the file.
 
 ## Known Limitations
 
-Regardless of the `customOrder`, all properties that start with `x-` will always be sorted alphabetically.
-If `x-properties` are not explicitly mentioned in the `customOrder`, they will still follow the
-default behavior of being grouped together and sorted alphabetically.
+Regardless of the `customOrder`, all properties that start with `x-` will always be sorted alphabetically. If
+`x-properties` are not explicitly mentioned in the `customOrder`, they will still follow the default behavior of being
+grouped together and sorted alphabetically.
 
 ## Version
 

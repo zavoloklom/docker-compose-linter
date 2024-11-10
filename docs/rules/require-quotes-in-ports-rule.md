@@ -1,7 +1,7 @@
 # Require Quotes in Ports Rule
 
-Ensures that the port values in the `ports` section of services in the Docker Compose file are enclosed in quotes.
-Using quotes around port numbers can prevent YAML parsing issues and ensure that the ports are interpreted correctly.
+Ensures that the port values in the `ports` section of services in the Docker Compose file are enclosed in quotes. Using
+quotes around port numbers can prevent YAML parsing issues and ensure that the ports are interpreted correctly.
 
 This rule is fixable. The linter can automatically add the required quotes around port numbers without altering the
 ports themselves. The type of quotes (single or double) can be configured via the `quoteType` option.
@@ -48,8 +48,8 @@ services:
 ## Rule Details and Rationale
 
 This rule ensures that the port numbers specified in the `ports` section of services are enclosed in quotes. Quoting
-ports helps avoid potential issues with YAML parsing, where unquoted numbers might be misinterpreted or cause
-unexpected behavior. By enforcing this rule, we ensure that the configuration is more robust and consistent.
+ports helps avoid potential issues with YAML parsing, where unquoted numbers might be misinterpreted or cause unexpected
+behavior. By enforcing this rule, we ensure that the configuration is more robust and consistent.
 
 When mapping ports in the `HOST:CONTAINER` format, you may experience erroneous results when using a container port
 lower than 60, because YAML parses numbers in the format `xx:yy` as a base-60 value. For this reason, we recommend

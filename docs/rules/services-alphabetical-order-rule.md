@@ -42,8 +42,8 @@ services:
 
 ## Rule Details and Rationale
 
-This rule ensures that services in the Docker Compose file are listed in alphabetical order. Consistent ordering
-of services improves readability and maintainability, especially in larger projects. It allows team members to quickly
+This rule ensures that services in the Docker Compose file are listed in alphabetical order. Consistent ordering of
+services improves readability and maintainability, especially in larger projects. It allows team members to quickly
 locate and manage services within the configuration file.
 
 ## Version

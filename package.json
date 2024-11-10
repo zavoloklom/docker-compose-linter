@@ -38,12 +38,13 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "debug": "tsc && node --import=tsimp/import --no-warnings --inspect ./src/cli/cli.ts ./tests/mocks/docker-compose.yml -c ./tests/mocks/.dclintrc",
-    "lint": "npm run eslint && npm run markdownlint",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
+    "lint": "npm run eslint && npm run markdownlint",
     "markdownlint": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" \"#**/node_modules\" \"#CHANGELOG.md\"",
     "markdownlint:fix": "markdownlint-cli2 --fix \"**/*.md\" \"#node_modules\" \"#**/node_modules\"",
-    "markdownlint:fix-changelog": "markdownlint-cli2 --fix \"CHANGELOG.md\"",
+    "markdownlint:fix-changelog": "markdownlint-cli2 --fix \"CHANGELOG.md\" && prettier --write \"CHANGELOG.md\"",
+    "prettier": "prettier --write \"**/*.md\"",
     "test": "ava --verbose",
     "test:coverage": "rimraf coverage && mkdir -p coverage && c8 ava --tap | tap-xunit --package='dclint' > ./coverage/junit.xml",
     "update-compose-schema": "node ./scripts/download-compose-schema.cjs"
@@ -52,7 +53,7 @@
     "ajv": "^8.17.1",
     "chalk": "^5.3.0",
     "cosmiconfig": "^9.0.0",
-    "yaml": "^2.5.1",
+    "yaml": "^2.6.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

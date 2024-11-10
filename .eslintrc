@@ -53,8 +53,8 @@
             }
         ],
         "prettier/prettier": 2,
-        "@stylistic/indent": ["error", 4],
-        "@stylistic/indent-binary-ops": ["error", 4],
+        "@stylistic/indent": ["error", 2],
+        "@stylistic/indent-binary-ops": ["error", 2],
         "arrow-body-style": 0,
         "prefer-arrow-callback": 0,
         "prefer-rest-params": 0,

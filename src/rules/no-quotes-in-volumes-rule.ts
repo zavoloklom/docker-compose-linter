@@ -1,92 +1,92 @@
 import { parseDocument, isMap, isSeq, isScalar, Scalar, ParsedNode } from 'yaml';
 import type {
-    LintContext,
-    LintMessage,
-    LintMessageType,
-    LintRule,
-    LintRuleCategory,
-    LintRuleSeverity,
-    RuleMeta,
+  LintContext,
+  LintMessage,
+  LintMessageType,
+  LintRule,
+  LintRuleCategory,
+  LintRuleSeverity,
+  RuleMeta,
 } from '../linter/linter.types.js';
 import { findLineNumberByValue } from '../util/line-finder.js';
 
 export default class NoQuotesInVolumesRule implements LintRule {
-    public name = 'no-quotes-in-volumes';
+  public name = 'no-quotes-in-volumes';
 
-    public type: LintMessageType = 'warning';
+  public type: LintMessageType = 'warning';
 
-    public category: LintRuleCategory = 'style';
+  public category: LintRuleCategory = 'style';
 
-    public severity: LintRuleSeverity = 'info';
+  public severity: LintRuleSeverity = 'info';
 
-    public meta: RuleMeta = {
-        description: 'Ensure that quotes are not used in volume names in Docker Compose files.',
-        url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-quotes-in-volumes-rule.md',
-    };
+  public meta: RuleMeta = {
+    description: 'Ensure that quotes are not used in volume names in Docker Compose files.',
+    url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-quotes-in-volumes-rule.md',
+  };
 
-    public fixable: boolean = true;
+  public fixable: boolean = true;
 
-    // eslint-disable-next-line class-methods-use-this
-    public getMessage(): string {
-        return 'Quotes should not be used in volume names.';
-    }
+  // eslint-disable-next-line class-methods-use-this
+  public getMessage(): string {
+    return 'Quotes should not be used in volume names.';
+  }
 
-    private static extractVolumes(doc: ParsedNode | null, callback: (volume: Scalar) => void) {
-        if (!doc || !isMap(doc)) return;
+  private static extractVolumes(doc: ParsedNode | null, callback: (volume: Scalar) => void) {
+    if (!doc || !isMap(doc)) return;
 
-        doc.items.forEach((item) => {
-            if (!isMap(item.value)) return;
+    doc.items.forEach((item) => {
+      if (!isMap(item.value)) return;
 
-            const serviceMap = item.value;
-            serviceMap.items.forEach((service) => {
-                if (!isMap(service.value)) return;
+      const serviceMap = item.value;
+      serviceMap.items.forEach((service) => {
+        if (!isMap(service.value)) return;
 
-                const volumes = service.value.items.find((i) => isScalar(i.key) && i.key.value === 'volumes');
-                if (!volumes || !isSeq(volumes.value)) return;
+        const volumes = service.value.items.find((i) => isScalar(i.key) && i.key.value === 'volumes');
+        if (!volumes || !isSeq(volumes.value)) return;
 
-                volumes.value.items.forEach((volume) => {
-                    if (isScalar(volume)) {
-                        callback(volume);
-                    }
-                });
-            });
+        volumes.value.items.forEach((volume) => {
+          if (isScalar(volume)) {
+            callback(volume);
+          }
         });
-    }
+      });
+    });
+  }
 
-    public check(context: LintContext): LintMessage[] {
-        const errors: LintMessage[] = [];
-        const doc = parseDocument(context.sourceCode);
+  public check(context: LintContext): LintMessage[] {
+    const errors: LintMessage[] = [];
+    const doc = parseDocument(context.sourceCode);
 
-        NoQuotesInVolumesRule.extractVolumes(doc.contents, (volume) => {
-            if (volume.type !== 'PLAIN') {
-                errors.push({
-                    rule: this.name,
-                    type: this.type,
-                    category: this.category,
-                    severity: this.severity,
-                    message: this.getMessage(),
-                    line: findLineNumberByValue(context.sourceCode, String(volume.value)),
-                    column: 1,
-                    meta: this.meta,
-                    fixable: this.fixable,
-                });
-            }
+    NoQuotesInVolumesRule.extractVolumes(doc.contents, (volume) => {
+      if (volume.type !== 'PLAIN') {
+        errors.push({
+          rule: this.name,
+          type: this.type,
+          category: this.category,
+          severity: this.severity,
+          message: this.getMessage(),
+          line: findLineNumberByValue(context.sourceCode, String(volume.value)),
+          column: 1,
+          meta: this.meta,
+          fixable: this.fixable,
         });
+      }
+    });
 
-        return errors;
-    }
+    return errors;
+  }
 
-    // eslint-disable-next-line class-methods-use-this
-    public fix(content: string): string {
-        const doc = parseDocument(content);
+  // eslint-disable-next-line class-methods-use-this
+  public fix(content: string): string {
+    const doc = parseDocument(content);
 
-        NoQuotesInVolumesRule.extractVolumes(doc.contents, (volume) => {
-            if (volume.type !== 'PLAIN') {
-                // eslint-disable-next-line no-param-reassign
-                volume.type = 'PLAIN';
-            }
-        });
+    NoQuotesInVolumesRule.extractVolumes(doc.contents, (volume) => {
+      if (volume.type !== 'PLAIN') {
+        // eslint-disable-next-line no-param-reassign
+        volume.type = 'PLAIN';
+      }
+    });
 
-        return doc.toString();
-    }
+    return doc.toString();
+  }
 }
