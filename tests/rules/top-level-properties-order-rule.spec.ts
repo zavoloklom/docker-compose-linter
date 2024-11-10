@@ -44,43 +44,43 @@ const filePath = '/docker-compose.yml';
 const normalizeYAML = (yaml: string) => yaml.replace(/\s+/g, ' ').trim();
 
 test('TopLevelPropertiesOrderRule: should return a warning when top-level properties are out of order', (t) => {
-    const rule = new TopLevelPropertiesOrderRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithIncorrectOrder).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithIncorrectOrder,
-    };
+  const rule = new TopLevelPropertiesOrderRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithIncorrectOrder).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithIncorrectOrder,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 3, 'There should be 3 warnings for out-of-order properties.');
+  const errors = rule.check(context);
+  t.is(errors.length, 3, 'There should be 3 warnings for out-of-order properties.');
 
-    // Check error messages
-    t.true(errors[0].message.includes('Property "x-b" is out of order.'));
-    t.true(errors[1].message.includes('Property "x-a" is out of order.'));
-    t.true(errors[2].message.includes('Property "networks" is out of order.'));
+  // Check error messages
+  t.true(errors[0].message.includes('Property "x-b" is out of order.'));
+  t.true(errors[1].message.includes('Property "x-a" is out of order.'));
+  t.true(errors[2].message.includes('Property "networks" is out of order.'));
 });
 
 test('TopLevelPropertiesOrderRule: should not return warnings when top-level properties are in the correct order', (t) => {
-    const rule = new TopLevelPropertiesOrderRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithCorrectOrder).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithCorrectOrder,
-    };
+  const rule = new TopLevelPropertiesOrderRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithCorrectOrder).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithCorrectOrder,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 0, 'There should be no warnings when top-level properties are in the correct order.');
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no warnings when top-level properties are in the correct order.');
 });
 
 test('TopLevelPropertiesOrderRule: should fix the order of top-level properties', (t) => {
-    const rule = new TopLevelPropertiesOrderRule();
-    const fixedYAML = rule.fix(yamlWithIncorrectOrder);
+  const rule = new TopLevelPropertiesOrderRule();
+  const fixedYAML = rule.fix(yamlWithIncorrectOrder);
 
-    t.is(
-        normalizeYAML(fixedYAML),
-        normalizeYAML(yamlWithCorrectOrder),
-        'The top-level properties should be reordered correctly.',
-    );
+  t.is(
+    normalizeYAML(fixedYAML),
+    normalizeYAML(yamlWithCorrectOrder),
+    'The top-level properties should be reordered correctly.',
+  );
 });
 
 // Custom order tests
@@ -119,46 +119,46 @@ x-b:
 `;
 
 test('TopLevelPropertiesOrderRule: should return warnings based on custom order', (t) => {
-    const customOrder = [
-        TopLevelKeys.Version,
-        TopLevelKeys.Services,
-        TopLevelKeys.Volumes,
-        TopLevelKeys.Networks,
-        TopLevelKeys.XProperties,
-    ];
+  const customOrder = [
+    TopLevelKeys.Version,
+    TopLevelKeys.Services,
+    TopLevelKeys.Volumes,
+    TopLevelKeys.Networks,
+    TopLevelKeys.XProperties,
+  ];
 
-    const rule = new TopLevelPropertiesOrderRule({ customOrder });
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithCustomOrder).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithCustomOrder,
-    };
+  const rule = new TopLevelPropertiesOrderRule({ customOrder });
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithCustomOrder).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithCustomOrder,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 4, 'There should be 4 warnings for out-of-order properties based on the custom order.');
+  const errors = rule.check(context);
+  t.is(errors.length, 4, 'There should be 4 warnings for out-of-order properties based on the custom order.');
 
-    // Check error messages
-    t.true(errors[0].message.includes('Property "version" is out of order.'));
-    t.true(errors[1].message.includes('Property "volumes" is out of order.'));
-    t.true(errors[2].message.includes('Property "x-a" is out of order.'));
-    t.true(errors[3].message.includes('Property "networks" is out of order.'));
+  // Check error messages
+  t.true(errors[0].message.includes('Property "version" is out of order.'));
+  t.true(errors[1].message.includes('Property "volumes" is out of order.'));
+  t.true(errors[2].message.includes('Property "x-a" is out of order.'));
+  t.true(errors[3].message.includes('Property "networks" is out of order.'));
 });
 
 test('TopLevelPropertiesOrderRule: should fix the order of top-level properties based on custom order', (t) => {
-    const customOrder = [
-        TopLevelKeys.Version,
-        TopLevelKeys.Services,
-        TopLevelKeys.Volumes,
-        TopLevelKeys.Networks,
-        TopLevelKeys.XProperties,
-    ];
+  const customOrder = [
+    TopLevelKeys.Version,
+    TopLevelKeys.Services,
+    TopLevelKeys.Volumes,
+    TopLevelKeys.Networks,
+    TopLevelKeys.XProperties,
+  ];
 
-    const rule = new TopLevelPropertiesOrderRule({ customOrder });
-    const fixedYAML = rule.fix(yamlWithCustomOrder);
+  const rule = new TopLevelPropertiesOrderRule({ customOrder });
+  const fixedYAML = rule.fix(yamlWithCustomOrder);
 
-    t.is(
-        normalizeYAML(fixedYAML),
-        normalizeYAML(yamlWithCustomOrderCorrected),
-        'The top-level properties should be reordered correctly based on custom order.',
-    );
+  t.is(
+    normalizeYAML(fixedYAML),
+    normalizeYAML(yamlWithCustomOrderCorrected),
+    'The top-level properties should be reordered correctly based on custom order.',
+  );
 });

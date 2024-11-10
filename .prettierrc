@@ -1,12 +1,28 @@
 {
   "printWidth": 120,
-  "tabWidth": 4,
+  "tabWidth": 2,
   "useTabs": false,
   "semi": true,
   "singleQuote": true,
   "quoteProps": "as-needed",
   "trailingComma": "all",
   "bracketSpacing": true,
-  "bracketSameLine": false,
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "jsxSingleQuote": true,
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "parser": "markdown",
+        "printWidth": 120,
+        "tabWidth": 2,
+        "useTabs": false,
+        "semi": false,
+        "singleQuote": false,
+        "trailingComma": "none",
+        "proseWrap": "always",
+        "embeddedLanguageFormatting": "off"
+      }
+    }
+  ]
 }

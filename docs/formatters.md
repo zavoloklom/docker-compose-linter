@@ -30,9 +30,9 @@ export default function jsonFormatter(results: LintResult[]): string {
 }
 ```
 
-To run ESLint with this formatter, you can use the `-f` (or `--format`) command line flag.
-You must begin the path to a locally defined custom formatter with a period (`.`), such as `./my-awesome-formatter.js`
-or `../formatters/my-awesome-formatter.ts`.
+To run ESLint with this formatter, you can use the `-f` (or `--format`) command line flag. You must begin the path to a
+locally defined custom formatter with a period (`.`), such as `./my-awesome-formatter.js` or
+`../formatters/my-awesome-formatter.ts`.
 
 ```shell
 dclint -f ./my-awesome-formatter.js .
@@ -41,8 +41,8 @@ dclint -f ./my-awesome-formatter.js .
 ### Packaging a Custom Formatter
 
 Custom formatters can be distributed through npm packages. To do so, create an npm package with a name in the format
-`dclint-formatter-*`, where `*` is the name of your formatter (such as `dclint-formatter-awesome`).
-Projects should then install the package and use the custom formatter with the `-f` (or `--format`) flag like this:
+`dclint-formatter-*`, where `*` is the name of your formatter (such as `dclint-formatter-awesome`). Projects should then
+install the package and use the custom formatter with the `-f` (or `--format`) flag like this:
 
 ```shell
 dclint -f dclint-formatter-awesome .

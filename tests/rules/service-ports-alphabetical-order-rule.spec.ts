@@ -50,34 +50,34 @@ services:
 const normalizeYAML = (yaml: string) => yaml.replace(/\s+/g, ' ').trim();
 
 test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are not alphabetically ordered', (t) => {
-    const rule = new ServicePortsAlphabeticalOrderRule();
-    const context: LintContext = {
-        path: '/docker-compose.yml',
-        content: parseDocument(yamlWithIncorrectPortOrder).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithIncorrectPortOrder,
-    };
+  const rule = new ServicePortsAlphabeticalOrderRule();
+  const context: LintContext = {
+    path: '/docker-compose.yml',
+    content: parseDocument(yamlWithIncorrectPortOrder).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithIncorrectPortOrder,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 1, 'There should be one warning when ports are out of order.');
+  const errors = rule.check(context);
+  t.is(errors.length, 1, 'There should be one warning when ports are out of order.');
 
-    t.true(errors[0].message.includes(`Ports in service "web" should be in alphabetical order.`));
+  t.true(errors[0].message.includes(`Ports in service "web" should be in alphabetical order.`));
 });
 
 test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports are alphabetically ordered', (t) => {
-    const rule = new ServicePortsAlphabeticalOrderRule();
-    const context: LintContext = {
-        path: '/docker-compose.yml',
-        content: parseDocument(yamlWithCorrectPortOrder).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithCorrectPortOrder,
-    };
+  const rule = new ServicePortsAlphabeticalOrderRule();
+  const context: LintContext = {
+    path: '/docker-compose.yml',
+    content: parseDocument(yamlWithCorrectPortOrder).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithCorrectPortOrder,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 0, 'There should be no warnings when ports are in alphabetical order.');
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no warnings when ports are in alphabetical order.');
 });
 
 test('ServicePortsAlphabeticalOrderRule: should fix the order of ports', (t) => {
-    const rule = new ServicePortsAlphabeticalOrderRule();
-    const fixedYAML = rule.fix(yamlWithIncorrectPortOrder);
+  const rule = new ServicePortsAlphabeticalOrderRule();
+  const fixedYAML = rule.fix(yamlWithIncorrectPortOrder);
 
-    t.is(normalizeYAML(fixedYAML), normalizeYAML(yamlWithCorrectPortOrder), 'The ports should be reordered correctly.');
+  t.is(normalizeYAML(fixedYAML), normalizeYAML(yamlWithCorrectPortOrder), 'The ports should be reordered correctly.');
 });

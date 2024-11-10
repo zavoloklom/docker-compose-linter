@@ -94,129 +94,129 @@ services:
 const filePath = '/docker-compose.yml';
 
 test('ServiceImageRequireExplicitTagRule: should return a warning when no tag is specified', (t) => {
-    const rule = new ServiceImageRequireExplicitTagRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithoutTag).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithoutTag,
-    };
+  const rule = new ServiceImageRequireExplicitTagRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithoutTag).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithoutTag,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 4, 'There should be four warnings when no image tag is specified.');
+  const errors = rule.check(context);
+  t.is(errors.length, 4, 'There should be four warnings when no image tag is specified.');
 
-    const expectedMessages = [
-        'Service "a-service" is using the image "nginx", which does not have a concrete version tag.',
-        'Service "b-service" is using the image "library/nginx", which does not have a concrete version tag.',
-        'Service "c-service" is using the image "docker.io/library/nginx", which does not have a concrete version tag.',
-        'Service "d-service" is using the image "my_private.registry:5000/nginx", which does not have a concrete version tag.',
-    ];
+  const expectedMessages = [
+    'Service "a-service" is using the image "nginx", which does not have a concrete version tag.',
+    'Service "b-service" is using the image "library/nginx", which does not have a concrete version tag.',
+    'Service "c-service" is using the image "docker.io/library/nginx", which does not have a concrete version tag.',
+    'Service "d-service" is using the image "my_private.registry:5000/nginx", which does not have a concrete version tag.',
+  ];
 
-    errors.forEach((error, index) => {
-        t.true(error.message.includes(expectedMessages[index]));
-    });
+  errors.forEach((error, index) => {
+    t.true(error.message.includes(expectedMessages[index]));
+  });
 });
 
 test('ServiceImageRequireExplicitTagRule: should return a warning when using latest tag', (t) => {
-    const rule = new ServiceImageRequireExplicitTagRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithLatestTag).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithLatestTag,
-    };
+  const rule = new ServiceImageRequireExplicitTagRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithLatestTag).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithLatestTag,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 4, 'There should be four warnings when the latest tag is used.');
+  const errors = rule.check(context);
+  t.is(errors.length, 4, 'There should be four warnings when the latest tag is used.');
 
-    const expectedMessages = [
-        'Service "a-service" is using the image "nginx:latest", which does not have a concrete version tag.',
-        'Service "b-service" is using the image "library/nginx:latest", which does not have a concrete version tag.',
-        'Service "c-service" is using the image "docker.io/library/nginx:latest", which does not have a concrete version tag.',
-        'Service "d-service" is using the image "my_private.registry:5000/nginx:latest", which does not have a concrete version tag.',
-    ];
+  const expectedMessages = [
+    'Service "a-service" is using the image "nginx:latest", which does not have a concrete version tag.',
+    'Service "b-service" is using the image "library/nginx:latest", which does not have a concrete version tag.',
+    'Service "c-service" is using the image "docker.io/library/nginx:latest", which does not have a concrete version tag.',
+    'Service "d-service" is using the image "my_private.registry:5000/nginx:latest", which does not have a concrete version tag.',
+  ];
 
-    errors.forEach((error, index) => {
-        t.true(error.message.includes(expectedMessages[index]));
-    });
+  errors.forEach((error, index) => {
+    t.true(error.message.includes(expectedMessages[index]));
+  });
 });
 
 test('ServiceImageRequireExplicitTagRule: should return a warning when using stable tag', (t) => {
-    const rule = new ServiceImageRequireExplicitTagRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithStableTag).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithStableTag,
-    };
+  const rule = new ServiceImageRequireExplicitTagRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithStableTag).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithStableTag,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 4, 'There should be four warnings when the stable tag is used.');
+  const errors = rule.check(context);
+  t.is(errors.length, 4, 'There should be four warnings when the stable tag is used.');
 
-    const expectedMessages = [
-        'Service "a-service" is using the image "nginx:stable", which does not have a concrete version tag.',
-        'Service "b-service" is using the image "library/nginx:stable", which does not have a concrete version tag.',
-        'Service "c-service" is using the image "docker.io/library/nginx:stable", which does not have a concrete version tag.',
-        'Service "d-service" is using the image "my_private.registry:5000/nginx:stable", which does not have a concrete version tag.',
-    ];
+  const expectedMessages = [
+    'Service "a-service" is using the image "nginx:stable", which does not have a concrete version tag.',
+    'Service "b-service" is using the image "library/nginx:stable", which does not have a concrete version tag.',
+    'Service "c-service" is using the image "docker.io/library/nginx:stable", which does not have a concrete version tag.',
+    'Service "d-service" is using the image "my_private.registry:5000/nginx:stable", which does not have a concrete version tag.',
+  ];
 
-    errors.forEach((error, index) => {
-        t.true(error.message.includes(expectedMessages[index]));
-    });
+  errors.forEach((error, index) => {
+    t.true(error.message.includes(expectedMessages[index]));
+  });
 });
 
 test('ServiceImageRequireExplicitTagRule: should return a warning when using prohibited tags', (t) => {
-    const rule = new ServiceImageRequireExplicitTagRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithProhibitedTags).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithProhibitedTags,
-    };
+  const rule = new ServiceImageRequireExplicitTagRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithProhibitedTags).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithProhibitedTags,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 6, 'There should be six warnings when prohibited tags are used.');
+  const errors = rule.check(context);
+  t.is(errors.length, 6, 'There should be six warnings when prohibited tags are used.');
 
-    const expectedMessages = [
-        'Service "a-service" is using the image "nginx:edge", which does not have a concrete version tag.',
-        'Service "b-service" is using the image "library/nginx:test", which does not have a concrete version tag.',
-        'Service "c-service" is using the image "docker.io/library/nginx:nightly", which does not have a concrete version tag.',
-        'Service "d-service" is using the image "my_private.registry:5000/nginx:dev", which does not have a concrete version tag.',
-        'Service "e-service" is using the image "library/nginx:beta", which does not have a concrete version tag.',
-        'Service "f-service" is using the image "library/nginx:canary", which does not have a concrete version tag.',
-    ];
+  const expectedMessages = [
+    'Service "a-service" is using the image "nginx:edge", which does not have a concrete version tag.',
+    'Service "b-service" is using the image "library/nginx:test", which does not have a concrete version tag.',
+    'Service "c-service" is using the image "docker.io/library/nginx:nightly", which does not have a concrete version tag.',
+    'Service "d-service" is using the image "my_private.registry:5000/nginx:dev", which does not have a concrete version tag.',
+    'Service "e-service" is using the image "library/nginx:beta", which does not have a concrete version tag.',
+    'Service "f-service" is using the image "library/nginx:canary", which does not have a concrete version tag.',
+  ];
 
-    errors.forEach((error, index) => {
-        t.true(error.message.includes(expectedMessages[index]));
-    });
+  errors.forEach((error, index) => {
+    t.true(error.message.includes(expectedMessages[index]));
+  });
 });
 
 test('ServiceImageRequireExplicitTagRule: should use custom prohibitedTags when provided in the constructor', (t) => {
-    const rule = new ServiceImageRequireExplicitTagRule({ prohibitedTags: ['unstable', 'preview'] });
+  const rule = new ServiceImageRequireExplicitTagRule({ prohibitedTags: ['unstable', 'preview'] });
 
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithCustomTags).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithCustomTags,
-    };
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithCustomTags).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithCustomTags,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 2, 'There should be two warnings for custom prohibited tags "unstable" and "preview".');
+  const errors = rule.check(context);
+  t.is(errors.length, 2, 'There should be two warnings for custom prohibited tags "unstable" and "preview".');
 
-    const expectedMessages = [
-        'Service "a-service" is using the image "nginx:unstable", which does not have a concrete version tag.',
-        'Service "b-service" is using the image "library/nginx:preview", which does not have a concrete version tag.',
-    ];
+  const expectedMessages = [
+    'Service "a-service" is using the image "nginx:unstable", which does not have a concrete version tag.',
+    'Service "b-service" is using the image "library/nginx:preview", which does not have a concrete version tag.',
+  ];
 
-    errors.forEach((error, index) => {
-        t.true(error.message.includes(expectedMessages[index]));
-    });
+  errors.forEach((error, index) => {
+    t.true(error.message.includes(expectedMessages[index]));
+  });
 });
 
 test('ServiceImageRequireExplicitTagRule: should not return warnings when a specific version tag or digest is used', (t) => {
-    const rule = new ServiceImageRequireExplicitTagRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithSpecificVersion).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithSpecificVersion,
-    };
+  const rule = new ServiceImageRequireExplicitTagRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithSpecificVersion).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithSpecificVersion,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 0, 'There should be no warnings when a specific version tag or digest is used.');
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no warnings when a specific version tag or digest is used.');
 });
