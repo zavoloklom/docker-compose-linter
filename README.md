@@ -7,13 +7,13 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=whit&style=flat-square)](https://conventionalcommits.org)
 
 > **Note**: Docker Compose configurations vary greatly between different projects and setups. While DCLint is stable,
-> there may be edge cases or unique setups that cause issues. If you encounter any problems or have suggestions,
-> please feel free to [open an issue](https://github.com/zavoloklom/docker-compose-linter/issues)
-> or [submit a pull request](#contributing). Your feedback is highly appreciated!
+> there may be edge cases or unique setups that cause issues. If you encounter any problems or have suggestions, please
+> feel free to [open an issue](https://github.com/zavoloklom/docker-compose-linter/issues) or
+> [submit a pull request](#contributing). Your feedback is highly appreciated!
 
-Docker Compose Linter (**DCLint**) is a utility designed to analyze, validate and fix Docker Compose files.
-It helps identify errors, style violations, and potential issues in Docker Compose files, ensuring your configurations
-are robust, maintainable, and free from common pitfalls.
+Docker Compose Linter (**DCLint**) is a utility designed to analyze, validate and fix Docker Compose files. It helps
+identify errors, style violations, and potential issues in Docker Compose files, ensuring your configurations are
+robust, maintainable, and free from common pitfalls.
 
 ## Features
 
@@ -25,7 +25,8 @@ are robust, maintainable, and free from common pitfalls.
   issues in your files.
 - **Comments Support**: After automated sorting and fixing, comments remain in the correct place, ensuring no important
   information is lost during the formatting process.
-- **Anchor Support:** Supports YAML anchors for shared configuration sections, with [some limitations](#anchor-handling).
+- **Anchor Support:** Supports YAML anchors for shared configuration sections, with
+  [some limitations](#anchor-handling).
 
 ## Getting Started
 
@@ -53,8 +54,8 @@ This command will lint your Docker Compose files in the current directory.
 
 ### Linting Specific Files and Directories
 
-To lint a specific Docker Compose file or a directory containing such files, specify the path relative to your
-project directory:
+To lint a specific Docker Compose file or a directory containing such files, specify the path relative to your project
+directory:
 
 ```shell
 npx dclint /path/to/docker-compose.yml
@@ -66,8 +67,8 @@ To lint all Docker Compose files in a specific directory, use the path to the di
 npx dclint /path/to/directory
 ```
 
-In this case, `dclint` will search the specified directory for files matching the following
-pattern `/^(docker-)?compose.*\.ya?ml$/`.
+In this case, `dclint` will search the specified directory for files matching the following pattern
+`/^(docker-)?compose.*\.ya?ml$/`.
 
 It will handle all matching files within the directory and, if [recursive search](./docs/cli.md#-r---recursive) is
 enabled, also in any subdirectories.
@@ -82,8 +83,8 @@ To display help and see all available options:
 npx dclint -h
 ```
 
-For more details about available options and formatters, please refer to the [CLI Reference](./docs/cli.md)
-and [Formatters Reference](./docs/formatters.md).
+For more details about available options and formatters, please refer to the [CLI Reference](./docs/cli.md) and
+[Formatters Reference](./docs/formatters.md).
 
 ## Usage with Docker
 
@@ -106,8 +107,8 @@ docker run -t --rm -v ${PWD}:/app zavoloklom/dclint .
 
 ### Linting Specific Files and Directories in Docker
 
-If you want to lint a specific Docker Compose file or a directory containing such files, specify the path relative
-to your project directory:
+If you want to lint a specific Docker Compose file or a directory containing such files, specify the path relative to
+your project directory:
 
 ```shell
 docker run -t --rm -v ${PWD}:/app zavoloklom/dclint /app/path/to/docker-compose.yml
@@ -125,8 +126,8 @@ To display help and see all available options:
 docker run -t --rm -v ${PWD}:/app zavoloklom/dclint -h
 ```
 
-For more information about available options and formatters, please refer to the [CLI Reference](./docs/cli.md)
-and [Formatters Reference](./docs/formatters.md).
+For more information about available options and formatters, please refer to the [CLI Reference](./docs/cli.md) and
+[Formatters Reference](./docs/formatters.md).
 
 ## Rules and Errors
 
@@ -136,10 +137,9 @@ documentation for each rule and the errors that can be detected by the linter is
 - [Rules Documentation](./docs/rules.md)
 - [Errors Documentation](./docs/errors.md)
 
-DCLint uses the [yaml](https://github.com/eemeli/yaml) library for linting and formatting Docker Compose files.
-This ensures that any configuration files you check are compliant with YAML standards. Before any rule
-checks are applied, two important validations are performed, which cannot be
-disabled - [YAML Validity Check](./docs/errors/invalid-yaml.md)
+DCLint uses the [yaml](https://github.com/eemeli/yaml) library for linting and formatting Docker Compose files. This
+ensures that any configuration files you check are compliant with YAML standards. Before any rule checks are applied,
+two important validations are performed, which cannot be disabled - [YAML Validity Check](./docs/errors/invalid-yaml.md)
 and [Docker Compose Schema Validation](./docs/errors/invalid-schema.md).
 
 ### Anchor Handling
@@ -147,8 +147,8 @@ and [Docker Compose Schema Validation](./docs/errors/invalid-schema.md).
 Docker Compose Linter provides support for YAML anchors specifically during schema validation, which enables the reuse
 of configuration sections across different services for cleaner and more maintainable files.
 
-However, note that anchors are neither validated by individual linting rules nor automatically fixed when using
-the `--fix` flag.
+However, note that anchors are neither validated by individual linting rules nor automatically fixed when using the
+`--fix` flag.
 
 When multiple anchors are required in a Docker Compose file, use the following syntax:
 
@@ -168,22 +168,21 @@ services:
 This approach, which combines anchors in a single << line, is preferable to defining each anchor on separate lines (
 e.g., `<< : *anchor1` followed by `<< : *anchor2`).
 
-More information on YAML merge syntax is available in
-the [official YAML documentation](https://yaml.org/type/merge.html) and
-in [known issue with Docker Compose](https://github.com/docker/compose/issues/10411).
+More information on YAML merge syntax is available in the
+[official YAML documentation](https://yaml.org/type/merge.html) and in
+[known issue with Docker Compose](https://github.com/docker/compose/issues/10411).
 
 For an example of anchor usage, refer to the sample Compose file in `tests/mocks/docker-compose.anchors.yml`.
 
 ## Configuration
 
-DCLint allows you to customize the set of rules used during linting to fit your project's
-specific needs. You can configure which rules are applied, their severity levels, and additional behavior settings
-using a configuration file.
+DCLint allows you to customize the set of rules used during linting to fit your project's specific needs. You can
+configure which rules are applied, their severity levels, and additional behavior settings using a configuration file.
 
 ### Supported Configuration File Formats
 
-DCLint supports flexible configuration options through the use
-of [cosmiconfig](https://github.com/cosmiconfig/cosmiconfig). This means you can use various formats to configure the
+DCLint supports flexible configuration options through the use of
+[cosmiconfig](https://github.com/cosmiconfig/cosmiconfig). This means you can use various formats to configure the
 linter, including JSON, YAML, and JavaScript files.
 
 For example:
@@ -220,8 +219,7 @@ Here is an example of a configuration file using JSON format:
 
 In addition to enabling or disabling rules, some rules may support custom parameters to tailor them to your specific
 needs. For example, the [require-quotes-in-ports](./docs/rules/require-quotes-in-ports-rule.md) rule allows you to
-configure
-whether single or double quotes should be used around port numbers. You can configure it like this:
+configure whether single or double quotes should be used around port numbers. You can configure it like this:
 
 ```json
 {
@@ -274,9 +272,9 @@ And this tools for Docker Compose formatting and fixing:
 
 ## Contributing
 
-If you encounter any issues or have suggestions for improvements, feel free to open
-an [issue](https://github.com/zavoloklom/docker-compose-linter/issues) or submit
-a [pull request](https://github.com/zavoloklom/docker-compose-linter/pulls).
+If you encounter any issues or have suggestions for improvements, feel free to open an
+[issue](https://github.com/zavoloklom/docker-compose-linter/issues) or submit a
+[pull request](https://github.com/zavoloklom/docker-compose-linter/pulls).
 
 If you'd like to contribute to this project, please read through the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
@@ -288,9 +286,9 @@ in this project, you agree to abide by its terms.
 
 ## Changelog
 
-The changelog is automatically generated based
-on [semantic-release](https://github.com/semantic-release/semantic-release)
-and [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+The changelog is automatically generated based on
+[semantic-release](https://github.com/semantic-release/semantic-release) and
+[conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
 See the [CHANGELOG.md](./CHANGELOG.md) file for detailed lists of changes for each version.
 

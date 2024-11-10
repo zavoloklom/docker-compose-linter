@@ -47,78 +47,73 @@ services:
 The properties in the Docker Compose file are organized into logical groups. This structure enhances readability,
 maintainability, and clarity by following a logical flow from core service definitions to execution context.
 
-This order and grouping of properties in the Docker Compose file create a structured, logical flow that enhances
-the file’s readability and maintainability. By organizing properties from core definitions through to execution
-context, the structure allows for quick comprehension and efficient management, adhering to best practices and
-facilitating collaboration among developers and operations teams.
+This order and grouping of properties in the Docker Compose file create a structured, logical flow that enhances the
+file’s readability and maintainability. By organizing properties from core definitions through to execution context, the
+structure allows for quick comprehension and efficient management, adhering to best practices and facilitating
+collaboration among developers and operations teams.
 
 ### Core Definitions
 
 **Properties order:** `image`, `build`, `container_name`
 
-These properties define what the service is, where it comes from, and how it is named. Placing them at the
-top provides an immediate understanding of the service's fundamental characteristics, making it easier to identify
-and manage.
+These properties define what the service is, where it comes from, and how it is named. Placing them at the top provides
+an immediate understanding of the service's fundamental characteristics, making it easier to identify and manage.
 
 ### Service Dependencies
 
 **Properties order:** `depends_on`
 
-This property specifies the relationships between services and the order in which they should start.
-Including it early helps clarify the service dependencies and overall architecture, which is crucial for ensuring
-correct startup sequences and inter-service communication.
+This property specifies the relationships between services and the order in which they should start. Including it early
+helps clarify the service dependencies and overall architecture, which is crucial for ensuring correct startup sequences
+and inter-service communication.
 
 ### Data Management and Configuration
 
 **Properties order:** `volumes`, `volumes_from`, `configs`, `secrets`
 
-These properties handle data persistence, sharing, configuration management, and sensitive information
-like secrets. Grouping them together provides a clear overview of how the service interacts with its data and
-configuration resources, which is essential for ensuring data integrity and secure operations.
+These properties handle data persistence, sharing, configuration management, and sensitive information like secrets.
+Grouping them together provides a clear overview of how the service interacts with its data and configuration resources,
+which is essential for ensuring data integrity and secure operations.
 
 ### Environment Configuration
 
 **Properties order:** `environment`, `env_file`
 
-Environment variables and external files that define the service’s operating environment are crucial
-for
-configuring its behavior. Grouping these properties together ensures that all environment-related configurations
-are
-easily accessible, making it simpler to adjust the service’s runtime environment.
+Environment variables and external files that define the service’s operating environment are crucial for configuring its
+behavior. Grouping these properties together ensures that all environment-related configurations are easily accessible,
+making it simpler to adjust the service’s runtime environment.
 
 ### Networking
 
 **Properties order:** `ports`, `networks`, `network_mode`, `extra_hosts`
 
-These properties define how the service communicates within the Docker network and with the outside
-world.
-Grouping networking-related configurations together helps to clearly understand and manage the service’s
-connectivity, ensuring proper interaction with other services and external clients.
+These properties define how the service communicates within the Docker network and with the outside world. Grouping
+networking-related configurations together helps to clearly understand and manage the service’s connectivity, ensuring
+proper interaction with other services and external clients.
 
 ### Runtime Behavior
 
 **Properties order:** `command`, `entrypoint`, `working_dir`, `restart`, `healthcheck`
 
-These properties dictate how the service runs, including the commands it executes, the working directory,
-restart policies, and health checks. Placing these properties together creates a clear section focused on the
-service’s runtime behavior, which is vital for ensuring that the service starts, runs, and maintains its operation
-as expected.
+These properties dictate how the service runs, including the commands it executes, the working directory, restart
+policies, and health checks. Placing these properties together creates a clear section focused on the service’s runtime
+behavior, which is vital for ensuring that the service starts, runs, and maintains its operation as expected.
 
 ### Operational Metadata
 
 **Properties:** `logging`, `labels`
 
-Metadata and logging configurations are important for monitoring, categorizing, and managing the
-service, but they are secondary to its core operation. By grouping them near the end, the focus remains on the
-services functionality, while still keeping operational details easily accessible for management purposes.
+Metadata and logging configurations are important for monitoring, categorizing, and managing the service, but they are
+secondary to its core operation. By grouping them near the end, the focus remains on the services functionality, while
+still keeping operational details easily accessible for management purposes.
 
 ### Security and Execution Context
 
 **Properties:** `user`, `isolation`
 
-These properties define the security context and isolation levels under which the service runs. They
-are crucial for maintaining security and proper resource management but are more specific details that logically
-follow after the service’s general operation has been defined.
+These properties define the security context and isolation levels under which the service runs. They are crucial for
+maintaining security and proper resource management but are more specific details that logically follow after the
+service’s general operation has been defined.
 
 ## Options
 
@@ -126,11 +121,9 @@ The service-keys-order rule allows customization of how the keys within each ser
 key options to control the order of groups and the keys within those groups:
 
 - `groupOrder` (optional): Specifies the order of the logical groups within each service. If not provided, the default
-  group
-  order is used.
+  group order is used.
 - `groups` (optional): Allows specifying custom key sets for each group. If not provided, the default key sets are used
-  for
-  each group.
+  for each group.
 
 These options allow users to control both the order of the groups (e.g., ensuring networking configurations appear
 before environment variables) and the specific keys within those groups.

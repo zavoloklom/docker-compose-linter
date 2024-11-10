@@ -44,10 +44,9 @@ services:
 ## Rule Details and Rationale
 
 The `ports` directive in Docker Compose defines which ports on the host machine are exposed and mapped to the
-container's
-internal ports. If two services attempt to export the same host port, Docker Compose will fail to start, as it cannot
-bind multiple services to the same port on the host. This makes the configuration invalid, and the issue must be
-resolved manually before containers can be started.
+container's internal ports. If two services attempt to export the same host port, Docker Compose will fail to start, as
+it cannot bind multiple services to the same port on the host. This makes the configuration invalid, and the issue must
+be resolved manually before containers can be started.
 
 Duplicate `ports` can often be the result of simple typographical errors. By catching these issues early during linting,
 developers can avoid debugging complex port conflicts and ensure their Compose configurations are valid before

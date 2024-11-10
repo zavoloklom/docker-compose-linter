@@ -8,15 +8,15 @@ import { isMap, isSeq, Node, isScalar } from 'yaml';
  * @returns number The line number where the key is found, or 1 if not found.
  */
 function findLineNumberByKey(content: string, key: string): number {
-    const lines = content.split('\n');
-    const regex = new RegExp(`^\\s*${key}:`, 'i');
+  const lines = content.split('\n');
+  const regex = new RegExp(`^\\s*${key}:`, 'i');
 
-    for (let i = 0; i < lines.length; i += 1) {
-        if (regex.test(lines[i])) {
-            return i + 1; // Lines start from 1, not 0
-        }
+  for (let i = 0; i < lines.length; i += 1) {
+    if (regex.test(lines[i])) {
+      return i + 1; // Lines start from 1, not 0
     }
-    return 1; // Default to 1 if the key is not found
+  }
+  return 1; // Default to 1 if the key is not found
 }
 
 /**
@@ -26,8 +26,8 @@ function findLineNumberByKey(content: string, key: string): number {
  * @returns number The line number where the key is found, or 1 if not found.
  */
 function findLineNumberByValue(content: string, value: string): number {
-    const lineIndex = content.split('\n').findIndex((line) => line.includes(value));
-    return lineIndex === -1 ? 1 : lineIndex + 1;
+  const lineIndex = content.split('\n').findIndex((line) => line.includes(value));
+  return lineIndex === -1 ? 1 : lineIndex + 1;
 }
 
 /**
@@ -41,52 +41,52 @@ function findLineNumberByValue(content: string, value: string): number {
  * @returns number The line number where the key is found, or -1 if not found.
  */
 function findLineNumberByKeyForService(doc: Document, content: string, serviceName: string, key: string): number {
-    const services = doc.get('services') as Node;
+  const services = doc.get('services') as Node;
 
-    if (!isMap(services)) {
-        return 1;
+  if (!isMap(services)) {
+    return 1;
+  }
+
+  const service = services.get(serviceName) as Node;
+
+  if (!isMap(service)) {
+    return 1;
+  }
+
+  let lineNumber = 1;
+  service.items.forEach((item) => {
+    const keyNode = item.key;
+
+    if (isScalar(keyNode) && keyNode.value === key && keyNode.range) {
+      const [start] = keyNode.range;
+      lineNumber = content.slice(0, start).split('\n').length;
     }
+  });
 
-    const service = services.get(serviceName) as Node;
-
-    if (!isMap(service)) {
-        return 1;
-    }
-
-    let lineNumber = 1;
-    service.items.forEach((item) => {
-        const keyNode = item.key;
-
-        if (isScalar(keyNode) && keyNode.value === key && keyNode.range) {
-            const [start] = keyNode.range;
-            lineNumber = content.slice(0, start).split('\n').length;
-        }
-    });
-
-    return lineNumber;
+  return lineNumber;
 }
 
 /**
  * Refactored helper to get service block line number
  */
 function getServiceStartLine(service: Node, content: string): number {
-    if (service.range) {
-        const [start] = service.range;
-        return content.slice(0, start).split('\n').length - 1;
-    }
-    return 1;
+  if (service.range) {
+    const [start] = service.range;
+    return content.slice(0, start).split('\n').length - 1;
+  }
+  return 1;
 }
 
 /**
  * Refactored helper to get key line number
  */
 function getKeyLine(keyNode: Node, content: string): number {
-    if (keyNode.range) {
-        const [start] = keyNode.range;
-        const line = content.slice(0, start).split('\n').length;
-        return isScalar(keyNode) ? line : line - 1;
-    }
-    return 1;
+  if (keyNode.range) {
+    const [start] = keyNode.range;
+    const line = content.slice(0, start).split('\n').length;
+    return isScalar(keyNode) ? line : line - 1;
+  }
+  return 1;
 }
 
 /**
@@ -103,65 +103,65 @@ function getKeyLine(keyNode: Node, content: string): number {
  * @returns number The line number where the service, key, or value is found, or 1 if not found.
  */
 function findLineNumberForService(
-    doc: Document,
-    content: string,
-    serviceName: string,
-    key?: string,
-    value?: string,
+  doc: Document,
+  content: string,
+  serviceName: string,
+  key?: string,
+  value?: string,
 ): number {
-    const services = doc.get('services') as Node;
-    if (!isMap(services)) {
-        return 1;
-    }
+  const services = doc.get('services') as Node;
+  if (!isMap(services)) {
+    return 1;
+  }
 
-    // Locate Service
-    const service = services.get(serviceName) as Node;
-    if (!isMap(service)) {
-        return 1;
-    }
+  // Locate Service
+  const service = services.get(serviceName) as Node;
+  if (!isMap(service)) {
+    return 1;
+  }
 
-    // If the key is not provided, it returns the line number for the service block
-    if (!key) {
-        return getServiceStartLine(service, content);
-    }
+  // If the key is not provided, it returns the line number for the service block
+  if (!key) {
+    return getServiceStartLine(service, content);
+  }
 
-    // Locate Key in Service
-    const keyNode = service.get(key, true) as Node;
-    if (!keyNode) {
-        return 1;
-    }
+  // Locate Key in Service
+  const keyNode = service.get(key, true) as Node;
+  if (!keyNode) {
+    return 1;
+  }
 
-    // If value is not provided, return the line number of the key
-    if (!value) {
-        return getKeyLine(keyNode, content);
-    }
+  // If value is not provided, return the line number of the key
+  if (!value) {
+    return getKeyLine(keyNode, content);
+  }
 
-    if (isSeq(keyNode)) {
-        keyNode.items.forEach((item) => {
-            if (isScalar(item) && item.value === value && item.range) {
-                const [start] = item.range;
-                return content.slice(0, start).split('\n').length;
-            }
+  if (isSeq(keyNode)) {
+    keyNode.items.forEach((item) => {
+      if (isScalar(item) && item.value === value && item.range) {
+        const [start] = item.range;
+        return content.slice(0, start).split('\n').length;
+      }
 
-            return 1;
-        });
-    }
+      return 1;
+    });
+  }
 
-    if (isMap(keyNode)) {
-        keyNode.items.forEach((item) => {
-            const keyItem = item.key;
-            const valueItem = item.value;
+  if (isMap(keyNode)) {
+    keyNode.items.forEach((item) => {
+      const keyItem = item.key;
+      const valueItem = item.value;
 
-            if (isScalar(keyItem) && isScalar(valueItem) && valueItem.value === value && valueItem.range) {
-                const [start] = valueItem.range;
-                return content.slice(0, start).split('\n').length;
-            }
+      if (isScalar(keyItem) && isScalar(valueItem) && valueItem.value === value && valueItem.range) {
+        const [start] = valueItem.range;
+        return content.slice(0, start).split('\n').length;
+      }
 
-            return 1;
-        });
-    }
+      return 1;
+    });
+  }
 
-    return 1; // Default to 1 if the key or value is not found
+  return 1; // Default to 1 if the key or value is not found
 }
 
 export { findLineNumberByKey, findLineNumberByValue, findLineNumberByKeyForService, findLineNumberForService };

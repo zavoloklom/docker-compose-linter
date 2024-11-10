@@ -54,74 +54,74 @@ const filePath = '/docker-compose.yml';
 
 // Short syntax tests
 test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when short syntax services are not in alphabetical order', (t) => {
-    const rule = new ServiceDependenciesAlphabeticalOrderRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithIncorrectShortSyntax).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithIncorrectShortSyntax,
-    };
+  const rule = new ServiceDependenciesAlphabeticalOrderRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithIncorrectShortSyntax).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithIncorrectShortSyntax,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 1, 'There should be one warning when short syntax services are out of order.');
-    t.true(errors[0].message.includes(`Services in "depends_on" for service "web" should be in alphabetical order.`));
+  const errors = rule.check(context);
+  t.is(errors.length, 1, 'There should be one warning when short syntax services are out of order.');
+  t.true(errors[0].message.includes(`Services in "depends_on" for service "web" should be in alphabetical order.`));
 });
 
 test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when short syntax services are in alphabetical order', (t) => {
-    const rule = new ServiceDependenciesAlphabeticalOrderRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithCorrectShortSyntax).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithCorrectShortSyntax,
-    };
+  const rule = new ServiceDependenciesAlphabeticalOrderRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithCorrectShortSyntax).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithCorrectShortSyntax,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 0, 'There should be no warnings when short syntax services are in alphabetical order.');
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no warnings when short syntax services are in alphabetical order.');
 });
 
 test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of short syntax services', (t) => {
-    const rule = new ServiceDependenciesAlphabeticalOrderRule();
-    const fixedYAML = rule.fix(yamlWithIncorrectShortSyntax);
+  const rule = new ServiceDependenciesAlphabeticalOrderRule();
+  const fixedYAML = rule.fix(yamlWithIncorrectShortSyntax);
 
-    t.is(
-        normalizeYAML(fixedYAML),
-        normalizeYAML(yamlWithCorrectShortSyntax),
-        'The short syntax services should be reordered alphabetically.',
-    );
+  t.is(
+    normalizeYAML(fixedYAML),
+    normalizeYAML(yamlWithCorrectShortSyntax),
+    'The short syntax services should be reordered alphabetically.',
+  );
 });
 
 // Long syntax tests
 test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when long syntax services are not in alphabetical order', (t) => {
-    const rule = new ServiceDependenciesAlphabeticalOrderRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithIncorrectLongSyntax).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithIncorrectLongSyntax,
-    };
+  const rule = new ServiceDependenciesAlphabeticalOrderRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithIncorrectLongSyntax).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithIncorrectLongSyntax,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 1, 'There should be one warning when long syntax services are out of order.');
-    t.true(errors[0].message.includes(`Services in "depends_on" for service "web" should be in alphabetical order.`));
+  const errors = rule.check(context);
+  t.is(errors.length, 1, 'There should be one warning when long syntax services are out of order.');
+  t.true(errors[0].message.includes(`Services in "depends_on" for service "web" should be in alphabetical order.`));
 });
 
 test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when long syntax services are in alphabetical order', (t) => {
-    const rule = new ServiceDependenciesAlphabeticalOrderRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithCorrectLongSyntax).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithCorrectLongSyntax,
-    };
+  const rule = new ServiceDependenciesAlphabeticalOrderRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithCorrectLongSyntax).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithCorrectLongSyntax,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 0, 'There should be no warnings when long syntax services are in alphabetical order.');
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no warnings when long syntax services are in alphabetical order.');
 });
 
 test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of long syntax services', (t) => {
-    const rule = new ServiceDependenciesAlphabeticalOrderRule();
-    const fixedYAML = rule.fix(yamlWithIncorrectLongSyntax);
+  const rule = new ServiceDependenciesAlphabeticalOrderRule();
+  const fixedYAML = rule.fix(yamlWithIncorrectLongSyntax);
 
-    t.is(
-        normalizeYAML(fixedYAML),
-        normalizeYAML(yamlWithCorrectLongSyntax),
-        'The long syntax services should be reordered alphabetically.',
-    );
+  t.is(
+    normalizeYAML(fixedYAML),
+    normalizeYAML(yamlWithCorrectLongSyntax),
+    'The long syntax services should be reordered alphabetically.',
+  );
 });

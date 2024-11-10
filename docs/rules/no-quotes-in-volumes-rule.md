@@ -1,8 +1,7 @@
 # No Quotes in Volumes Rule
 
-Ensures that the values in the `volumes` section of services in the Docker Compose file are not enclosed in
-quotes. Quoted paths can cause unexpected behavior in Docker, so this rule enforces that they are written without
-quotes.
+Ensures that the values in the `volumes` section of services in the Docker Compose file are not enclosed in quotes.
+Quoted paths can cause unexpected behavior in Docker, so this rule enforces that they are written without quotes.
 
 This rule is fixable. The linter can automatically remove the quotes from volume paths without altering the paths
 themselves.

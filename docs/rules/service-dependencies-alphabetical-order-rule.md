@@ -60,9 +60,9 @@ services:
 
 ## Rule Details and Rationale
 
-Sorting the list of services within `depends_on` alphabetically enhances readability and predictability, making it easier
-to manage service dependencies. By maintaining a consistent order, developers can avoid confusion when working on large
-configurations.
+Sorting the list of services within `depends_on` alphabetically enhances readability and predictability, making it
+easier to manage service dependencies. By maintaining a consistent order, developers can avoid confusion when working on
+large configurations.
 
 ## Version
 

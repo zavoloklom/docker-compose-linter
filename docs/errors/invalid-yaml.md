@@ -27,9 +27,9 @@ requirement for YAML files to function correctly.
 ## Known Limitations
 
 This rule only checks for the syntactical correctness of the YAML file. It does not verify the content against any
-specific schema or enforce any specific structure beyond basic YAML syntax.
-Additionally, the validation relies on the [yaml](https://github.com/eemeli/yaml) library, and if the library fails to
-catch certain errors or inconsistencies in the YAML structure, those issues will not be flagged by this rule either.
+specific schema or enforce any specific structure beyond basic YAML syntax. Additionally, the validation relies on the
+[yaml](https://github.com/eemeli/yaml) library, and if the library fails to catch certain errors or inconsistencies in
+the YAML structure, those issues will not be flagged by this rule either.
 
 ## Version
 

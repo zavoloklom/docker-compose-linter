@@ -102,58 +102,58 @@ services:
 const filePath = '/docker-compose.yml';
 
 test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate exported ports are found', (t) => {
-    const rule = new NoDuplicateExportedPortsRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithDuplicatePorts).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithDuplicatePorts,
-    };
+  const rule = new NoDuplicateExportedPortsRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithDuplicatePorts).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithDuplicatePorts,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 5, 'There should be five errors when duplicate exported ports are found.');
+  const errors = rule.check(context);
+  t.is(errors.length, 5, 'There should be five errors when duplicate exported ports are found.');
 
-    const expectedMessages = [
-        'Service "b-service" is exporting port "8080" which is already used by service "a-service".',
-        'Service "c-service" is exporting port "8080" which is already used by service "a-service".',
-        'Service "d-service" is exporting port "8080" which is already used by service "a-service".',
-        'Service "e-service" is exporting port "8080" which is already used by service "a-service".',
-        'Service "f-service" is exporting port "8080" which is already used by service "a-service".',
-    ];
+  const expectedMessages = [
+    'Service "b-service" is exporting port "8080" which is already used by service "a-service".',
+    'Service "c-service" is exporting port "8080" which is already used by service "a-service".',
+    'Service "d-service" is exporting port "8080" which is already used by service "a-service".',
+    'Service "e-service" is exporting port "8080" which is already used by service "a-service".',
+    'Service "f-service" is exporting port "8080" which is already used by service "a-service".',
+  ];
 
-    errors.forEach((error, index) => {
-        t.true(error.message.includes(expectedMessages[index]));
-    });
+  errors.forEach((error, index) => {
+    t.true(error.message.includes(expectedMessages[index]));
+  });
 });
 
 test('NoDuplicateExportedPortsRule: should not return errors when exported ports are unique', (t) => {
-    const rule = new NoDuplicateExportedPortsRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithUniquePorts).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithUniquePorts,
-    };
+  const rule = new NoDuplicateExportedPortsRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithUniquePorts).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithUniquePorts,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 0, 'There should be no errors when exported ports are unique.');
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no errors when exported ports are unique.');
 });
 
 test('NoDuplicateExportedPortsRule: should return an error when range overlap is detected', (t) => {
-    const rule = new NoDuplicateExportedPortsRule();
-    const context: LintContext = {
-        path: filePath,
-        content: parseDocument(yamlWithRangeOverlap).toJS() as Record<string, unknown>,
-        sourceCode: yamlWithRangeOverlap,
-    };
+  const rule = new NoDuplicateExportedPortsRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithRangeOverlap).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithRangeOverlap,
+  };
 
-    const errors = rule.check(context);
-    t.is(errors.length, 2, 'There should be two errors when range overlap is detected.');
+  const errors = rule.check(context);
+  t.is(errors.length, 2, 'There should be two errors when range overlap is detected.');
 
-    const expectedMessages = [
-        'Service "b-service" is exporting port "8094" which is already used by service "a-service".',
-        'Service "d-service" is exporting port "8000-8085" which is already used by service "c-service".',
-    ];
+  const expectedMessages = [
+    'Service "b-service" is exporting port "8094" which is already used by service "a-service".',
+    'Service "d-service" is exporting port "8000-8085" which is already used by service "c-service".',
+  ];
 
-    errors.forEach((error, index) => {
-        t.true(error.message.includes(expectedMessages[index]));
-    });
+  errors.forEach((error, index) => {
+    t.true(error.message.includes(expectedMessages[index]));
+  });
 });

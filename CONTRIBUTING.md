@@ -17,13 +17,12 @@ Before making contributions, ensure the following:
 2. **Create a Branch**: Create a new branch in your local repository. This keeps your changes organized and separate
    from the main project.
 3. **Development**: Make your changes in your branch. Here are a few things to keep in mind:
-    - **No Lint Errors**: Ensure your code changes adhere to the project's linting rules and do not introduce new lint
-      errors.
-    - **Testing**: All changes must be accompanied by passing tests. Add new tests if you are adding functionality or
-      fix existing tests if you are changing code.
-    - **Conventional Commits**: Commit your changes using
-      the [Conventional Commits](https://www.conventionalcommits.org) format. This standardization helps automate the
-      version management and changelog generation.
+   - **No Lint Errors**: Ensure your code changes adhere to the project's linting rules and do not introduce new lint
+     errors.
+   - **Testing**: All changes must be accompanied by passing tests. Add new tests if you are adding functionality or fix
+     existing tests if you are changing code.
+   - **Conventional Commits**: Commit your changes using the [Conventional Commits](https://www.conventionalcommits.org)
+     format. This standardization helps automate the version management and changelog generation.
 
 ## How to Add a New Rule
 
@@ -33,15 +32,15 @@ Please follow the steps carefully to ensure consistency and maintainability of t
 ### Create a New Rule File
 
 1. Navigate to the `src/rules/` directory.
-2. Create a new `.ts` file with a descriptive name for your rule. Name it something like `new-check-rule.ts`
-   with `-rule` at the end.
+2. Create a new `.ts` file with a descriptive name for your rule. Name it something like `new-check-rule.ts` with
+   `-rule` at the end.
 
 ### Implement the Rule and Write Your Logic
 
 Your rule should implement the `LintRule` interface from [linter.types.ts](./src/linter/linter.types.ts).
 
-Implement the logic that validates if the Docker Compose file violates the rule in `check` method. Use the
-`LintContext` to access the content, and return an array of `LintMessage` objects with information about any violations.
+Implement the logic that validates if the Docker Compose file violates the rule in `check` method. Use the `LintContext`
+to access the content, and return an array of `LintMessage` objects with information about any violations.
 
 If the rule is fixable, implement the logic to return the fixed content of the file in `fix` method. If the rule isn't
 fixable, this method can return the content unchanged.
@@ -55,8 +54,8 @@ fixable, this method can return the content unchanged.
 ### Update Documentation
 
 1. Go to the `docs/rules/` folder.
-2. Create a markdown file describing your new rule (for example `new-check-rule.md`) based
-   on [template](./docs/rules/__TEMPLATE__.md)
+2. Create a markdown file describing your new rule (for example `new-check-rule.md`) based on
+   [template](./docs/rules/__TEMPLATE__.md)
 
 ## Build Docker File Locally
 
@@ -124,8 +123,8 @@ After you've made your changes:
 
 ## After Your Contribution
 
-Once your contribution is merged, it will become part of the project.
-I appreciate your hard work and contribution to making this tool better.
-Also, I encourage you to continue participating in the project and joining in discussions and future enhancements.
+Once your contribution is merged, it will become part of the project. I appreciate your hard work and contribution to
+making this tool better. Also, I encourage you to continue participating in the project and joining in discussions and
+future enhancements.
 
 **Thank you for contributing!**
