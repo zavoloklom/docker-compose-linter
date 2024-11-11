@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import ServicePortsAlphabeticalOrderRule from '../../src/rules/service-ports-alphabetical-order-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import ServicePortsAlphabeticalOrderRule from '../../src/rules/service-ports-alphabetical-order-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
 const yamlWithIncorrectPortOrder = `

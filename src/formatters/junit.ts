@@ -1,4 +1,4 @@
-import type { LintResult } from '../linter/linter.types.js';
+import type { LintResult } from '../linter/linter.types';
 
 function escapeXml(unsafe: string): string {
   return unsafe.replaceAll(/[<>&'"]/g, (c) => {

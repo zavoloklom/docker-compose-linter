@@ -7,8 +7,8 @@ import type {
   LintRuleCategory,
   LintRuleSeverity,
   RuleMeta,
-} from '../linter/linter.types.js';
-import { findLineNumberByValue } from '../util/line-finder.js';
+} from '../linter/linter.types';
+import { findLineNumberByValue } from '../util/line-finder';
 
 export default class NoQuotesInVolumesRule implements LintRule {
   public name = 'no-quotes-in-volumes';

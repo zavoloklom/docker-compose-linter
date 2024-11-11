@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import ServiceImageRequireExplicitTagRule from '../../src/rules/service-image-require-explicit-tag-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import ServiceImageRequireExplicitTagRule from '../../src/rules/service-image-require-explicit-tag-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML with services using no tag, but valid image formats
 const yamlWithoutTag = `

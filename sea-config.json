@@ -1,0 +1,7 @@
+{
+  "main": "./pkg/dclint.cjs",
+  "output": "sea-prep.blob",
+  "files": [
+    "./pkg/dclint.cjs"
+  ]
+}

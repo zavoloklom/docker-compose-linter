@@ -1,0 +1,63 @@
+name: "test"
+services:
+  a-service:
+    build:
+      context: ../../tests/a-service
+      dockerfile: Dockerfile
+      args:
+        - TEST=${TEST}
+    container_name: a-service
+    depends_on:
+      b-service:
+        condition: service_healthy
+      c-service:
+        condition: service_started
+    volumes:
+      - ../../app/a-service/:/var/www/app
+      - /var/www/app/node_modules
+    environment:
+      - TEST=${TEST}
+    env_file: ./envs/.env.a-service
+    ports:
+      - '127.0.0.1:3001'
+      - '127.0.0.1:11032:3000'
+      - '127.0.0.1:11150:3000'
+    #    command: sh -c "npm run start"
+    command: sh -c "tail -f /dev/null"
+    expose:
+      - '3000'
+  b-service:
+    build:
+      context: ../../app/b-service
+      dockerfile: Dockerfile
+      target: builder
+      args:
+        - TEST1=${TEST}
+        - TEST2=${TEST}
+    container_name: b-service
+    depends_on:
+      - c-service
+      - kafka
+    volumes:
+      - ../../app/flexible-forms-client/:/var/www/app
+      - data:/var/www/app/node_modules
+    env_file: ./envs/.env.b-service
+    ports:
+      - '127.0.0.1:11131:3000'
+    command: sh -c "npm run start"
+  c-service:
+    build:
+      context: ../../tests/c-service
+      dockerfile: Dockerfile
+      args:
+        - TEST=${TEST}
+    environment:
+      - TEST='HQTb_=d.4*FPN@^;w2)UZ%'
+  test:
+    image: node:20
+    build: ""
+    container_name: a2-service
+    pull_policy: always
+volumes:
+  data:
+    driver: local

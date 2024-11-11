@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { basename, join, resolve } from 'node:path';
-import { Logger } from './logger.js';
-import { FileNotFoundError } from '../errors/file-not-found-error.js';
+import { Logger } from './logger';
+import { FileNotFoundError } from '../errors/file-not-found-error';
 
 export function findFilesForLinting(paths: string[], recursive: boolean, excludePaths: string[]): string[] {
   const logger = Logger.getInstance();

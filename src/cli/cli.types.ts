@@ -6,7 +6,7 @@ interface CLIConfig {
   formatter: string;
   config?: string;
   quiet: boolean;
-  maxWarnings?: number;
+  maxWarnings: number;
   outputFile?: string;
   color: boolean;
   debug: boolean;

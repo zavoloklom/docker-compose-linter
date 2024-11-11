@@ -57,6 +57,160 @@ fixable, this method can return the content unchanged.
 2. Create a markdown file describing your new rule (for example `new-check-rule.md`) based on
    [template](./docs/rules/__TEMPLATE__.md)
 
+## How to Build the Project
+
+The project has several Rollup configurations designed for specific build outputs. You can use the provided npm scripts
+to build each configuration individually or all at once.
+
+1. **CLI Build (`rollup.config.cli.js`)**
+
+   This configuration builds the CLI, producing a minified CommonJS file (`bin/dclint.cjs`) for command-line use. The
+   minification keeps the output compact for efficient distribution.
+
+   **How to Run:**
+
+   ```shell
+   npm run build:cli
+   ```
+
+2. **PKG Build for SEA (`rollup.config.pkg.js`)**
+
+   This configuration bundles the entire project, including dependencies, into a single file (`pkg/dclint.cjs`). It is
+   useful for creating a Single Executable Application (SEA) with Node.js, as all dependencies are embedded in the
+   output.
+
+   **How to Run:**
+
+   ```shell
+   npm run build:pkg
+   ```
+
+3. **Library Build (`rollup.config.lib.js`)**
+
+   This configuration generates the main library with outputs in both CommonJS and ESM formats, along with TypeScript
+   declaration files. This is ideal for distributing the library to be used in various module systems.
+
+   **How to Run:**
+
+   ```shell
+   npm run build:lib
+   ```
+
+Each configuration has its specific purpose, helping you generate optimized builds for different parts of the project.
+Use the `pkg` build when you need to create a single executable, the `cli` build for compact CLI usage, and the `lib`
+build for general library distribution. To run all builds at once, use:
+
+```shell
+npm run build
+```
+
+## How to Build SEA
+
+Single Executable Applications (SEA) allow you to bundle your Node.js application into a single executable file. This
+approach is especially useful for distributing CLI tools, as it removes the need for users to install Node.js or other
+dependencies. In this project, the `pkg` build configuration is designed specifically for SEA, bundling all dependencies
+into a single file.
+
+### MacOS
+
+The following commands are specific to macOS for building a SEA.
+
+```shell
+# Create package build
+npm run build:pkg
+
+# Clean previous build artifacts
+rm -rf dclint sea-prep.blob
+
+# Generate SEA Blob using the Node.js SEA configuration file
+node --experimental-sea-config sea-config.json
+
+# Copy the Node.js binary to create the executable
+cp $(command -v node) dclint
+
+# Remove signature to run on macOS
+codesign --remove-signature dclint
+
+# Inject SEA Blob into the executable using postject
+sudo npx postject dclint NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2 --macho-segment-name NODE_SEA
+
+# Sign the executable to allow it to run on macOS
+codesign --sign - dclint
+```
+
+### Linux
+
+```shell
+# Create package build
+npm run build:pkg
+
+# Clean previous build artifacts
+rm -rf dclint sea-prep.blob
+
+# Generate SEA Blob using the Node.js SEA configuration file
+node --experimental-sea-config sea-config.json
+
+# Copy the Node.js binary to create the executable
+cp $(command -v node) dclint
+
+# Inject SEA Blob into the executable using postject
+npx postject dclint NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2 --macho-segment-name NODE_SEA
+```
+
+Also, you can use Docker to compile it:
+
+```bash
+docker run --rm -v "$PWD":/app -w /app node:20.18.0-alpine ./scripts/generate-sea.sh ./pkg/dclint-alpine
+docker run --rm -v "$PWD":/app -w /app node:20.18.0-bullseye ./scripts/generate-sea.sh ./pkg/dclint-bullseye
+```
+
+After running these commands, you will have a standalone `dclint` executable, ready for distribution and use. This SEA
+version simplifies deployment, allowing users to run the CLI tool without any external dependencies.
+
+To verify that everything is working correctly, run the following command:
+
+```shell
+./dclint ./tests/mocks/docker-compose.yml -c ./tests/mocks/.dclintrc
+./dclint -v
+```
+
+To suppress the experimental feature warning:
+
+```text
+(node:99747) ExperimentalWarning: Single executable application is an experimental feature and might change at any time
+(Use `dclint --trace-warnings ...` to show where the warning was created)
+```
+
+set the environment variable `NODE_NO_WARNINGS=1`:
+
+```bash
+NODE_NO_WARNINGS=1 ./dclint ./tests/mocks/docker-compose.yml -c ./tests/mocks/.dclintrc
+```
+
+Note that this SEA still need some dependencies to run:
+
+```text
+For Ubuntu
+ldd /bin/dclint
+    linux-vdso.so.1
+    libdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2
+    libstdc++.so.6 => /usr/lib/aarch64-linux-gnu/libstdc++.so.6
+    libm.so.6 => /lib/aarch64-linux-gnu/libm.so.6
+    libgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1
+    libpthread.so.0 => /lib/aarch64-linux-gnu/libpthread.so.0
+    libc.so.6 => /lib/aarch64-linux-gnu/libc.so.6
+    /lib/ld-linux-aarch64.so.1
+```
+
+```text
+For Alpine
+ldd /bin/dclint
+    /lib/ld-musl-aarch64.so.1
+    libstdc++.so.6 => /usr/lib/libstdc++.so.6
+    libc.musl-aarch64.so.1 => /lib/ld-musl-aarch64.so.1
+    libgcc_s.so.1 => /usr/lib/libgcc_s.so.1
+```
+
 ## Build Docker File Locally
 
 ```shell
@@ -98,8 +252,8 @@ You can do this by running the linter on a Docker Compose file:
 npm run debug
 ```
 
-If no errors occur, and the linter correctly identifies new fields or deprecated ones, then the schema has been updated
-successfully.
+If no errors occur during execution, and the linter correctly identifies all errors and warnings, then the schema has
+been updated successfully.
 
 After updating the schema, it's also important to run the project's unit tests to confirm that nothing was broken by the
 schema update:

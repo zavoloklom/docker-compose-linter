@@ -1,6 +1,7 @@
 import { resolve } from 'node:path';
-import type { LintResult } from '../linter/linter.types.js';
-import { Logger } from './logger.js';
+import type { LintResult } from '../linter/linter.types';
+import { Logger } from './logger';
+import Formatters from '../formatters/index';
 
 type FormatterFunction = (results: LintResult[]) => string;
 
@@ -30,21 +31,12 @@ export async function loadFormatter(formatterName: string): Promise<FormatterFun
     return formatterModule;
   }
 
-  const builtinFormatters: Record<string, () => Promise<FormatterFunction>> = {
-    json: async () => (await import('../formatters/json.js')).default as FormatterFunction,
-    compact: async () => (await import('../formatters/compact.js')).default as FormatterFunction,
-    stylish: async () => (await import('../formatters/stylish.js')).default as FormatterFunction,
-    junit: async () => (await import('../formatters/junit.js')).default as FormatterFunction,
-    codeclimate: async () => (await import('../formatters/codeclimate.js')).default as FormatterFunction,
-  };
-
-  let formatterLoader = builtinFormatters[formatterName];
-  if (!formatterLoader) {
-    logger.warn(`Unknown formatter: ${formatterName}. Using default - stylish.`);
-    formatterLoader = builtinFormatters.stylish;
+  const formatterFunction = Formatters[`${formatterName}Formatter` as keyof typeof Formatters];
+  if (formatterFunction) {
+    logger.debug('UTIL', `Using built-in formatter: ${formatterName}`);
+    return formatterFunction as FormatterFunction;
   }
 
-  logger.debug('UTIL', `Load formatter: ${formatterName}`);
-
-  return formatterLoader();
+  logger.warn(`Unknown formatter: ${formatterName}. Using default - stylish.`);
+  return Formatters.stylishFormatter;
 }

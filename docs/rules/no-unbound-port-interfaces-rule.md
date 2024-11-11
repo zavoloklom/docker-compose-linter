@@ -85,7 +85,7 @@ skip IP interface checks in such cases.
 
 ## Version
 
-This rule was introduced in Docker-Compose-Linter [1.1.0](https://github.com/zavoloklom/docker-compose-linter/releases).
+This rule was introduced in Docker-Compose-Linter [2.0.0](https://github.com/zavoloklom/docker-compose-linter/releases).
 
 ## References
 

@@ -6,8 +6,8 @@ import type {
   LintRuleSeverity,
   LintMessageType,
   LintContext,
-} from '../linter/linter.types.js';
-import { findLineNumberByKey } from '../util/line-finder.js';
+} from '../linter/linter.types';
+import { findLineNumberByKey } from '../util/line-finder';
 
 export default class NoVersionFieldRule implements LintRule {
   public name = 'no-version-field';

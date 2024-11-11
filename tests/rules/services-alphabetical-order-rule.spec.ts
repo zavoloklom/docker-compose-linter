@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import ServicesAlphabeticalOrderRule from '../../src/rules/services-alphabetical-order-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import ServicesAlphabeticalOrderRule from '../../src/rules/services-alphabetical-order-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
 const yamlWithIncorrectOrder = `

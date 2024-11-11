@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import NoDuplicateContainerNamesRule from '../../src/rules/no-duplicate-container-names-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import NoDuplicateContainerNamesRule from '../../src/rules/no-duplicate-container-names-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML с дублирующимися именами контейнеров
 const yamlWithDuplicateContainerNames = `

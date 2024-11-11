@@ -5,7 +5,7 @@ import {
   extractPublishedPortValue,
   extractPublishedPortInterfaceValue,
   parsePortsRange,
-} from '../../src/util/service-ports-parser.js';
+} from '../../src/util/service-ports-parser';
 
 // @ts-ignore TS2349
 test('extractPublishedPortValue should return port from scalar value with no IP', (t: ExecutionContext) => {

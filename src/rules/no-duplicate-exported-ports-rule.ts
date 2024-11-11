@@ -7,9 +7,9 @@ import type {
   LintRuleCategory,
   LintRuleSeverity,
   RuleMeta,
-} from '../linter/linter.types.js';
-import { findLineNumberForService } from '../util/line-finder.js';
-import { extractPublishedPortValue, parsePortsRange } from '../util/service-ports-parser.js';
+} from '../linter/linter.types';
+import { findLineNumberForService } from '../util/line-finder';
+import { extractPublishedPortValue, parsePortsRange } from '../util/service-ports-parser';
 
 export default class NoDuplicateExportedPortsRule implements LintRule {
   public name = 'no-duplicate-exported-ports';
