@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import NoBuildAndImageRule from '../../src/rules/no-build-and-image-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import NoBuildAndImageRule from '../../src/rules/no-build-and-image-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML with services using both build and image
 const yamlWithBuildAndImage = `

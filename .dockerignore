@@ -14,28 +14,37 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Misc
+# OS
 .DS_Store
 
-# Envs
-.env
+# Git
+.git/
+.gitignore
+
+# Github
+.github/
+
+# Docker
+Dockerfile
+
+# Documentation
+/documentation
+/docs
 
 # Dependencies
 /node_modules
 
-# Tests
-/coverage
-
-# Build
+# Compiled output and runtime
 /dist
 /bin
 /pkg
-
-# Runtime
-/.tsimp
-
-# Generated files
-/sea-prep.blob
 /sea
-/.VERSION
-/*-artifacts*
+/.tsimp
+/sea-prep.blob
+/dclint
+
+# Tests
+/coverage
+
+# Other
+Makefile

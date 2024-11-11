@@ -1,4 +1,4 @@
-import type { LintResult } from '../linter/linter.types.js';
+import type { LintResult } from '../linter/linter.types';
 
 export default function compactFormatter(results: LintResult[]): string {
   return results

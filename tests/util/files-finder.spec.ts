@@ -3,8 +3,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import esmock from 'esmock';
-import { Logger } from '../../src/util/logger.js';
-import { FileNotFoundError } from '../../src/errors/file-not-found-error.js';
+import { Logger } from '../../src/util/logger';
+import { FileNotFoundError } from '../../src/errors/file-not-found-error';
 
 const mockDirectory = '/path/to/directory';
 const mockNodeModulesDirectory = '/path/to/directory/node_modules';
@@ -48,8 +48,8 @@ const mockExistsSync = () => true;
 // @ts-ignore TS2349
 test('findFilesForLinting: should handle recursive search and find only compose files in directory and exclude node_modules', async (t: ExecutionContext) => {
   // Use esmock to mock fs module
-  const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder.js')>(
-    '../../src/util/files-finder.js',
+  const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder')>(
+    '../../src/util/files-finder',
     {
       'node:fs': { existsSync: mockExistsSync, readdirSync: mockReaddirSync, statSync: mockStatSync },
     },
@@ -71,8 +71,8 @@ test('findFilesForLinting: should handle recursive search and find only compose 
 // @ts-ignore TS2349
 test('findFilesForLinting: should return file directly if file is passed and search only compose in directory', async (t: ExecutionContext) => {
   // Use esmock to mock fs module
-  const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder.js')>(
-    '../../src/util/files-finder.js',
+  const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder')>(
+    '../../src/util/files-finder',
     {
       'node:fs': { existsSync: mockExistsSync, statSync: mockStatSync, readdirSync: mockReaddirSync },
     },
@@ -94,8 +94,8 @@ test('findFilesForLinting: should return file directly if file is passed and sea
 // @ts-ignore TS2349
 test('findFilesForLinting: should throw error if path does not exist', async (t: ExecutionContext) => {
   // Use esmock to mock fs module
-  const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder.js')>(
-    '../../src/util/files-finder.js',
+  const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder')>(
+    '../../src/util/files-finder',
     {
       'node:fs': { existsSync: () => false },
     },

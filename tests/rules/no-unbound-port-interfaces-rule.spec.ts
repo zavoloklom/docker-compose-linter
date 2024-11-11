@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
-import NoUnboundPortInterfacesRule from '../../src/rules/no-unbound-port-interfaces-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import NoUnboundPortInterfacesRule from '../../src/rules/no-unbound-port-interfaces-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML with multiple duplicate exported ports
 const yamlWithImplicitListenEverywherePorts = `

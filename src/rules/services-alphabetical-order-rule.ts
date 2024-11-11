@@ -7,8 +7,8 @@ import type {
   LintRuleCategory,
   LintRuleSeverity,
   RuleMeta,
-} from '../linter/linter.types.js';
-import { findLineNumberForService } from '../util/line-finder.js';
+} from '../linter/linter.types';
+import { findLineNumberForService } from '../util/line-finder';
 
 export default class ServicesAlphabeticalOrderRule implements LintRule {
   public name = 'services-alphabetical-order';

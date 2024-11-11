@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import pc from 'picocolors';
 
 // Exported constants for log sources
 export const LOG_SOURCE = {
@@ -43,13 +43,13 @@ class Logger {
   private static getColoredLevel(level: string): string {
     switch (level) {
       case 'DEBUG':
-        return chalk.blue('[DEBUG]');
+        return pc.blue('[DEBUG]');
       case 'INFO':
-        return chalk.green('[INFO]');
+        return pc.green('[INFO]');
       case 'WARN':
-        return chalk.yellow('[WARN]');
+        return pc.yellow('[WARN]');
       case 'ERROR':
-        return chalk.red('[ERROR]');
+        return pc.red('[ERROR]');
       default:
         return `[${level}]`;
     }

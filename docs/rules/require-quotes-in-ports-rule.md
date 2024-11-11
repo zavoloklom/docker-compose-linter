@@ -96,7 +96,7 @@ If you want to enforce the use of double quotes around port mappings you can do 
 
 This rule was introduced in Docker-Compose-Linter [1.0.0](https://github.com/zavoloklom/docker-compose-linter/releases).
 
-Handling `expose` section is added in [1.1.0](https://github.com/zavoloklom/docker-compose-linter/releases)
+Handling `expose` section is added in [2.0.0](https://github.com/zavoloklom/docker-compose-linter/releases)
 
 ## References
 

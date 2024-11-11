@@ -1,9 +1,9 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import esmock from 'esmock';
-import { Logger } from '../src/util/logger.js';
-import type { Config } from '../src/config/config.types.js';
-import type { LintResult, LintRule } from '../src/linter/linter.types.js';
+import { Logger } from '../src/util/logger';
+import type { Config } from '../src/config/config.types';
+import type { LintResult, LintRule } from '../src/linter/linter.types';
 
 // Sample configuration
 const config: Config = {
@@ -65,9 +65,9 @@ test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
 
   // Use esmock to mock both rules-loader and files-finder modules
   // eslint-disable-next-line sonarjs/no-duplicate-string
-  const { DCLinter } = await esmock<typeof import('../src/linter/linter.js')>('../src/linter/linter.js', {
-    '../src/util/rules-loader.js': { loadLintRules: mockLoadLintRules },
-    '../src/util/files-finder.js': { findFilesForLinting: mockFindFiles },
+  const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
+    '../src/util/rules-loader': { loadLintRules: mockLoadLintRules },
+    '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
     'node:fs': { readFileSync: mockReadFileSync },
   });
 
@@ -94,9 +94,9 @@ test('DCLinter: should lint multiple files correctly', async (t: ExecutionContex
 
   // Use esmock to mock both rules-loader and files-finder modules
   // eslint-disable-next-line sonarjs/no-duplicate-string
-  const { DCLinter } = await esmock<typeof import('../src/linter/linter.js')>('../src/linter/linter.js', {
-    '../src/util/rules-loader.js': { loadLintRules: mockLoadLintRules },
-    '../src/util/files-finder.js': { findFilesForLinting: mockFindFiles },
+  const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
+    '../src/util/rules-loader': { loadLintRules: mockLoadLintRules },
+    '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
     'node:fs': { readFileSync: mockReadFileSync },
   });
 
@@ -122,9 +122,9 @@ test('DCLinter: should fix files', async (t: ExecutionContext) => {
 
   // Use esmock to mock both rules-loader and files-finder modules
   // eslint-disable-next-line sonarjs/no-duplicate-string
-  const { DCLinter } = await esmock<typeof import('../src/linter/linter.js')>('../src/linter/linter.js', {
-    '../src/util/rules-loader.js': { loadLintRules: mockLoadLintRules },
-    '../src/util/files-finder.js': { findFilesForLinting: mockFindFiles },
+  const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
+    '../src/util/rules-loader': { loadLintRules: mockLoadLintRules },
+    '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
     'node:fs': { readFileSync: mockReadFileSync, writeFileSync: mockWriteFileSync },
   });
 

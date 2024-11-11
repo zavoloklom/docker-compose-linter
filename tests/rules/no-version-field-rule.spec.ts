@@ -1,7 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
-import NoVersionFieldRule from '../../src/rules/no-version-field-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import NoVersionFieldRule from '../../src/rules/no-version-field-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
 const yamlWithVersion = `

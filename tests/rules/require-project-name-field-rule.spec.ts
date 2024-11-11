@@ -1,7 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
-import RequireProjectNameFieldRule from '../../src/rules/require-project-name-field-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import RequireProjectNameFieldRule from '../../src/rules/require-project-name-field-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
 const yamlWithName = `

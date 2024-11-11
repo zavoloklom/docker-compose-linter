@@ -7,8 +7,8 @@ import type {
   LintRuleCategory,
   LintRuleSeverity,
   RuleMeta,
-} from '../linter/linter.types.js';
-import { findLineNumberByKey } from '../util/line-finder.js';
+} from '../linter/linter.types';
+import { findLineNumberByKey } from '../util/line-finder';
 
 interface TopLevelPropertiesOrderRuleOptions {
   customOrder?: TopLevelKeys[];

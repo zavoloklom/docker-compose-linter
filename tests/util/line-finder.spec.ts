@@ -1,6 +1,6 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
-import { findLineNumberByKey, findLineNumberByValue } from '../../src/util/line-finder.js';
+import { findLineNumberByKey, findLineNumberByValue } from '../../src/util/line-finder';
 
 // @ts-ignore TS2349
 test('findLineNumberByKey: should return the correct line number when the key exists', (t: ExecutionContext) => {
