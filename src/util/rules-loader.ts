@@ -1,68 +1,43 @@
-import { join, resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import fs from 'node:fs';
-import type { LintRule, LintMessageType } from '../linter/linter.types.js';
-import type { Config, ConfigRuleLevel, ConfigRule } from '../config/config.types.js';
-import { Logger } from './logger.js';
-
-async function importRule(file: string, rulesDirectory: string): Promise<LintRule | null> {
-  const logger = Logger.getInstance();
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-    const RuleClass = (await import(join(rulesDirectory, file))).default;
-
-    if (typeof RuleClass === 'function') {
-      return new (RuleClass as new () => LintRule)();
-    }
-    return null;
-  } catch (error) {
-    logger.error(`Error importing rule from file: ${file}`, error);
-    return null;
-  }
-}
+import type { LintRule, LintMessageType } from '../linter/linter.types';
+import type { Config, ConfigRuleLevel, ConfigRule } from '../config/config.types';
+import { Logger } from './logger';
+import Rules from '../rules/index';
 
 async function loadLintRules(config: Config): Promise<LintRule[]> {
-  const rulesDirectory = resolve(dirname(fileURLToPath(import.meta.url)), '../rules');
-
-  const ruleFiles = fs
-    .readdirSync(rulesDirectory)
-    .filter((file) => file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('d.ts')));
-
-  // Parallel import with Promise.all
-  const ruleInstances: (LintRule | null)[] = await Promise.all(
-    ruleFiles.map(async (file) => importRule(file, rulesDirectory)),
-  );
-
+  const logger = Logger.getInstance();
   const activeRules: LintRule[] = [];
 
-  ruleInstances.forEach((ruleInstance) => {
-    if (!ruleInstance) return;
+  for (const RuleClass of Object.values(Rules)) {
+    try {
+      const ruleInstance = new (RuleClass as new () => LintRule)();
+      const ruleConfig: ConfigRule = config.rules[ruleInstance.name];
 
-    const ruleConfig: ConfigRule = config.rules[ruleInstance.name];
+      let ruleLevel: ConfigRuleLevel;
+      let ruleOptions: Record<string, unknown> | undefined;
 
-    let ruleLevel: ConfigRuleLevel;
-    let ruleOptions: Record<string, unknown> | undefined;
+      if (Array.isArray(ruleConfig)) {
+        [ruleLevel, ruleOptions] = ruleConfig;
+      } else {
+        ruleLevel = ruleConfig;
+      }
 
-    if (Array.isArray(ruleConfig)) {
-      [ruleLevel, ruleOptions] = ruleConfig;
-    } else {
-      ruleLevel = ruleConfig;
+      if (ruleLevel !== 0) {
+        const instance = ruleOptions
+          ? new (RuleClass as new (options?: Record<string, unknown>) => LintRule)(ruleOptions)
+          : ruleInstance;
+
+        const typeMap: { [key: number]: LintMessageType } = {
+          1: 'warning',
+          2: 'error',
+        };
+
+        instance.type = typeMap[ruleLevel] || instance.type;
+        activeRules.push(instance);
+      }
+    } catch (error) {
+      logger.error(`Error loading rule: ${RuleClass?.name}`, error);
     }
-
-    if (ruleLevel === 0) return;
-
-    const RuleClass = ruleInstance.constructor as new (options?: Record<string, unknown>) => LintRule;
-    const instance = ruleOptions ? new RuleClass(ruleOptions) : new RuleClass();
-
-    const typeMap: { [key: number]: LintMessageType } = {
-      1: 'warning',
-      2: 'error',
-    };
-
-    instance.type = typeMap[ruleLevel] || instance.type;
-
-    activeRules.push(instance);
-  });
+  }
 
   return activeRules;
 }

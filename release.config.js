@@ -1,5 +1,5 @@
 export default {
-  branches: ['main'],
+  branches: ['main', { name: 'beta', prerelease: true }],
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
@@ -15,6 +15,13 @@ export default {
       '@semantic-release/exec',
       {
         prepareCmd: 'npm run markdownlint:fix-changelog || true',
+      },
+    ],
+    [
+      '@semantic-release/exec',
+      {
+        // eslint-disable-next-line no-template-curly-in-string
+        verifyReleaseCmd: 'echo ${nextRelease.version} > .VERSION',
       },
     ],
     '@semantic-release/npm',
@@ -37,6 +44,14 @@ export default {
           {
             path: 'CHANGELOG.md',
             label: 'Changelog',
+          },
+          {
+            path: 'pkg/dclint-alpine',
+            label: 'DClint Linux Binary',
+          },
+          {
+            path: 'pkg/dclint-bullseye',
+            label: 'DClint Ubuntu Binary',
           },
         ],
       },

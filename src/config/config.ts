@@ -1,9 +1,9 @@
 import { cosmiconfig } from 'cosmiconfig';
 import { Ajv } from 'ajv';
-import type { Config } from './config.types.js';
-import { Logger, LOG_SOURCE } from '../util/logger.js';
-import { loadSchema } from '../util/load-schema.js';
-import { ConfigValidationError } from '../errors/config-validation-error.js';
+import type { Config } from './config.types';
+import { Logger, LOG_SOURCE } from '../util/logger';
+import { schemaLoader } from '../util/schema-loader';
+import { ConfigValidationError } from '../errors/config-validation-error';
 
 function getDefaultConfig(): Config {
   return {
@@ -19,7 +19,7 @@ async function validateConfig(config: Config): Promise<Config> {
   logger.debug(LOG_SOURCE.CONFIG, 'Starting config validation');
 
   const ajv = new Ajv();
-  const schema = loadSchema('linter-config');
+  const schema = schemaLoader('linter-config');
   const validate = ajv.compile(schema);
 
   if (!validate(config)) {

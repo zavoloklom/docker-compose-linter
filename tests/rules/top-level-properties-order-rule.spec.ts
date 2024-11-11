@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import TopLevelPropertiesOrderRule, { TopLevelKeys } from '../../src/rules/top-level-properties-order-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import TopLevelPropertiesOrderRule, { TopLevelKeys } from '../../src/rules/top-level-properties-order-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML content with incorrect order of top-level properties
 const yamlWithIncorrectOrder = `

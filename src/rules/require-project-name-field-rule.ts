@@ -6,7 +6,7 @@ import type {
   LintRuleSeverity,
   LintMessageType,
   LintContext,
-} from '../linter/linter.types.js';
+} from '../linter/linter.types';
 
 export default class RequireProjectNameFieldRule implements LintRule {
   public name = 'require-project-name-field';

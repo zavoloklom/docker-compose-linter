@@ -92,5 +92,5 @@ module.exports = {
     'unicorn/switch-case-braces': [2, 'avoid'],
     'unicorn/import-style': [2, {"styles": {"node:path": {"named": true, "default": false}}}]
   },
-  'ignorePatterns': ['node_modules', 'dist', '.tsimp', 'coverage', 'bin'],
+  'ignorePatterns': ['node_modules', 'dist', '.tsimp', 'coverage', 'bin', 'rollup*config*js'],
 };

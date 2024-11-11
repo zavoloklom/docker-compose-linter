@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import NoDuplicateExportedPortsRule from '../../src/rules/no-duplicate-exported-ports-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import NoDuplicateExportedPortsRule from '../../src/rules/no-duplicate-exported-ports-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML with multiple duplicate exported ports
 const yamlWithDuplicatePorts = `

@@ -1,7 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
-import RequireQuotesInPortsRule from '../../src/rules/require-quotes-in-ports-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import RequireQuotesInPortsRule from '../../src/rules/require-quotes-in-ports-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
 const yamlWithoutQuotes = `
@@ -38,10 +38,7 @@ test('RequireQuotesInPortsRule: should return a warning when ports are not quote
 
   const errors = rule.check(context);
   t.is(errors.length, 1, 'There should be one warning when ports are not quoted.');
-  t.is(
-    errors[0].message,
-    'Ports in `ports` and `expose` sections should be enclosed in quotes.',
-  );
+  t.is(errors[0].message, 'Ports in `ports` and `expose` sections should be enclosed in quotes.');
   t.is(errors[0].rule, 'require-quotes-in-ports');
   t.is(errors[0].severity, 'minor');
 });

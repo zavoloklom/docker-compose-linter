@@ -1,7 +1,7 @@
 import { Ajv2019 } from 'ajv/dist/2019.js';
 import { ErrorObject } from 'ajv';
-import { ComposeValidationError } from '../errors/compose-validation-error.js';
-import { loadSchema } from './load-schema.js';
+import { ComposeValidationError } from '../errors/compose-validation-error';
+import { schemaLoader } from './schema-loader';
 
 type Schema = Record<string, unknown>;
 
@@ -32,7 +32,7 @@ function validationComposeSchema(content: object) {
     logger: false,
   });
 
-  const composeSchema = loadSchema('compose');
+  const composeSchema = schemaLoader('compose');
   const validate = ajv.compile(updateSchema(composeSchema));
   const valid = validate(content);
 

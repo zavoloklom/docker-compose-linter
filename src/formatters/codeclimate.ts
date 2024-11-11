@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import type { LintResult } from '../linter/linter.types.js';
+import type { LintResult } from '../linter/linter.types';
 
 const generateFingerprint = (data: (string | null)[], hashes: Set<string>): string => {
   const hash = createHash('md5');
