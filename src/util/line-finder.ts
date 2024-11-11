@@ -33,42 +33,6 @@ function findLineNumberByValue(content: string, value: string): number {
 }
 
 /**
- * Finds the line number where the key is located in the YAML content for a specific service.
- * Searches only within the service block, ensuring boundaries are respected.
- *
- * @param document The YAML content parsed with lib yaml.
- * @param content The parsed YAML content as a string.
- * @param serviceName The name of the service in which to search for the key.
- * @param key The key to search for in the content.
- * @returns number The line number where the key is found, or -1 if not found.
- */
-function findLineNumberByKeyForService(document: Document, content: string, serviceName: string, key: string): number {
-  const services = document.get('services') as Node;
-
-  if (!isMap(services)) {
-    return 1;
-  }
-
-  const service = services.get(serviceName) as Node;
-
-  if (!isMap(service)) {
-    return 1;
-  }
-
-  let lineNumber = 1;
-  service.items.forEach((item) => {
-    const keyNode = item.key;
-
-    if (isScalar(keyNode) && keyNode.value === key && keyNode.range) {
-      const [start] = keyNode.range;
-      lineNumber = content.slice(0, start).split('\n').length;
-    }
-  });
-
-  return lineNumber;
-}
-
-/**
  * Refactored helper to get service block line number
  */
 function getServiceStartLine(service: Node, content: string): number {
@@ -139,31 +103,31 @@ function findLineNumberForService(
   }
 
   if (isSeq(keyNode)) {
+    let line = 1;
     keyNode.items.forEach((item) => {
-      if (isScalar(item) && item.value === value && item.range) {
+      if (isScalar(item) && String(item.value) === String(value) && item.range) {
         const [start] = item.range;
-        return content.slice(0, start).split('\n').length;
+        line = content.slice(0, start).split('\n').length;
       }
-
-      return 1;
     });
+    return line;
   }
 
   if (isMap(keyNode)) {
+    let line = 1;
     keyNode.items.forEach((item) => {
       const keyItem = item.key;
       const valueItem = item.value;
 
-      if (isScalar(keyItem) && isScalar(valueItem) && valueItem.value === value && valueItem.range) {
+      if (isScalar(keyItem) && isScalar(valueItem) && String(valueItem.value) === String(value) && valueItem.range) {
         const [start] = valueItem.range;
-        return content.slice(0, start).split('\n').length;
+        line = content.slice(0, start).split('\n').length;
       }
-
-      return 1;
     });
+    return line;
   }
 
   return 1; // Default to 1 if the key or value is not found
 }
 
-export { findLineNumberByKey, findLineNumberByValue, findLineNumberByKeyForService, findLineNumberForService };
+export { findLineNumberByKey, findLineNumberByValue, findLineNumberForService };
