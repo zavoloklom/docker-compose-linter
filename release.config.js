@@ -38,6 +38,14 @@ export default {
             path: 'CHANGELOG.md',
             label: 'Changelog',
           },
+          {
+            path: 'pkg/dclint-alpine',
+            label: 'DClint Linux Binary',
+          },
+          {
+            path: 'pkg/dclint-bullseye',
+            label: 'DClint Ubuntu Binary',
+          },
         ],
       },
     ],

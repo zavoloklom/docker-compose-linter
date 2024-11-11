@@ -1,6 +1,6 @@
 {
   "name": "dclint",
-  "version": "1.0.7",
+  "version": "1.1.0-beta.3",
   "description": "A command-line tool for validating and enforcing best practices in Docker Compose files.",
   "keywords": [
     "docker",
@@ -20,11 +20,11 @@
   "license": "MIT",
   "author": "Sergey Kupletsky <s.kupletsky@gmail.com> (https://github.com/zavoloklom)",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/src/index.d.ts",
   "bin": {
-    "dclint": "./bin/dclint.js",
-    "docker-compose-linter": "./bin/dclint.js"
+    "dclint": "./bin/dclint.cjs"
   },
   "directories": {
     "test": "tests"
@@ -35,9 +35,12 @@
     "schemas"
   ],
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsc",
+    "build": "npm run build:lib & npm run build:cli & npm run build:pkg",
+    "build:cli": "rimraf bin && rollup -c rollup.config.cli.js",
+    "build:lib": "rimraf dist && rollup -c rollup.config.lib.js",
+    "build:pkg": "rimraf pkg && rollup -c rollup.config.pkg.js",
     "debug": "tsc && node --import=tsimp/import --no-warnings --inspect ./src/cli/cli.ts ./tests/mocks/docker-compose.yml -c ./tests/mocks/.dclintrc",
+    "debug:bin": "node ./bin/dclint.cjs ./tests/mocks/docker-compose.correct.yml --fix",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
     "lint": "npm run eslint && npm run markdownlint",
@@ -47,16 +50,25 @@
     "prettier": "prettier --write \"**/*.md\"",
     "test": "ava --verbose",
     "test:coverage": "rimraf coverage && mkdir -p coverage && c8 ava --tap | tap-xunit --package='dclint' > ./coverage/junit.xml",
+    "tsc": "tsc",
     "update-compose-schema": "node ./scripts/download-compose-schema.cjs"
   },
   "dependencies": {
     "ajv": "^8.17.1",
-    "chalk": "^5.3.0",
     "cosmiconfig": "^9.0.0",
+    "picocolors": "^1.1.1",
     "yaml": "^2.6.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "7.26.0",
+    "@rollup/plugin-babel": "6.0.4",
+    "@rollup/plugin-commonjs": "28.0.1",
+    "@rollup/plugin-json": "6.1.0",
+    "@rollup/plugin-node-resolve": "15.3.0",
+    "@rollup/plugin-replace": "6.0.1",
+    "@rollup/plugin-terser": "0.4.4",
+    "@rollup/plugin-typescript": "12.1.1",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "13.0.0",
     "@semantic-release/exec": "6.0.3",
@@ -84,6 +96,7 @@
     "eslint-plugin-unicorn": "56.0.0",
     "esmock": "2.6.9",
     "markdownlint-cli2": "0.14.0",
+    "rollup": "4.25.0",
     "semantic-release": "24.2.0",
     "tap-xunit": "2.4.1",
     "tsimp": "2.0.12",

@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import ServiceContainerNameRegexRule from '../../src/rules/service-container-name-regex-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import ServiceContainerNameRegexRule from '../../src/rules/service-container-name-regex-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML with incorrect syntax
 const yamlWithInvalidContainerName = `

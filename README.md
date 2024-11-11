@@ -129,6 +129,40 @@ docker run -t --rm -v ${PWD}:/app zavoloklom/dclint -h
 For more information about available options and formatters, please refer to the [CLI Reference](./docs/cli.md) and
 [Formatters Reference](./docs/formatters.md).
 
+## Usage as a Library
+
+The `dclint` library can be integrated directly into your code, allowing you to run linting checks programmatically and
+format the results as desired. Below are examples of how to use `dclint` as a library in both CommonJS and ES module
+formats.
+
+### Example with CommonJS
+
+```javascript
+const { DCLinter } = require('dclint');
+
+(async () => {
+  const linter = new DCLinter();
+
+  const lintResults = await linter.lintFiles(['.'], true);
+  const formattedResults = await linter.formatResults(lintResults, 'stylish');
+
+  console.log(formattedResults);
+})();
+```
+
+### Example with ES Module
+
+```javascript
+import { DCLinter } from 'dclint';
+
+const linter = new DCLinter();
+
+const lintResults = await linter.lintFiles(['.'], true);
+const formattedResults = await linter.formatResults(lintResults, 'stylish');
+
+console.log(formattedResults);
+```
+
 ## Rules and Errors
 
 Docker Compose Linter includes set of rules to ensure your Docker Compose files adhere to best practices. Detailed
@@ -250,7 +284,7 @@ lint-docker-compose:
     name: zavoloklom/dclint
     entrypoint: [ "" ]
   script:
-    - node --no-warnings /dclint/bin/dclint.js . -r -f codeclimate -o gl-codequality.json
+    - /bin/dclint . -r -f codeclimate -o gl-codequality.json
   artifacts:
     reports:
       codequality: gl-codequality.json

@@ -1,7 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
-import NoQuotesInVolumesRule from '../../src/rules/no-quotes-in-volumes-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import NoQuotesInVolumesRule from '../../src/rules/no-quotes-in-volumes-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
 const correctYAML = `

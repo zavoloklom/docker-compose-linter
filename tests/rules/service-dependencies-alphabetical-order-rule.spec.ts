@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import ServiceDependenciesAlphabeticalOrderRule from '../../src/rules/service-dependencies-alphabetical-order-rule.js';
-import type { LintContext } from '../../src/linter/linter.types.js';
+import ServiceDependenciesAlphabeticalOrderRule from '../../src/rules/service-dependencies-alphabetical-order-rule';
+import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML with short syntax (incorrect order)
 const yamlWithIncorrectShortSyntax = `

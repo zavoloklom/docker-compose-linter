@@ -1,22 +1,30 @@
 import fs from 'node:fs';
 import { parseDocument, YAMLError } from 'yaml';
-import type { Config } from '../config/config.types.js';
-import type { LintRule, LintMessage, LintResult, LintContext } from './linter.types.js';
-import { findFilesForLinting } from '../util/files-finder.js';
-import { loadLintRules } from '../util/rules-loader.js';
-import { Logger, LOG_SOURCE } from '../util/logger.js';
-import { validationComposeSchema } from '../util/compose-validation.js';
-import { ComposeValidationError } from '../errors/compose-validation-error.js';
+import type { Config } from '../config/config.types';
+import type { LintRule, LintMessage, LintResult, LintContext } from './linter.types';
+import { findFilesForLinting } from '../util/files-finder';
+import { loadLintRules } from '../util/rules-loader';
+import { Logger, LOG_SOURCE } from '../util/logger';
+import { validationComposeSchema } from '../util/compose-validation';
+import { ComposeValidationError } from '../errors/compose-validation-error';
+import { loadFormatter } from '../util/formatter-loader';
+
+const DEFAULT_CONFIG: Config = {
+  debug: false,
+  exclude: [],
+  rules: {},
+  quiet: false,
+};
 
 class DCLinter {
   private readonly config: Config;
 
   private rules: LintRule[];
 
-  constructor(config: Config) {
-    this.config = config;
+  constructor(config?: Config) {
+    this.config = { ...DEFAULT_CONFIG, ...config };
     this.rules = [];
-    Logger.init(this.config.debug);
+    Logger.init(this.config?.debug);
   }
 
   private async loadRules() {
@@ -167,6 +175,12 @@ class DCLinter {
         logger.debug(LOG_SOURCE.LINTER, `File fixed: ${file}`);
       }
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  public async formatResults(lintResults: LintResult[], formatterName: string) {
+    const formatter = await loadFormatter(formatterName);
+    return formatter(lintResults);
   }
 }
 
