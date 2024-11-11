@@ -38,7 +38,10 @@ test('RequireQuotesInPortsRule: should return a warning when ports are not quote
 
   const errors = rule.check(context);
   t.is(errors.length, 1, 'There should be one warning when ports are not quoted.');
-  t.is(errors[0].message, 'Ports should be enclosed in quotes in Docker Compose files.');
+  t.is(
+    errors[0].message,
+    'Ports in `ports` and `expose` sections should be enclosed in quotes.',
+  );
   t.is(errors[0].rule, 'require-quotes-in-ports');
   t.is(errors[0].severity, 'minor');
 });
@@ -74,7 +77,10 @@ test('RequireQuotesInPortsRule: should fix unquoted ports by adding single quote
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
 
   const fixedYAML = rule.fix(yamlWithoutQuotes);
-  t.true(fixedYAML.includes(`'8080:80'`), 'The ports should be quoted with single quotes.');
+  t.true(
+    fixedYAML.includes(`'8080:80'`),
+    'The Ports in `ports` and `expose` sections should be quoted with single quotes.',
+  );
   t.false(fixedYAML.includes('ports:\n      - 8080:80'), 'The unquoted ports should no longer exist.');
 });
 
@@ -83,7 +89,10 @@ test('RequireQuotesInPortsRule: should fix double quotes ports by changing them 
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
 
   const fixedYAML = rule.fix(yamlWithSingleQuotes);
-  t.true(fixedYAML.includes(`'8080:80'`), 'The ports should be quoted with single quotes.');
+  t.true(
+    fixedYAML.includes(`'8080:80'`),
+    'The Ports in `ports` and `expose` sections should be quoted with single quotes.',
+  );
   t.false(fixedYAML.includes(`"8080:80"`), 'The ports should not have double quotes.');
 });
 
@@ -92,7 +101,10 @@ test('RequireQuotesInPortsRule: should fix unquoted ports by adding double quote
   const rule = new RequireQuotesInPortsRule({ quoteType: 'double' });
 
   const fixedYAML = rule.fix(yamlWithoutQuotes);
-  t.true(fixedYAML.includes(`"8080:80"`), 'The ports should be quoted with double quotes.');
+  t.true(
+    fixedYAML.includes(`"8080:80"`),
+    'The Ports in `ports` and `expose` sections should be quoted with double quotes.',
+  );
   t.false(fixedYAML.includes('ports:\n      - 8080:80'), 'The unquoted ports should no longer exist.');
 });
 
@@ -101,6 +113,9 @@ test('RequireQuotesInPortsRule: should fix single quotes ports by changing them 
   const rule = new RequireQuotesInPortsRule({ quoteType: 'double' });
 
   const fixedYAML = rule.fix(yamlWithSingleQuotes);
-  t.true(fixedYAML.includes(`"8080:80"`), 'The ports should be quoted with double quotes.');
+  t.true(
+    fixedYAML.includes(`"8080:80"`),
+    'The Ports in `ports` and `expose` sections should be quoted with double quotes.',
+  );
   t.false(fixedYAML.includes(`'8080:80'`), 'The ports should not have single quotes.');
 });
