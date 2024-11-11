@@ -1,7 +1,8 @@
 # Require Quotes in Ports Rule
 
-Ensures that the port values in the `ports` section of services in the Docker Compose file are enclosed in quotes. Using
-quotes around port numbers can prevent YAML parsing issues and ensure that the ports are interpreted correctly.
+Ensures that the port values in the `ports` and `expose` sections of services in the Docker Compose file are enclosed in
+quotes. Using quotes around port numbers can prevent YAML parsing issues and ensure that the ports are interpreted
+correctly.
 
 This rule is fixable. The linter can automatically add the required quotes around port numbers without altering the
 ports themselves. The type of quotes (single or double) can be configured via the `quoteType` option.
@@ -21,6 +22,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    expose:
+      - 3000
 ```
 
 ## Correct code example (Single Quotes)
@@ -32,6 +35,8 @@ services:
     ports:
       - '80:80'
       - '443:443'
+    expose:
+      - '3000'
 ```
 
 ## Correct code example (Double Quotes)
@@ -43,17 +48,23 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    expose:
+      - "3000"
 ```
 
 ## Rule Details and Rationale
 
-This rule ensures that the port numbers specified in the `ports` section of services are enclosed in quotes. Quoting
-ports helps avoid potential issues with YAML parsing, where unquoted numbers might be misinterpreted or cause unexpected
-behavior. By enforcing this rule, we ensure that the configuration is more robust and consistent.
+This rule ensures that the port numbers specified in the `ports` and `expose` sections of services are enclosed in
+quotes. Quoting ports helps avoid potential issues with YAML parsing, where unquoted numbers might be misinterpreted or
+cause unexpected behavior. By enforcing this rule, we ensure that the configuration is more robust and consistent.
 
 When mapping ports in the `HOST:CONTAINER` format, you may experience erroneous results when using a container port
-lower than 60, because YAML parses numbers in the format `xx:yy` as a base-60 value. For this reason, we recommend
-always explicitly specifying your port mappings as strings.
+lower than 60, because YAML parses numbers in the format `xx:yy` as a [base-60 value](https://yaml.org/type/float.html).
+For this reason, we recommend always explicitly specifying your port mappings as strings.
+
+Although the expose section in Docker Compose does not suffer from the same YAML parsing vulnerabilities as the ports
+section, it is still recommended to enclose exposed ports in quotes. Consistently using quotes across both `ports` and
+`expose` sections creates a uniform configuration style, making the file easier to read and maintain.
 
 ## Options
 
@@ -85,8 +96,11 @@ If you want to enforce the use of double quotes around port mappings you can do 
 
 This rule was introduced in Docker-Compose-Linter [1.0.0](https://github.com/zavoloklom/docker-compose-linter/releases).
 
+Handling `expose` section is added in [1.1.0](https://github.com/zavoloklom/docker-compose-linter/releases)
+
 ## References
 
 - [Stackoverflow Discussion: Quotes on docker-compose.yml ports](https://stackoverflow.com/questions/58810789/quotes-on-docker-compose-yml-ports-make-any-difference)
-- [Compose file reference](https://docker-docs.uclv.cu/compose/compose-file/#ports)
+- [Compose File Reference: Ports](https://docker-docs.uclv.cu/compose/compose-file/#ports)
+- [Compose File Reference: Expose](https://docs.docker.com/reference/compose-file/services/#expose)
 - [Awesome Compose Examples](https://github.com/docker/awesome-compose)
