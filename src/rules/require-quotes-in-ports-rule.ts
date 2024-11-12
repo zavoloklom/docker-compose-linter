@@ -112,8 +112,9 @@ export default class RequireQuotesInPortsRule implements LintRule {
     this.portsSections.forEach((section) => {
       RequireQuotesInPortsRule.extractValues(parsedDocument.contents, section, (service, port) => {
         if (port.type !== this.getQuoteType()) {
-          // eslint-disable-next-line no-param-reassign
-          port.type = this.getQuoteType();
+          const newPort = new Scalar(String(port.value));
+          newPort.type = this.getQuoteType();
+          Object.assign(port, newPort);
         }
       });
     });
