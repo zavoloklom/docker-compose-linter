@@ -18,10 +18,11 @@ export default {
       },
     ],
     [
-      "@semantic-release/exec",
+      '@semantic-release/exec',
       {
-        verifyReleaseCmd: "echo ${nextRelease.version} > .VERSION"
-      }
+        // eslint-disable-next-line no-template-curly-in-string
+        verifyReleaseCmd: 'echo ${nextRelease.version} > .VERSION',
+      },
     ],
     '@semantic-release/npm',
     [
