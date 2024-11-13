@@ -17,6 +17,12 @@ export default {
         prepareCmd: 'npm run markdownlint:fix-changelog || true',
       },
     ],
+    [
+      "@semantic-release/exec",
+      {
+        verifyReleaseCmd: "echo ${nextRelease.version} > .VERSION"
+      }
+    ],
     '@semantic-release/npm',
     [
       '@semantic-release/git',

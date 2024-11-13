@@ -8,7 +8,7 @@ import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-const { version } = packageJson;
+const version = process.env.VERSION ?? packageJson?.version;
 
 export default (outDir, declaration = false, minify = false) => {
   const plugins = [
