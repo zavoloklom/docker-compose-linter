@@ -27,6 +27,11 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      - name: Set up QEMU for multi-arch
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/arm64
+
       - name: Build SEA for Alpine amd64
         run: docker run --rm --platform linux/amd64 -v "$PWD":/app -w /app node:20.18.0-alpine ./scripts/generate-sea.sh ./pkg/dclint-alpine-amd64
 
@@ -116,6 +121,43 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
+
+      # Upload binary files to GitHub Release
+      - name: Upload Alpine Binary
+        uses: actions/upload-release-asset@v1
+        if: steps.release.outputs.new_release == 'true'
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./pkg/dclint-alpine-amd64
+          asset_name: dclint-alpine-amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Bullseye Binary
+        uses: actions/upload-release-asset@v1
+        if: steps.release.outputs.new_release == 'true'
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./pkg/dclint-bullseye-amd64
+          asset_name: dclint-bullseye-amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Alpine ARM64 Binary
+        uses: actions/upload-release-asset@v1
+        if: steps.release.outputs.new_release == 'true'
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./pkg/dclint-alpine-arm64
+          asset_name: dclint-alpine-arm64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Bullseye ARM64 Binary
+        uses: actions/upload-release-asset@v1
+        if: steps.release.outputs.new_release == 'true'
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./pkg/dclint-bullseye-arm64
+          asset_name: dclint-bullseye-arm64
+          asset_content_type: application/octet-stream
 
       - name: Upload release artifacts
         uses: actions/upload-artifact@v4
