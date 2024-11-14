@@ -1,0 +1,14 @@
+strict-labels: true
+
+label-schema:
+  org.opencontainers.image.title: text
+  org.opencontainers.image.description: text
+  org.opencontainers.image.created: text  # Originally rfc3339, replace if passed not with ARG
+  org.opencontainers.image.authors: text
+  org.opencontainers.image.url: url
+  org.opencontainers.image.documentation: url
+  org.opencontainers.image.source: url
+  org.opencontainers.image.version: text  # Originally semver, replace if passed not with ARG
+  org.opencontainers.image.revision: text  # Originally hash, replace if passed not with ARG
+  org.opencontainers.image.vendor: text
+  org.opencontainers.image.licenses: text

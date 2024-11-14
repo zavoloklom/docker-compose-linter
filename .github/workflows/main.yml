@@ -24,6 +24,11 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+      - name: Run Hadolint on Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ./Dockerfile
+
       - name: Run tests
         run: npm run test:coverage
 
@@ -47,7 +52,7 @@ jobs:
 
   debug:
     runs-on: ubuntu-latest
-#    if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
+    if: github.event_name == 'pull_request'
     needs: tests
     strategy:
       matrix:
@@ -142,7 +147,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs:
       - tests
-      - debug
       - build
       - build_sea
 
