@@ -1,5 +1,5 @@
 export default {
-  branches: ['main', { name: 'beta', prerelease: true }],
+  branches: ['main', { name: 'beta', prerelease: true }, { name: 'refs/pull/*/merge', prerelease: 'beta' }],
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
