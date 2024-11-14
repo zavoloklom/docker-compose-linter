@@ -176,6 +176,12 @@ ensures that any configuration files you check are compliant with YAML standards
 two important validations are performed, which cannot be disabled - [YAML Validity Check](./docs/errors/invalid-yaml.md)
 and [Docker Compose Schema Validation](./docs/errors/invalid-schema.md).
 
+### Disabling Rules via Comments
+
+You can disable specific linting rules or all rules in your Docker Compose files using comments. These comments can be
+used either to disable rules for the entire file or for individual lines. For detailed instructions on how to use these
+comments, check out the full documentation here: [Using Configuration Comments](./docs/configuration-comments.md).
+
 ### Anchor Handling
 
 Docker Compose Linter provides support for YAML anchors specifically during schema validation, which enables the reuse

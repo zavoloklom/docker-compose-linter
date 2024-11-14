@@ -8,6 +8,11 @@ import { Logger, LOG_SOURCE } from '../util/logger';
 import { validationComposeSchema } from '../util/compose-validation';
 import { ComposeValidationError } from '../errors/compose-validation-error';
 import { loadFormatter } from '../util/formatter-loader';
+import {
+  extractDisableLineRules,
+  extractGlobalDisableRules,
+  startsWithDisableFileComment,
+} from '../util/comments-handler';
 
 const DEFAULT_CONFIG: Config = {
   debug: false,
@@ -36,12 +41,43 @@ class DCLinter {
   private lintContent(context: LintContext): LintMessage[] {
     const messages: LintMessage[] = [];
 
+    // Get globally disabled rules (from the first line)
+    const globalDisableRules = extractGlobalDisableRules(context.sourceCode);
+    const disableLineRules = extractDisableLineRules(context.sourceCode);
+
     this.rules.forEach((rule) => {
-      const ruleMessages = rule.check(context);
+      // Ignore rule from comments
+      if (globalDisableRules.has('*') || globalDisableRules.has(rule.name)) return;
+
+      const ruleMessages = rule.check(context).filter((message) => {
+        const disableRulesForLine = disableLineRules.get(message.line);
+
+        if (disableRulesForLine && disableRulesForLine.has('*')) {
+          return false;
+        }
+
+        return !disableRulesForLine || !disableRulesForLine.has(rule.name);
+      });
       messages.push(...ruleMessages);
     });
 
     return messages;
+  }
+
+  private fixContent(content: string): string {
+    let fixedContent = content;
+    const globalDisableRules = extractGlobalDisableRules(fixedContent);
+
+    this.rules.forEach((rule) => {
+      // Ignore rule from comments
+      if (globalDisableRules.has('*') || globalDisableRules.has(rule.name)) return;
+
+      if (typeof rule.fix === 'function') {
+        fixedContent = rule.fix(fixedContent);
+      }
+    });
+
+    return fixedContent;
   }
 
   private static validateFile(file: string): { context: LintContext | null; messages: LintMessage[] } {
@@ -105,6 +141,11 @@ class DCLinter {
       return { context: null, messages };
     }
 
+    if (startsWithDisableFileComment(context.sourceCode)) {
+      logger.debug(LOG_SOURCE.LINTER, `Linter disabled for file: ${file}`);
+      return { context: null, messages };
+    }
+
     return { context, messages };
   }
 
@@ -159,13 +200,7 @@ class DCLinter {
         return;
       }
 
-      let content = context.sourceCode;
-
-      this.rules.forEach((rule) => {
-        if (typeof rule.fix === 'function') {
-          content = rule.fix(content);
-        }
-      });
+      const content = this.fixContent(context.sourceCode);
 
       if (dryRun) {
         logger.info(`Dry run - changes for file: ${file}`);

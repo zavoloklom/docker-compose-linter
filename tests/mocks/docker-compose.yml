@@ -10,6 +10,7 @@ services:
     environment:
       - TEST='HQTb_=d.4*FPN@^;w2)UZ%'
   test:
+    # dclint disable-line no-build-and-image
     build: ""
     image: node
     container_name: a-service

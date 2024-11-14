@@ -52,6 +52,8 @@ services:
     image: nginx
 `;
 
+const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
+
 // @ts-ignore TS2339
 test.beforeEach(() => {
   Logger.init(false); // Initialize logger
@@ -84,6 +86,56 @@ test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
   t.is(result[0].messages[0].message, 'Mock error detected.', 'The message should match the mock error');
   t.is(result[0].errorCount, 1, 'There should be one error');
   t.is(result[0].warningCount, 0, 'There should be no warnings');
+});
+
+// @ts-ignore TS2349
+test('DCLinter: should disable linter for a file', async (t: ExecutionContext) => {
+  const mockReadFileSync = (): string => `# dclint disable-file
+    version: '3'
+    services:
+      web:
+        build: .
+        image: nginx
+  `;
+  const mockFindFiles = (): string[] => mockFilePaths;
+
+  const mockWriteFileSync = (filePath: string, content: string): void => {
+    // Normalize the content by trimming leading/trailing whitespace
+    // and remove all excess newlines to compare correctly
+    const originalContent = normalizeYAML(mockReadFileSync());
+    const actualContent = normalizeYAML(content);
+
+    t.is(actualContent, originalContent, 'The content should remain unchanged as the rule is disabled');
+  };
+
+  const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
+    'node:fs': { readFileSync: mockReadFileSync, writeFileSync: mockWriteFileSync },
+    '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
+  });
+  const linter = new DCLinter(config);
+  const result = await linter.lintFiles([mockFilePath], false);
+  t.is(result[0].messages.length, 0, 'No messages should be present when rule is disabled for part of file');
+
+  // Call fixFiles method to apply fixes
+  await linter.fixFiles([mockFilePath], false, false); // Dry run is set to false
+});
+
+test('DCLinter: should disable specific rule for part of the file', async (t: ExecutionContext) => {
+  const mockReadFileSync = (): string => `--- # dclint disable require-project-name-field
+    services:
+      web:
+        image: nginx:1.0.0
+        build: . # dclint disable-line no-build-and-image
+  `;
+  const mockFindFiles = (): string[] => mockFilePaths;
+
+  const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
+    'node:fs': { readFileSync: mockReadFileSync },
+    '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
+  });
+  const linter = new DCLinter(config);
+  const result = await linter.lintFiles([mockFilePath], false);
+  t.is(result[0].messages.length, 0, 'No messages should be present when rule is disabled for part of file');
 });
 
 // @ts-ignore TS2349
@@ -142,4 +194,39 @@ test('DCLinter: should fix files', async (t: ExecutionContext) => {
   // Assertions
   t.regex(loggedOutput, /Dry run - changes for file/, 'Dry run should output changes');
   t.regex(loggedOutput, /nginx:latest/, 'Dry run output should contain "nginx:latest"');
+});
+
+// @ts-ignore TS2349
+test('DCLinter: should apply fixes correctly while ignoring disabled rules', async (t: ExecutionContext) => {
+  const mockReadFileSync = (): string => `
+    # dclint disable mock-rule
+    version: '3'
+    services:
+      web:
+        image: nginx
+  `;
+
+  const mockFindFiles = (): string[] => mockFilePaths;
+  const mockLoadLintRules = (): LintRule[] => [mockRule];
+
+  // eslint-disable-next-line sonarjs/no-identical-functions
+  const mockWriteFileSync = (filePath: string, content: string): void => {
+    const originalContent = normalizeYAML(mockReadFileSync());
+    const actualContent = normalizeYAML(content);
+    t.is(actualContent, originalContent, 'The content should remain unchanged as the rule is disabled');
+  };
+
+  const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
+    'node:fs': { readFileSync: mockReadFileSync, writeFileSync: mockWriteFileSync },
+    '../src/util/rules-loader': { loadLintRules: mockLoadLintRules },
+    '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
+  });
+
+  const linter = new DCLinter(config);
+
+  // Call fixFiles method to apply fixes
+  await linter.fixFiles([mockFilePath], false, false); // Dry run is set to false
+
+  // Check that the "nginx:latest" is added
+  // The "mock-rule" rule should be ignored as it was disabled globally in the first line
 });
