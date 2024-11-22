@@ -10,6 +10,19 @@ COPY . .
 # SEA Builder
 RUN npm run build:pkg && ./scripts/generate-sea.sh /bin/dclint
 
+# Collect platform-specific dependencies
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+RUN mkdir -p /dependencies/lib /dependencies/usr/lib && \
+    ldd /bin/dclint | awk '{print $3}' | grep -vE '^$' | while read -r lib; do \
+        if [ -f "$lib" ]; then \
+            if [ "${lib#/usr/lib/}" != "$lib" ]; then \
+                cp "$lib" /dependencies/usr/lib/; \
+            elif [ "${lib#/lib/}" != "$lib" ]; then \
+                cp "$lib" /dependencies/lib/; \
+            fi; \
+        fi; \
+    done
+
 FROM alpine:3.19 AS alpine-version
 
 ENV NODE_NO_WARNINGS=1
@@ -46,11 +59,11 @@ FROM scratch AS scratch-version
 
 ENV NODE_NO_WARNINGS=1
 
-COPY --from=builder "/usr/lib/libstdc++.so.6" "/usr/lib/libstdc++.so.6"
-COPY --from=builder /usr/lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1
-COPY --from=builder /lib/ld-musl-aarch64.so.1 /lib/ld-musl-aarch64.so.1
-COPY --from=builder /lib/libc.musl-aarch64.so.1 /lib/libc.musl-aarch64.so.1
+# Copy dependencies
+COPY --from=builder /dependencies/lib /lib
+COPY --from=builder /dependencies/usr/lib /usr/lib
 
+# Copy dclint
 COPY --from=builder /bin/dclint /bin/dclint
 
 WORKDIR /app

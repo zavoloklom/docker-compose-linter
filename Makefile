@@ -46,5 +46,19 @@ dev: docker ## Start development inside container. Note: node_modules, bin, pkg,
 dev-sync: docker ## Start development inside container. Note: all files are synced.
 	docker run --rm -it -v ${PWD}:/app --entrypoint /bin/sh ${IMAGE_NAME}:${IMAGE_TAG}
 
+######
+# TEST SCRIPTS
+######
+
+docker-x: ## Build docker image with build-x.
+	docker buildx create --use
+	docker buildx build --file Dockerfile . --tag ${IMAGE_NAME}:${IMAGE_TAG} \
+  	  --platform linux/amd64,linux/arm64 \
+  	  --pull \
+  	  --build-arg BUILD_DATE=${BUILD_DATE} \
+  	  --build-arg BUILD_VERSION=${BUILD_VERSION} \
+  	  --build-arg BUILD_REVISION=${BUILD_REVISION} \
+  	  --progress plain
+
 check-version: docker ## Check version in docker container. Note: all files are not synced.
 	docker run --rm -it ${IMAGE_NAME}:${IMAGE_TAG} -v
