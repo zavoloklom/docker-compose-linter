@@ -287,8 +287,8 @@ that your Docker Compose files are always checked for errors before deployment.
 ```yaml
 lint-docker-compose:
   image:
-    name: zavoloklom/dclint
-    entrypoint: [ "" ]
+    name: zavoloklom/dclint:alpine
+    entrypoint: [ '' ]
   script:
     - /bin/dclint . -r -f codeclimate -o gl-codequality.json
   artifacts:
