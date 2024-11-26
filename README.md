@@ -326,9 +326,7 @@ lint-docker-compose:
 Consider these alternative tools for Docker Compose linting and validation:
 
 - [kics](https://github.com/Checkmarx/kics)
-- [checkov](https://github.com/bridgecrewio/checkov)
 - [yamllint](https://github.com/adrienverge/yamllint)
-- [docker-compose-linter](https://github.com/alfonzso/docker-compose-linter/tree/master)
 
 And this tools for Docker Compose formatting and fixing:
 

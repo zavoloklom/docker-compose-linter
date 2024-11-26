@@ -3,6 +3,55 @@
 This section outlines tasks and improvements to enhance the linter's functionality and efficiency. Each task helps
 ensure better code quality, readability, and maintainability.
 
+## Add New Rules from KICS
+
+[Link to all rules](https://docs.kics.io/latest/queries/dockercompose-queries/)
+
+### Docker Socket Mounted In Container
+
+### Volume Has Sensitive Host Directory
+
+### Volume Mounted In Multiple Containers
+
+### No New Privileges Not Set
+
+### Privileged Containers Enabled
+
+### Healthcheck Not Set
+
+### Cgroup Not Default
+
+### Restart Policy On Failure Not Set To 5
+
+### Container Traffic Not Bound To Host Interface
+
+### Privileged Ports Mapped In Container
+
+### Container Capabilities Unrestricted
+
+### Default Seccomp Profile Disabled
+
+### Host Namespace is Shared
+
+### Memory Not Limited
+
+### Pids Limit Not Set
+
+### Security Opt Not Set
+
+### Shared Host IPC Namespace
+
+### Shared Host Network Namespace
+
+### Shared Host User Namespace
+
+### Cpus Not Limited
+
+### Shared Volumes Between Containers
+
+
+
+
 ## Add New Rules
 
 ### Alphabetical Sorting of Environment Variables

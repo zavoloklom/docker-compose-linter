@@ -7,7 +7,7 @@ This rule is fixable. The linter can automatically reorder services in alphabeti
 internal structure or content.
 
 - **Rule Name:** services-alphabetical-order
-- **Type:** error
+- **Type:** warning
 - **Category:** style
 - **Severity:** minor
 - **Fixable:** true
