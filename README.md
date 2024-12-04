@@ -255,6 +255,18 @@ Here is an example of a configuration file using JSON format:
 - **debug**: Enables debug mode with additional output if set to `true`.
 - **exclude**: Specifies files or directories to exclude from linting.
 
+To enable editor autocompletion in a JSON configuration file, add a `$schema` property. If you have installed `dclint`:
+
+```json
+"$schema": "./node_modules/dclint/schemas/linter-config.schema.json",
+```
+
+Otherwise:
+
+```json
+"$schema": "https://raw.githubusercontent.com/zavoloklom/docker-compose-linter/refs/heads/main/schemas/linter-config.schema.json",
+```
+
 ### Configure Rules
 
 In addition to enabling or disabling rules, some rules may support custom parameters to tailor them to your specific
