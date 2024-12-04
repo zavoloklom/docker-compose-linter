@@ -109,7 +109,7 @@ async function main() {
 
   let lintResults = await linter.lintFiles(cliArguments.files, cliArguments.recursive);
 
-  if (cliArguments.quiet) {
+  if (config.quiet) {
     lintResults = lintResults
       .map((result) => ({
         ...result,
