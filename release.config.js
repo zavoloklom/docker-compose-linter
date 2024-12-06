@@ -69,12 +69,24 @@ export default {
   presetConfig: {
     types: [
       {
-        type: 'build',
-        section: 'Build System',
+        type: 'feat',
+        section: 'Features',
       },
       {
-        type: 'chore',
-        section: 'Others',
+        type: 'fix',
+        section: 'Bug Fixes',
+      },
+      {
+        type: 'refactor',
+        section: 'Code Refactoring',
+      },
+      {
+        type: 'perf',
+        section: 'Performance Improvements',
+      },
+      {
+        type: 'test',
+        section: 'Tests',
       },
       {
         type: 'ci',
@@ -89,41 +101,17 @@ export default {
         section: 'Documentation',
       },
       {
-        type: 'feat',
-        section: 'Features',
-      },
-      {
-        type: 'fix',
-        section: 'Bug Fixes',
-      },
-      {
-        type: 'perf',
-        section: 'Performance Improvements',
-      },
-      {
-        type: 'refactor',
-        section: 'Code Refactoring',
+        type: 'chore',
+        section: 'Others',
       },
       {
         type: 'revert',
         section: 'Reverts',
       },
-      {
-        type: 'style',
-        section: 'Styling',
-      },
-      {
-        type: 'test',
-        section: 'Tests',
-      },
     ],
     releaseRules: [
       {
         type: 'ci',
-        release: false,
-      },
-      {
-        type: 'style',
         release: false,
       },
       {
