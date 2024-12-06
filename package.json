@@ -100,7 +100,7 @@
     "eslint-plugin-sonarjs": "1.0.3",
     "eslint-plugin-unicorn": "56.0.1",
     "esmock": "2.6.9",
-    "husky": "^8.0.0",
+    "husky": "^9.1.7",
     "markdownlint-cli2": "0.15.0",
     "semantic-release": "24.2.0",
     "tap-xunit": "2.4.1",
