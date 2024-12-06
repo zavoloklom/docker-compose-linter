@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Проверка, что путь к файлу генерации передан как аргумент
+# Checking that the path to the generation file is passed as an argument
 if [ -z "$1" ]; then
   echo "Usage: $0 <path_to_generation_file>"
   exit 1
@@ -8,7 +8,7 @@ fi
 
 GENERATION_PATH="$1"
 
-# Выполнение команд
+# Generate binary
 rm -rf "$GENERATION_PATH" && rm -rf sea-prep.blob && \
 mkdir -p "$(dirname "$GENERATION_PATH")" && \
 node --experimental-sea-config sea-config.json && \
