@@ -2,6 +2,49 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [2.0.1](https://github.com/zavoloklom/docker-compose-linter/compare/v2.0.0...v2.0.1) (2024-12-06)
+
+### Bug Fixes
+
+- npm package should not minify code
+  ([5de14dd](https://github.com/zavoloklom/docker-compose-linter/commit/5de14dd26dd827376b07a9cc3103f075ac872ef0))
+
+### CI/CD
+
+- change dockerfile for multi-platform build on CI
+  ([3d05b2e](https://github.com/zavoloklom/docker-compose-linter/commit/3d05b2ec4431dba0ce92722dadc68aff9cb9ecfa))
+
+### Dependencies
+
+- bump yaml from 2.6.0 to 2.6.1
+  ([705da6c](https://github.com/zavoloklom/docker-compose-linter/commit/705da6c55aeb5c61e9d91f32532ef1cd5126dc47))
+
+### Documentation
+
+- fix GitLab CI example
+  ([5d8dba6](https://github.com/zavoloklom/docker-compose-linter/commit/5d8dba673e7bf6fb9bdfa4eee730d925075e5d24))
+- translate comments in generate-sea script
+  ([feccdec](https://github.com/zavoloklom/docker-compose-linter/commit/feccdec7b8948980111dcb3c5fd9e3a6ddc9ec5e))
+
+### Others
+
+- change markdownlint config file extension for codacy
+  ([f0eb0ed](https://github.com/zavoloklom/docker-compose-linter/commit/f0eb0ed4399e196476a27b7d5cbb5e22bddcbd38))
+- **deps-dev:** bump @stylistic/eslint-plugin from 2.10.1 to 2.11.0
+  ([5954f00](https://github.com/zavoloklom/docker-compose-linter/commit/5954f00bd4c165b98e637d9acb4f03fcc5d225ed))
+- **deps-dev:** bump @types/node from 20.17.6 to 20.17.7
+  ([8943ce9](https://github.com/zavoloklom/docker-compose-linter/commit/8943ce974af566934d64dba598367abc7a3098f6))
+- **deps-dev:** bump @types/node from 20.17.7 to 20.17.9
+  ([b49decb](https://github.com/zavoloklom/docker-compose-linter/commit/b49decb9dbd9062e9f61f2acebe20228ca3af27d))
+- **deps-dev:** bump eslint-plugin-unicorn from 56.0.0 to 56.0.1
+  ([42dc1dd](https://github.com/zavoloklom/docker-compose-linter/commit/42dc1dd66891ce721fc6c4154c3c51b0c04b4739))
+- **deps-dev:** bump typescript from 5.6.3 to 5.7.2
+  ([5c68de5](https://github.com/zavoloklom/docker-compose-linter/commit/5c68de50fd6ab46edbd620f62dab9936ae615f1a))
+- ignore warning in tests
+  ([95a427c](https://github.com/zavoloklom/docker-compose-linter/commit/95a427c0d537e3de1436c534563a408b635417ee))
+- setup commitlint and husky git hooks
+  ([067bb49](https://github.com/zavoloklom/docker-compose-linter/commit/067bb49bedcb04c671f51c942068be55dacb7342))
+
 ## [2.0.0](https://github.com/zavoloklom/docker-compose-linter/compare/v1.0.7...v2.0.0) (2024-11-22)
 
 ### ⚠ BREAKING CHANGES
