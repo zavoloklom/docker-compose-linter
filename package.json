@@ -54,7 +54,7 @@
     "test:coverage": "rimraf coverage && mkdir -p coverage && c8 ava --tap | tap-xunit --package='dclint' > ./coverage/junit.xml",
     "tsc": "tsc",
     "update-compose-schema": "node ./scripts/download-compose-schema.cjs",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "ajv": "^8.17.1",
