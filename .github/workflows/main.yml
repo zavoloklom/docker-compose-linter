@@ -15,14 +15,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js with Cache and Install
         uses: ./.github/actions/install-dependencies
         with:
           node-version: '20.18.0'
 
-      - name: Run linter
-        run: npm run lint
+      - name: Fetch main branch and run commitlint
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin main
+          npx commitlint --from=origin/main
+
+      - name: Run linters (eslint, markdownlint)
+        run: |
+          npm run eslint
+          npm run markdownlint
 
       - name: Run Hadolint on Dockerfile
         uses: hadolint/hadolint-action@v3.1.0

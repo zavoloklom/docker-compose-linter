@@ -9,7 +9,7 @@ updates:
     target-branch: "main"
     commit-message:
       prefix: "deps"
-      prefix-development: "chore(deps-dev)"
+      prefix-development: "deps(dev)"
     ignore:
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]

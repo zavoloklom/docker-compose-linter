@@ -21,8 +21,12 @@ Before making contributions, ensure the following:
      errors.
    - **Testing**: All changes must be accompanied by passing tests. Add new tests if you are adding functionality or fix
      existing tests if you are changing code.
-   - **Conventional Commits**: Commit your changes using the [Conventional Commits](https://www.conventionalcommits.org)
-     format. This standardization helps automate the version management and changelog generation.
+   - **Commit Convention**: Commit your changes using the [Conventional Commits](https://www.conventionalcommits.org)
+     format. This standardization helps automate the version management and changelog generation. The commit message
+     rules are defined in the [.commitlintrc.cjs](./.commitlintrc.cjs) file, which you can refer to for detailed
+     guidelines.
+
+## Commit Convention
 
 ## How to Add a New Rule
 

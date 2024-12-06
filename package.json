@@ -36,6 +36,7 @@
     "schemas"
   ],
   "scripts": {
+    "commitlint": "commitlint --from=origin/main",
     "build": "npm run build:lib & npm run build:cli & npm run build:pkg",
     "build:cli": "rimraf bin && rollup -c rollup.config.cli.js",
     "build:lib": "rimraf dist && rollup -c rollup.config.lib.js",
@@ -44,7 +45,7 @@
     "debug:bin": "node ./bin/dclint.cjs ./tests/mocks/docker-compose.correct.yml --fix",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
-    "lint": "npm run eslint && npm run markdownlint",
+    "lint": "npm run eslint && npm run markdownlint && npm run commitlint",
     "markdownlint": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" \"#**/node_modules\"",
     "markdownlint:fix": "markdownlint-cli2 --fix \"**/*.md\" \"#node_modules\" \"#**/node_modules\"",
     "markdownlint:fix-changelog": "markdownlint-cli2 --fix \"CHANGELOG.md\" && prettier --write \"CHANGELOG.md\"",
@@ -52,7 +53,8 @@
     "test": "ava --verbose",
     "test:coverage": "rimraf coverage && mkdir -p coverage && c8 ava --tap | tap-xunit --package='dclint' > ./coverage/junit.xml",
     "tsc": "tsc",
-    "update-compose-schema": "node ./scripts/download-compose-schema.cjs"
+    "update-compose-schema": "node ./scripts/download-compose-schema.cjs",
+    "prepare": "husky install"
   },
   "dependencies": {
     "ajv": "^8.17.1",
@@ -63,6 +65,8 @@
   },
   "devDependencies": {
     "@babel/preset-env": "7.26.0",
+    "@commitlint/cli": "^19.6.0",
+    "@commitlint/config-conventional": "^19.6.0",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-commonjs": "28.0.1",
     "@rollup/plugin-json": "6.1.0",
@@ -96,6 +100,7 @@
     "eslint-plugin-sonarjs": "1.0.3",
     "eslint-plugin-unicorn": "56.0.1",
     "esmock": "2.6.9",
+    "husky": "^8.0.0",
     "markdownlint-cli2": "0.15.0",
     "semantic-release": "24.2.0",
     "tap-xunit": "2.4.1",
