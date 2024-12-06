@@ -2,6 +2,23 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [2.0.2](https://github.com/zavoloklom/docker-compose-linter/compare/v2.0.1...v2.0.2) (2024-12-06)
+
+### Bug Fixes
+
+- observe `quiet` field in configuration file
+  ([15613d1](https://github.com/zavoloklom/docker-compose-linter/commit/15613d174b1f4143af1a06f38eff2e4879276e43))
+
+### Dependencies
+
+- **dev:** bump husky from 8.0.3 to 9.1.7
+  ([cce0884](https://github.com/zavoloklom/docker-compose-linter/commit/cce088486c3ffb6d41663fc74c249437bcb793b3))
+
+### Others
+
+- update husky script to v9
+  ([e530cf5](https://github.com/zavoloklom/docker-compose-linter/commit/e530cf5ed7a8ce54c2f1a36d04ae8c5875c83eb1))
+
 ## [2.0.1](https://github.com/zavoloklom/docker-compose-linter/compare/v2.0.0...v2.0.1) (2024-12-06)
 
 ### Bug Fixes
