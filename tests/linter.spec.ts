@@ -120,6 +120,7 @@ test('DCLinter: should disable linter for a file', async (t: ExecutionContext) =
   await linter.fixFiles([mockFilePath], false, false); // Dry run is set to false
 });
 
+// @ts-ignore TS2349
 test('DCLinter: should disable specific rule for part of the file', async (t: ExecutionContext) => {
   const mockReadFileSync = (): string => `--- # dclint disable require-project-name-field
     services:
