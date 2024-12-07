@@ -2,6 +2,13 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [2.1.0](https://github.com/zavoloklom/docker-compose-linter/compare/v2.0.2...v2.1.0) (2024-12-07)
+
+### Features
+
+- allow `$schema` in JSON configuration file
+  ([32aa0a4](https://github.com/zavoloklom/docker-compose-linter/commit/32aa0a4303653b5e23144f73a06b1b0dc1355eb5))
+
 ## [2.0.2](https://github.com/zavoloklom/docker-compose-linter/compare/v2.0.1...v2.0.2) (2024-12-06)
 
 ### Bug Fixes
