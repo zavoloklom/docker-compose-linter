@@ -69,6 +69,10 @@ export default {
   presetConfig: {
     types: [
       {
+        type: 'rule',
+        section: 'New Rules',
+      },
+      {
         type: 'feat',
         section: 'Features',
       },
@@ -89,16 +93,16 @@ export default {
         section: 'Tests',
       },
       {
-        type: 'ci',
-        section: 'CI/CD',
-      },
-      {
         type: 'deps',
         section: 'Dependencies',
       },
       {
         type: 'docs',
         section: 'Documentation',
+      },
+      {
+        type: 'ci',
+        section: 'CI/CD',
       },
       {
         type: 'chore',
@@ -111,11 +115,56 @@ export default {
     ],
     releaseRules: [
       {
+        type: 'rule',
+        release: 'major',
+      },
+      {
+        type: 'feat',
+        release: 'minor',
+      },
+      {
+        type: 'fix',
+        release: 'patch',
+      },
+      {
+        type: 'refactor',
+        release: false,
+      },
+      {
+        type: 'perf',
+        release: 'patch',
+      },
+      {
+        type: 'test',
+        release: false,
+      },
+      {
+        type: 'deps',
+        scope: 'dev',
+        release: false,
+      },
+      {
+        type: 'deps',
+        release: 'patch',
+      },
+      {
+        type: 'docs',
+        release: false,
+      },
+      {
         type: 'ci',
         release: false,
       },
       {
-        type: 'test',
+        type: 'chore',
+        release: false,
+      },
+      {
+        type: 'revert',
+        release: 'patch',
+      },
+      {
+        type: 'release',
         release: false,
       },
     ],
