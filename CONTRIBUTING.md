@@ -21,12 +21,49 @@ Before making contributions, ensure the following:
      errors.
    - **Testing**: All changes must be accompanied by passing tests. Add new tests if you are adding functionality or fix
      existing tests if you are changing code.
-   - **Commit Convention**: Commit your changes using the [Conventional Commits](https://www.conventionalcommits.org)
-     format. This standardization helps automate the version management and changelog generation. The commit message
-     rules are defined in the [.commitlintrc.cjs](./.commitlintrc.cjs) file, which you can refer to for detailed
-     guidelines.
+   - **Commit Convention**: Commit message must follow our [Commit Message Conventions](#commit-message-conventions).
 
-## Commit Convention
+## Commit Message Conventions
+
+This project follows the [Conventional Commits](https://www.conventionalcommits.org) message conventions defined by
+[@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional),
+with some specific adjustments to suit our needs. This standardization helps automate the version management and
+changelog generation.
+
+The commit message rules are defined in the [.commitlintrc.cjs](./.commitlintrc.cjs) file, which you can refer to for
+detailed guidelines.
+
+Below are the details of the allowed commit types and their corresponding effects on versioning.
+
+### Commit Types
+
+| Type       | Description                                                                   | Version Impact                    |
+| ---------- | ----------------------------------------------------------------------------- | --------------------------------- |
+| `rule`     | Introduces a new rule.                                                        | Major                             |
+| `feat`     | Adds a new feature.                                                           | Minor                             |
+| `fix`      | Fixes a bug.                                                                  | Patch                             |
+| `refactor` | Code changes that neither fix a bug nor add a feature (including formatting). | None                              |
+| `perf`     | Changes that improve performance.                                             | Patch                             |
+| `test`     | Adds or modifies tests.                                                       | None                              |
+| `deps`     | Updates dependencies.                                                         | Patch / None for dev-dependencies |
+| `docs`     | Documentation only changes.                                                   | None                              |
+| `ci`       | Changes to CI/CD configurations.                                              | None                              |
+| `chore`    | Other changes that don't modify source or test files.                         | None                              |
+| `revert`   | Reverts a commit.                                                             | Patch                             |
+| `release`  | Release-specific metadata updates. **Reserved for CI/CD.**                    | None                              |
+
+> **Note:** The `rule` type is unique to this project and always results in a major version bump to reflect its
+> importance. See [community discussion](https://github.com/zavoloklom/docker-compose-linter/discussions/60) about it.
+
+### Commit Linter
+
+A `commit-msg` hook is configured to automatically check commit messages with the defined rules.
+
+Additionally, you can manually validate all commits in your branch using the following command:
+
+```shell
+npm run commitlint
+```
 
 ## How to Add a New Rule
 

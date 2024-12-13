@@ -5,14 +5,15 @@ module.exports = {
             2,
             'always',
             [
+                'rule',
                 'feat',
                 'fix',
                 'refactor',
                 'perf',
                 'test',
-                'ci',
                 'deps',
                 'docs',
+                'ci',
                 'chore',
                 'revert',
                 'release'
@@ -24,6 +25,11 @@ module.exports = {
             type: {
                 description: "Select the type of change that you're committing",
                 enum: {
+                    rule: {
+                        description: 'A new rule',
+                        title: 'Rules',
+                        emoji: '✨'
+                    },
                     feat: {
                         description: 'A new feature',
                         title: 'Features',
@@ -34,18 +40,13 @@ module.exports = {
                         title: 'Bug Fixes',
                         emoji: '🐛'
                     },
-                    docs: {
-                        description: 'Documentation only changes',
-                        title: 'Documentation',
-                        emoji: '📚'
-                    },
                     refactor: {
                         description: 'A code change that neither fixes a bug nor adds a feature (including formatting)',
                         title: 'Code Refactoring',
                         emoji: '📦'
                     },
                     perf: {
-                        description: 'A code change that improves performance',
+                        description: 'Changes that improve performance',
                         title: 'Performance Improvements',
                         emoji: '🚀'
                     },
@@ -54,23 +55,28 @@ module.exports = {
                         title: 'Tests',
                         emoji: '🚨'
                     },
-                    ci: {
-                        description: 'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
-                        title: 'Continuous Integrations',
-                        emoji: '⚙️'
-                    },
                     deps: {
                         description: 'Any changes in dependencies',
                         title: 'Dependencies',
                         emoji: '📦'
                     },
+                    docs: {
+                        description: 'Documentation only changes',
+                        title: 'Documentation',
+                        emoji: '📚'
+                    },
+                    ci: {
+                        description: 'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
+                        title: 'Continuous Integrations',
+                        emoji: '⚙️'
+                    },
                     chore: {
-                        description: "Other changes that don't modify src or test files",
+                        description: 'Other changes that don\'t modify source or test files',
                         title: 'Chores',
                         emoji: '♻️'
                     },
                     revert: {
-                        description: 'Reverts a previous commit',
+                        description: 'Reverts a commit',
                         title: 'Reverts',
                         emoji: '🗑'
                     },
