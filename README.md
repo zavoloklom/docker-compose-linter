@@ -266,13 +266,17 @@ Here is an example of a configuration file using JSON format:
 To enable editor autocompletion in a JSON configuration file, add a `$schema` property. If you have installed `dclint`:
 
 ```json
-"$schema": "./node_modules/dclint/schemas/linter-config.schema.json",
+{
+  "$schema": "./node_modules/dclint/schemas/linter-config.schema.json"
+}
 ```
 
 Otherwise:
 
 ```json
-"$schema": "https://raw.githubusercontent.com/zavoloklom/docker-compose-linter/refs/heads/main/schemas/linter-config.schema.json",
+{
+  "$schema": "https://raw.githubusercontent.com/zavoloklom/docker-compose-linter/refs/heads/main/schemas/linter-config.schema.json"
+}
 ```
 
 ### Configure Rules
