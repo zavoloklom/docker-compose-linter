@@ -9,18 +9,18 @@ The "name" field should be present in the Docker Compose file. This rule enforce
 - **Severity:** minor
 - **Fixable:** false
 
-## Problematic code example
+## Problematic Code Example
 
-```yml
+```yaml
 services:
   foo:
     image: image
     command: echo "I'm running ${COMPOSE_PROJECT_NAME}"
 ```
 
-## Correct code example
+## Correct Code Example
 
-```yml
+```yaml
 name: myapp
 
 services:

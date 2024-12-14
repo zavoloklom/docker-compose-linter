@@ -7,12 +7,12 @@ This rule is fixable. The linter can automatically reorder the top-level propert
 without altering their internal content.
 
 - **Rule Name:** top-level-properties-order
-- **Type:** error
+- **Type:** warning
 - **Category:** style
 - **Severity:** major
 - **Fixable:** true
 
-## Problematic code example
+## Problematic Code Example
 
 ```yaml
 services:
@@ -26,7 +26,7 @@ networks:
     driver: bridge
 ```
 
-## Correct code example
+## Correct Code Example
 
 ```yaml
 x-alpha: alpha

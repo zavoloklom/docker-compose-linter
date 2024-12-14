@@ -12,7 +12,7 @@ without altering their internal content.
 - **Severity:** minor
 - **Fixable:** true
 
-## Problematic code example
+## Problematic Code Example
 
 ```yaml
 services:
@@ -27,7 +27,7 @@ services:
       - "8080:8080"
 ```
 
-## Correct code example
+## Correct Code Example
 
 ```yaml
 services:

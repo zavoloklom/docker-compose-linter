@@ -8,15 +8,15 @@ Short rule description.
 - **Severity:**
 - **Fixable:**
 
-## Problematic code example
+## Problematic Code Example
 
-```yml
+```yaml
 
 ```
 
-## Correct code example
+## Correct Code Example
 
-```yml
+```yaml
 
 ```
 
@@ -36,4 +36,4 @@ This rule was introduced in [v1.0.0](https://github.com/zavoloklom/docker-compos
 
 ## References
 
-Links
+- [Reference link](https://example.com)
