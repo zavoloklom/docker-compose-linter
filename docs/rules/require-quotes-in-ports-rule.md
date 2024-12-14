@@ -13,7 +13,7 @@ ports themselves. The type of quotes (single or double) can be configured via th
 - **Severity:** minor
 - **Fixable:** true
 
-## Problematic code example
+## Problematic Code Example
 
 ```yaml
 services:
@@ -26,9 +26,10 @@ services:
       - 3000
 ```
 
-## Correct code example (Single Quotes)
+## Correct Code Example
 
 ```yaml
+# Single Quotes
 services:
   foo:
     image: image
@@ -39,9 +40,8 @@ services:
       - '3000'
 ```
 
-## Correct code example (Double Quotes)
-
 ```yaml
+# Double Quotes
 services:
   foo:
     image: image

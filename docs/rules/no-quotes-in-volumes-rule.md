@@ -12,7 +12,7 @@ themselves.
 - **Severity:** info
 - **Fixable:** true
 
-## Problematic code example
+## Problematic Code Example
 
 ```yaml
 services:
@@ -23,7 +23,7 @@ services:
       - "logs:/app/logs"
 ```
 
-## Correct code example
+## Correct Code Example
 
 ```yaml
 services:

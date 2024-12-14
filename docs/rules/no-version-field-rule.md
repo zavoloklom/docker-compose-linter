@@ -9,18 +9,18 @@ the "version" field is removed, promoting consistency and modern practices in Do
 - **Severity:** minor
 - **Fixable:** true
 
-## Problematic code example
+## Problematic Code Example
 
-```yml
+```yaml
 version: '3.8'
 services:
   web:
     image: image
 ```
 
-## Correct code example
+## Correct Code Example
 
-```yml
+```yaml
 services:
   web:
     image: image

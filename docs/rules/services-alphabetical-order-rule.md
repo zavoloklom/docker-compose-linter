@@ -7,14 +7,14 @@ This rule is fixable. The linter can automatically reorder services in alphabeti
 internal structure or content.
 
 - **Rule Name:** services-alphabetical-order
-- **Type:** error
+- **Type:** warning
 - **Category:** style
 - **Severity:** minor
 - **Fixable:** true
 
-## Problematic code example
+## Problematic Code Example
 
-```yml
+```yaml
 services:
   d_service:
     image: image
@@ -26,9 +26,9 @@ services:
     image: image
 ```
 
-## Correct code example
+## Correct Code Example
 
-```yml
+```yaml
 services:
   a_service:
     image: image

@@ -12,11 +12,11 @@ assignees:
 - **Severity: (warning|error)**
 - **Fixable: (yes|no)**
 
-## Problematic code example
+## Problematic Code Example
 
 Provide an example of code that would trigger this rule.
 
-## Correct code example
+## Correct Code Example
 
 Provide an example of the code that would pass the rule.
 
