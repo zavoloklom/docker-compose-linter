@@ -39,7 +39,7 @@ names are properly formatted according to Docker's naming conventions.
 
 ## Version
 
-This rule was introduced in Docker-Compose-Linter [1.0.0](https://github.com/zavoloklom/docker-compose-linter/releases).
+This rule was introduced in [v1.0.0](https://github.com/zavoloklom/docker-compose-linter/releases).
 
 ## References
 
