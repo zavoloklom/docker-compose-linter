@@ -10,6 +10,7 @@
     <a href="https://app.codacy.com/gh/zavoloklom/docker-compose-linter/dashboard?utm_source=gl&amp;utm_medium=referral&amp;utm_content=&amp;utm_campaign=Badge_grade" target="_blank" rel="noopener noreferrer nofollow"><img src="https://img.shields.io/codacy/grade/2897b4940d094899ba59f1d287cdbd86?style=for-the-badge&logo=codacy&label=Code%20Quality" alt="Codacy Code Quality Score"></a>
     <img src="https://img.shields.io/codacy/coverage/2897b4940d094899ba59f1d287cdbd86?style=for-the-badge&label=Coverage" alt="Code Coverage Score">
     <a href="https://conventionalcommits.org" target="_blank" rel="noopener noreferrer nofollow"><img src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=whit&style=for-the-badge" alt="Conventional Commits"></a>
+    <a href="#contributors"><img src="https://img.shields.io/github/all-contributors/zavoloklom/dclint?color=ee8449&style=for-the-badge" alt="All Contributors"></a>
 </p>
 <!-- markdownlint-enable MD013 MD033 -->
 
@@ -342,6 +343,32 @@ in this project, you agree to abide by its terms.
 
 - [How to set up the project](./CONTRIBUTING.md)
 - [How to add a new rule](./CONTRIBUTING.md#how-to-add-a-new-rule)
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji keys explanation](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/szymon-filipiak"><img src="https://avatars.githubusercontent.com/u/25361786?v=4?s=100" width="100px;" alt="Szymon Filipiak"/><br /><sub><b>Szymon Filipiak</b></sub></a><br /><a href="https://github.com/zavoloklom/docker-compose-linter/commits?author=szymon-filipiak" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://salzsee.info/"><img src="https://avatars.githubusercontent.com/u/99911?v=4?s=100" width="100px;" alt="Ben Rexin"/><br /><sub><b>Ben Rexin</b></sub></a><br /><a href="https://github.com/zavoloklom/docker-compose-linter/commits?author=salzig" title="Code">💻</a> <a href="https://github.com/zavoloklom/docker-compose-linter/commits?author=salzig" title="Documentation">📖</a> <a href="https://github.com/zavoloklom/docker-compose-linter/commits?author=salzig" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://adaliszk.io/"><img src="https://avatars.githubusercontent.com/u/5189131?v=4?s=100" width="100px;" alt="Ádám Liszkai"/><br /><sub><b>Ádám Liszkai</b></sub></a><br /><a href="https://github.com/zavoloklom/docker-compose-linter/discussions?discussions_q=author%3Aadaliszk" title="Participated in discussions or provided ideas">💡</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://adamvig.com/"><img src="https://avatars.githubusercontent.com/u/5354752?v=4?s=100" width="100px;" alt="Adam Vigneaux"/><br /><sub><b>Adam Vigneaux</b></sub></a><br /><a href="https://github.com/zavoloklom/docker-compose-linter/commits?author=AdamVig" title="Code">💻</a> <a href="https://github.com/zavoloklom/docker-compose-linter/commits?author=AdamVig" title="Documentation">📖</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification.
+Contributions of any kind welcome!
 
 ## Changelog
 

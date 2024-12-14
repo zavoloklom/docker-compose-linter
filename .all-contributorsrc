@@ -1,0 +1,51 @@
+{
+  "types": {
+    "ideas": {
+      "symbol": "💡",
+      "description": "Participated in discussions or provided ideas",
+      "link": "https://github.com/zavoloklom/docker-compose-linter/discussions?discussions_q=author%3A<%= contributor.login %>"
+    }
+  },
+  "projectName": "docker-compose-linter",
+  "projectOwner": "zavoloklom",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["README.md"],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "commitType": "docs",
+  "contributors": [
+    {
+      "login": "szymon-filipiak",
+      "name": "Szymon Filipiak",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25361786?v=4",
+      "profile": "https://github.com/szymon-filipiak",
+      "contributions": ["code"]
+    },
+    {
+      "login": "salzig",
+      "name": "Ben Rexin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/99911?v=4",
+      "profile": "http://salzsee.info/",
+      "contributions": ["code", "doc", "test"]
+    },
+    {
+      "login": "adaliszk",
+      "name": "Ádám Liszkai",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5189131?v=4",
+      "profile": "https://adaliszk.io/",
+      "contributions": ["ideas"]
+    },
+    {
+      "login": "AdamVig",
+      "name": "Adam Vigneaux",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5354752?v=4",
+      "profile": "https://adamvig.com/",
+      "contributions": ["code", "doc"]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "linkToUsage": false
+}
+
