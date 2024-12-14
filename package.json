@@ -53,7 +53,7 @@
     "test": "ava --verbose",
     "test:coverage": "rimraf coverage && mkdir -p coverage && c8 ava --tap | tap-xunit --package='dclint' > ./coverage/junit.xml",
     "tsc": "tsc",
-    "update-compose-schema": "node ./scripts/download-compose-schema.cjs",
+    "update-compose-schema": "node --import=tsimp/import ./scripts/download-compose-schema.ts",
     "prepare": "husky"
   },
   "dependencies": {
