@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help docker dev dev-sync check-version
+.PHONY: help docker dev dev-sync docker-x check-version
 
 %:
 	@true
