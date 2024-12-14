@@ -3,11 +3,11 @@
 When specifying ports for services in Docker Compose, it is recommended to explicitly set the host interface or IP
 address to prevent accidental exposure to the network.
 
-- **Rule Name**: no-unbound-port-interfaces
-- **Type**: error
-- **Category**: security
-- **Severity**: major
-- **Fixable**: no
+- **Rule Name:** no-unbound-port-interfaces
+- **Type:** error
+- **Category:** security
+- **Severity:** major
+- **Fixable:** false
 
 ## Problematic Code Example
 
@@ -85,7 +85,7 @@ skip IP interface checks in such cases.
 
 ## Version
 
-This rule was introduced in Docker-Compose-Linter [2.0.0](https://github.com/zavoloklom/docker-compose-linter/releases).
+This rule was introduced in [v2.0.0](https://github.com/zavoloklom/docker-compose-linter/releases).
 
 ## References
 
