@@ -14,7 +14,7 @@ export default {
     [
       '@semantic-release/exec',
       {
-        prepareCmd: 'npm run markdownlint:fix-changelog || true',
+        prepareCmd: 'npm run changelog:fix || true',
       },
     ],
     [
