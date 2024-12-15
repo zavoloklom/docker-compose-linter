@@ -15,7 +15,7 @@ function getDefaultConfig(): Config {
 }
 
 async function validateConfig(config: Config): Promise<Config> {
-  const logger = Logger.getInstance();
+  const logger = Logger.init();
   logger.debug(LOG_SOURCE.CONFIG, 'Starting config validation');
 
   const ajv = new Ajv();
@@ -31,7 +31,7 @@ async function validateConfig(config: Config): Promise<Config> {
 }
 
 async function loadConfig(configPath?: string): Promise<Config> {
-  const logger = Logger.getInstance();
+  const logger = Logger.init();
   const explorer = cosmiconfig('dclint');
 
   const result = configPath ? await explorer.load(configPath) : await explorer.search();

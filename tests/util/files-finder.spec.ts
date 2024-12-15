@@ -3,7 +3,6 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import esmock from 'esmock';
-import { Logger } from '../../src/util/logger';
 import { FileNotFoundError } from '../../src/errors/file-not-found-error';
 
 const mockDirectory = '/path/to/directory';
@@ -19,11 +18,6 @@ const mockNonExistentPath = '/path/nonexistent';
 const mockFilesInDirectory = ['docker-compose.yml', 'compose.yaml', 'another-file.yaml', 'example.txt'];
 const mockDirectoriesInDirectory = ['another_dir', 'node_modules'];
 const mockFilesInSubDirectory = ['docker-compose.yml', 'another-file.yaml', 'example.txt'];
-
-// @ts-ignore TS2339
-test.beforeEach(() => {
-  Logger.init(false); // Initialize logger
-});
 
 const mockReaddirSync = (directory: string): string[] => {
   if (directory === mockDirectory) {

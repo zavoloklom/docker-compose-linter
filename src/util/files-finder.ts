@@ -4,7 +4,7 @@ import { Logger } from './logger';
 import { FileNotFoundError } from '../errors/file-not-found-error';
 
 export function findFilesForLinting(paths: string[], recursive: boolean, excludePaths: string[]): string[] {
-  const logger = Logger.getInstance();
+  const logger = Logger.init();
   logger.debug('UTIL', `Looking for compose files in ${paths.toString()}`);
 
   let filesToCheck: string[] = [];

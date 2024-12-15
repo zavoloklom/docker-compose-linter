@@ -54,11 +54,6 @@ services:
 
 const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
-// @ts-ignore TS2339
-test.beforeEach(() => {
-  Logger.init(false); // Initialize logger
-});
-
 // @ts-ignore TS2349
 test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
   const mockFindFiles = (): string[] => [mockFilePath];
@@ -185,7 +180,7 @@ test('DCLinter: should fix files', async (t: ExecutionContext) => {
 
   // Mock logger to capture dry-run output
   let loggedOutput = '';
-  Logger.getInstance().info = (...messages: string[]): void => {
+  Logger.init().info = (...messages: string[]): void => {
     loggedOutput += messages.join(' ');
   };
 

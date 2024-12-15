@@ -22,15 +22,9 @@ class Logger {
     }
   }
 
-  public static init(debug?: boolean): void {
+  public static init(debug?: boolean): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger(debug);
-    }
-  }
-
-  public static getInstance(): Logger {
-    if (!Logger.instance) {
-      throw new Error('Logger is not initialized. Call Logger.init() first.');
     }
     return Logger.instance;
   }

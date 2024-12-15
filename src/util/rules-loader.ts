@@ -4,7 +4,7 @@ import { Logger } from './logger';
 import Rules from '../rules/index';
 
 async function loadLintRules(config: Config): Promise<LintRule[]> {
-  const logger = Logger.getInstance();
+  const logger = Logger.init();
   const activeRules: LintRule[] = [];
 
   for (const RuleClass of Object.values(Rules)) {
