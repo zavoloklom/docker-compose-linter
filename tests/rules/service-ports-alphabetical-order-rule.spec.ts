@@ -1,6 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
+import { normalizeYAML } from '../test-utils';
 import ServicePortsAlphabeticalOrderRule from '../../src/rules/service-ports-alphabetical-order-rule';
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -46,9 +47,6 @@ services:
         mode: host
       - "9090-9091:8080-8081"
 `;
-
-// Helper function to strip spaces and normalize strings for comparison
-const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
 // @ts-ignore TS2349
 test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are not alphabetically ordered', (t: ExecutionContext) => {

@@ -1,5 +1,6 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
+import { normalizeYAML } from '../test-utils';
 import RequireQuotesInPortsRule from '../../src/rules/require-quotes-in-ports-rule';
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -39,9 +40,6 @@ services:
   web:
     image: nginx
 `;
-
-// Helper function to normalize YAML
-const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
 const pathToFile = '/docker-compose.yml';
 

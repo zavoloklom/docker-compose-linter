@@ -1,6 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
+import { normalizeYAML } from '../test-utils';
 import ServiceDependenciesAlphabeticalOrderRule from '../../src/rules/service-dependencies-alphabetical-order-rule';
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -47,9 +48,6 @@ services:
       redis:
         condition: service_started
 `;
-
-// Helper function to normalize YAML
-const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
 const filePath = '/docker-compose.yml';
 

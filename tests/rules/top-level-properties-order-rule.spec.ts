@@ -1,6 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
+import { normalizeYAML } from '../test-utils';
 import TopLevelPropertiesOrderRule, { TopLevelKeys } from '../../src/rules/top-level-properties-order-rule';
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -40,9 +41,6 @@ volumes:
 `;
 
 const filePath = '/docker-compose.yml';
-
-// Helper function to normalize YAML strings for comparison
-const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
 // @ts-ignore TS2349
 test('TopLevelPropertiesOrderRule: should return a warning when top-level properties are out of order', (t: ExecutionContext) => {

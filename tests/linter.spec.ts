@@ -1,6 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import esmock from 'esmock';
+import { normalizeYAML } from './test-utils';
 import { Logger } from '../src/util/logger';
 import type { Config } from '../src/config/config.types';
 import type { LintResult, LintRule } from '../src/linter/linter.types';
@@ -51,8 +52,6 @@ services:
   web:
     image: nginx
 `;
-
-const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
 // @ts-ignore TS2349
 test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
