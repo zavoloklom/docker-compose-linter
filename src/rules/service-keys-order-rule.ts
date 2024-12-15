@@ -10,12 +10,17 @@ import type {
 } from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
 
-interface ServiceKeysOrderRuleOptions {
+export interface ServiceKeysOrderRuleInputOptions {
   groupOrder?: GroupOrderEnum[];
   groups?: Partial<Record<GroupOrderEnum, string[]>>;
 }
 
-enum GroupOrderEnum {
+interface ServiceKeysOrderRuleOptions {
+  groupOrder: GroupOrderEnum[];
+  groups: Record<GroupOrderEnum, string[]>;
+}
+
+export enum GroupOrderEnum {
   CoreDefinitions = 'Core Definitions',
   ServiceDependencies = 'Service Dependencies',
   DataManagementAndConfiguration = 'Data Management and Configuration',
@@ -26,31 +31,6 @@ enum GroupOrderEnum {
   SecurityAndExecutionContext = 'Security and Execution Context',
   Other = 'Other',
 }
-
-// Default group order and groups
-const defaultGroupOrder: GroupOrderEnum[] = [
-  GroupOrderEnum.CoreDefinitions,
-  GroupOrderEnum.ServiceDependencies,
-  GroupOrderEnum.DataManagementAndConfiguration,
-  GroupOrderEnum.EnvironmentConfiguration,
-  GroupOrderEnum.Networking,
-  GroupOrderEnum.RuntimeBehavior,
-  GroupOrderEnum.OperationalMetadata,
-  GroupOrderEnum.SecurityAndExecutionContext,
-  GroupOrderEnum.Other,
-];
-
-const defaultGroups: Record<GroupOrderEnum, string[]> = {
-  [GroupOrderEnum.CoreDefinitions]: ['image', 'build', 'container_name'],
-  [GroupOrderEnum.ServiceDependencies]: ['depends_on'],
-  [GroupOrderEnum.DataManagementAndConfiguration]: ['volumes', 'volumes_from', 'configs', 'secrets'],
-  [GroupOrderEnum.EnvironmentConfiguration]: ['environment', 'env_file'],
-  [GroupOrderEnum.Networking]: ['ports', 'networks', 'network_mode', 'extra_hosts'],
-  [GroupOrderEnum.RuntimeBehavior]: ['command', 'entrypoint', 'working_dir', 'restart', 'healthcheck'],
-  [GroupOrderEnum.OperationalMetadata]: ['logging', 'labels'],
-  [GroupOrderEnum.SecurityAndExecutionContext]: ['user', 'isolation'],
-  [GroupOrderEnum.Other]: [],
-};
 
 export default class ServiceKeysOrderRule implements LintRule {
   public name = 'service-keys-order';
@@ -83,28 +63,47 @@ export default class ServiceKeysOrderRule implements LintRule {
     return `Key "${key}" in service "${serviceName}" is out of order. Expected order is: ${correctOrder.join(', ')}.`;
   }
 
-  private readonly groupOrder: GroupOrderEnum[];
+  public options: ServiceKeysOrderRuleOptions;
 
-  private readonly groups: Record<GroupOrderEnum, string[]>;
+  constructor(options?: ServiceKeysOrderRuleInputOptions) {
+    const defaultOptions: ServiceKeysOrderRuleOptions = {
+      groups: {
+        [GroupOrderEnum.CoreDefinitions]: ['image', 'build', 'container_name'],
+        [GroupOrderEnum.ServiceDependencies]: ['depends_on'],
+        [GroupOrderEnum.DataManagementAndConfiguration]: ['volumes', 'volumes_from', 'configs', 'secrets'],
+        [GroupOrderEnum.EnvironmentConfiguration]: ['environment', 'env_file'],
+        [GroupOrderEnum.Networking]: ['ports', 'networks', 'network_mode', 'extra_hosts'],
+        [GroupOrderEnum.RuntimeBehavior]: ['command', 'entrypoint', 'working_dir', 'restart', 'healthcheck'],
+        [GroupOrderEnum.OperationalMetadata]: ['logging', 'labels'],
+        [GroupOrderEnum.SecurityAndExecutionContext]: ['user', 'isolation'],
+        [GroupOrderEnum.Other]: [],
+      },
+      groupOrder: [
+        GroupOrderEnum.CoreDefinitions,
+        GroupOrderEnum.ServiceDependencies,
+        GroupOrderEnum.DataManagementAndConfiguration,
+        GroupOrderEnum.EnvironmentConfiguration,
+        GroupOrderEnum.Networking,
+        GroupOrderEnum.RuntimeBehavior,
+        GroupOrderEnum.OperationalMetadata,
+        GroupOrderEnum.SecurityAndExecutionContext,
+        GroupOrderEnum.Other,
+      ],
+    };
 
-  constructor(options?: ServiceKeysOrderRuleOptions) {
-    this.groupOrder = options?.groupOrder?.length ? options.groupOrder : defaultGroupOrder;
-
-    this.groups = { ...defaultGroups };
-    if (options?.groups) {
-      Object.keys(options.groups).forEach((group) => {
-        const groupKey = group as GroupOrderEnum;
-        if (defaultGroups[groupKey] && options.groups) {
-          this.groups[groupKey] = options.groups[groupKey]!;
-        }
-      });
-    }
+    this.options = {
+      groups: {
+        ...defaultOptions.groups,
+        ...options?.groups,
+      },
+      groupOrder: options?.groupOrder || defaultOptions.groupOrder,
+    };
   }
 
   private getCorrectOrder(keys: string[]): string[] {
-    const otherKeys = keys.filter((key) => !Object.values(this.groups).flat().includes(key)).sort();
+    const otherKeys = keys.filter((key) => !Object.values(this.options.groups).flat().includes(key)).sort();
 
-    return [...this.groupOrder.flatMap((group) => this.groups[group]), ...otherKeys];
+    return [...this.options.groupOrder.flatMap((group) => this.options.groups[group]), ...otherKeys];
   }
 
   public check(context: LintContext): LintMessage[] {

@@ -1,7 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import ServiceKeysOrderRule from '../../src/rules/service-keys-order-rule';
+import ServiceKeysOrderRule, { GroupOrderEnum } from '../../src/rules/service-keys-order-rule';
 import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
@@ -75,6 +75,98 @@ test('ServiceKeysOrderRule: should not return warnings when service keys are in 
 
   const errors = rule.check(context);
   t.is(errors.length, 0, 'There should be no warnings when service keys are in the correct order.');
+});
+
+// @ts-ignore TS2349
+test('ServiceKeysOrderRule: should respect custom groupOrder and groups from options', (t: ExecutionContext) => {
+  const customGroups = {
+    [GroupOrderEnum.CoreDefinitions]: ['container_name', 'build', 'image'],
+    [GroupOrderEnum.Networking]: ['extra_hosts', 'ports'],
+  };
+
+  const customGroupOrder = [GroupOrderEnum.Networking, GroupOrderEnum.CoreDefinitions];
+
+  const rule = new ServiceKeysOrderRule({
+    groups: customGroups,
+    groupOrder: customGroupOrder,
+  });
+
+  const yamlWithCustomOrder = `
+services:
+  web:
+    container_name: my-web-container
+    image: nginx
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 8080:80
+    build: ./web
+  db:
+    ports:
+      - 5432:5432
+    image: postgres
+  `;
+
+  const correctOrderWithCustomOptions = `
+services:
+  web:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 8080:80
+    container_name: my-web-container
+    build: ./web
+    image: nginx
+  db:
+    ports:
+      - 5432:5432
+    image: postgres
+  `;
+
+  const fixedYAML = rule.fix(yamlWithCustomOrder);
+
+  t.is(
+    normalizeYAML(fixedYAML),
+    normalizeYAML(correctOrderWithCustomOptions),
+    'The service keys should be reordered correctly according to custom options.',
+  );
+});
+
+// @ts-ignore TS2349
+test('ServiceKeysOrderRule: should use default options when no options are provided', (t: ExecutionContext) => {
+  const rule = new ServiceKeysOrderRule();
+
+  const yamlWithDefaultOrderViolation = `
+services:
+  web:
+    labels:
+      - com.example.key=value
+    image: nginx
+    ports:
+      - 8080:80
+    environment:
+      - NODE_ENV=production
+  `;
+
+  const correctOrderWithDefaultOptions = `
+services:
+  web:
+    image: nginx
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8080:80
+    labels:
+      - com.example.key=value
+  `;
+
+  const fixedYAML = rule.fix(yamlWithDefaultOrderViolation);
+
+  t.is(
+    normalizeYAML(fixedYAML),
+    normalizeYAML(correctOrderWithDefaultOptions),
+    'The service keys should be reordered correctly using default options.',
+  );
 });
 
 // @ts-ignore TS2349

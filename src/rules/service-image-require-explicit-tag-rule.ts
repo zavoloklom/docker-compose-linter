@@ -10,8 +10,12 @@ import type {
 } from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
 
-interface ServiceImageRequireExplicitTagRuleOptions {
+export interface ServiceImageRequireExplicitTagRuleInputOptions {
   prohibitedTags?: string[];
+}
+
+interface ServiceImageRequireExplicitTagRuleOptions {
+  prohibitedTags: string[];
 }
 
 export default class ServiceImageRequireExplicitTagRule implements LintRule {
@@ -31,25 +35,18 @@ export default class ServiceImageRequireExplicitTagRule implements LintRule {
 
   public fixable: boolean = false;
 
+  public options: ServiceImageRequireExplicitTagRuleOptions;
+
+  constructor(options?: ServiceImageRequireExplicitTagRuleInputOptions) {
+    const defaultOptions: ServiceImageRequireExplicitTagRuleOptions = {
+      prohibitedTags: ['latest', 'stable', 'edge', 'test', 'nightly', 'dev', 'beta', 'canary'],
+    };
+    this.options = { ...defaultOptions, ...options };
+  }
+
   // eslint-disable-next-line class-methods-use-this
   public getMessage({ serviceName, image }: { serviceName: string; image: string }): string {
     return `Service "${serviceName}" is using the image "${image}", which does not have a concrete version tag. Specify a concrete version tag.`;
-  }
-
-  private readonly prohibitedTags: string[];
-
-  constructor(options?: ServiceImageRequireExplicitTagRuleOptions) {
-    // Default prohibited tags if not provided
-    this.prohibitedTags = options?.prohibitedTags || [
-      'latest',
-      'stable',
-      'edge',
-      'test',
-      'nightly',
-      'dev',
-      'beta',
-      'canary',
-    ];
   }
 
   private isImageTagExplicit(image: string): boolean {
@@ -57,7 +54,7 @@ export default class ServiceImageRequireExplicitTagRule implements LintRule {
     if (!lastPart || !lastPart.includes(':')) return false;
 
     const [, tag] = lastPart.split(':');
-    return !this.prohibitedTags.includes(tag);
+    return !this.options.prohibitedTags.includes(tag);
   }
 
   public check(context: LintContext): LintMessage[] {

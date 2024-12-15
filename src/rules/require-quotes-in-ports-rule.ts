@@ -10,8 +10,13 @@ import type {
 } from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
 
+export interface RequireQuotesInPortsRuleInputOptions {
+  quoteType?: 'single' | 'double';
+}
+
 interface RequireQuotesInPortsRuleOptions {
   quoteType: 'single' | 'double';
+  portsSections: string[];
 }
 
 export default class RequireQuotesInPortsRule implements LintRule {
@@ -30,22 +35,23 @@ export default class RequireQuotesInPortsRule implements LintRule {
 
   public fixable: boolean = true;
 
+  public options: RequireQuotesInPortsRuleOptions;
+
+  constructor(options?: RequireQuotesInPortsRuleInputOptions) {
+    const defaultOptions: RequireQuotesInPortsRuleOptions = {
+      quoteType: 'single',
+      portsSections: ['ports', 'expose'],
+    };
+    this.options = { ...defaultOptions, ...options };
+  }
+
   // eslint-disable-next-line class-methods-use-this
   public getMessage(): string {
     return 'Ports in `ports` and `expose` sections should be enclosed in quotes.';
   }
 
-  private readonly quoteType: 'single' | 'double';
-
-  private readonly portsSections: string[];
-
-  constructor(options?: RequireQuotesInPortsRuleOptions) {
-    this.quoteType = options?.quoteType || 'single';
-    this.portsSections = ['ports', 'expose'];
-  }
-
   private getQuoteType(): Scalar.Type {
-    return this.quoteType === 'single' ? 'QUOTE_SINGLE' : 'QUOTE_DOUBLE';
+    return this.options.quoteType === 'single' ? 'QUOTE_SINGLE' : 'QUOTE_DOUBLE';
   }
 
   // Static method to extract and process values
@@ -79,7 +85,7 @@ export default class RequireQuotesInPortsRule implements LintRule {
     const errors: LintMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
 
-    this.portsSections.forEach((section) => {
+    this.options.portsSections.forEach((section) => {
       RequireQuotesInPortsRule.extractValues(parsedDocument.contents, section, (service, port) => {
         if (port.type !== this.getQuoteType()) {
           errors.push({
@@ -109,7 +115,7 @@ export default class RequireQuotesInPortsRule implements LintRule {
   public fix(content: string): string {
     const parsedDocument = parseDocument(content);
 
-    this.portsSections.forEach((section) => {
+    this.options.portsSections.forEach((section) => {
       RequireQuotesInPortsRule.extractValues(parsedDocument.contents, section, (service, port) => {
         if (port.type !== this.getQuoteType()) {
           const newPort = new Scalar(String(port.value));

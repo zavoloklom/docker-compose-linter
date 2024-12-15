@@ -118,6 +118,23 @@ test('NoBuildAndImageRule: should not return warnings when "build" and "image" a
 });
 
 // @ts-ignore TS2349
+test('NoBuildAndImageRule: should respect default options when no options are provided', (t: ExecutionContext) => {
+  const rule = new NoBuildAndImageRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithBuildImageAndPullPolicy).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithBuildImageAndPullPolicy,
+  };
+
+  const errors = rule.check(context);
+  t.is(
+    errors.length,
+    0,
+    'There should be no warnings when "build" and "image" are used together with pull_policy and default checkPullPolicy is true.',
+  );
+});
+
+// @ts-ignore TS2349
 test('NoBuildAndImageRule: should not return warnings when only "build" is used', (t: ExecutionContext) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
