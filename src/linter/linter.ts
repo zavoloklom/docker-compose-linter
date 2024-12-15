@@ -3,7 +3,7 @@ import { parseDocument, YAMLError } from 'yaml';
 import type { Config } from '../config/config.types';
 import type { LintRule, LintMessage, LintResult, LintContext } from './linter.types';
 import { findFilesForLinting } from '../util/files-finder';
-import { loadLintRules } from '../util/rules-loader';
+import { loadLintRules } from '../util/rules-utils';
 import { Logger, LOG_SOURCE } from '../util/logger';
 import { validationComposeSchema } from '../util/compose-validation';
 import { ComposeValidationError } from '../errors/compose-validation-error';
