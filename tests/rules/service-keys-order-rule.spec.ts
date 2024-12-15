@@ -1,6 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
+import { normalizeYAML } from '../test-utils';
 import ServiceKeysOrderRule, { GroupOrderEnum } from '../../src/rules/service-keys-order-rule';
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -36,9 +37,6 @@ services:
     cpu_rt_period: '1400us'
     cpu_rt_runtime: '400ms'
 `;
-
-// Helper function to strip spaces and normalize strings for comparison
-const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
 // @ts-ignore TS2349
 test('ServiceKeysOrderRule: should return a warning when service keys are in the wrong order', (t: ExecutionContext) => {

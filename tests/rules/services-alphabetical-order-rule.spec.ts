@@ -1,6 +1,7 @@
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
+import { normalizeYAML } from '../test-utils';
 import ServicesAlphabeticalOrderRule from '../../src/rules/services-alphabetical-order-rule';
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -32,9 +33,6 @@ services:
   elastic:
     image: elastic
 `;
-
-// Helper function to normalize strings for comparison
-const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
 // @ts-ignore TS2349
 test('ServicesAlphabeticalOrderRule: should return a warning when services are out of order', (t: ExecutionContext) => {
