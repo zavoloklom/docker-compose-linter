@@ -2,6 +2,64 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [2.2.0](https://github.com/zavoloklom/docker-compose-linter/compare/v2.1.0...v2.2.0) (2024-12-15)
+
+### Features
+
+- move rules options to a separate property for better extensibility
+  ([929123a](https://github.com/zavoloklom/docker-compose-linter/commit/929123a942481b7b8d39dba8b355098d12776ea3))
+- rename rules-loader, add getRuleDefinition helper
+  ([292c6f9](https://github.com/zavoloklom/docker-compose-linter/commit/292c6f9f0c827dc1f95071aad80e90d08f7d4cd8))
+
+### Code Refactoring
+
+- change `Logger.init` to return the initialized `Logger` instance
+  ([b80549d](https://github.com/zavoloklom/docker-compose-linter/commit/b80549d8c088ffaedc5227af825c96b4a498c27f))
+
+### Tests
+
+- move helper function to normalize strings to separate file
+  ([2c70a44](https://github.com/zavoloklom/docker-compose-linter/commit/2c70a44ab3290d03f3d57f5ee0e386b62f2d6b56))
+
+### Dependencies
+
+- **dev:** bump markdownlint-cli2 from 0.15.0 to 0.16.0
+  ([5f750ae](https://github.com/zavoloklom/docker-compose-linter/commit/5f750ae53cc77ecdfccff9229d14f61a495e4463))
+- **dev:** fix npm audit warning
+  ([590b488](https://github.com/zavoloklom/docker-compose-linter/commit/590b488d0b85e8b3270cb7278a442eb1f2250853))
+
+### Documentation
+
+- add logo to README header
+  ([288246b](https://github.com/zavoloklom/docker-compose-linter/commit/288246bd6037bf3c0c788d7b1ba5e1f326bb3570))
+- add TOC in README and rename sections
+  ([96f8711](https://github.com/zavoloklom/docker-compose-linter/commit/96f8711c272dc921a02c7f396a8b4444dccda066))
+- change release reference in rules documentation
+  ([39f6745](https://github.com/zavoloklom/docker-compose-linter/commit/39f6745dd0294e5f061bfc8f05097fb6f13d0f7d))
+- fix all-contributors badge
+  ([cd3186b](https://github.com/zavoloklom/docker-compose-linter/commit/cd3186b008024a897985470e0b4d9b4b9cf58991))
+- fix json example for editor autocompletion with schema
+  ([64a04a6](https://github.com/zavoloklom/docker-compose-linter/commit/64a04a6cb4ffd538b36fa858dde94f7979973d38))
+- make rules documentation more consistent
+  ([095133e](https://github.com/zavoloklom/docker-compose-linter/commit/095133e8b3691e887ee1790ad8ec07bba6afdbe3))
+- update Contacts section in README
+  ([9f963de](https://github.com/zavoloklom/docker-compose-linter/commit/9f963dee5809b1229aa85784f76bd1da13840ce5))
+- update rules descriptions
+  ([1fdbd1f](https://github.com/zavoloklom/docker-compose-linter/commit/1fdbd1f974f05f77c65b254e048e33901baf6879))
+
+### Others
+
+- add documentation scripts and update contribution guidelines
+  ([9931320](https://github.com/zavoloklom/docker-compose-linter/commit/9931320597e6c32fa09d40ee8c39a4a9baec30e7))
+- fix .PHONY option in Makefile
+  ([d93a930](https://github.com/zavoloklom/docker-compose-linter/commit/d93a930711fa7d14e25d16a9e185d41e6c5bf9cf))
+- rewrite download-compose-schema script to TS
+  ([e89549c](https://github.com/zavoloklom/docker-compose-linter/commit/e89549c5725bb3e3db9aaf199faa9f6640e8578a))
+- setup all-contributors specification, add contributors to README
+  ([fe4f67f](https://github.com/zavoloklom/docker-compose-linter/commit/fe4f67fd5377f330cd38861102074bdc306bf25c))
+- update Commit Message Conventions for new rules
+  ([d260a84](https://github.com/zavoloklom/docker-compose-linter/commit/d260a8401d34f7701f03c34e05dbf2b66058bdc4))
+
 ## [2.1.0](https://github.com/zavoloklom/docker-compose-linter/compare/v2.0.2...v2.1.0) (2024-12-07)
 
 ### Features
