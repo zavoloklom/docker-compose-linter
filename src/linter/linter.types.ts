@@ -33,7 +33,7 @@ interface RuleMeta {
 }
 
 interface LintRule {
-  name: string; // The name of the rule, e.g., 'no-console'
+  name: string; // The name of the rule, e.g. 'no-build-and-image'
   type: LintMessageType; // The type of the message, e.g. 'error'
   meta: RuleMeta; // Metadata about the rule, including description and URL
   category: LintRuleCategory; // Category under which this rule falls
@@ -51,6 +51,17 @@ interface LintRule {
   fix?(content: string): string;
 }
 
+interface LintRuleDefinition {
+  name: string;
+  type: LintMessageType;
+  category: LintRuleCategory;
+  severity: LintRuleSeverity;
+  fixable: boolean;
+  meta: RuleMeta;
+  hasFixFunction: boolean;
+  hasOptions: boolean;
+}
+
 type LintMessageType = 'warning' | 'error';
 
 type LintRuleSeverity = 'info' | 'minor' | 'major' | 'critical';
@@ -63,6 +74,7 @@ export {
   LintResult,
   LintRule,
   RuleMeta,
+  LintRuleDefinition,
   LintMessageType,
   LintRuleSeverity,
   LintRuleCategory,

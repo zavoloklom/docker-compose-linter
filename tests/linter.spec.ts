@@ -62,7 +62,7 @@ test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
   // Use esmock to mock both rules-loader and files-finder modules
   // eslint-disable-next-line sonarjs/no-duplicate-string
   const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
-    '../src/util/rules-loader': { loadLintRules: mockLoadLintRules },
+    '../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
     'node:fs': { readFileSync: mockReadFileSync },
   });
@@ -142,7 +142,7 @@ test('DCLinter: should lint multiple files correctly', async (t: ExecutionContex
   // Use esmock to mock both rules-loader and files-finder modules
   // eslint-disable-next-line sonarjs/no-duplicate-string
   const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
-    '../src/util/rules-loader': { loadLintRules: mockLoadLintRules },
+    '../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
     'node:fs': { readFileSync: mockReadFileSync },
   });
@@ -170,7 +170,7 @@ test('DCLinter: should fix files', async (t: ExecutionContext) => {
   // Use esmock to mock both rules-loader and files-finder modules
   // eslint-disable-next-line sonarjs/no-duplicate-string
   const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
-    '../src/util/rules-loader': { loadLintRules: mockLoadLintRules },
+    '../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
     'node:fs': { readFileSync: mockReadFileSync, writeFileSync: mockWriteFileSync },
   });
@@ -213,7 +213,7 @@ test('DCLinter: should apply fixes correctly while ignoring disabled rules', asy
 
   const { DCLinter } = await esmock<typeof import('../src/linter/linter')>('../src/linter/linter', {
     'node:fs': { readFileSync: mockReadFileSync, writeFileSync: mockWriteFileSync },
-    '../src/util/rules-loader': { loadLintRules: mockLoadLintRules },
+    '../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../src/util/files-finder': { findFilesForLinting: mockFindFiles },
   });
 
