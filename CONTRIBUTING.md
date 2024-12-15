@@ -3,6 +3,25 @@
 Please note that this project is released with a [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By participating
 in this project you agree to abide by its causes.
 
+## Table of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Contribution Process](#contribution-process)
+   - [1. Fork and Clone](#1-fork-and-clone)
+   - [2. Create a Branch](#2-create-a-branch)
+   - [3. Development](#3-development)
+   - [4. Verify Everything](#4-verify-everything)
+   - [5. Push Changes](#5-push-changes)
+   - [6. Create a Pull Request](#6-create-a-pull-request)
+   - [7. Code Review](#7-code-review)
+   - [8. Merge](#8-merge)
+3. [Commit Message Conventions](#commit-message-conventions)
+4. [How to Add a New Rule](#how-to-add-a-new-rule)
+5. [How to Build the Project](#how-to-build-the-project)
+6. [How to Build SEA](#how-to-build-sea)
+7. [How to Build Docker Locally](#how-to-build-docker-locally)
+8. [How to Update Compose Schema](#how-to-update-compose-schema)
+
 ## Prerequisites
 
 Before making contributions, ensure the following:
@@ -13,15 +32,132 @@ Before making contributions, ensure the following:
 
 ## Contribution Process
 
-1. **Fork and Clone**: Fork this project on GitHub and clone your fork locally.
-2. **Create a Branch**: Create a new branch in your local repository. This keeps your changes organized and separate
-   from the main project.
-3. **Development**: Make your changes in your branch. Here are a few things to keep in mind:
-   - **No Lint Errors**: Ensure your code changes adhere to the project's linting rules and do not introduce new lint
-     errors.
-   - **Testing**: All changes must be accompanied by passing tests. Add new tests if you are adding functionality or fix
-     existing tests if you are changing code.
-   - **Commit Convention**: Commit message must follow our [Commit Message Conventions](#commit-message-conventions).
+### 1. Fork and Clone
+
+- **Fork**: Navigate to the repository on GitHub and click the "Fork" button to create a copy of the repository in your
+  own GitHub account.
+- **Clone**: Clone your forked repository to your local machine using the following command:
+
+  ```bash
+  git clone https://github.com/<your-username>/docker-compose-linter.git
+  ```
+
+- Change into the project directory:
+
+  ```bash
+  cd docker-compose-linter
+  ```
+
+### 2. Create a Branch
+
+- Create a new branch to work on your changes. Use a descriptive name for the branch, such as `feature/add-new-rule` or
+  `fix/linting-error`:
+
+  ```bash
+  git checkout -b <branch-name>
+  ```
+
+### 3. Development
+
+Make your changes in the newly created branch. Follow these steps to ensure quality and consistency:
+
+#### No Lint Errors
+
+- Check your code against the project's linting rules to ensure consistency:
+
+  ```bash
+  npm run lint
+  ```
+
+- If linting errors are reported, fix them before proceeding. You can also use the following command to auto-fix issues:
+
+  ```bash
+  # eslint
+  npm run eslint:fix
+
+  # md files
+  npm run docs:fix
+  ```
+
+#### Testing
+
+- All code changes must pass existing tests. If you are adding new functionality, ensure you write appropriate tests to
+  validate it.
+- To run all tests:
+
+  ```bash
+  npm run test
+  ```
+
+- If a test fails, resolve the issue before proceeding. For new features or bug fixes, include corresponding test cases.
+
+#### Commit Convention
+
+- Commit messages must follow our [Commit Message Conventions](#commit-message-conventions). This ensures clear and
+  meaningful commit history.
+- Examples:
+  - For a bug fix: `fix: resolve crash when parsing invalid YAML`
+  - For a new feature: `feat: add support for custom validation schemas`
+- Use the following command to commit your changes:
+
+  ```bash
+  git commit -m "<type>: <message>"
+  ```
+
+#### Documentation Updates
+
+- If your changes impact the documentation (e.g., adding a new rule or updating an existing feature), ensure you update
+  the relevant files in the `docs` folder.
+- Validate your changes with `npm run docs:check` to ensure there are no issues.
+
+### 4. Verify Everything
+
+Before submitting your changes:
+
+- **Run all tests**: Verify that your changes have not introduced any test failures.
+
+  ```bash
+  npm run test
+  ```
+
+- **Build the project**: Ensure that the project builds successfully to verify that no issues have been introduced in
+  the build process:
+
+  ```bash
+  npm run build
+  ```
+
+  For more details on the build process and available configurations, refer to the
+  [How to Build the Project](#how-to-build-the-project) section.
+
+- **Confirm functionality**: Ensure that your changes (e.g., new rules, fixes) work as intended using the linter.
+
+### 5. Push Changes
+
+Push your branch to your forked repository:
+
+```bash
+git push origin <branch-name>
+```
+
+### 6. Create a Pull Request
+
+- Navigate to the original repository on GitHub and click the "Compare & Pull Request" button for your branch.
+- Provide a clear and detailed description of your changes in the pull request.
+
+### 7. Code Review
+
+- Once your pull request is submitted, it will undergo a review process.
+- Be open to feedback and make adjustments as needed. Push updates to your branch, and they will automatically appear in
+  the pull request.
+
+### 8. Merge
+
+- After your pull request has been approved and all checks have passed, it will be merged into the main repository.
+
+Once your contribution is merged, it will become part of the project. I appreciate your hard work and contribution to
+making this tool better. Also, I encourage you to continue participating in the project and joining in discussions and
+future enhancements.
 
 ## Commit Message Conventions
 
@@ -97,6 +233,9 @@ fixable, this method can return the content unchanged.
 1. Go to the `docs/rules/` folder.
 2. Create a markdown file describing your new rule (for example `new-check-rule.md`) based on
    [template](./docs/rules/__TEMPLATE__.md)
+3. Run `npm run docs:check` to validate documentation.
+4. Use the `npm run docs:update` script to automatically update the documentation for the rule from the source.
+5. If there are formatting issues, run `npm run docs:fix` to automatically resolve them.
 
 ## How to Build the Project
 
@@ -252,7 +391,7 @@ ldd /bin/dclint
     libgcc_s.so.1 => /usr/lib/libgcc_s.so.1
 ```
 
-## Build Docker File Locally
+## How to Build Docker Locally
 
 ```shell
 docker build --file Dockerfile . --tag zavoloklom/dclint:dev \
@@ -302,24 +441,3 @@ schema update:
 ```shell
 npm run test
 ```
-
-## Submitting Changes
-
-After you've made your changes:
-
-1. **Run Linters and Tests**: Before submitting your changes, run the linters and tests to ensure everything is in
-   order.
-2. **Push to GitHub**: Push your changes to your fork on GitHub.
-3. **Create a Merge Request**: Open a merge request from your fork/branch to the main repository on GitHub. Provide a
-   clear and detailed description of your changes and why they are necessary.
-4. **Code Review**: Once your merge request is opened, it will be reviewed by other contributors. Be open to feedback
-   and willing to make further adjustments based on the discussions.
-5. **Merge**: If your merge request passes the review, it will be merged into the main codebase.
-
-## After Your Contribution
-
-Once your contribution is merged, it will become part of the project. I appreciate your hard work and contribution to
-making this tool better. Also, I encourage you to continue participating in the project and joining in discussions and
-future enhancements.
-
-**Thank you for contributing!**
