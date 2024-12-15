@@ -150,6 +150,28 @@ test('TopLevelPropertiesOrderRule: should return warnings based on custom order'
 });
 
 // @ts-ignore TS2349
+test('TopLevelPropertiesOrderRule: should handle absence of x-* properties correctly', (t: ExecutionContext) => {
+  const yamlWithoutXProperties = `
+version: '3'
+services:
+  web:
+    image: nginx
+networks:
+  default:
+    driver: bridge
+`;
+  const rule = new TopLevelPropertiesOrderRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithoutXProperties).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithoutXProperties,
+  };
+
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no warnings when there are no x-* properties.');
+});
+
+// @ts-ignore TS2349
 test('TopLevelPropertiesOrderRule: should fix the order of top-level properties based on custom order', (t: ExecutionContext) => {
   const customOrder = [
     TopLevelKeys.Version,

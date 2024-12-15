@@ -39,6 +39,7 @@ interface LintRule {
   category: LintRuleCategory; // Category under which this rule falls
   severity: LintRuleSeverity; // Default severity level for this rule
   fixable: boolean; // Is it possible to fix this
+  options?: object; // Configurable options for this rule
 
   // Method for generating an error message if the rule is violated
   getMessage(details?: object): string;

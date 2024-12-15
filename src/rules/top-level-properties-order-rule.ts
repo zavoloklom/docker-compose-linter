@@ -10,8 +10,12 @@ import type {
 } from '../linter/linter.types';
 import { findLineNumberByKey } from '../util/line-finder';
 
-interface TopLevelPropertiesOrderRuleOptions {
+export interface TopLevelPropertiesOrderRuleInputOptions {
   customOrder?: TopLevelKeys[];
+}
+
+interface TopLevelPropertiesOrderRuleOptions {
+  customOrder: TopLevelKeys[];
 }
 
 export enum TopLevelKeys {
@@ -25,18 +29,6 @@ export enum TopLevelKeys {
   Secrets = 'secrets',
   Configs = 'configs',
 }
-
-export const DEFAULT_ORDER: TopLevelKeys[] = [
-  TopLevelKeys.XProperties,
-  TopLevelKeys.Version,
-  TopLevelKeys.Name,
-  TopLevelKeys.Include,
-  TopLevelKeys.Services,
-  TopLevelKeys.Networks,
-  TopLevelKeys.Volumes,
-  TopLevelKeys.Secrets,
-  TopLevelKeys.Configs,
-];
 
 export default class TopLevelPropertiesOrderRule implements LintRule {
   public name = 'top-level-properties-order';
@@ -56,15 +48,28 @@ export default class TopLevelPropertiesOrderRule implements LintRule {
 
   public fixable: boolean = true;
 
+  public options: TopLevelPropertiesOrderRuleOptions;
+
+  constructor(options?: TopLevelPropertiesOrderRuleInputOptions) {
+    const defaultOptions: TopLevelPropertiesOrderRuleOptions = {
+      customOrder: [
+        TopLevelKeys.XProperties,
+        TopLevelKeys.Version,
+        TopLevelKeys.Name,
+        TopLevelKeys.Include,
+        TopLevelKeys.Services,
+        TopLevelKeys.Networks,
+        TopLevelKeys.Volumes,
+        TopLevelKeys.Secrets,
+        TopLevelKeys.Configs,
+      ],
+    };
+    this.options = { ...defaultOptions, ...options };
+  }
+
   // eslint-disable-next-line class-methods-use-this
   public getMessage({ key, correctOrder }: { key: string; correctOrder: string[] }): string {
     return `Property "${key}" is out of order. Expected order is: ${correctOrder.join(', ')}.`;
-  }
-
-  private readonly expectedOrder: TopLevelKeys[];
-
-  constructor(options?: TopLevelPropertiesOrderRuleOptions) {
-    this.expectedOrder = options?.customOrder ?? DEFAULT_ORDER;
   }
 
   public check(context: LintContext): LintMessage[] {
@@ -75,7 +80,7 @@ export default class TopLevelPropertiesOrderRule implements LintRule {
     const sortedXProperties = topLevelKeys.filter((key) => key.startsWith('x-')).sort();
 
     // Replace 'TopLevelKeys.XProperties' in the order with the actual sorted x-prefixed properties
-    const correctOrder = this.expectedOrder.flatMap((key) =>
+    const correctOrder = this.options.customOrder.flatMap((key) =>
       key === TopLevelKeys.XProperties ? sortedXProperties : [key],
     );
 
@@ -117,7 +122,7 @@ export default class TopLevelPropertiesOrderRule implements LintRule {
 
     const sortedXProperties = topLevelKeys.filter((key) => key.startsWith('x-')).sort();
 
-    const correctOrder = this.expectedOrder.flatMap((key) =>
+    const correctOrder = this.options.customOrder.flatMap((key) =>
       key === TopLevelKeys.XProperties ? sortedXProperties : [key],
     );
 

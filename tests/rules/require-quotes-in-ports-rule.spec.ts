@@ -34,6 +34,12 @@ services:
       - "3000" 
 `;
 
+const yamlWithoutPorts = `
+services:
+  web:
+    image: nginx
+`;
+
 // Helper function to normalize YAML
 const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
 
@@ -82,6 +88,19 @@ test('RequireQuotesInPortsRule: should not return warnings when ports are quoted
 
   const errors = rule.check(context);
   t.is(errors.length, 0, 'There should be no warnings when ports are quoted with double quotes.');
+});
+
+// @ts-ignore TS2349
+test('RequireQuotesInPortsRule: should handle absence of ports and expose sections gracefully', (t: ExecutionContext) => {
+  const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
+  const context: LintContext = {
+    path: pathToFile,
+    content: {},
+    sourceCode: yamlWithoutPorts,
+  };
+
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no warnings when `ports` and `expose` sections are absent.');
 });
 
 // @ts-ignore TS2349
