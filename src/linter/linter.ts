@@ -26,10 +26,12 @@ class DCLinter {
 
   private rules: LintRule[];
 
+  private logger: Logger;
+
   constructor(config?: Config) {
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.rules = [];
-    Logger.init(this.config?.debug);
+    this.logger = Logger.init(this.config?.debug);
   }
 
   private async loadRules() {
@@ -81,7 +83,6 @@ class DCLinter {
   }
 
   private static validateFile(file: string): { context: LintContext | null; messages: LintMessage[] } {
-    const logger = Logger.getInstance();
     const messages: LintMessage[] = [];
     const context: LintContext = { path: file, content: {}, sourceCode: '' };
 
@@ -135,14 +136,12 @@ class DCLinter {
           type: 'error',
           fixable: false,
         });
-        logger.debug(LOG_SOURCE.LINTER, `Error while processing file ${file}`, error);
       }
 
       return { context: null, messages };
     }
 
     if (startsWithDisableFileComment(context.sourceCode)) {
-      logger.debug(LOG_SOURCE.LINTER, `Linter disabled for file: ${file}`);
       return { context: null, messages };
     }
 
@@ -150,14 +149,13 @@ class DCLinter {
   }
 
   public async lintFiles(paths: string[], doRecursiveSearch: boolean): Promise<LintResult[]> {
-    const logger = Logger.getInstance();
     const lintResults: LintResult[] = [];
     await this.loadRules();
     const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
-    logger.debug(LOG_SOURCE.LINTER, `Compose files for linting: ${files.toString()}`);
+    this.logger.debug(LOG_SOURCE.LINTER, `Compose files for linting: ${files.toString()}`);
 
     files.forEach((file) => {
-      logger.debug(LOG_SOURCE.LINTER, `Linting file: ${file}`);
+      this.logger.debug(LOG_SOURCE.LINTER, `Linting file: ${file}`);
 
       const { context, messages } = DCLinter.validateFile(file);
       if (context) {
@@ -180,34 +178,33 @@ class DCLinter {
       });
     });
 
-    logger.debug(LOG_SOURCE.LINTER, 'Linting result:', JSON.stringify(lintResults));
+    this.logger.debug(LOG_SOURCE.LINTER, 'Linting result:', JSON.stringify(lintResults));
     return lintResults;
   }
 
   public async fixFiles(paths: string[], doRecursiveSearch: boolean, dryRun: boolean = false): Promise<void> {
-    const logger = Logger.getInstance();
     await this.loadRules();
     const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
-    logger.debug(LOG_SOURCE.LINTER, `Compose files for fixing: ${files.toString()}`);
+    this.logger.debug(LOG_SOURCE.LINTER, `Compose files for fixing: ${files.toString()}`);
 
     files.forEach((file) => {
-      logger.debug(LOG_SOURCE.LINTER, `Fixing file: ${file}`);
+      this.logger.debug(LOG_SOURCE.LINTER, `Fixing file: ${file}`);
 
       const { context, messages } = DCLinter.validateFile(file);
       if (!context) {
-        logger.debug(LOG_SOURCE.LINTER, `Skipping file due to validation errors: ${file}`);
-        messages.forEach((message) => logger.debug(LOG_SOURCE.LINTER, JSON.stringify(message)));
+        this.logger.debug(LOG_SOURCE.LINTER, `Skipping file due to validation errors: ${file}`);
+        messages.forEach((message) => this.logger.debug(LOG_SOURCE.LINTER, JSON.stringify(message)));
         return;
       }
 
       const content = this.fixContent(context.sourceCode);
 
       if (dryRun) {
-        logger.info(`Dry run - changes for file: ${file}`);
-        logger.info('\n\n', content);
+        this.logger.info(`Dry run - changes for file: ${file}`);
+        this.logger.info('\n\n', content);
       } else {
         fs.writeFileSync(file, content, 'utf8');
-        logger.debug(LOG_SOURCE.LINTER, `File fixed: ${file}`);
+        this.logger.debug(LOG_SOURCE.LINTER, `File fixed: ${file}`);
       }
     });
   }

@@ -16,7 +16,7 @@ async function importFormatter(modulePath: string): Promise<FormatterFunction> {
 }
 
 export async function loadFormatter(formatterName: string): Promise<FormatterFunction> {
-  const logger = Logger.getInstance();
+  const logger = Logger.init();
 
   if (formatterName.startsWith('.')) {
     const fullPath = resolve(formatterName);

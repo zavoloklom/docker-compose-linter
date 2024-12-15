@@ -85,8 +85,7 @@ async function main() {
 
   const cliArguments = argv as unknown as CLIConfig;
 
-  Logger.init(cliArguments.debug);
-  const logger = Logger.getInstance();
+  const logger = Logger.init(cliArguments.debug);
 
   logger.debug(LOG_SOURCE.CLI, 'Debug mode is ON');
   logger.debug(LOG_SOURCE.CLI, 'Arguments:', cliArguments);
