@@ -64,13 +64,10 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
     'There should be two warnings when both "build" and "image" are used and checkPullPolicy is false.',
   );
 
-  const expectedMessages = [
-    'Service "web" is using both "build" and "image". Use either "build" or "image" but not both.',
-    'Service "db" is using both "build" and "image". Use either "build" or "image" but not both.',
-  ];
+  const expectedMessages = [rule.getMessage({ serviceName: 'web' }), rule.getMessage({ serviceName: 'db' })];
 
   errors.forEach((error, index) => {
-    t.true(error.message.includes(expectedMessages[index]));
+    t.true(error.message === expectedMessages[index]);
   });
 });
 
@@ -90,13 +87,10 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
     'There should be two warnings when both "build" and "image" are used and checkPullPolicy is false.',
   );
 
-  const expectedMessages = [
-    'Service "web" is using both "build" and "image". Use either "build" or "image" but not both.',
-    'Service "db" is using both "build" and "image". Use either "build" or "image" but not both.',
-  ];
+  const expectedMessages = [rule.getMessage({ serviceName: 'web' }), rule.getMessage({ serviceName: 'db' })];
 
   errors.forEach((error, index) => {
-    t.true(error.message.includes(expectedMessages[index]));
+    t.true(error.message === expectedMessages[index]);
   });
 });
 

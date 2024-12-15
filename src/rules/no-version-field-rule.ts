@@ -19,7 +19,7 @@ export default class NoVersionFieldRule implements LintRule {
   public severity: LintRuleSeverity = 'minor';
 
   public meta: RuleMeta = {
-    description: 'Ensure that the "version" field is not present in the Docker Compose file.',
+    description: 'The `version` field must be absent in the configuration.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-version-field-rule.md',
   };
 

@@ -21,8 +21,7 @@ export default class NoUnboundPortInterfacesRule implements LintRule {
   public severity: LintRuleSeverity = 'major';
 
   public meta: RuleMeta = {
-    description:
-      'Ensure that exported ports in Docker Compose are bound to specific Interfaces to prevent unintentional exposing services to the network.',
+    description: 'Exported ports must be bound to specific interfaces to avoid unintentional exposure.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-unbound-port-interfaces-rule.md',
   };
 

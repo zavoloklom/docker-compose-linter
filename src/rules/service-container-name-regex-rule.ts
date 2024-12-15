@@ -19,11 +19,11 @@ export default class ServiceContainerNameRegexRule implements LintRule {
 
   public severity: LintRuleSeverity = 'critical';
 
-  public message = 'Container names must match the regex pattern [a-zA-Z0-9][a-zA-Z0-9_.-]+.';
+  // see https://docs.docker.com/reference/compose-file/services/#container_name
+  private static readonly containerNameRegex = /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/;
 
   public meta: RuleMeta = {
-    description:
-      'Ensure that container names in Docker Compose match the required regex pattern to avoid invalid names.',
+    description: `Container names must match the pattern \`${ServiceContainerNameRegexRule.containerNameRegex}\` to comply with Docker naming conventions.`,
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/service-container-name-regex-rule.md',
   };
 
@@ -33,9 +33,6 @@ export default class ServiceContainerNameRegexRule implements LintRule {
   public getMessage({ serviceName, containerName }: { serviceName: string; containerName: string }): string {
     return `Service "${serviceName}" has an invalid container name "${containerName}". It must match the regex pattern ${ServiceContainerNameRegexRule.containerNameRegex}.`;
   }
-
-  // see https://docs.docker.com/reference/compose-file/services/#container_name
-  private static readonly containerNameRegex = /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/;
 
   public check(context: LintContext): LintMessage[] {
     const errors: LintMessage[] = [];

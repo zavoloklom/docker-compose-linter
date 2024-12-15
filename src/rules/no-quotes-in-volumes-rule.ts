@@ -20,7 +20,7 @@ export default class NoQuotesInVolumesRule implements LintRule {
   public severity: LintRuleSeverity = 'info';
 
   public meta: RuleMeta = {
-    description: 'Ensure that quotes are not used in volume names in Docker Compose files.',
+    description: 'Values in the `volumes` section should not be enclosed in quotes.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-quotes-in-volumes-rule.md',
   };
 

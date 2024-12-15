@@ -20,8 +20,7 @@ export default class NoDuplicateContainerNamesRule implements LintRule {
   public severity: LintRuleSeverity = 'critical';
 
   public meta: RuleMeta = {
-    description:
-      'Ensure that container names in Docker Compose are unique to prevent name conflicts and ensure proper container management.',
+    description: 'Container names must be unique to prevent conflicts and ensure proper container management.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-duplicate-container-names-rule.md',
   };
 

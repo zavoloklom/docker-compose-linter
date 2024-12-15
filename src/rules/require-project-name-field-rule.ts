@@ -18,7 +18,7 @@ export default class RequireProjectNameFieldRule implements LintRule {
   public severity: LintRuleSeverity = 'minor';
 
   public meta: RuleMeta = {
-    description: 'Ensure that the "name" field is present in the Docker Compose file.',
+    description: 'The `name` field should be included in the configuration.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/require-project-name-field-rule.md',
   };
 

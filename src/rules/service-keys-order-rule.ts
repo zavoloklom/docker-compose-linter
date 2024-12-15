@@ -41,10 +41,8 @@ export default class ServiceKeysOrderRule implements LintRule {
 
   public severity: LintRuleSeverity = 'minor';
 
-  public message = 'Keys within each service should follow the predefined order.';
-
   public meta: RuleMeta = {
-    description: 'Ensure that keys within each service in the Docker Compose file are ordered correctly.',
+    description: 'Keys within each service should follow a specific order.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/service-keys-order-rule.md',
   };
 

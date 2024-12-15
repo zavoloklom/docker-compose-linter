@@ -28,8 +28,7 @@ export default class NoBuildAndImageRule implements LintRule {
   public severity: LintRuleSeverity = 'major';
 
   public meta: RuleMeta = {
-    description:
-      'Ensure that each service uses either "build" or "image", but not both, to prevent ambiguity in Docker Compose configurations.',
+    description: 'Each service must use either `build` or `image`, not both.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-build-and-image-rule.md',
   };
 
@@ -46,7 +45,7 @@ export default class NoBuildAndImageRule implements LintRule {
 
   // eslint-disable-next-line class-methods-use-this
   public getMessage({ serviceName }: { serviceName: string }): string {
-    return `Service "${serviceName}" is using both "build" and "image". Use either "build" or "image" but not both.`;
+    return `Service "${serviceName}" is using both "build" and "image". Use one of them, but not both.`;
   }
 
   public check(context: LintContext): LintMessage[] {

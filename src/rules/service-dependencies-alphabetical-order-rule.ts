@@ -20,7 +20,7 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements LintRul
   public severity: LintRuleSeverity = 'info';
 
   public meta: RuleMeta = {
-    description: 'Ensure that the services listed in the depends_on directive are sorted alphabetically.',
+    description: 'Services in the `depends_on` section should be sorted alphabetically.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/service-dependencies-alphabetical-order-rule.md',
   };
 
