@@ -21,8 +21,7 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
   public severity: LintRuleSeverity = 'critical';
 
   public meta: RuleMeta = {
-    description:
-      'Ensure that exported ports in Docker Compose are unique to prevent port conflicts and ensure proper network behavior.',
+    description: 'Exported ports must be unique to avoid conflicts.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/no-duplicate-exported-ports-rule.md',
   };
 

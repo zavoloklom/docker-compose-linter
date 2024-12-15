@@ -21,7 +21,7 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
   public severity: LintRuleSeverity = 'info';
 
   public meta: RuleMeta = {
-    description: 'Ensure that the list of ports in the Docker Compose service is alphabetically sorted.',
+    description: 'The list of ports in a service should be sorted alphabetically.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/service-ports-alphabetical-order-rule.md',
   };
 

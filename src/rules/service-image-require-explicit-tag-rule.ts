@@ -28,8 +28,7 @@ export default class ServiceImageRequireExplicitTagRule implements LintRule {
   public severity: LintRuleSeverity = 'major';
 
   public meta: RuleMeta = {
-    description:
-      'Avoid using unspecific image tags like "latest" or "stable" in Docker Compose files to prevent unpredictable behavior. Specify a specific image version.',
+    description: 'Services must use a specific image tag instead of "latest", "stable" or no tag.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/service-image-require-explicit-tag-rule.md',
   };
 

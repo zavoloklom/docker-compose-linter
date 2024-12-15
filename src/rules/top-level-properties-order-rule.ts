@@ -39,10 +39,8 @@ export default class TopLevelPropertiesOrderRule implements LintRule {
 
   public severity: LintRuleSeverity = 'major';
 
-  public message = 'Top-level properties should follow the predefined order.';
-
   public meta: RuleMeta = {
-    description: 'Ensure that top-level properties in the Docker Compose file are ordered correctly.',
+    description: 'Top-level properties should follow a specific order.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/top-level-properties-order-rule.md',
   };
 

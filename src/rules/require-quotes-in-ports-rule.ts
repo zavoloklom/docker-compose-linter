@@ -29,7 +29,7 @@ export default class RequireQuotesInPortsRule implements LintRule {
   public severity: LintRuleSeverity = 'minor';
 
   public meta: RuleMeta = {
-    description: 'Ensure that ports (in `ports` and `expose` sections) are enclosed in quotes in Docker Compose files.',
+    description: 'Ports in `ports` and `expose` sections should be enclosed in quotes.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/require-quotes-in-ports-rule.md',
   };
 

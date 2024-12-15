@@ -19,10 +19,8 @@ export default class ServicesAlphabeticalOrderRule implements LintRule {
 
   public severity: LintRuleSeverity = 'minor';
 
-  public message = 'Services should be listed in alphabetical order.';
-
   public meta: RuleMeta = {
-    description: 'Ensure that services in the Docker Compose file are listed in alphabetical order.',
+    description: 'Services should be sorted alphabetically.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/services-alphabetical-order-rule.md',
   };
 
