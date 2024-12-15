@@ -16,7 +16,7 @@
 
 > **Note**: Docker Compose configurations vary greatly between different projects and setups. While DCLint is stable,
 > there may be edge cases or unique setups that cause issues. If you encounter any problems or have suggestions, please
-> feel free to [open an issue](https://github.com/zavoloklom/docker-compose-linter/issues) or
+> feel free to [open an issue](https://github.com/zavoloklom/docker-compose-linter/issues/new/choose) or
 > [submit a pull request](#contributing). Your feedback is highly appreciated!
 
 Docker Compose Linter (**DCLint**) is a utility designed to analyze, validate and fix Docker Compose files. It helps
@@ -36,21 +36,38 @@ robust, maintainable, and free from common pitfalls.
 - **Anchor Support:** Supports YAML anchors for shared configuration sections, with
   [some limitations](#anchor-handling).
 
-## Getting Started
+## Table of Contents
 
-### Installation with Node.js
+- [Usage with Node.js](#usage-with-nodejs)
+- [Usage with Docker](#usage-with-docker)
+- [Usage as a NPM Package](#usage-as-a-npm-package)
+- [Rules and Errors](#rules-and-errors)
+- [Configuration](#configuration)
+- [Integration with CI/CD Pipeline](#integration-with-cicd-pipeline)
+- [Alternatives](#alternatives)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
+- [Changelog](#changelog)
+- [License](#license)
+- [Contacts and Support](#contacts-and-support)
 
-You can install Docker Compose Linter locally in your project or use it directly with npx.
+## Usage with Node.js
+
+You can install Docker Compose Linter globally or use it directly with npx.
 
 > **Note:** DCLint requires Node.js version 18 or higher.
 
-To install it locally:
+To install it globally:
 
 ```shell
-npm install --save-dev dclint
+npm install --g dclint
 ```
 
-### Running the Linter with npx
+And then run by command:
+
+```shell
+dclint .
+```
 
 If you prefer not to install it globally, you can run the linter directly using npx:
 
@@ -137,11 +154,17 @@ docker run -t --rm -v ${PWD}:/app zavoloklom/dclint -h
 For more information about available options and formatters, please refer to the [CLI Reference](./docs/cli.md) and
 [Formatters Reference](./docs/formatters.md).
 
-## Usage as a Library
+## Usage as a NPM Package
 
-The `dclint` library can be integrated directly into your code, allowing you to run linting checks programmatically and
+The `dclint` can be integrated directly into your JS code, allowing you to run linting checks programmatically and
 format the results as desired. Below are examples of how to use `dclint` as a library in both CommonJS and ES module
 formats.
+
+First you need to install it:
+
+```shell
+npm install --save-dev dclint
+```
 
 ### Example with CommonJS
 
@@ -301,7 +324,7 @@ configure whether single or double quotes should be used around port numbers. Yo
 In this example, the require-quotes-in-ports rule is enabled at the error level and configured to enforce double quotes
 around ports.
 
-## Integrate into CI/CD Pipeline
+## Integration with CI/CD Pipeline
 
 Automate linting as part of your CI/CD pipeline by adding the Docker run command to your pipeline script. This ensures
 that your Docker Compose files are always checked for errors before deployment.
@@ -325,9 +348,7 @@ lint-docker-compose:
 Consider these alternative tools for Docker Compose linting and validation:
 
 - [kics](https://github.com/Checkmarx/kics)
-- [checkov](https://github.com/bridgecrewio/checkov)
 - [yamllint](https://github.com/adrienverge/yamllint)
-- [docker-compose-linter](https://github.com/alfonzso/docker-compose-linter/tree/master)
 
 And this tools for Docker Compose formatting and fixing:
 
