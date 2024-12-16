@@ -24,7 +24,7 @@ jobs:
           node-version: '20.18.0'
 
       - name: Fetch main branch and run commitlint
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
         run: |
           git fetch origin main
           npx commitlint --from=origin/main
