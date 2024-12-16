@@ -69,6 +69,9 @@ export default class NoQuotesInVolumesRule implements LintRule {
           column: 1,
           meta: this.meta,
           fixable: this.fixable,
+          data: {
+            volume,
+          },
         });
       }
     });

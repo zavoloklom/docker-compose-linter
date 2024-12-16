@@ -82,6 +82,11 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
               column: 1,
               meta: this.meta,
               fixable: this.fixable,
+              data: {
+                serviceName,
+                publishedPort: port,
+                exportedPortsMap,
+              },
             });
             return true;
           }

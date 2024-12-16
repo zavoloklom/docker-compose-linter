@@ -58,6 +58,7 @@ export default class NoDuplicateContainerNamesRule implements LintRule {
         const containerName = String(service.get('container_name'));
 
         if (containerNames.has(containerName)) {
+          const anotherService = String(containerNames.get(containerName));
           const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, 'container_name');
           errors.push({
             rule: this.name,
@@ -67,12 +68,17 @@ export default class NoDuplicateContainerNamesRule implements LintRule {
             message: this.getMessage({
               serviceName,
               containerName,
-              anotherService: String(containerNames.get(containerName)),
+              anotherService,
             }),
             line,
             column: 1,
             meta: this.meta,
             fixable: this.fixable,
+            data: {
+              serviceName,
+              containerName,
+              anotherService,
+            },
           });
         } else {
           containerNames.set(containerName, serviceName);

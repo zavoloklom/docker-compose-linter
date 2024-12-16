@@ -104,6 +104,11 @@ export default class RequireQuotesInPortsRule implements LintRule {
             column: 1,
             meta: this.meta,
             fixable: this.fixable,
+            data: {
+              service,
+              port,
+              section,
+            },
           });
         }
       });

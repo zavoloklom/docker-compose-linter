@@ -35,6 +35,7 @@ const mockRule: LintRule = {
       column: 1,
       type: 'error',
       fixable: false,
+      data: {},
     },
   ],
   fix: (content: string) => content.replace('nginx', 'nginx:latest'),

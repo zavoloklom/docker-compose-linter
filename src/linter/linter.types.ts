@@ -16,6 +16,7 @@ interface LintMessage {
   endColumn?: number; // The column number where the issue ends (optional)
   meta?: RuleMeta; // Metadata about the rule, including description and URL
   fixable: boolean; // Is it possible to fix this issue
+  data: object;
 }
 
 interface LintResult {
