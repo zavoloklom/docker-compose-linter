@@ -65,6 +65,9 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
           column: 1,
           meta: this.meta,
           fixable: this.fixable,
+          data: {
+            serviceName,
+          },
         });
       }
     });
