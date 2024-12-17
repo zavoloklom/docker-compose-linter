@@ -1,15 +1,15 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
     open-pull-requests-limit: 5
     versioning-strategy: increase-if-necessary
-    target-branch: "main"
+    target-branch: main
     commit-message:
-      prefix: "deps"
-      prefix-development: "deps(dev)"
+      prefix: deps
+      prefix-development: deps(dev)
     ignore:
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
@@ -21,3 +21,13 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "eslint-plugin-sonarjs"
         update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
