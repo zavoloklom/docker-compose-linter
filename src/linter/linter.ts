@@ -113,6 +113,7 @@ class DCLinter {
           column: startPos?.col || 1,
           type: 'error',
           fixable: false,
+          data: {},
         });
       } else if (error instanceof ComposeValidationError) {
         messages.push({
@@ -124,6 +125,7 @@ class DCLinter {
           line: 1,
           column: 1,
           fixable: false,
+          data: {},
         });
       } else {
         messages.push({
@@ -135,6 +137,7 @@ class DCLinter {
           column: 1,
           type: 'error',
           fixable: false,
+          data: {},
         });
       }
 

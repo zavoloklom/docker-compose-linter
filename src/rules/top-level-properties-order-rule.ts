@@ -99,6 +99,10 @@ export default class TopLevelPropertiesOrderRule implements LintRule {
           column: 1,
           meta: this.meta,
           fixable: this.fixable,
+          data: {
+            key,
+            correctOrder,
+          },
         });
       } else {
         lastSeenIndex = expectedIndex;

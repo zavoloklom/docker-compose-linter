@@ -79,6 +79,9 @@ export default class NoBuildAndImageRule implements LintRule {
           column: 1,
           meta: this.meta,
           fixable: this.fixable,
+          data: {
+            serviceName,
+          },
         });
       }
     });

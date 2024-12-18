@@ -78,6 +78,9 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements LintRul
           column: 1,
           meta: this.meta,
           fixable: this.fixable,
+          data: {
+            serviceName,
+          },
         });
       }
     });

@@ -43,6 +43,7 @@ export default class RequireProjectNameFieldRule implements LintRule {
         column: 1,
         meta: this.meta,
         fixable: this.fixable,
+        data: {},
       });
     }
 
