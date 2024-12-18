@@ -2,6 +2,29 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [2.2.1](https://github.com/zavoloklom/docker-compose-linter/compare/v2.2.0...v2.2.1) (2024-12-18)
+
+### Bug Fixes
+
+- skip YAML separators when searching for `dclint` comments and process the first non-empty line ([a8de08e](https://github.com/zavoloklom/docker-compose-linter/commit/a8de08ed125907dc98dced3f2a013bc405652fb2)), closes [#69](https://github.com/zavoloklom/docker-compose-linter/issues/69)
+
+### Dependencies
+
+- **dev:** bump @commitlint/cli from 19.6.0 to 19.6.1 ([b769851](https://github.com/zavoloklom/docker-compose-linter/commit/b769851ebeaf087ffb4e0d8542f6bc6712a543ef))
+- **dev:** bump @rollup/plugin-commonjs from 28.0.1 to 28.0.2 ([f70e576](https://github.com/zavoloklom/docker-compose-linter/commit/f70e576bce297639038afe9c93be19e11ff058e5))
+- **dev:** bump @rollup/plugin-node-resolve from 15.3.0 to 16.0.0 ([6bd0206](https://github.com/zavoloklom/docker-compose-linter/commit/6bd0206800d4844886768aa3cae3d97e19695250))
+- **dev:** bump @rollup/plugin-typescript from 12.1.1 to 12.1.2 ([5bb8940](https://github.com/zavoloklom/docker-compose-linter/commit/5bb8940917b5a83bcbedb6574b011112db8973c9))
+- **dev:** bump @stylistic/eslint-plugin from 2.11.0 to 2.12.1 ([30cd5f2](https://github.com/zavoloklom/docker-compose-linter/commit/30cd5f25cde727eb94289b10be2577282661a02a))
+- **dev:** bump @types/node from 20.17.9 to 20.17.10 ([8f20d9a](https://github.com/zavoloklom/docker-compose-linter/commit/8f20d9a9fad5cb170c14164510f55b056c2ad2dd))
+- **dev:** bump c8 from 10.1.2 to 10.1.3 ([91c027c](https://github.com/zavoloklom/docker-compose-linter/commit/91c027cf72df43ce64722fa843e27225ca3e8b1f))
+- **dev:** bump eslint-import-resolver-typescript from 3.6.3 to 3.7.0 ([7f91608](https://github.com/zavoloklom/docker-compose-linter/commit/7f916083ee9a91c6efd4a3fc4e910c08a8db1434))
+
+### CI/CD
+
+- add OSSF Scorecards supply-chain security analysis ([6a9fe76](https://github.com/zavoloklom/docker-compose-linter/commit/6a9fe767c4220f481a9e3ce55e034845dccba2a2))
+- apply security best practices ([1007255](https://github.com/zavoloklom/docker-compose-linter/commit/1007255b67efa357e0c7f69ae33cd612b711d959))
+- skip commitlint for dependabot ([145ff6f](https://github.com/zavoloklom/docker-compose-linter/commit/145ff6ff7bdf07befc33a4296f51c00450889f8f))
+
 ## [2.2.0](https://github.com/zavoloklom/docker-compose-linter/compare/v2.1.0...v2.2.0) (2024-12-15)
 
 ### Features
