@@ -1,4 +1,4 @@
-FROM node:20.18.0-alpine3.19 AS builder
+FROM node:20.18-alpine3.21 AS builder
 
 WORKDIR /dclint
 
@@ -23,7 +23,7 @@ RUN mkdir -p /dependencies/lib /dependencies/usr/lib && \
         fi; \
     done
 
-FROM alpine:3.19 AS alpine-version
+FROM alpine:3.21 AS alpine-version
 
 ENV NODE_NO_WARNINGS=1
 
