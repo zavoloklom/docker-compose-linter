@@ -1,4 +1,4 @@
-FROM node:20.18.0-alpine3.19 AS builder
+FROM node:23.3.0-alpine3.19 AS builder
 
 WORKDIR /dclint
 
