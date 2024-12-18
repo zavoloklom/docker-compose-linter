@@ -16,6 +16,15 @@ test('startsWithDisableFileComment should return true when content starts with "
 });
 
 // @ts-ignore TS2349
+test('startsWithDisableFileComment should return true when content starts with delimiter and "# dclint disable-file"', (t) => {
+  const content = '---\n\n# dclint disable-file\nversion: "3"';
+  t.true(
+    startsWithDisableFileComment(content),
+    'Function should return true if content starts with delimiter and "# dclint disable-file"',
+  );
+});
+
+// @ts-ignore TS2349
 test('startsWithDisableFileComment should return false when content does not start with "# dclint disable-file"', (t) => {
   const content = 'version: "3"\n# dclint disable-file';
   t.false(
@@ -51,6 +60,23 @@ test('extractGlobalDisableRules should disable all rules if # dclint disable is 
     [...result],
     ['*'], // '*' means all rules disabled
     'Should disable all rules for the entire file (comment in the first line)',
+  );
+});
+
+// @ts-ignore TS2349
+test('extractGlobalDisableRules should find disable rules after delimiter', (t) => {
+  const content = `
+    ---
+    
+    # dclint disable
+    key: value 1
+    key: value 2
+  `;
+  const result = extractGlobalDisableRules(content);
+  t.deepEqual(
+    [...result],
+    ['*'], // '*' means all rules disabled
+    'Should disable all rules for the entire file (comment in the line after delimiter)',
   );
 });
 

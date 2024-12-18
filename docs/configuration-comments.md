@@ -13,7 +13,8 @@ management across the project.
 
 ### Disabling All Rules for the Entire File
 
-To **disable all linting rules** for the entire file, add the following comment at the **top** of the file:
+To **disable all linting rules** for the entire file, add the following comment at the **first applicable line** of the
+file. This can be the first line, or the first line after a YAML separator (`---`):
 
 ```yaml
 # dclint disable-file
@@ -23,7 +24,8 @@ This will disable **all rules** for the entire file. Use this only when it is ab
 
 ### Disabling Specific Rules for the Entire File
 
-To **disable specific rules** for the entire file, add the following comment at the **top** of the file:
+To **disable specific rules** for the entire file, add the following comment at the **first applicable line**. This can
+be the first line, or the first line after a YAML separator (`---`):
 
 ```yaml
 # dclint disable

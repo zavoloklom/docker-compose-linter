@@ -1,25 +1,35 @@
 function startsWithDisableFileComment(content: string): boolean {
-  return content.startsWith('# dclint disable-file');
+  // Split content into lines and process the first non-empty, non-YAML separator line
+  const lines = content.split('\n').map((line) => line.trim());
+  for (const line of lines) {
+    // eslint-disable-next-line no-continue
+    if (line === '' || line === '---') continue;
+    return line.startsWith('# dclint disable-file');
+  }
+  return false;
 }
 
 function extractGlobalDisableRules(content: string): Set<string> {
   const disableRules = new Set<string>();
 
-  // Get the first line and trim whitespace
-  const firstLine = content.trim().split('\n')[0].trim();
+  // Split content into lines and process the first non-empty, non-YAML separator line
+  const lines = content.split('\n').map((line) => line.trim());
+  for (const line of lines) {
+    // eslint-disable-next-line no-continue
+    if (line === '' || line === '---') continue;
+    const disableMatch = line.match(/#\s*dclint\s+disable\s*(.*)/);
+    if (disableMatch) {
+      const rules = disableMatch[1].trim();
 
-  // Check if the first line contains "dclint disable"
-  const disableMatch = firstLine.match(/#\s*dclint\s+disable\s*(.*)/);
-  if (disableMatch) {
-    const rules = disableMatch[1].trim();
-
-    // If no specific rules are provided, disable all rules
-    if (rules === '') {
-      disableRules.add('*');
-    } else {
-      // Otherwise, disable specific rules mentioned
-      rules.split(/\s+/).forEach((rule) => disableRules.add(rule));
+      // If no specific rules are provided, disable all rules
+      if (rules === '') {
+        disableRules.add('*');
+      } else {
+        // Otherwise, disable specific rules mentioned
+        rules.split(/\s+/).forEach((rule) => disableRules.add(rule));
+      }
     }
+    break;
   }
 
   return disableRules;
