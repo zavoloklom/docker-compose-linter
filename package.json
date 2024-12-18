@@ -40,7 +40,7 @@
     "build:cli": "rimraf bin && rollup -c rollup.config.cli.js",
     "build:lib": "rimraf dist && rollup -c rollup.config.lib.js",
     "build:pkg": "rimraf pkg && rollup -c rollup.config.pkg.js",
-    "changelog:fix": "markdownlint-cli2 --fix \"CHANGELOG.md\" && prettier --write \"CHANGELOG.md\"",
+    "changelog:fix": "prettier --write \"CHANGELOG.md\" && markdownlint-cli2 --fix \"CHANGELOG.md\" && prettier --write \"CHANGELOG.md\"",
     "commitlint": "commitlint --from=origin/main",
     "debug": "tsc && node --import=tsimp/import --no-warnings --inspect ./src/cli/cli.ts ./tests/mocks/docker-compose.yml -c ./tests/mocks/.dclintrc",
     "debug:bin": "node ./bin/dclint.cjs ./tests/mocks/docker-compose.correct.yml --fix",
