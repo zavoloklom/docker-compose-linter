@@ -24,10 +24,14 @@ updates:
 
   - package-ecosystem: github-actions
     directory: /
+    commit-message:
+      prefix: ci(deps)
     schedule:
       interval: weekly
 
   - package-ecosystem: docker
     directory: /
+    commit-message:
+      prefix: deps(docker)
     schedule:
       interval: weekly
