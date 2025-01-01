@@ -100,6 +100,22 @@ services:
       - 8000-8085
 `;
 
+// YAML with same ports but different protocols
+const yamlWithDifferentProtocols = `
+services:
+  myservice:
+    ports:
+      - '127.0.0.1:8388:8388/tcp'
+      - '127.0.0.1:8388:8388/udp'
+      - '127.0.0.1:8888:8888/tcp'
+  another-service:
+    ports:
+      - '127.0.0.1:8080:8080/tcp'
+  one-more-service:
+    ports:
+      - '127.0.0.1:8080:8080/udp'
+`;
+
 const filePath = '/docker-compose.yml';
 
 // @ts-ignore TS2349
@@ -160,4 +176,17 @@ test('NoDuplicateExportedPortsRule: should return an error when range overlap is
   errors.forEach((error, index) => {
     t.true(error.message.includes(expectedMessages[index]));
   });
+});
+
+// @ts-ignore TS2349
+test('NoDuplicateExportedPortsRule: should not return errors when same ports have different protocols', (t: ExecutionContext) => {
+  const rule = new NoDuplicateExportedPortsRule();
+  const context: LintContext = {
+    path: filePath,
+    content: parseDocument(yamlWithDifferentProtocols).toJS() as Record<string, unknown>,
+    sourceCode: yamlWithDifferentProtocols,
+  };
+
+  const errors = rule.check(context);
+  t.is(errors.length, 0, 'There should be no errors when ports have different protocols.');
 });

@@ -1,29 +1,35 @@
 import net from 'node:net';
 import { isMap, isScalar } from 'yaml';
 
-function extractPublishedPortValue(yamlNode: unknown): string {
+function extractPublishedPortValueWithProtocol(yamlNode: unknown): { port: string; protocol: string } {
   if (isScalar(yamlNode)) {
     const value = String(yamlNode.value);
 
-    // Check for host before ports
-    const parts = value.split(/:(?![^[]*])/);
+    // Extract protocol (e.g., '8080/tcp')
+    const [portPart, protocol] = value.split('/');
+
+    // Extract the actual port, ignoring host/ip
+    const parts = portPart.split(/:(?![^[]*])/);
 
     if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
       parts[0] = parts[0].slice(1, -1);
     }
 
     if (net.isIP(parts[0])) {
-      return String(parts[1]);
+      return { port: String(parts[1]), protocol: protocol || 'tcp' };
     }
 
-    return parts[0];
+    return { port: parts[0], protocol: protocol || 'tcp' };
   }
 
   if (isMap(yamlNode)) {
-    return yamlNode.get('published')?.toString() || '';
+    return {
+      port: yamlNode.get('published')?.toString() || '',
+      protocol: yamlNode.get('protocol')?.toString() || 'tcp',
+    };
   }
 
-  return '';
+  return { port: '', protocol: 'tcp' };
 }
 
 function extractPublishedPortInterfaceValue(yamlNode: unknown): string {
@@ -75,4 +81,4 @@ function parsePortsRange(port: string): string[] {
   return ports;
 }
 
-export { extractPublishedPortValue, extractPublishedPortInterfaceValue, parsePortsRange };
+export { extractPublishedPortValueWithProtocol, extractPublishedPortInterfaceValue, parsePortsRange };
