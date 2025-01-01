@@ -9,7 +9,7 @@ import type {
   RuleMeta,
 } from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
-import { extractPublishedPortValue, parsePortsRange } from '../util/service-ports-parser';
+import { extractPublishedPortValueWithProtocol, parsePortsRange } from '../util/service-ports-parser';
 
 export default class NoDuplicateExportedPortsRule implements LintRule {
   public name = 'no-duplicate-exported-ports';
@@ -61,11 +61,12 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
       if (!isSeq(ports)) return;
 
       ports.items.forEach((portItem) => {
-        const publishedPort = extractPublishedPortValue(portItem);
-        const currentPortRange = parsePortsRange(publishedPort);
+        const { port, protocol } = extractPublishedPortValueWithProtocol(portItem);
+        const currentPortRange = parsePortsRange(port);
 
-        currentPortRange.some((port) => {
-          if (exportedPortsMap.has(port)) {
+        currentPortRange.some((rangePort) => {
+          const rangeKey = `${rangePort}/${protocol}`;
+          if (exportedPortsMap.has(rangeKey)) {
             const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, 'ports');
             errors.push({
               rule: this.name,
@@ -74,8 +75,8 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
               severity: this.severity,
               message: this.getMessage({
                 serviceName,
-                publishedPort,
-                anotherService: String(exportedPortsMap.get(port)),
+                publishedPort: port,
+                anotherService: String(exportedPortsMap.get(rangeKey)),
               }),
               line,
               column: 1,
@@ -88,7 +89,12 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
         });
 
         // Map ports to the service
-        currentPortRange.forEach((port) => !exportedPortsMap.has(port) && exportedPortsMap.set(port, serviceName));
+        currentPortRange.forEach((rangePort) => {
+          const rangeKey = `${rangePort}/${protocol}`;
+          if (!exportedPortsMap.has(rangeKey)) {
+            exportedPortsMap.set(rangeKey, serviceName);
+          }
+        });
       });
     });
 

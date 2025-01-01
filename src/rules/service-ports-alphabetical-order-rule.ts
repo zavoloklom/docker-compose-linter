@@ -9,7 +9,7 @@ import type {
   RuleMeta,
 } from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
-import { extractPublishedPortValue } from '../util/service-ports-parser';
+import { extractPublishedPortValueWithProtocol } from '../util/service-ports-parser';
 
 export default class ServicePortsAlphabeticalOrderRule implements LintRule {
   public name = 'service-ports-alphabetical-order';
@@ -50,7 +50,7 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
       const ports = service.get('ports');
       if (!isSeq(ports)) return;
 
-      const extractedPorts = ports.items.map((port) => extractPublishedPortValue(port));
+      const extractedPorts = ports.items.map((port) => extractPublishedPortValueWithProtocol(port).port);
       const sortedPorts = [...extractedPorts].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
       if (JSON.stringify(extractedPorts) !== JSON.stringify(sortedPorts)) {
@@ -88,8 +88,8 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
       if (!isSeq(ports)) return;
 
       ports.items.sort((a, b) => {
-        const valueA = extractPublishedPortValue(a);
-        const valueB = extractPublishedPortValue(b);
+        const valueA = extractPublishedPortValueWithProtocol(a).port;
+        const valueB = extractPublishedPortValueWithProtocol(b).port;
 
         return valueA.localeCompare(valueB, undefined, { numeric: true });
       });
