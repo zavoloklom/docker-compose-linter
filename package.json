@@ -105,7 +105,7 @@
     "eslint-plugin-unicorn": "56.0.1",
     "esmock": "2.6.9",
     "husky": "9.1.7",
-    "markdownlint-cli2": "0.17.0",
+    "markdownlint-cli2": "0.17.1",
     "semantic-release": "24.2.0",
     "tap-xunit": "2.4.1",
     "tsimp": "2.0.12",
