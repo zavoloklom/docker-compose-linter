@@ -2,6 +2,44 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [2.2.2](https://github.com/zavoloklom/docker-compose-linter/compare/v2.2.1...v2.2.2) (2025-01-01)
+
+### Bug Fixes
+
+- **no-duplicate-exported-ports:** add protocol handling in port parsing
+  ([b4c7616](https://github.com/zavoloklom/docker-compose-linter/commit/b4c7616774d69163496dbe924d3ee267febfa553)),
+  closes [#91](https://github.com/zavoloklom/docker-compose-linter/issues/91)
+
+### Dependencies
+
+- **dev:** bump @rollup/plugin-replace from 6.0.1 to 6.0.2
+  ([d89c2b8](https://github.com/zavoloklom/docker-compose-linter/commit/d89c2b87404e55b251362df0440ec46f145543bd))
+- **dev:** bump @semantic-release/release-notes-generator
+  ([80fafe5](https://github.com/zavoloklom/docker-compose-linter/commit/80fafe5cc76aa66a6c1c47183e0319b9ed4a43d3))
+- **dev:** bump markdownlint-cli2 from 0.16.0 to 0.17.0
+  ([5a4efb3](https://github.com/zavoloklom/docker-compose-linter/commit/5a4efb3c3c1326a0be6f2dc1b1b25f0f51278ae4))
+
+### Documentation
+
+- update `changelog:fix` script
+  ([e22c38d](https://github.com/zavoloklom/docker-compose-linter/commit/e22c38db372bf334c2e4b5d142253bb81198b877))
+
+### CI/CD
+
+- **deps:** bump actions/checkout from 4.1.1 to 4.2.2
+  ([42f0da7](https://github.com/zavoloklom/docker-compose-linter/commit/42f0da79f1edf289be591e59078d86f3487f53b3))
+- **deps:** bump actions/upload-artifact from 4.4.3 to 4.5.0
+  ([4628a66](https://github.com/zavoloklom/docker-compose-linter/commit/4628a66f27ddf0d69facb5afe030773915da7f94))
+- **deps:** bump github/codeql-action from 3.27.9 to 3.28.0
+  ([ad72e8f](https://github.com/zavoloklom/docker-compose-linter/commit/ad72e8f4be48277ca2fbdca46139f080ea5e77c1))
+- **deps:** bump ossf/scorecard-action from 2.3.1 to 2.4.0
+  ([25b17f8](https://github.com/zavoloklom/docker-compose-linter/commit/25b17f8feaa2193f12e069b4b0e9f06cb877d44a))
+
+### Others
+
+- change commit message prefix for dependabot
+  ([fc12c00](https://github.com/zavoloklom/docker-compose-linter/commit/fc12c0092ebeb640acf9d1c0ec62ee257c5fb86c))
+
 ## [2.2.1](https://github.com/zavoloklom/docker-compose-linter/compare/v2.2.0...v2.2.1) (2024-12-18)
 
 ### Bug Fixes
