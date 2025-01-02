@@ -29,7 +29,7 @@ ENV NODE_NO_WARNINGS=1
 
 RUN apk update && apk upgrade && \
     apk add --no-cache \
-    libstdc++=~13.2 \
+    libstdc++=~14.2 \
     && rm -rf /tmp/* /var/cache/apk/*
 
 COPY --from=builder /bin/dclint /bin/dclint
