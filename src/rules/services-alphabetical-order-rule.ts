@@ -74,6 +74,10 @@ export default class ServicesAlphabeticalOrderRule implements LintRule {
           column: 1,
           meta: this.meta,
           fixable: this.fixable,
+          data: {
+            serviceName,
+            misplacedBefore,
+          },
         });
       }
 

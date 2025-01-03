@@ -68,6 +68,10 @@ export default class NoUnboundPortInterfacesRule implements LintRule {
             column: 1,
             meta: this.meta,
             fixable: this.fixable,
+            data: {
+              serviceName,
+              portItem,
+            },
           });
         }
       });

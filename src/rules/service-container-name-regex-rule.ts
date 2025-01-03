@@ -63,6 +63,10 @@ export default class ServiceContainerNameRegexRule implements LintRule {
           column: 1,
           meta: this.meta,
           fixable: this.fixable,
+          data: {
+            serviceName,
+            containerName,
+          },
         });
       }
     });
