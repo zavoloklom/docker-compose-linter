@@ -52,7 +52,7 @@ jobs:
         run: npm run build:cli
 
       - name: Upload tests artifacts
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: tests-artifacts
           path: |
@@ -108,7 +108,7 @@ jobs:
           npm run build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: build-artifacts
           path: |
@@ -145,7 +145,7 @@ jobs:
           docker run --rm --platform linux/${{ matrix.arch }} -v "$PWD":/app -w /app node:20.18.0-${{ matrix.os }} ./scripts/generate-sea.sh ./sea/dclint-${{ matrix.os }}-${{ matrix.arch }}
 
       - name: Upload build SEA artifacts
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: build-sea-artifacts-${{ matrix.os }}-${{ matrix.arch }}
           path: |
@@ -196,7 +196,7 @@ jobs:
         run: npx semantic-release
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: release-artifacts
           path: |
