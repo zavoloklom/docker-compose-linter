@@ -52,7 +52,7 @@ jobs:
         run: npm run build:cli
 
       - name: Upload tests artifacts
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: tests-artifacts
           path: |
@@ -108,7 +108,7 @@ jobs:
           npm run build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: build-artifacts
           path: |
@@ -136,7 +136,7 @@ jobs:
           path: ./
 
       - name: Set up QEMU for multi-arch
-        uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf # v3.2.0
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
         with:
           platforms: linux/arm64
 
@@ -145,7 +145,7 @@ jobs:
           docker run --rm --platform linux/${{ matrix.arch }} -v "$PWD":/app -w /app node:20.18.0-${{ matrix.os }} ./scripts/generate-sea.sh ./sea/dclint-${{ matrix.os }}-${{ matrix.arch }}
 
       - name: Upload build SEA artifacts
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: build-sea-artifacts-${{ matrix.os }}-${{ matrix.arch }}
           path: |
@@ -196,7 +196,7 @@ jobs:
         run: npx semantic-release
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: release-artifacts
           path: |
@@ -232,7 +232,7 @@ jobs:
 
       # Build and push the Alpine version
       - name: Build and push Alpine version
-        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6.15.0
         with:
           context: .
           push: true
@@ -251,7 +251,7 @@ jobs:
 
       # Build and push the Scratch version
       - name: Build and push Scratch version
-        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6.15.0
         with:
           context: .
           push: true
