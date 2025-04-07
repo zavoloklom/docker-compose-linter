@@ -340,8 +340,8 @@ npx postject dclint NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fc
 Also, you can use Docker to compile it:
 
 ```bash
-docker run --rm -v "$PWD":/app -w /app node:20.18.0-alpine ./scripts/generate-sea.sh ./pkg/dclint-alpine
-docker run --rm -v "$PWD":/app -w /app node:20.18.0-bullseye ./scripts/generate-sea.sh ./pkg/dclint-bullseye
+docker run --rm -v "$PWD":/app -w /app node:22.15.0-alpine ./scripts/generate-sea.sh ./pkg/dclint-alpine
+docker run --rm -v "$PWD":/app -w /app node:22.15.0-bullseye ./scripts/generate-sea.sh ./pkg/dclint-bullseye
 ```
 
 After running these commands, you will have a standalone `dclint` executable, ready for distribution and use. This SEA
