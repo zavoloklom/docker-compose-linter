@@ -1,5 +1,4 @@
-import { Ajv2019 } from 'ajv/dist/2019.js';
-import { ErrorObject } from 'ajv';
+import { Ajv, ErrorObject } from 'ajv';
 import { ComposeValidationError } from '../errors/compose-validation-error';
 import { schemaLoader } from './schema-loader';
 
@@ -8,6 +7,7 @@ type Schema = Record<string, unknown>;
 function updateSchema(schema: Schema): Schema {
   if (typeof schema !== 'object') return schema;
 
+  // Fix for id in compose.schema file
   if ('id' in schema) {
     // eslint-disable-next-line no-param-reassign
     delete schema.id;
@@ -18,13 +18,19 @@ function updateSchema(schema: Schema): Schema {
       // eslint-disable-next-line no-param-reassign
       schema[key] = updateSchema(value as Schema);
     }
+
+    // Fix for $schema in compose.schema file
+    if (key === '$schema' && value === 'https://json-schema.org/draft-07/schema') {
+      // eslint-disable-next-line no-param-reassign
+      schema[key] = 'http://json-schema.org/draft-07/schema#';
+    }
   });
 
   return schema;
 }
 
 function validationComposeSchema(content: object) {
-  const ajv = new Ajv2019({
+  const ajv = new Ajv({
     allErrors: true,
     strict: false,
     strictSchema: false,

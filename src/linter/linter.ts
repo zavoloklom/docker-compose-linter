@@ -132,7 +132,7 @@ class DCLinter {
           rule: 'unknown-error',
           category: 'style',
           severity: 'critical',
-          message: 'unknown-error',
+          message: error instanceof Error ? error.message : 'unknown-error',
           line: 1,
           column: 1,
           type: 'error',
