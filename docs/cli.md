@@ -25,6 +25,12 @@ npx dclint compose-configs
 npx dclint docker-compose.yml compose-configs
 ```
 
+## Overriding Config
+
+Command-line options always take precedence over values defined in the configuration file.
+
+For example, rules disabled via `--disable-rule` will override any settings for those rules in the config.
+
 ## CLI Options
 
 You can view all the CLI options by running `npx dclint -h`.
@@ -133,6 +139,14 @@ Below is a detailed explanation of each CLI option available in DCLint.
 - **Default**: `[]`
 - **Use Case**: This option is useful when you want to skip certain files or directories during linting, for example, if
   you have files that don’t need to be checked.
+
+### `--disable-rule`
+
+- **Description**: Skips the execution of specific rules.
+- **Type**: `array`
+- **Default**: `[]`
+- **Use Case**: Useful when you want to exclude certain rules from the linting process, for example, to bypass checks
+  that are not relevant to your project or workflow.
 
 ### `--help`
 

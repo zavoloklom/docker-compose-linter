@@ -80,6 +80,11 @@ async function main() {
       description: 'Number of warnings to trigger nonzero exit code',
       default: -1,
     })
+    .option('disable-rule', {
+      type: 'array',
+      description: 'List of rule names to skip during linting',
+      default: [],
+    })
     .help()
     .alias('version', 'v');
 
@@ -97,6 +102,12 @@ async function main() {
   if (cliArguments.quiet) config.quiet = cliArguments.quiet;
   if (cliArguments.debug) config.debug = cliArguments.debug;
   if (cliArguments.exclude.length > 0) config.exclude = cliArguments.exclude;
+
+  if (cliArguments.disableRule.length > 0) {
+    for (const ruleName of cliArguments.disableRule) {
+      config.rules[ruleName] = 0;
+    }
+  }
 
   logger.debug(LOG_SOURCE.CLI, 'Final config:', config);
 
