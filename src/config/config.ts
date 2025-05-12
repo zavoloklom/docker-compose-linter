@@ -1,9 +1,11 @@
+import fs from 'node:fs';
 import { cosmiconfig } from 'cosmiconfig';
 import { Ajv } from 'ajv';
 import type { Config } from './config.types';
 import { Logger, LOG_SOURCE } from '../util/logger';
 import { schemaLoader } from '../util/schema-loader';
 import { ConfigValidationError } from '../errors/config-validation-error';
+import { FileNotFoundError } from '../errors/file-not-found-error';
 
 function getDefaultConfig(): Config {
   return {
@@ -34,6 +36,11 @@ async function loadConfig(configPath?: string): Promise<Config> {
   const logger = Logger.init();
   const explorer = cosmiconfig('dclint');
 
+  if (configPath && !fs.existsSync(configPath)) {
+    logger.error(`Configuration file not found at custom path: ${configPath}`);
+    throw new FileNotFoundError(configPath);
+  }
+
   const result = configPath ? await explorer.load(configPath) : await explorer.search();
 
   if (result && result.config) {
@@ -41,6 +48,7 @@ async function loadConfig(configPath?: string): Promise<Config> {
     const config = result.config as unknown as Config;
     return validateConfig(config);
   }
+
   logger.debug(LOG_SOURCE.CONFIG, 'Configuration file not found. Using default');
   return getDefaultConfig();
 }
