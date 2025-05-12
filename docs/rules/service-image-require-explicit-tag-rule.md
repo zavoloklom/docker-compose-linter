@@ -57,6 +57,7 @@ customize which image tags should be flagged as problematic. If not provided, th
 - `dev`
 - `beta`
 - `canary`
+- `lts`
 
 ### Example Usage with Custom prohibitedTags
 
