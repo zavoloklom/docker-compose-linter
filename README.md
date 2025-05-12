@@ -250,6 +250,8 @@ For an example of anchor usage, refer to the sample Compose file in `tests/mocks
 DCLint allows you to customize the set of rules used during linting to fit your project's specific needs. You can
 configure which rules are applied, their severity levels, and additional behavior settings using a configuration file.
 
+> Note: Command-line options always take precedence over values defined in the configuration file.
+
 ### Supported Configuration File Formats
 
 DCLint supports flexible configuration options through the use of
