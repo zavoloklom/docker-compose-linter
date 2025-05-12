@@ -11,6 +11,7 @@ interface CLIConfig {
   color: boolean;
   debug: boolean;
   exclude: string[];
+  disableRule: string[];
 }
 
 export { CLIConfig };
