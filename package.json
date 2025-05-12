@@ -102,7 +102,7 @@
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-sonarjs": "1.0.3",
-    "eslint-plugin-unicorn": "56.0.1",
+    "eslint-plugin-unicorn": "59.0.1",
     "esmock": "2.6.9",
     "husky": "9.1.7",
     "markdownlint-cli2": "0.17.1",
