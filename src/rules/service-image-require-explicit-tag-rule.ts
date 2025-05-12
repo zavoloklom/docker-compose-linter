@@ -28,7 +28,7 @@ export default class ServiceImageRequireExplicitTagRule implements LintRule {
   public severity: LintRuleSeverity = 'major';
 
   public meta: RuleMeta = {
-    description: 'Services must use a specific image tag instead of "latest", "stable" or no tag.',
+    description: 'Services must use a specific image tag instead of "latest", "stable" or similar or no tag.',
     url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/service-image-require-explicit-tag-rule.md',
   };
 
@@ -38,7 +38,7 @@ export default class ServiceImageRequireExplicitTagRule implements LintRule {
 
   constructor(options?: ServiceImageRequireExplicitTagRuleInputOptions) {
     const defaultOptions: ServiceImageRequireExplicitTagRuleOptions = {
-      prohibitedTags: ['latest', 'stable', 'edge', 'test', 'nightly', 'dev', 'beta', 'canary'],
+      prohibitedTags: ['latest', 'stable', 'edge', 'test', 'nightly', 'dev', 'beta', 'canary', 'lts'],
     };
     this.options = { ...defaultOptions, ...options };
   }
