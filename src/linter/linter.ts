@@ -1,7 +1,5 @@
 import fs from 'node:fs';
 import { parseDocument, YAMLError } from 'yaml';
-import type { Config } from '../config/config.types';
-import type { LintRule, LintMessage, LintResult, LintContext } from './linter.types';
 import { findFilesForLinting } from '../util/files-finder';
 import { loadLintRules } from '../util/rules-utils';
 import { Logger, LOG_SOURCE } from '../util/logger';
@@ -13,23 +11,19 @@ import {
   extractGlobalDisableRules,
   startsWithDisableFileComment,
 } from '../util/comments-handler';
-
-const DEFAULT_CONFIG: Config = {
-  debug: false,
-  exclude: [],
-  rules: {},
-  quiet: false,
-};
+import type { Config } from '../config/config.types';
+import type { LintResult, LintContext } from './linter.types';
+import type { Rule, RuleMessage } from '../rules/rules.types';
 
 class DCLinter {
   private readonly config: Config;
 
-  private rules: LintRule[];
+  private rules: Rule[];
 
   private logger: Logger;
 
-  constructor(config?: Config) {
-    this.config = { ...DEFAULT_CONFIG, ...config };
+  constructor(config: Config) {
+    this.config = config;
     this.rules = [];
     this.logger = Logger.init(this.config?.debug);
   }
@@ -40,8 +34,8 @@ class DCLinter {
     }
   }
 
-  private lintContent(context: LintContext): LintMessage[] {
-    const messages: LintMessage[] = [];
+  private lintContent(context: LintContext): RuleMessage[] {
+    const messages: RuleMessage[] = [];
 
     // Get globally disabled rules (from the first line)
     const globalDisableRules = extractGlobalDisableRules(context.sourceCode);
@@ -82,8 +76,8 @@ class DCLinter {
     return fixedContent;
   }
 
-  private static validateFile(file: string): { context: LintContext | null; messages: LintMessage[] } {
-    const messages: LintMessage[] = [];
+  private static validateFile(file: string): { context: LintContext | null; messages: RuleMessage[] } {
+    const messages: RuleMessage[] = [];
     const context: LintContext = { path: file, content: {}, sourceCode: '' };
 
     try {

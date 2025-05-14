@@ -1,11 +1,11 @@
-import type { LintRule, LintMessageType, LintRuleDefinition } from '../linter/linter.types';
-import type { Config, ConfigRuleLevel, ConfigRule } from '../config/config.types';
 import { Logger } from './logger';
 import Rules from '../rules/index';
+import type { Config, ConfigRuleLevel, ConfigRule } from '../config/config.types';
+import type { Rule, RuleType, RuleDefinition } from '../rules/rules.types';
 
-async function loadLintRules(config: Config): Promise<LintRule[]> {
+async function loadLintRules(config: Config): Promise<Rule[]> {
   const logger = Logger.init();
-  const activeRules: LintRule[] = [];
+  const activeRules: Rule[] = [];
 
   Object.values(Rules).forEach((RuleClass) => {
     if (typeof RuleClass !== 'function') {
@@ -14,7 +14,7 @@ async function loadLintRules(config: Config): Promise<LintRule[]> {
     }
 
     try {
-      const ruleInstance = new (RuleClass as new () => LintRule)();
+      const ruleInstance = new (RuleClass as new () => Rule)();
       const ruleConfig: ConfigRule = config.rules[ruleInstance.name];
 
       let ruleLevel: ConfigRuleLevel;
@@ -28,10 +28,10 @@ async function loadLintRules(config: Config): Promise<LintRule[]> {
 
       if (ruleLevel !== 0) {
         const instance = ruleOptions
-          ? new (RuleClass as new (options?: Record<string, unknown>) => LintRule)(ruleOptions)
+          ? new (RuleClass as new (options?: Record<string, unknown>) => Rule)(ruleOptions)
           : ruleInstance;
 
-        const typeMap: { [key: number]: LintMessageType } = {
+        const typeMap: { [key: number]: RuleType } = {
           1: 'warning',
           2: 'error',
         };
@@ -47,7 +47,7 @@ async function loadLintRules(config: Config): Promise<LintRule[]> {
   return activeRules;
 }
 
-function getRuleDefinition(rule: LintRule): LintRuleDefinition {
+function getRuleDefinition(rule: Rule): RuleDefinition {
   return {
     name: rule.name,
     type: rule.type,

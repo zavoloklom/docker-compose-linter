@@ -1,14 +1,7 @@
 import { parseDocument, isMap, isScalar } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export interface ServiceImageRequireExplicitTagRuleInputOptions {
   prohibitedTags?: string[];
@@ -18,14 +11,19 @@ interface ServiceImageRequireExplicitTagRuleOptions {
   prohibitedTags: string[];
 }
 
-export default class ServiceImageRequireExplicitTagRule implements LintRule {
-  public name = 'service-image-require-explicit-tag';
+export default class ServiceImageRequireExplicitTagRule implements Rule {
+  static readonly name = 'service-image-require-explicit-tag';
 
-  public type: LintMessageType = 'error';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return ServiceImageRequireExplicitTagRule.name;
+  }
 
-  public category: LintRuleCategory = 'security';
+  public type: RuleType = 'error';
 
-  public severity: LintRuleSeverity = 'major';
+  public category: RuleCategory = 'security';
+
+  public severity: RuleSeverity = 'major';
 
   public meta: RuleMeta = {
     description: 'Services must use a specific image tag instead of "latest", "stable" or similar or no tag.',
@@ -56,8 +54,8 @@ export default class ServiceImageRequireExplicitTagRule implements LintRule {
     return !this.options.prohibitedTags.includes(tag);
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

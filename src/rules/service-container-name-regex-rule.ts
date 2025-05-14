@@ -1,23 +1,21 @@
 import { parseDocument, isMap, isScalar } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class ServiceContainerNameRegexRule implements LintRule {
-  public name = 'service-container-name-regex';
+export default class ServiceContainerNameRegexRule implements Rule {
+  static readonly name = 'service-container-name-regex';
 
-  public type: LintMessageType = 'error';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return ServiceContainerNameRegexRule.name;
+  }
 
-  public category: LintRuleCategory = 'security';
+  public type: RuleType = 'error';
 
-  public severity: LintRuleSeverity = 'critical';
+  public category: RuleCategory = 'security';
+
+  public severity: RuleSeverity = 'critical';
 
   // see https://docs.docker.com/reference/compose-file/services/#container_name
   private static readonly containerNameRegex = /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/;
@@ -34,8 +32,8 @@ export default class ServiceContainerNameRegexRule implements LintRule {
     return `Service "${serviceName}" has an invalid container name "${containerName}". It must match the regex pattern ${ServiceContainerNameRegexRule.containerNameRegex}.`;
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

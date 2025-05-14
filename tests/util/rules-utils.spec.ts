@@ -2,30 +2,24 @@
 
 import test from 'ava';
 import esmock from 'esmock';
-import type { Config } from '../../src/config/config.types';
-import type {
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-} from '../../src/linter/linter.types';
 import { getRuleDefinition } from '../../src/util/rules-utils';
+import type { Config } from '../../src/config/config.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMessage } from '../../src/rules/rules.types';
 
-class MockRule implements LintRule {
+class MockRule implements Rule {
   name = 'mock-rule';
 
-  type: LintMessageType = 'warning';
+  type: RuleType = 'warning';
 
-  category: LintRuleCategory = 'style';
+  category: RuleCategory = 'style';
 
-  severity: LintRuleSeverity = 'minor';
+  severity: RuleSeverity = 'minor';
 
   fixable = true;
 
   meta = { description: 'Mock rule description', url: 'https://example.com' };
 
-  check(content: object, type?: LintMessageType): LintMessage[] {
+  check(content: object, type?: RuleType): RuleMessage[] {
     return [];
   }
 
@@ -38,14 +32,14 @@ class MockRule implements LintRule {
   }
 }
 
-class AnotherMockRule implements LintRule {
+class AnotherMockRule implements Rule {
   name = 'another-mock-rule';
 
-  type: LintMessageType = 'error';
+  type: RuleType = 'error';
 
-  category: LintRuleCategory = 'security';
+  category: RuleCategory = 'security';
 
-  severity: LintRuleSeverity = 'critical';
+  severity: RuleSeverity = 'critical';
 
   fixable = false;
 
@@ -53,7 +47,7 @@ class AnotherMockRule implements LintRule {
 
   options: { customOption: boolean };
 
-  check(content: object, type?: LintMessageType): LintMessage[] {
+  check(content: object, type?: RuleType): RuleMessage[] {
     return [];
   }
 
@@ -90,7 +84,7 @@ test('loadLintRules - should load and configure rules based on config', async (t
   };
 
   // Mock `Rules` module and `Logger` dependency
-  const { loadLintRules }: { loadLintRules: (config: Config) => Promise<LintRule[]> } = await esmock(
+  const { loadLintRules }: { loadLintRules: (config: Config) => Promise<Rule[]> } = await esmock(
     '../../src/util/rules-utils',
     {
       '../../src/util/logger': { Logger: mockLogger },
@@ -138,7 +132,7 @@ test('loadLintRules - should log error for invalid rules', async (t) => {
   };
 
   // Mock `Rules` module with an invalid rule
-  const { loadLintRules }: { loadLintRules: (config: Config) => Promise<LintRule[]> } = await esmock(
+  const { loadLintRules }: { loadLintRules: (config: Config) => Promise<Rule[]> } = await esmock(
     '../../src/util/rules-utils',
     {
       '../../src/util/logger': { Logger: mockLogger },
