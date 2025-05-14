@@ -1,5 +1,9 @@
 {
   "all": true,
   "reporter": ["lcov", "cobertura", "text-summary"],
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "**/*.types.ts",
+    "**/*.d.ts"
+  ]
 }
