@@ -1,23 +1,21 @@
 import { parseDocument, isSeq, isScalar, isMap, isPair } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class ServiceDependenciesAlphabeticalOrderRule implements LintRule {
-  public name = 'service-dependencies-alphabetical-order';
+export default class ServiceDependenciesAlphabeticalOrderRule implements Rule {
+  static readonly name = 'service-dependencies-alphabetical-order';
 
-  public type: LintMessageType = 'warning';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return ServiceDependenciesAlphabeticalOrderRule.name;
+  }
 
-  public category: LintRuleCategory = 'style';
+  public type: RuleType = 'warning';
 
-  public severity: LintRuleSeverity = 'info';
+  public category: RuleCategory = 'style';
+
+  public severity: RuleSeverity = 'info';
 
   public meta: RuleMeta = {
     description: 'Services in the `depends_on` section should be sorted alphabetically.',
@@ -43,8 +41,8 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements LintRul
     return '';
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

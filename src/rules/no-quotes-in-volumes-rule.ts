@@ -1,23 +1,21 @@
 import { parseDocument, isMap, isSeq, isScalar, Scalar, ParsedNode } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberByValue } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class NoQuotesInVolumesRule implements LintRule {
-  public name = 'no-quotes-in-volumes';
+export default class NoQuotesInVolumesRule implements Rule {
+  static readonly name = 'no-quotes-in-volumes';
 
-  public type: LintMessageType = 'warning';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return NoQuotesInVolumesRule.name;
+  }
 
-  public category: LintRuleCategory = 'style';
+  public type: RuleType = 'warning';
 
-  public severity: LintRuleSeverity = 'info';
+  public category: RuleCategory = 'style';
+
+  public severity: RuleSeverity = 'info';
 
   public meta: RuleMeta = {
     description: 'Values in the `volumes` section should not be enclosed in quotes.',
@@ -53,8 +51,8 @@ export default class NoQuotesInVolumesRule implements LintRule {
     });
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
 
     NoQuotesInVolumesRule.extractVolumes(parsedDocument.contents, (volume) => {

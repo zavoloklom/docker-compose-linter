@@ -6,11 +6,11 @@ import { fileURLToPath } from 'node:url';
 import * as changeCase from 'change-case';
 import { format } from 'prettier';
 import { loadLintRules, getRuleDefinition } from '../src/util/rules-utils';
-import type { LintRuleDefinition } from '../src/linter/linter.types';
+import type { RuleDefinition } from '../src/rules/rules.types';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');
 
-function generateRulesTable(ruleDefinitionList: LintRuleDefinition[]) {
+function generateRulesTable(ruleDefinitionList: RuleDefinition[]) {
   const tableHeader = `
 | Name | Description |   |
 |------|-------------|---|`;
@@ -25,7 +25,7 @@ function generateRulesTable(ruleDefinitionList: LintRuleDefinition[]) {
   return `${tableHeader}\n${tableRows.join('\n')}\n`;
 }
 
-async function updateRulesReference(ruleDefinitionList: LintRuleDefinition[]) {
+async function updateRulesReference(ruleDefinitionList: RuleDefinition[]) {
   const rulesFilePath = join(documentationDirectory, './rules.md');
 
   try {
@@ -71,7 +71,7 @@ async function updateRulesReference(ruleDefinitionList: LintRuleDefinition[]) {
   }
 }
 
-async function updateDocumentation(ruleDefinition: LintRuleDefinition) {
+async function updateDocumentation(ruleDefinition: RuleDefinition) {
   const documentFilePath = join(documentationDirectory, `./rules/${ruleDefinition.name}-rule.md`);
 
   try {

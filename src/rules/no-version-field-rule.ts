@@ -1,22 +1,20 @@
-import type {
-  LintRule,
-  LintMessage,
-  LintRuleCategory,
-  RuleMeta,
-  LintRuleSeverity,
-  LintMessageType,
-  LintContext,
-} from '../linter/linter.types';
 import { findLineNumberByKey } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class NoVersionFieldRule implements LintRule {
-  public name = 'no-version-field';
+export default class NoVersionFieldRule implements Rule {
+  static readonly name = 'no-version-field';
 
-  public type: LintMessageType = 'error';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return NoVersionFieldRule.name;
+  }
 
-  public category: LintRuleCategory = 'best-practice';
+  public type: RuleType = 'error';
 
-  public severity: LintRuleSeverity = 'minor';
+  public category: RuleCategory = 'best-practice';
+
+  public severity: RuleSeverity = 'minor';
 
   public meta: RuleMeta = {
     description: 'The `version` field must be absent in the configuration.',
@@ -30,8 +28,8 @@ export default class NoVersionFieldRule implements LintRule {
     return 'The "version" field should not be present.';
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
 
     if (context.content && 'version' in context.content) {
       errors.push({

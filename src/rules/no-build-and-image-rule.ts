@@ -1,14 +1,7 @@
 import { parseDocument, isMap, isScalar } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export interface NoBuildAndImageRuleInputOptions {
   checkPullPolicy?: boolean;
@@ -18,14 +11,19 @@ interface NoBuildAndImageRuleOptions {
   checkPullPolicy: boolean;
 }
 
-export default class NoBuildAndImageRule implements LintRule {
-  public name = 'no-build-and-image';
+export default class NoBuildAndImageRule implements Rule {
+  static readonly name = 'no-build-and-image';
 
-  public type: LintMessageType = 'error';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return NoBuildAndImageRule.name;
+  }
 
-  public category: LintRuleCategory = 'best-practice';
+  public type: RuleType = 'error';
 
-  public severity: LintRuleSeverity = 'major';
+  public category: RuleCategory = 'best-practice';
+
+  public severity: RuleSeverity = 'major';
 
   public meta: RuleMeta = {
     description: 'Each service must use either `build` or `image`, not both.',
@@ -48,8 +46,8 @@ export default class NoBuildAndImageRule implements LintRule {
     return `Service "${serviceName}" is using both "build" and "image". Use one of them, but not both.`;
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

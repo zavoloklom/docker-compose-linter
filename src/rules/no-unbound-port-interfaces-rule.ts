@@ -1,24 +1,22 @@
 import { parseDocument, isMap, isSeq, isScalar } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
 import { extractPublishedPortInterfaceValue } from '../util/service-ports-parser';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class NoUnboundPortInterfacesRule implements LintRule {
-  public name = 'no-unbound-port-interfaces';
+export default class NoUnboundPortInterfacesRule implements Rule {
+  static readonly name = 'no-unbound-port-interfaces';
 
-  public type: LintMessageType = 'error';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return NoUnboundPortInterfacesRule.name;
+  }
 
-  public category: LintRuleCategory = 'security';
+  public type: RuleType = 'error';
 
-  public severity: LintRuleSeverity = 'major';
+  public category: RuleCategory = 'security';
+
+  public severity: RuleSeverity = 'major';
 
   public meta: RuleMeta = {
     description: 'Exported ports must be bound to specific interfaces to avoid unintentional exposure.',
@@ -32,8 +30,8 @@ export default class NoUnboundPortInterfacesRule implements LintRule {
     return `Service "${serviceName}" is exporting port "${port}" without specifying the interface to listen on.`;
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

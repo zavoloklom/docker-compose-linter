@@ -4,7 +4,8 @@ import esmock from 'esmock';
 import { normalizeYAML } from './test-utils';
 import { Logger } from '../src/util/logger';
 import type { Config } from '../src/config/config.types';
-import type { LintResult, LintRule } from '../src/linter/linter.types';
+import type { LintResult } from '../src/linter/linter.types';
+import type { Rule } from '../src/rules/rules.types';
 
 // Sample configuration
 const config: Config = {
@@ -15,7 +16,7 @@ const config: Config = {
 };
 
 // Sample lint rule for testing
-const mockRule: LintRule = {
+const mockRule: Rule = {
   name: 'mock-rule',
   type: 'error',
   category: 'style',
@@ -57,7 +58,7 @@ services:
 // @ts-ignore TS2349
 test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
   const mockFindFiles = (): string[] => [mockFilePath];
-  const mockLoadLintRules = (): LintRule[] => [mockRule];
+  const mockLoadLintRules = (): Rule[] => [mockRule];
   const mockReadFileSync = (): string => mockFileContent;
 
   // Use esmock to mock both rules-loader and files-finder modules
@@ -137,7 +138,7 @@ test('DCLinter: should disable specific rule for part of the file', async (t: Ex
 // @ts-ignore TS2349
 test('DCLinter: should lint multiple files correctly', async (t: ExecutionContext) => {
   const mockFindFiles = (): string[] => mockFilePaths;
-  const mockLoadLintRules = (): LintRule[] => [mockRule];
+  const mockLoadLintRules = (): Rule[] => [mockRule];
   const mockReadFileSync = (filePath: string): string => mockFileContent;
 
   // Use esmock to mock both rules-loader and files-finder modules
@@ -164,7 +165,7 @@ test('DCLinter: should lint multiple files correctly', async (t: ExecutionContex
 // @ts-ignore TS2349
 test('DCLinter: should fix files', async (t: ExecutionContext) => {
   const mockFindFiles = (): string[] => [mockFilePath];
-  const mockLoadLintRules = (): LintRule[] => [mockRule];
+  const mockLoadLintRules = (): Rule[] => [mockRule];
   const mockReadFileSync = (): string => mockFileContent;
   const mockWriteFileSync = (): void => {};
 
@@ -203,7 +204,7 @@ test('DCLinter: should apply fixes correctly while ignoring disabled rules', asy
   `;
 
   const mockFindFiles = (): string[] => mockFilePaths;
-  const mockLoadLintRules = (): LintRule[] => [mockRule];
+  const mockLoadLintRules = (): Rule[] => [mockRule];
 
   // eslint-disable-next-line sonarjs/no-identical-functions
   const mockWriteFileSync = (filePath: string, content: string): void => {

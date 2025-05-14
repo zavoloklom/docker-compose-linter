@@ -1,23 +1,21 @@
 import { parseDocument, isMap, isScalar } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class NoDuplicateContainerNamesRule implements LintRule {
-  public name = 'no-duplicate-container-names';
+export default class NoDuplicateContainerNamesRule implements Rule {
+  static readonly name = 'no-duplicate-container-names';
 
-  public type: LintMessageType = 'error';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return NoDuplicateContainerNamesRule.name;
+  }
 
-  public category: LintRuleCategory = 'security';
+  public type: RuleType = 'error';
 
-  public severity: LintRuleSeverity = 'critical';
+  public category: RuleCategory = 'security';
+
+  public severity: RuleSeverity = 'critical';
 
   public meta: RuleMeta = {
     description: 'Container names must be unique to prevent conflicts and ensure proper container management.',
@@ -39,8 +37,8 @@ export default class NoDuplicateContainerNamesRule implements LintRule {
     return `Service "${serviceName}" has a duplicate container name "${containerName}" with service "${anotherService}". Container names MUST BE unique.`;
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

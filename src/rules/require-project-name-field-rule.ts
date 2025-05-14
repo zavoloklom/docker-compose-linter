@@ -1,21 +1,19 @@
-import type {
-  LintRule,
-  LintMessage,
-  LintRuleCategory,
-  RuleMeta,
-  LintRuleSeverity,
-  LintMessageType,
-  LintContext,
-} from '../linter/linter.types';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class RequireProjectNameFieldRule implements LintRule {
-  public name = 'require-project-name-field';
+export default class RequireProjectNameFieldRule implements Rule {
+  static readonly name = 'require-project-name-field';
 
-  public type: LintMessageType = 'warning';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return RequireProjectNameFieldRule.name;
+  }
 
-  public category: LintRuleCategory = 'best-practice';
+  public type: RuleType = 'warning';
 
-  public severity: LintRuleSeverity = 'minor';
+  public category: RuleCategory = 'best-practice';
+
+  public severity: RuleSeverity = 'minor';
 
   public meta: RuleMeta = {
     description: 'The `name` field should be included in the configuration.',
@@ -29,8 +27,8 @@ export default class RequireProjectNameFieldRule implements LintRule {
     return 'The "name" field should be present.';
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
 
     if (context.content && !('name' in context.content)) {
       errors.push({
