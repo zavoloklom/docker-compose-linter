@@ -3,7 +3,7 @@
 import { writeFileSync } from 'node:fs';
 import yargsLib from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadConfig } from '../config/config';
+import { ConfigLoader } from '../config/config-loader';
 import { DCLinter } from '../linter/linter';
 import type { CLIConfig } from './cli.types';
 import { Logger, LOG_SOURCE } from '../util/logger';
@@ -95,19 +95,12 @@ async function main() {
   logger.debug(LOG_SOURCE.CLI, 'Debug mode is ON');
   logger.debug(LOG_SOURCE.CLI, 'Arguments:', cliArguments);
 
-  const config = await loadConfig(cliArguments.config).catch((error) => {
-    process.exit(1);
-  });
-
-  if (cliArguments.quiet) config.quiet = cliArguments.quiet;
-  if (cliArguments.debug) config.debug = cliArguments.debug;
-  if (cliArguments.exclude.length > 0) config.exclude = cliArguments.exclude;
-
-  if (cliArguments.disableRule.length > 0) {
-    for (const ruleName of cliArguments.disableRule) {
-      config.rules[ruleName] = 0;
-    }
-  }
+  const config = ConfigLoader.init(cliArguments.debug)
+    .load(cliArguments.config)
+    .mergeCli(cliArguments)
+    .withDefaults()
+    .validate()
+    .get();
 
   logger.debug(LOG_SOURCE.CLI, 'Final config:', config);
 

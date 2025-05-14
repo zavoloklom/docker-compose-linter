@@ -1,12 +1,21 @@
 import { ErrorObject } from 'ajv';
 
 class ConfigValidationError extends Error {
+  public readonly errors: ErrorObject[];
+
   constructor(validationErrors?: ErrorObject[] | null | undefined) {
     super();
-    this.message = `Invalid configuration: ${
-      validationErrors?.map((error) => error.message).join(', ') || 'No details'
-    }`;
+
     this.name = 'ConfigValidationError';
+    this.errors = validationErrors || [];
+
+    const formatted = this.errors.map((error) => {
+      const path = error.instancePath || '/';
+      const message = error.message || 'unknown error';
+      return `${path} ${message}`;
+    });
+
+    this.message = `Invalid configuration: ${formatted.join('\n  ')}`;
   }
 }
 
