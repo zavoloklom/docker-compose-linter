@@ -1,24 +1,22 @@
 import { parseDocument, isMap, isSeq, isScalar } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
 import { extractPublishedPortValueWithProtocol, parsePortsRange } from '../util/service-ports-parser';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class NoDuplicateExportedPortsRule implements LintRule {
-  public name = 'no-duplicate-exported-ports';
+export default class NoDuplicateExportedPortsRule implements Rule {
+  static readonly name = 'no-duplicate-exported-ports';
 
-  public type: LintMessageType = 'error';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return NoDuplicateExportedPortsRule.name;
+  }
 
-  public category: LintRuleCategory = 'security';
+  public type: RuleType = 'error';
 
-  public severity: LintRuleSeverity = 'critical';
+  public category: RuleCategory = 'security';
+
+  public severity: RuleSeverity = 'critical';
 
   public meta: RuleMeta = {
     description: 'Exported ports must be unique to avoid conflicts.',
@@ -40,8 +38,8 @@ export default class NoDuplicateExportedPortsRule implements LintRule {
     return `Service "${serviceName}" is exporting port "${publishedPort}" which is already used by service "${anotherService}".`;
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

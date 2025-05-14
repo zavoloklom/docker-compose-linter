@@ -1,24 +1,22 @@
 import { parseDocument, isSeq, isScalar, isMap } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
 import { extractPublishedPortValueWithProtocol } from '../util/service-ports-parser';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class ServicePortsAlphabeticalOrderRule implements LintRule {
-  public name = 'service-ports-alphabetical-order';
+export default class ServicePortsAlphabeticalOrderRule implements Rule {
+  static readonly name = 'service-ports-alphabetical-order';
 
-  public type: LintMessageType = 'warning';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return ServicePortsAlphabeticalOrderRule.name;
+  }
 
-  public category: LintRuleCategory = 'style';
+  public type: RuleType = 'warning';
 
-  public severity: LintRuleSeverity = 'info';
+  public category: RuleCategory = 'style';
+
+  public severity: RuleSeverity = 'info';
 
   public meta: RuleMeta = {
     description: 'The list of ports in a service should be sorted alphabetically.',
@@ -32,8 +30,8 @@ export default class ServicePortsAlphabeticalOrderRule implements LintRule {
     return `Ports in service "${serviceName}" should be in alphabetical order.`;
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

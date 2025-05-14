@@ -1,23 +1,21 @@
 import { parseDocument, YAMLMap, isScalar, isMap } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
-export default class ServicesAlphabeticalOrderRule implements LintRule {
-  public name = 'services-alphabetical-order';
+export default class ServicesAlphabeticalOrderRule implements Rule {
+  static readonly name = 'services-alphabetical-order';
 
-  public type: LintMessageType = 'warning';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return ServicesAlphabeticalOrderRule.name;
+  }
 
-  public category: LintRuleCategory = 'style';
+  public type: RuleType = 'warning';
 
-  public severity: LintRuleSeverity = 'minor';
+  public category: RuleCategory = 'style';
+
+  public severity: RuleSeverity = 'minor';
 
   public meta: RuleMeta = {
     description: 'Services should be sorted alphabetically.',
@@ -46,8 +44,8 @@ export default class ServicesAlphabeticalOrderRule implements LintRule {
     return misplacedBefore;
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
     const services = parsedDocument.get('services');
 

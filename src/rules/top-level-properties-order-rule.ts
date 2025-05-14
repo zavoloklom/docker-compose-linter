@@ -1,14 +1,7 @@
 import { parseDocument, YAMLMap, isScalar, isMap } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberByKey } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export interface TopLevelPropertiesOrderRuleInputOptions {
   customOrder?: TopLevelKeys[];
@@ -30,14 +23,19 @@ export enum TopLevelKeys {
   Configs = 'configs',
 }
 
-export default class TopLevelPropertiesOrderRule implements LintRule {
-  public name = 'top-level-properties-order';
+export default class TopLevelPropertiesOrderRule implements Rule {
+  static readonly name = 'top-level-properties-order';
 
-  public type: LintMessageType = 'warning';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return TopLevelPropertiesOrderRule.name;
+  }
 
-  public category: LintRuleCategory = 'style';
+  public type: RuleType = 'warning';
 
-  public severity: LintRuleSeverity = 'major';
+  public category: RuleCategory = 'style';
+
+  public severity: RuleSeverity = 'major';
 
   public meta: RuleMeta = {
     description: 'Top-level properties should follow a specific order.',
@@ -70,8 +68,8 @@ export default class TopLevelPropertiesOrderRule implements LintRule {
     return `Property "${key}" is out of order. Expected order is: ${correctOrder.join(', ')}.`;
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const topLevelKeys = Object.keys(context.content);
 
     // Get and sort all 'x-' prefixed properties alphabetically

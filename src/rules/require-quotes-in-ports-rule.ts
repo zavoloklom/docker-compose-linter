@@ -1,14 +1,7 @@
 import { parseDocument, isMap, isSeq, isScalar, Scalar, ParsedNode, Pair } from 'yaml';
-import type {
-  LintContext,
-  LintMessage,
-  LintMessageType,
-  LintRule,
-  LintRuleCategory,
-  LintRuleSeverity,
-  RuleMeta,
-} from '../linter/linter.types';
 import { findLineNumberForService } from '../util/line-finder';
+import type { LintContext } from '../linter/linter.types';
+import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export interface RequireQuotesInPortsRuleInputOptions {
   quoteType?: 'single' | 'double';
@@ -19,14 +12,19 @@ interface RequireQuotesInPortsRuleOptions {
   portsSections: string[];
 }
 
-export default class RequireQuotesInPortsRule implements LintRule {
-  public name = 'require-quotes-in-ports';
+export default class RequireQuotesInPortsRule implements Rule {
+  static readonly name = 'require-quotes-in-ports';
 
-  public type: LintMessageType = 'warning';
+  // eslint-disable-next-line class-methods-use-this
+  get name() {
+    return RequireQuotesInPortsRule.name;
+  }
 
-  public category: LintRuleCategory = 'best-practice';
+  public type: RuleType = 'warning';
 
-  public severity: LintRuleSeverity = 'minor';
+  public category: RuleCategory = 'best-practice';
+
+  public severity: RuleSeverity = 'minor';
 
   public meta: RuleMeta = {
     description: 'Ports in `ports` and `expose` sections should be enclosed in quotes.',
@@ -81,8 +79,8 @@ export default class RequireQuotesInPortsRule implements LintRule {
     });
   }
 
-  public check(context: LintContext): LintMessage[] {
-    const errors: LintMessage[] = [];
+  public check(context: LintContext): RuleMessage[] {
+    const errors: RuleMessage[] = [];
     const parsedDocument = parseDocument(context.sourceCode);
 
     this.options.portsSections.forEach((section) => {

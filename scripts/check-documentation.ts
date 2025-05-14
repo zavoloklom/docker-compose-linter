@@ -4,13 +4,13 @@ import fs from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadLintRules, getRuleDefinition } from '../src/util/rules-utils';
-import type { LintRuleDefinition } from '../src/linter/linter.types';
+import type { RuleDefinition } from '../src/rules/rules.types';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');
 
 let hasValidationErrors = false;
 
-async function validateDocumentation(ruleDefinition: LintRuleDefinition) {
+async function validateDocumentation(ruleDefinition: RuleDefinition) {
   const documentFilePath = join(documentationDirectory, `rules/${ruleDefinition.name}-rule.md`);
 
   try {
