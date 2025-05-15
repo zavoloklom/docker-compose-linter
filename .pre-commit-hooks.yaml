@@ -1,0 +1,18 @@
+- id: dclint # Has errors
+  name: DCLint
+  description: Validate and enforce best practices in Docker Compose files.
+  entry: dclint
+  language: node
+  files: (docker-)?compose\.ya?ml$
+- id: dclint-docker
+  name: DCLint via Docker
+  description: Validate and enforce best practices in Docker Compose files.
+  language: docker_image
+  entry: zavoloklom/dclint
+  files: (docker-)?compose\.ya?ml$
+- id: dclint-system
+  name: DCLint via local installation
+  description: Validate and enforce best practices in Docker Compose files.
+  entry: dclint
+  language: system
+  files: (docker-)?compose\.ya?ml

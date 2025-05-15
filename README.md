@@ -324,6 +324,21 @@ configure whether single or double quotes should be used around port numbers. Yo
 In this example, the require-quotes-in-ports rule is enabled at the error level and configured to enforce double quotes
 around ports.
 
+## Use in a pre-commit hook
+DCLint works with [pre-commit](https://pre-commit.com/).
+Add the following to your `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/zavoloklom/docker-compose-linter.git
+    rev: v2.3.0  # Choose a tag or sha to work with
+    hooks:
+      - id: dclint
+        # Regex for your docker-compose files (only required if it is not the default)
+        files: (docker-)?compose\.ya?ml
+        args: [--fix]  # If you want to apply auto-fixes on commit
+```
+
 ## Integration with CI/CD Pipeline
 
 Automate linting as part of your CI/CD pipeline by adding the Docker run command to your pipeline script. This ensures
