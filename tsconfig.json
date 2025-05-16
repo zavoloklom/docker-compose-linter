@@ -11,11 +11,18 @@
     "importHelpers": true,
     "noEmitHelpers": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "schemas/*.json"],
+  "include": [
+    "src/**/*.ts",
+    "schemas/*.json"
+  ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    ".tsimp",
+    "coverage",
+    "bin",
+    "pkg"
   ]
 }
