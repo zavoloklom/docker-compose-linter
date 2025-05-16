@@ -1,4 +1,5 @@
-import { parseDocument, isSeq, isScalar, isMap } from 'yaml';
+import { isSeq, isScalar, isMap } from 'yaml';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import { findLineNumberForService } from '../util/line-finder';
 import { extractPublishedPortValueWithProtocol } from '../util/service-ports-parser';
 import type { LintContext } from '../linter/linter.types';
@@ -32,7 +33,7 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
 
   public check(context: LintContext): RuleMessage[] {
     const errors: RuleMessage[] = [];
-    const parsedDocument = parseDocument(context.sourceCode);
+    const parsedDocument = parseYAML(context.sourceCode);
     const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
@@ -75,7 +76,7 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
 
   // eslint-disable-next-line class-methods-use-this
   public fix(content: string): string {
-    const parsedDocument = parseDocument(content);
+    const parsedDocument = parseYAML(content);
     const services = parsedDocument.get('services');
 
     if (!isMap(services)) return content;
@@ -96,6 +97,6 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
       });
     });
 
-    return parsedDocument.toString();
+    return stringifyDocument(parsedDocument);
   }
 }
