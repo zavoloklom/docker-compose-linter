@@ -98,7 +98,9 @@ export default class ServiceKeysOrderRule implements Rule {
   }
 
   private getCorrectOrder(keys: string[]): string[] {
-    const otherKeys = keys.filter((key) => !Object.values(this.options.groups).flat().includes(key)).sort();
+    const otherKeys = keys
+      .filter((key) => !Object.values(this.options.groups).flat().includes(key))
+      .sort((a, b) => a.localeCompare(b));
 
     return [...this.options.groupOrder.flatMap((group) => this.options.groups[group]), ...otherKeys];
   }

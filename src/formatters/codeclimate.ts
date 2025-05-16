@@ -2,20 +2,19 @@ import { createHash } from 'node:crypto';
 import type { LintResult } from '../linter/linter.types';
 
 const generateFingerprint = (data: (string | null)[], hashes: Set<string>): string => {
+  // eslint-disable-next-line sonarjs/hashing
   const hash = createHash('md5');
 
   // Filter out null values and update the hash
   for (const part of data.filter(Boolean)) {
     hash.update(part!.toString());
   }
-  // data.filter(Boolean).forEach((part) => {
-  //   hash.update(part!.toString()); // Using non-null assertion since filter removed null values
-  // });
 
   // Hash collisions should not happen, but if they do, a random hash will be generated.
   const hashCopy = hash.copy();
   let digest = hash.digest('hex');
   if (hashes.has(digest)) {
+    // eslint-disable-next-line sonarjs/pseudo-random
     hashCopy.update(Math.random().toString());
     digest = hashCopy.digest('hex');
   }

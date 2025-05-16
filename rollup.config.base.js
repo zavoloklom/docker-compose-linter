@@ -10,16 +10,16 @@ import terser from '@rollup/plugin-terser';
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const version = process.env.VERSION ?? packageJson?.version;
 
-export default (outDir, declaration = false, minify = false) => {
+const rollup = (outDirectory, declaration = false, minify = false) => {
   const plugins = [
     json(),
     commonjs(),
     nodeResolve({ preferBuiltins: true }),
     typescript({
       tsconfig: './tsconfig.json',
-      outDir,
+      outDirectory,
       declaration,
-      declarationDir: declaration ? `${outDir}/types` : null,
+      declarationDir: declaration ? `${outDirectory}/types` : null,
       include: ['src/**/*.ts', 'schemas/*.json'],
     }),
     babel({
@@ -39,3 +39,5 @@ export default (outDir, declaration = false, minify = false) => {
 
   return { plugins };
 };
+
+export default rollup;

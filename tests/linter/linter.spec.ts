@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import test from 'ava';
 import type { ExecutionContext } from 'ava';
 import esmock from 'esmock';
@@ -64,7 +65,6 @@ test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
   const mockReadFileSync = (): string => mockFileContent;
 
   // Use esmock to mock both rules-loader and files-finder modules
-  // eslint-disable-next-line sonarjs/no-duplicate-string
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     '../../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
@@ -74,7 +74,7 @@ test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
   const linter = new DCLinter(config);
 
   // Call lintFiles method
-  const result: LintResult[] = await linter.lintFiles([mockFilePath], false);
+  const result: LintResult[] = linter.lintFiles([mockFilePath], false);
 
   // Assertions
   t.is(result.length, 1, 'One file should be linted');
@@ -111,11 +111,11 @@ test('DCLinter: should disable linter for a file', async (t: ExecutionContext) =
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
   });
   const linter = new DCLinter(config);
-  const result = await linter.lintFiles([mockFilePath], false);
+  const result = linter.lintFiles([mockFilePath], false);
   t.is(result[0].messages.length, 0, 'No messages should be present when rule is disabled for part of file');
 
   // Call fixFiles method to apply fixes
-  await linter.fixFiles([mockFilePath], false, false); // Dry run is set to false
+  linter.fixFiles([mockFilePath], false, false); // Dry run is set to false
 });
 
 // @ts-ignore TS2349
@@ -133,7 +133,7 @@ test('DCLinter: should disable specific rule for part of the file', async (t: Ex
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
   });
   const linter = new DCLinter(config);
-  const result = await linter.lintFiles([mockFilePath], false);
+  const result = linter.lintFiles([mockFilePath], false);
   t.is(result[0].messages.length, 0, 'No messages should be present when rule is disabled for part of file');
 });
 
@@ -144,7 +144,6 @@ test('DCLinter: should lint multiple files correctly', async (t: ExecutionContex
   const mockReadFileSync = (filePath: string): string => mockFileContent;
 
   // Use esmock to mock both rules-loader and files-finder modules
-  // eslint-disable-next-line sonarjs/no-duplicate-string
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     '../../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
@@ -154,7 +153,7 @@ test('DCLinter: should lint multiple files correctly', async (t: ExecutionContex
   const linter = new DCLinter(config);
 
   // Call lintFiles method
-  const result: LintResult[] = await linter.lintFiles(mockFilePaths, false);
+  const result: LintResult[] = linter.lintFiles(mockFilePaths, false);
 
   // Assertions
   t.is(result.length, 2, 'Two files should be linted');
@@ -172,7 +171,6 @@ test('DCLinter: should fix files', async (t: ExecutionContext) => {
   const mockWriteFileSync = (): void => {};
 
   // Use esmock to mock both rules-loader and files-finder modules
-  // eslint-disable-next-line sonarjs/no-duplicate-string
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     '../../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
@@ -188,7 +186,7 @@ test('DCLinter: should fix files', async (t: ExecutionContext) => {
   };
 
   // Call fixFiles method in dry-run mode
-  await linter.fixFiles([mockFilePath], false, true);
+  linter.fixFiles([mockFilePath], false, true);
 
   // Assertions
   t.regex(loggedOutput, /Dry run - changes for file/, 'Dry run should output changes');
@@ -224,7 +222,7 @@ test('DCLinter: should apply fixes correctly while ignoring disabled rules', asy
   const linter = new DCLinter(config);
 
   // Call fixFiles method to apply fixes
-  await linter.fixFiles([mockFilePath], false, false); // Dry run is set to false
+  linter.fixFiles([mockFilePath], false, false); // Dry run is set to false
 
   // Check that the "nginx:latest" is added
   // The "mock-rule" rule should be ignored as it was disabled globally in the first line
@@ -246,7 +244,7 @@ test('DCLinter: adds error message for invalid YAML (YAMLError)', async (t) => {
   });
 
   const linter = new DCLinter(config);
-  const result = await linter.lintFiles([mockFilePath], false);
+  const result = linter.lintFiles([mockFilePath], false);
   const message = result[0].messages[0];
 
   t.is(message.rule, 'invalid-yaml');
@@ -277,7 +275,7 @@ test('DCLinter: adds error message for ComposeValidationError', async (t) => {
   });
 
   const linter = new DCLinter(config);
-  const result = await linter.lintFiles([mockFilePath], false);
+  const result = linter.lintFiles([mockFilePath], false);
   const message = result[0].messages[0];
 
   t.is(message.rule, 'invalid-schema');
@@ -298,7 +296,7 @@ test('DCLinter: adds error message for unknown error', async (t) => {
   });
 
   const linter = new DCLinter(config);
-  const result = await linter.lintFiles([mockFilePath], false);
+  const result = linter.lintFiles([mockFilePath], false);
   const message = result[0].messages[0];
 
   t.is(message.rule, 'unknown-error');
@@ -310,7 +308,7 @@ test('DCLinter: calls formatter and returns formatted result', async (t) => {
   const mockFormatter = (results: LintResult[]) => `Formatted ${results.length} result(s)`;
 
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
-    '../../src/util/formatter-loader': { loadFormatter: async () => mockFormatter },
+    '../../src/util/formatter-loader': { loadFormatter: () => mockFormatter },
   });
 
   const linter = new DCLinter(config);
@@ -343,7 +341,7 @@ test('DCLinter: should filter out rule message if line has disable-line *', asyn
   });
 
   const linter = new DCLinter(config);
-  const results = await linter.lintFiles(['mock.yaml'], false);
+  const results = linter.lintFiles(['mock.yaml'], false);
 
   t.is(results[0].messages.length, 0, 'Message should be filtered out by disable-line *');
 });

@@ -1,9 +1,9 @@
 import { Logger } from './logger';
 import Rules from '../rules/index';
 import type { Config, ConfigRuleLevel, ConfigRule } from '../config/config.types';
-import type { Rule, RuleType, RuleDefinition } from '../rules/rules.types';
+import type { Rule, RuleType } from '../rules/rules.types';
 
-async function loadLintRules(config: Config): Promise<Rule[]> {
+function loadLintRules(config: Config): Rule[] {
   const logger = Logger.init();
   const activeRules: Rule[] = [];
 
@@ -47,17 +47,4 @@ async function loadLintRules(config: Config): Promise<Rule[]> {
   return activeRules;
 }
 
-function getRuleDefinition(rule: Rule): RuleDefinition {
-  return {
-    name: rule.name,
-    type: rule.type,
-    category: rule.category,
-    severity: rule.severity,
-    fixable: rule.fixable,
-    meta: rule.meta,
-    hasFixFunction: 'fix' in rule,
-    hasOptions: 'options' in rule,
-  };
-}
-
-export { loadLintRules, getRuleDefinition };
+export { loadLintRules };

@@ -26,12 +26,7 @@ class DCLinter {
     this.config = config;
     this.rules = [];
     this.logger = Logger.init(this.config?.debug);
-  }
-
-  private async loadRules() {
-    if (this.rules.length === 0) {
-      this.rules = await loadLintRules(this.config);
-    }
+    this.rules = loadLintRules(this.config);
   }
 
   private lintContent(context: LintContext): RuleMessage[] {
@@ -145,9 +140,8 @@ class DCLinter {
     return { context, messages };
   }
 
-  public async lintFiles(paths: string[], doRecursiveSearch: boolean): Promise<LintResult[]> {
+  public lintFiles(paths: string[], doRecursiveSearch: boolean): LintResult[] {
     const lintResults: LintResult[] = [];
-    await this.loadRules();
     const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
     this.logger.debug(LOG_SOURCE.LINTER, `Compose files for linting: ${files.toString()}`);
 
@@ -179,8 +173,7 @@ class DCLinter {
     return lintResults;
   }
 
-  public async fixFiles(paths: string[], doRecursiveSearch: boolean, dryRun: boolean = false): Promise<void> {
-    await this.loadRules();
+  public fixFiles(paths: string[], doRecursiveSearch: boolean, dryRun: boolean = false): void {
     const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
     this.logger.debug(LOG_SOURCE.LINTER, `Compose files for fixing: ${files.toString()}`);
 

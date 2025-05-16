@@ -9,6 +9,7 @@ function extractPublishedPortValueWithProtocol(yamlNode: unknown): { port: strin
     const [portPart, protocol] = value.split('/');
 
     // Extract the actual port, ignoring host/ip
+    // eslint-disable-next-line sonarjs/slow-regex
     const parts = portPart.split(/:(?![^[]*])/);
 
     if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
@@ -37,6 +38,7 @@ function extractPublishedPortInterfaceValue(yamlNode: unknown): string {
     const value = String(yamlNode.value);
 
     // Split on single colon
+    // eslint-disable-next-line sonarjs/slow-regex
     const parts = value.split(/:(?![^[]*])/);
 
     if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
@@ -74,7 +76,6 @@ function parsePortsRange(port: string): string[] {
   }
 
   const ports: string[] = [];
-  // eslint-disable-next-line no-plusplus,unicorn/prevent-abbreviations
   for (let i = start; i <= end; i++) {
     ports.push(i.toString());
   }
