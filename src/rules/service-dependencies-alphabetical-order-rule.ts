@@ -1,4 +1,5 @@
-import { parseDocument, isSeq, isScalar, isMap, isPair } from 'yaml';
+import { isSeq, isScalar, isMap, isPair } from 'yaml';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import { findLineNumberForService } from '../util/line-finder';
 import type { LintContext } from '../linter/linter.types';
 import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
@@ -43,7 +44,7 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements Rule {
 
   public check(context: LintContext): RuleMessage[] {
     const errors: RuleMessage[] = [];
-    const parsedDocument = parseDocument(context.sourceCode);
+    const parsedDocument = parseYAML(context.sourceCode);
     const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
@@ -88,7 +89,7 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements Rule {
 
   // eslint-disable-next-line class-methods-use-this
   public fix(content: string): string {
-    const parsedDocument = parseDocument(content);
+    const parsedDocument = parseYAML(content);
     const services = parsedDocument.get('services');
 
     if (!isMap(services)) return content;
@@ -107,6 +108,6 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements Rule {
       });
     });
 
-    return parsedDocument.toString();
+    return stringifyDocument(parsedDocument);
   }
 }

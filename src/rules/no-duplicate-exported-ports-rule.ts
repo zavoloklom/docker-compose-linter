@@ -1,4 +1,5 @@
-import { parseDocument, isMap, isSeq, isScalar } from 'yaml';
+import { isMap, isSeq, isScalar } from 'yaml';
+import { parseYAML } from '../util/yaml-utils';
 import { findLineNumberForService } from '../util/line-finder';
 import { extractPublishedPortValueWithProtocol, parsePortsRange } from '../util/service-ports-parser';
 import type { LintContext } from '../linter/linter.types';
@@ -40,7 +41,7 @@ export default class NoDuplicateExportedPortsRule implements Rule {
 
   public check(context: LintContext): RuleMessage[] {
     const errors: RuleMessage[] = [];
-    const parsedDocument = parseDocument(context.sourceCode);
+    const parsedDocument = parseYAML(context.sourceCode);
     const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];

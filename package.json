@@ -43,6 +43,7 @@
     "changelog:fix": "prettier --write \"CHANGELOG.md\" && markdownlint-cli2 --fix \"CHANGELOG.md\" && prettier --write \"CHANGELOG.md\"",
     "commitlint": "commitlint --from=origin/main",
     "debug": "tsc && node --import=tsimp/import --no-warnings --inspect ./src/cli/cli.ts ./tests/mocks/docker-compose.yml -c ./tests/mocks/.dclintrc --debug",
+    "debug:fix": "tsc && node --import=tsimp/import --no-warnings --inspect ./src/cli/cli.ts ./tests/mocks/docker-compose.correct.yml --debug --fix",
     "debug:bin": "node ./bin/dclint.cjs ./tests/mocks/docker-compose.correct.yml --fix",
     "docs:check": "node --import=tsimp/import ./scripts/check-documentation.ts && npm run markdownlint",
     "docs:fix": "npm run prettier && npm run markdownlint:fix",
