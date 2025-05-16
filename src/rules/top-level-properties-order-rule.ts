@@ -1,4 +1,5 @@
-import { parseDocument, YAMLMap, isScalar, isMap } from 'yaml';
+import { YAMLMap, isScalar, isMap } from 'yaml';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import { findLineNumberByKey } from '../util/line-finder';
 import type { LintContext } from '../linter/linter.types';
 import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
@@ -111,7 +112,7 @@ export default class TopLevelPropertiesOrderRule implements Rule {
   }
 
   public fix(content: string): string {
-    const parsedDocument = parseDocument(content);
+    const parsedDocument = parseYAML(content);
     const { contents } = parsedDocument;
 
     if (!isMap(contents)) return content;
@@ -137,6 +138,6 @@ export default class TopLevelPropertiesOrderRule implements Rule {
 
     parsedDocument.contents = reorderedMap as unknown as typeof parsedDocument.contents;
 
-    return parsedDocument.toString();
+    return stringifyDocument(parsedDocument);
   }
 }

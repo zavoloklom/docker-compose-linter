@@ -57,6 +57,15 @@ services:
     image: node:20
     build: ""
     container_name: a2-service
+    healthcheck:
+      test: curl --fail --silent http://127.0.0.1:8080/health | grep -q '{"status":"UP"}' || exit 1
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 5s
+    logging:
+      options:
+        labels: "job=docker,container_name={{.Name}},server_serial=${SERVER_EXTENDED_SERIAL}"
     pull_policy: always
 volumes:
   data:

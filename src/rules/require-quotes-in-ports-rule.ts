@@ -1,4 +1,5 @@
-import { parseDocument, isMap, isSeq, isScalar, Scalar, ParsedNode, Pair } from 'yaml';
+import { isMap, isSeq, isScalar, Scalar, ParsedNode, Pair } from 'yaml';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import { findLineNumberForService } from '../util/line-finder';
 import type { LintContext } from '../linter/linter.types';
 import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
@@ -81,7 +82,7 @@ export default class RequireQuotesInPortsRule implements Rule {
 
   public check(context: LintContext): RuleMessage[] {
     const errors: RuleMessage[] = [];
-    const parsedDocument = parseDocument(context.sourceCode);
+    const parsedDocument = parseYAML(context.sourceCode);
 
     this.options.portsSections.forEach((section) => {
       RequireQuotesInPortsRule.extractValues(parsedDocument.contents, section, (service, port) => {
@@ -116,7 +117,7 @@ export default class RequireQuotesInPortsRule implements Rule {
   }
 
   public fix(content: string): string {
-    const parsedDocument = parseDocument(content);
+    const parsedDocument = parseYAML(content);
 
     this.options.portsSections.forEach((section) => {
       RequireQuotesInPortsRule.extractValues(parsedDocument.contents, section, (service, port) => {
@@ -128,6 +129,6 @@ export default class RequireQuotesInPortsRule implements Rule {
       });
     });
 
-    return parsedDocument.toString();
+    return stringifyDocument(parsedDocument);
   }
 }

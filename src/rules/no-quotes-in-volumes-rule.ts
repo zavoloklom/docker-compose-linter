@@ -1,4 +1,5 @@
-import { parseDocument, isMap, isSeq, isScalar, Scalar, ParsedNode } from 'yaml';
+import { isMap, isSeq, isScalar, Scalar, ParsedNode } from 'yaml';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import { findLineNumberByValue } from '../util/line-finder';
 import type { LintContext } from '../linter/linter.types';
 import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
@@ -53,7 +54,7 @@ export default class NoQuotesInVolumesRule implements Rule {
 
   public check(context: LintContext): RuleMessage[] {
     const errors: RuleMessage[] = [];
-    const parsedDocument = parseDocument(context.sourceCode);
+    const parsedDocument = parseYAML(context.sourceCode);
 
     NoQuotesInVolumesRule.extractVolumes(parsedDocument.contents, (volume) => {
       if (volume.type !== 'PLAIN') {
@@ -79,7 +80,7 @@ export default class NoQuotesInVolumesRule implements Rule {
 
   // eslint-disable-next-line class-methods-use-this
   public fix(content: string): string {
-    const parsedDocument = parseDocument(content);
+    const parsedDocument = parseYAML(content);
 
     NoQuotesInVolumesRule.extractVolumes(parsedDocument.contents, (volume) => {
       if (volume.type !== 'PLAIN') {
@@ -88,6 +89,6 @@ export default class NoQuotesInVolumesRule implements Rule {
       }
     });
 
-    return parsedDocument.toString();
+    return stringifyDocument(parsedDocument);
   }
 }

@@ -1,4 +1,5 @@
-import { parseDocument, YAMLMap, isScalar, isMap } from 'yaml';
+import { YAMLMap, isScalar, isMap } from 'yaml';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import { findLineNumberForService } from '../util/line-finder';
 import type { LintContext } from '../linter/linter.types';
 import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
@@ -104,7 +105,7 @@ export default class ServiceKeysOrderRule implements Rule {
 
   public check(context: LintContext): RuleMessage[] {
     const errors: RuleMessage[] = [];
-    const parsedDocument = parseDocument(context.sourceCode);
+    const parsedDocument = parseYAML(context.sourceCode);
     const services = parsedDocument.get('services');
 
     if (!isMap(services)) return [];
@@ -155,7 +156,7 @@ export default class ServiceKeysOrderRule implements Rule {
   }
 
   public fix(content: string): string {
-    const parsedDocument = parseDocument(content);
+    const parsedDocument = parseYAML(content);
     const services = parsedDocument.get('services');
 
     if (!isMap(services)) return content;
@@ -192,6 +193,6 @@ export default class ServiceKeysOrderRule implements Rule {
       services.set(serviceName, orderedService);
     });
 
-    return parsedDocument.toString();
+    return stringifyDocument(parsedDocument);
   }
 }
