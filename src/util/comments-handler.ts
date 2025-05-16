@@ -17,7 +17,7 @@ function extractGlobalDisableRules(content: string): Set<string> {
   for (const line of lines) {
     // eslint-disable-next-line no-continue
     if (line === '' || line === '---') continue;
-    const disableMatch = line.match(/#\s*dclint\s+disable\s*(.*)/);
+    const disableMatch = /#\s*dclint\s+disable\s*(.*)/.exec(line);
     if (disableMatch) {
       const rules = disableMatch[1].trim();
 
@@ -44,7 +44,7 @@ function extractDisableLineRules(content: string): Map<number, Set<string>> {
     const isCommentLine = line.trim().startsWith('#');
     const lineNumber = isCommentLine ? index + 2 : index + 1;
 
-    const disableMatch = line.match(/#\s*dclint\s+disable-line\s*(.*)/);
+    const disableMatch = /#\s*dclint\s+disable-line\s*(.*)/.exec(line);
     if (!disableMatch) return;
 
     const rules = disableMatch[1].trim();

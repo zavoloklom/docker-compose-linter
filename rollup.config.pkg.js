@@ -1,4 +1,4 @@
-import baseConfig from './rollup.base.config.js';
+import baseConfig from './rollup.config.base.js';
 
 export default {
   ...baseConfig('pkg', false, false),

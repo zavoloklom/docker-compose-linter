@@ -1,11 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
-
-import fs from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as changeCase from 'change-case';
 import { format } from 'prettier';
-import { loadLintRules, getRuleDefinition } from '../src/util/rules-utils';
+import { loadLintRules } from '../src/util/rules-utils';
+import { getRuleDefinition } from './utils';
 import type { RuleDefinition } from '../src/rules/rules.types';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');
@@ -30,9 +30,10 @@ async function updateRulesReference(ruleDefinitionList: RuleDefinition[]) {
 
   try {
     console.log(`Reading file from: ${rulesFilePath}`);
-    const existingContent = await fs.readFile(rulesFilePath, 'utf8');
+    const existingContent = await readFile(rulesFilePath, 'utf8');
 
     const categoryRegex =
+      // eslint-disable-next-line sonarjs/slow-regex
       /(## (Style|Security|Best Practice|Performance))([\s\S]*?)(\n\|.*?\|[\s\S]*?\n\|.*?\|[\s\S]*?)(?=\n##|$)/g;
 
     const updatedContent = existingContent.replaceAll(
@@ -60,7 +61,7 @@ async function updateRulesReference(ruleDefinitionList: RuleDefinition[]) {
     const formattedContent = await format(updatedContent, {
       filepath: rulesFilePath,
     });
-    await fs.writeFile(rulesFilePath, formattedContent, 'utf8');
+    await writeFile(rulesFilePath, formattedContent, 'utf8');
     console.log(`Updated rules reference in ${rulesFilePath}`);
   } catch (error) {
     if (error instanceof Error) {
@@ -75,14 +76,14 @@ async function updateDocumentation(ruleDefinition: RuleDefinition) {
   const documentFilePath = join(documentationDirectory, `./rules/${ruleDefinition.name}-rule.md`);
 
   try {
-    let updatedContent = await fs.readFile(documentFilePath, 'utf8');
+    let updatedContent = await readFile(documentFilePath, 'utf8');
 
     const metaRegex =
       /- \*\*Rule Name:\*\* .*?\n- \*\*Type:\*\* .*?\n- \*\*Category:\*\* .*?\n- \*\*Severity:\*\* .*?\n- \*\*Fixable:\*\* .*?\n/;
     const metaSection = `- **Rule Name:** ${ruleDefinition.name}\n- **Type:** ${ruleDefinition.type}\n- **Category:** ${ruleDefinition.category}\n- **Severity:** ${ruleDefinition.severity}\n- **Fixable:** ${ruleDefinition.fixable}\n`;
     updatedContent = updatedContent.replace(metaRegex, metaSection);
 
-    await fs.writeFile(documentFilePath, updatedContent, 'utf8');
+    await writeFile(documentFilePath, updatedContent, 'utf8');
     console.log(`Updated rule documentation: ${documentFilePath}`);
   } catch (error) {
     if (error instanceof Error) {
@@ -94,7 +95,7 @@ async function updateDocumentation(ruleDefinition: RuleDefinition) {
 }
 
 async function main() {
-  const rules = await loadLintRules({ rules: {}, quiet: false, debug: false, exclude: [] });
+  const rules = loadLintRules({ rules: {}, quiet: false, debug: false, exclude: [] });
   const ruleDefinitionList = [];
   const promises = [];
 

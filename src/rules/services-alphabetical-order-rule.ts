@@ -94,7 +94,7 @@ export default class ServicesAlphabeticalOrderRule implements Rule {
     if (!isMap(services)) return content;
 
     const sortedServices = new YAMLMap();
-    const sortedItems = services.items.sort((a, b) => {
+    const sortedItems = services.items.toSorted((a, b) => {
       if (isScalar(a.key) && isScalar(b.key)) {
         return String(a.key.value).localeCompare(String(b.key.value));
       }

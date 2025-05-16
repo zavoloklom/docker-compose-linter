@@ -1,4 +1,4 @@
-/* eslint-disable sonarjs/no-duplicate-string, @stylistic/indent */
+/* eslint-disable sonarjs/no-duplicate-string */
 
 import test from 'ava';
 import type { ExecutionContext } from 'ava';

@@ -107,10 +107,10 @@ async function main() {
   const linter = new DCLinter(config);
 
   if (cliArguments.fix || cliArguments.fixDryRun) {
-    await linter.fixFiles(cliArguments.files, cliArguments.recursive, cliArguments.fixDryRun);
+    linter.fixFiles(cliArguments.files, cliArguments.recursive, cliArguments.fixDryRun);
   }
 
-  let lintResults = await linter.lintFiles(cliArguments.files, cliArguments.recursive);
+  let lintResults = linter.lintFiles(cliArguments.files, cliArguments.recursive);
 
   if (config.quiet) {
     lintResults = lintResults
@@ -150,7 +150,7 @@ async function main() {
 }
 
 // eslint-disable-next-line unicorn/prefer-top-level-await
-main().catch((error) => {
+main().catch((error: unknown) => {
   console.error(error);
   process.exit(1);
 });

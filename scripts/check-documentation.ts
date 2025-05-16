@@ -1,9 +1,10 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 
-import fs from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadLintRules, getRuleDefinition } from '../src/util/rules-utils';
+import { loadLintRules } from '../src/util/rules-utils';
+import { getRuleDefinition } from './utils';
 import type { RuleDefinition } from '../src/rules/rules.types';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');
@@ -14,45 +15,45 @@ async function validateDocumentation(ruleDefinition: RuleDefinition) {
   const documentFilePath = join(documentationDirectory, `rules/${ruleDefinition.name}-rule.md`);
 
   try {
-    const content = await fs.readFile(documentFilePath, 'utf8');
+    const content = await readFile(documentFilePath, 'utf8');
 
-    const ruleNameMatch = content.match(/- \*\*Rule Name:\*\* (.+)/);
-    if (!ruleNameMatch || !ruleNameMatch[1].trim()) {
+    const ruleNameMatch = /- \*\*Rule Name:\*\* (.+)/.exec(content);
+    if (!ruleNameMatch?.[1].trim()) {
       console.warn(`Rule Name is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const typeMatch = content.match(/- \*\*Type:\*\* (.+)/);
-    if (!typeMatch || !typeMatch[1].trim()) {
+    const typeMatch = /- \*\*Type:\*\* (.+)/.exec(content);
+    if (!typeMatch?.[1].trim()) {
       console.warn(`Type is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const categoryMatch = content.match(/- \*\*Category:\*\* (.+)/);
-    if (!categoryMatch || !categoryMatch[1].trim()) {
+    const categoryMatch = /- \*\*Category:\*\* (.+)/.exec(content);
+    if (!categoryMatch?.[1].trim()) {
       console.warn(`Category is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const severityMatch = content.match(/- \*\*Severity:\*\* (.+)/);
-    if (!severityMatch || !severityMatch[1].trim()) {
+    const severityMatch = /- \*\*Severity:\*\* (.+)/.exec(content);
+    if (!severityMatch?.[1].trim()) {
       console.warn(`Severity is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const fixableMatch = content.match(/- \*\*Fixable:\*\* (.+)/);
-    if (!fixableMatch || !fixableMatch[1].trim()) {
+    const fixableMatch = /- \*\*Fixable:\*\* (.+)/.exec(content);
+    if (!fixableMatch?.[1].trim()) {
       console.warn(`Fixable is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const problematicExampleMatch = content.match(/## Problematic Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/i);
-    const correctExampleMatch = content.match(/## Correct Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/i);
+    const problematicExampleMatch = /## Problematic Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/i.exec(content);
+    const correctExampleMatch = /## Correct Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/i.exec(content);
 
     const hasProblematicExample = problematicExampleMatch && problematicExampleMatch[1].trim().length >= 20;
     const hasCorrectExample = correctExampleMatch && correctExampleMatch[1].trim().length >= 20;
 
-    const detailsMatch = content.match(/## Rule Details and Rationale\n\n([^#]+)/);
+    const detailsMatch = /## Rule Details and Rationale\n\n([^#]+)/.exec(content);
     const detailsContent = detailsMatch ? detailsMatch[1].trim() : '';
     const hasDetails = detailsContent.length >= 200;
 
@@ -99,7 +100,7 @@ async function validateDocumentation(ruleDefinition: RuleDefinition) {
 }
 
 async function main() {
-  const rules = await loadLintRules({ rules: {}, quiet: false, debug: false, exclude: [] });
+  const rules = loadLintRules({ rules: {}, quiet: false, debug: false, exclude: [] });
   const promises = [];
 
   for (const rule of rules) {

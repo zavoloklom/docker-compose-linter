@@ -74,7 +74,7 @@ export default class TopLevelPropertiesOrderRule implements Rule {
     const topLevelKeys = Object.keys(context.content);
 
     // Get and sort all 'x-' prefixed properties alphabetically
-    const sortedXProperties = topLevelKeys.filter((key) => key.startsWith('x-')).sort();
+    const sortedXProperties = topLevelKeys.filter((key) => key.startsWith('x-')).sort((a, b) => a.localeCompare(b));
 
     // Replace 'TopLevelKeys.XProperties' in the order with the actual sorted x-prefixed properties
     const correctOrder = this.options.customOrder.flatMap((key) =>
@@ -121,7 +121,7 @@ export default class TopLevelPropertiesOrderRule implements Rule {
       .map((item) => (isScalar(item.key) ? String(item.key.value) : ''))
       .filter(Boolean);
 
-    const sortedXProperties = topLevelKeys.filter((key) => key.startsWith('x-')).sort();
+    const sortedXProperties = topLevelKeys.filter((key) => key.startsWith('x-')).sort((a, b) => a.localeCompare(b));
 
     const correctOrder = this.options.customOrder.flatMap((key) =>
       key === TopLevelKeys.XProperties ? sortedXProperties : [key],

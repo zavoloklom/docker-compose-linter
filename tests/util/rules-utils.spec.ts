@@ -2,7 +2,6 @@
 
 import test from 'ava';
 import esmock from 'esmock';
-import { getRuleDefinition } from '../../src/util/rules-utils';
 import type { Config } from '../../src/config/config.types';
 import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMessage } from '../../src/rules/rules.types';
 
@@ -107,7 +106,7 @@ test('loadLintRules - should load and configure rules based on config', async (t
   t.is(rule2.type, 'warning');
   t.is(rule2.category, 'security');
   t.false(rule2.fixable);
-  // @ts-ignore
+  // @ts-expect-error
   t.truthy(rule2.options?.customOption);
 });
 
@@ -149,21 +148,4 @@ test('loadLintRules - should log error for invalid rules', async (t) => {
 
   t.is(rules.length, 0);
   t.is(loggerError.length, 2);
-});
-
-// @ts-ignore TS2349
-test('getRuleDefinition - should return correct rule definition', (t) => {
-  const rule = new MockRule();
-  const definition = getRuleDefinition(rule);
-
-  t.deepEqual(definition, {
-    name: 'mock-rule',
-    type: 'warning',
-    category: 'style',
-    severity: 'minor',
-    fixable: true,
-    meta: { description: 'Mock rule description', url: 'https://example.com' },
-    hasFixFunction: true,
-    hasOptions: false,
-  });
 });

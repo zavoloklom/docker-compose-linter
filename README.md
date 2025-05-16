@@ -174,7 +174,7 @@ const { DCLinter } = require('dclint');
 (async () => {
   const linter = new DCLinter();
 
-  const lintResults = await linter.lintFiles(['.'], true);
+  const lintResults = linter.lintFiles(['.'], true);
   const formattedResults = await linter.formatResults(lintResults, 'stylish');
 
   console.log(formattedResults);
@@ -188,7 +188,7 @@ import { DCLinter } from 'dclint';
 
 const linter = new DCLinter();
 
-const lintResults = await linter.lintFiles(['.'], true);
+const lintResults = linter.lintFiles(['.'], true);
 const formattedResults = await linter.formatResults(lintResults, 'stylish');
 
 console.log(formattedResults);

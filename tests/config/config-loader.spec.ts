@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string, @stylistic/indent */
 import test from 'ava';
 import esmock from 'esmock';
 import type { CLIConfig } from '../../src/cli/cli.types';
@@ -101,7 +100,7 @@ test('merges CLI arguments into config', async (t) => {
 // @ts-ignore TS2349
 test('throws on unknown rule name in config', async (t) => {
   const configLoader = await createMockedLoader({ isFileFound: true });
-  // @ts-ignore
+  // @ts-expect-error
   configLoader.config = {
     rules: {
       'non-existent-rule': 1,

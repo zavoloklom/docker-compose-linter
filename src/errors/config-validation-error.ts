@@ -3,7 +3,7 @@ import { ErrorObject } from 'ajv';
 class ConfigValidationError extends Error {
   public readonly errors: ErrorObject[];
 
-  constructor(validationErrors?: ErrorObject[] | null | undefined) {
+  constructor(validationErrors?: ErrorObject[] | null) {
     super();
 
     this.name = 'ConfigValidationError';
