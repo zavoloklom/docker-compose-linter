@@ -345,6 +345,28 @@ lint-docker-compose:
       codequality: gl-codequality.json
 ```
 
+## Using as a `pre-commit` hook
+
+`DCLint` can be used as a [pre-commit](https://pre-commit.com/) hook to automatically lint your Compose files before
+each commit.
+
+To enable it, add the following to your `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/docker-compose-linter/pre-commit-dclint
+    rev: v3.0.0 # Matches the dclint version, use the sha or tag you want to point at
+    hooks:
+      - id: dclint
+        # Optional: regex override for compose files
+        files: ^(docker-)?compose\.ya?ml$
+        # Optional: enable autofix on commit
+        args: [ --fix ]
+```
+
+For additional options and docker-based integration, see
+[pre-commit-dclint](https://github.com/docker-compose-linter/pre-commit-dclint).
+
 ## Alternatives
 
 Consider these alternative tools for Docker Compose linting and validation:
