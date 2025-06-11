@@ -17,7 +17,7 @@ const rollup = (outDirectory, declaration = false, minify = false) => {
     nodeResolve({ preferBuiltins: true }),
     typescript({
       tsconfig: './tsconfig.json',
-      outDirectory,
+      outDir: outDirectory,
       declaration,
       declarationDir: declaration ? `${outDirectory}/types` : null,
       include: ['src/**/*.ts', 'schemas/*.json'],
