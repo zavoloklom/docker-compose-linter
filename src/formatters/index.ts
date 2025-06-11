@@ -3,6 +3,8 @@ import compactFormatter from './compact';
 import jsonFormatter from './json';
 import junitFormatter from './junit';
 import stylishFormatter from './stylish';
+import githubFormatter from './github';
+import rdjsonFormatter from './rdjson';
 
 export default {
   codeclimateFormatter,
@@ -10,4 +12,6 @@ export default {
   jsonFormatter,
   junitFormatter,
   stylishFormatter,
+  githubFormatter,
+  rdjsonFormatter,
 };
