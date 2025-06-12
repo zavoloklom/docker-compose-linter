@@ -23,7 +23,7 @@ RUN mkdir -p /dependencies/lib /dependencies/usr/lib && \
         fi; \
     done
 
-FROM alpine:3.21 AS alpine-version
+FROM alpine:3.22 AS alpine-version
 
 ENV NODE_NO_WARNINGS=1
 
