@@ -2,6 +2,95 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [3.0.0](https://github.com/zavoloklom/docker-compose-linter/compare/v2.2.2...v3.0.0) (2025-06-12)
+
+### ⚠ BREAKING CHANGES
+
+- update node version to 22.15
+- update docker compose schema
+
+### Features
+
+- add data field to message
+  ([74d2e47](https://github.com/zavoloklom/docker-compose-linter/commit/74d2e470bbb28e9b526e07758d947c06e3c1a961))
+- add github annotations formatter and rdjson formatter for reviewdog
+  ([c596ab2](https://github.com/zavoloklom/docker-compose-linter/commit/c596ab2305fbbc3ce6f26d4cd22e7cc06421bbb0))
+- add option to disable rules from cli with `--disable-rule` flag
+  ([9d99184](https://github.com/zavoloklom/docker-compose-linter/commit/9d9918410098f45f17bd65ceab89dbe9adfe29e1)),
+  closes [#103](https://github.com/zavoloklom/docker-compose-linter/issues/103)
+- **service-image-require-explicit-tag:** add lts to prohibited tags
+  ([d477301](https://github.com/zavoloklom/docker-compose-linter/commit/d4773017462e98e4aaa915c8d07d5771b7b3a536)),
+  closes [#104](https://github.com/zavoloklom/docker-compose-linter/issues/104)
+- update docker compose schema
+  ([5be01d8](https://github.com/zavoloklom/docker-compose-linter/commit/5be01d8fbd43aaa0ea7fda6f8aff7bb9f8637f47))
+- update node version to 22.15
+  ([a23a960](https://github.com/zavoloklom/docker-compose-linter/commit/a23a960aa90f72fb6438f9a39b59d09084d562c0))
+
+### Bug Fixes
+
+- add `configuration file not found` error
+  ([bacd47a](https://github.com/zavoloklom/docker-compose-linter/commit/bacd47a806f6c8013ec8cd105dee37e5f8ea6e99)),
+  closes [#131](https://github.com/zavoloklom/docker-compose-linter/issues/131)
+
+### Code Refactoring
+
+- create config loader
+  ([a771313](https://github.com/zavoloklom/docker-compose-linter/commit/a7713137e55d5031a2fea5d601e49af383428cd4))
+- extract parse/stringify helpers with shared YAML formatting options, fix line wrapping
+  ([8c52317](https://github.com/zavoloklom/docker-compose-linter/commit/8c523175316b05b757678570695bf23dcb5aaf32)),
+  closes [#136](https://github.com/zavoloklom/docker-compose-linter/issues/136)
+- move rules types to separate file, add RuleName type, remove default config from linter
+  ([e95df79](https://github.com/zavoloklom/docker-compose-linter/commit/e95df79c8d65e4fd8eb203a3f22a759c84d45ca9))
+
+### Tests
+
+- add tests for Linter
+  ([28c2d95](https://github.com/zavoloklom/docker-compose-linter/commit/28c2d9547552325564be8f976c00ee6f2257bed8))
+
+### Dependencies
+
+- bump yaml from 2.6.1 to 2.7.0
+  ([f41fe6c](https://github.com/zavoloklom/docker-compose-linter/commit/f41fe6c4c24cb2cf7acb6711c6b7a04dd8881450))
+- **dev:** bump @types/node from 20.17.10 to 20.17.11
+  ([7cb36b1](https://github.com/zavoloklom/docker-compose-linter/commit/7cb36b1845de76906099521772f88d9aee03f578))
+- **dev:** bump markdownlint-cli2 from 0.17.0 to 0.17.1
+  ([ce89104](https://github.com/zavoloklom/docker-compose-linter/commit/ce8910495581fa889cd5e00e98a7b8ffd452a064))
+- **docker:** bump alpine from 3.19 to 3.21
+  ([3867f4e](https://github.com/zavoloklom/docker-compose-linter/commit/3867f4e39846a2ea28a7c4adfa884d55cde282f0))
+- **docker:** bump libstdc++ from 13.2 to 14.2
+  ([1fa98d8](https://github.com/zavoloklom/docker-compose-linter/commit/1fa98d834808d307f9728308c7478be9220a1514))
+- update npm dependencies
+  ([3769eb7](https://github.com/zavoloklom/docker-compose-linter/commit/3769eb70e4a9dc8732174f5e37fe1ae5161de85a))
+- update npm dependencies
+  ([6a08912](https://github.com/zavoloklom/docker-compose-linter/commit/6a08912d847affb4e10fe990b7c530da7665d198))
+- update npm dependencies
+  ([e75fceb](https://github.com/zavoloklom/docker-compose-linter/commit/e75fceb1f255800643d817d7b9fa298b45328566))
+
+### Documentation
+
+- add GitHub Actions usage example
+  ([8ec71b8](https://github.com/zavoloklom/docker-compose-linter/commit/8ec71b8a5451a336665e91d8d3d329ad4b6f0a7d))
+- add Horstage as a contributor for ideas
+  ([65da8bc](https://github.com/zavoloklom/docker-compose-linter/commit/65da8bcd72a01ea37b4a03b0ce8b11212073c439))
+- add s-weigand as a contributor for ideas
+  ([04ee454](https://github.com/zavoloklom/docker-compose-linter/commit/04ee454d2d527bf17fa085f3d75555f62393061d))
+- add usage example for `pre-commit` integration
+  ([2a5390d](https://github.com/zavoloklom/docker-compose-linter/commit/2a5390dc5e13dae0884f168b822bd3f0522f52a1))
+
+### CI/CD
+
+- **deps:** update dependencies
+  ([6519ed7](https://github.com/zavoloklom/docker-compose-linter/commit/6519ed791aed62c992cf70da42b2558eb24f77d1))
+
+### Others
+
+- exclude types from coverage
+  ([f116bbf](https://github.com/zavoloklom/docker-compose-linter/commit/f116bbff8f307aa764a84ed78dd7df7c52695a75))
+- fix ESLint issues
+  ([1a312f0](https://github.com/zavoloklom/docker-compose-linter/commit/1a312f0cb6d556bd39669042aa034bfa7d54ed30))
+- upgrade ESLint to v9, update linting rules and git hooks
+  ([65c3a05](https://github.com/zavoloklom/docker-compose-linter/commit/65c3a0578ebc772627f919a794cfedd39ebeac65))
+
 ## [2.2.2](https://github.com/zavoloklom/docker-compose-linter/compare/v2.2.1...v2.2.2) (2025-01-01)
 
 ### Bug Fixes
