@@ -331,6 +331,42 @@ around ports.
 Automate linting as part of your CI/CD pipeline by adding the Docker run command to your pipeline script. This ensures
 that your Docker Compose files are always checked for errors before deployment.
 
+### GitHub Actions
+
+You can integrate `DCLint` into your GitHub Actions workflow to automatically lint Docker Compose files on every push or
+pull request.
+
+The official GitHub Action
+[`zavoloklom/dclint-github-action`](https://github.com/docker-compose-linter/dclint-github-action) provides three
+variants:
+
+| Variant       | Action                                             | Description                                                                                                          |
+| ------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Base**      | `zavoloklom/dclint-github-action`                  | Runs `dclint` via `npx` (requires Node.js in the runner)                                                             |
+| **Docker**    | `zavoloklom/dclint-github-action/docker-action`    | Runs `dclint` inside a Docker container (requires Docker in the runner)                                              |
+| **Reviewdog** | `zavoloklom/dclint-github-action/reviewdog-action` | Integrates `dclint` with [reviewdog](https://github.com/reviewdog/reviewdog) for inline annotations in pull requests |
+
+#### Example usage
+
+```yaml
+name: Lint Docker Compose
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: zavoloklom/dclint-github-action@v{$ACTION_VERSION}
+        with:
+          path: ./compose/
+          recursive: true
+```
+
+For more details and advanced configuration, see the
+[dclint-github-action repository](https://github.com/docker-compose-linter/dclint-github-action).
+
 ### GitLab CI Example
 
 ```yaml
