@@ -74,6 +74,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "OhMyMndy",
+      "name": "Mandy Schoep",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2277717?v=4",
+      "profile": "https://www.ohmymndy.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
