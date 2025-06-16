@@ -190,10 +190,23 @@ jobs:
           node-version: '22.15.0'
 
       - name: Run semantic-release
+        id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+        run: |
+          npx semantic-release > semantic-release.log
+          if grep -q 'Published release' semantic-release.log; then
+            echo "RELEASE_CREATED=true" >> $GITHUB_OUTPUT
+          else
+            echo "RELEASE_CREATED=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit early if no release
+        if: steps.semantic.outputs.RELEASE_CREATED == 'false'
+        run: |
+          echo "No release was published — skipping Docker publish."
+          exit 0
 
       - name: Upload release artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
