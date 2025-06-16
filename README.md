@@ -328,9 +328,6 @@ around ports.
 
 ## Integration with CI/CD Pipeline
 
-Automate linting as part of your CI/CD pipeline by adding the Docker run command to your pipeline script. This ensures
-that your Docker Compose files are always checked for errors before deployment.
-
 ### GitHub Actions
 
 You can integrate `DCLint` into your GitHub Actions workflow to automatically lint Docker Compose files on every push or
@@ -368,6 +365,9 @@ For more details and advanced configuration, see the
 [dclint-github-action repository](https://github.com/docker-compose-linter/dclint-github-action).
 
 ### GitLab CI Example
+
+Automate linting as part of your CI/CD pipeline by adding the Docker run command to your pipeline script. This ensures
+that your Docker Compose files are always checked for errors before deployment.
 
 ```yaml
 lint-docker-compose:
