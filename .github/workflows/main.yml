@@ -190,12 +190,25 @@ jobs:
           node-version: '22.15.0'
 
       - name: Run semantic-release
+        id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+        run: |
+          npx semantic-release > semantic-release.log
+          if grep -q 'Published release' semantic-release.log; then
+            echo "RELEASE_CREATED=true" >> $GITHUB_OUTPUT
+          else
+            echo "RELEASE_CREATED=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit early if no release
+        if: steps.semantic.outputs.RELEASE_CREATED == 'false'
+        run: |
+          echo "No release was published — skipping Docker publish."
 
       - name: Upload release artifacts
+        if: steps.semantic.outputs.RELEASE_CREATED == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: release-artifacts
@@ -210,6 +223,7 @@ jobs:
       # ----------
 
       - name: Get build arguments
+        if: steps.semantic.outputs.RELEASE_CREATED == 'true'
         id: vars
         run: |
           BUILD_DATE=$(date +%Y-%m-%dT%T%z)
@@ -220,11 +234,13 @@ jobs:
           echo "BUILD_REVISION=$BUILD_REVISION" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
+        if: steps.semantic.outputs.RELEASE_CREATED == 'true'
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
         with:
           install: true
 
       - name: Log in to DockerHub
+        if: steps.semantic.outputs.RELEASE_CREATED == 'true'
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -232,6 +248,7 @@ jobs:
 
       # Build and push the Alpine version
       - name: Build and push Alpine version
+        if: steps.semantic.outputs.RELEASE_CREATED == 'true'
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: .
@@ -251,6 +268,7 @@ jobs:
 
       # Build and push the Scratch version
       - name: Build and push Scratch version
+        if: steps.semantic.outputs.RELEASE_CREATED == 'true'
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: .
