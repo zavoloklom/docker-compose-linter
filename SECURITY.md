@@ -5,8 +5,9 @@
 We actively maintain and support the following versions of the project:
 
 | Version   | Supported          | End of Support |
-| --------- | ------------------ | -------------- |
-| `2.x.x`   | :white_check_mark: | -              |
+|-----------|--------------------|----------------|
+| `3.x.x`   | :white_check_mark: | -              |
+| `2.x.x`   | :x:                | 12.06.2025     |
 | `1.x.x`   | :x:                | 01.12.2024     |
 | `< 1.0.0` | :x:                | 15.09.2024     |
 
