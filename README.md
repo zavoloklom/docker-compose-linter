@@ -11,6 +11,7 @@
     <img src="https://img.shields.io/codacy/coverage/2897b4940d094899ba59f1d287cdbd86?style=for-the-badge&label=Coverage" alt="Code Coverage Score">
     <a href="https://conventionalcommits.org" target="_blank" rel="noopener noreferrer nofollow"><img src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=whit&style=for-the-badge" alt="Conventional Commits"></a>
     <a href="#contributors"><img src="https://img.shields.io/github/all-contributors/zavoloklom/docker-compose-linter?color=ee8449&style=for-the-badge" alt="All Contributors"></a>
+    <a href="https://github.com/sponsors/docker-compose-linter"><img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/docker-compose-linter?style=for-the-badge&logo=github"></a>
 </p>
 <!-- markdownlint-enable MD013 MD033 -->
 
@@ -20,7 +21,7 @@
 > [submit a pull request](#contributing). Your feedback is highly appreciated!
 
 Docker Compose Linter (**DCLint**) is a utility designed to analyze, validate and fix Docker Compose files. It helps
-identify errors, style violations, and potential issues in Docker Compose files, ensuring your configurations are
+identify errors, style violations, and potential issues, ensuring your configurations are
 robust, maintainable, and free from common pitfalls.
 
 ## Features
@@ -481,7 +482,9 @@ If you have any questions or suggestions, feel free to reach out:
 - **Instagram**: [zavoloklom](https://www.instagram.com/zavoloklom/)
 - **GitHub**: [zavoloklom](https://github.com/zavoloklom)
 
-Also, you can support this project with a donation:
+Also, you can support this project with a one-time donation or becoming a sponsor:
 
-[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=ZKLT8EJ4KWA6L)
-[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/zavoloklom)
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=J8KS3RUFKSHDL)
+[![Patreon](https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://www.patreon.com/c/zavoloklom)
+[![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-171515?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/docker-compose-linter)
+[![Open Collective](https://img.shields.io/badge/Open%20Collective-3385FF?style=for-the-badge&logo=opencollective&logoColor=white)](https://opencollective.com/dclint)
