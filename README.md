@@ -56,7 +56,7 @@ robust, maintainable, and free from common pitfalls.
 
 You can install Docker Compose Linter globally or use it directly with npx.
 
-> **Note:** DCLint requires Node.js version 18 or higher.
+> **Note:** DCLint requires Node.js version 20.19.0 or higher.
 
 To install it globally:
 
