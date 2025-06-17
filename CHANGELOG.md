@@ -8,6 +8,7 @@
 
 - update node version to 22.15
 - update docker compose schema
+- minimum node.js versions now ^20.19.0
 
 ### Features
 
