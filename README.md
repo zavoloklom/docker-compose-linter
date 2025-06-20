@@ -21,8 +21,8 @@
 > [submit a pull request](#contributing). Your feedback is highly appreciated!
 
 Docker Compose Linter (**DCLint**) is a utility designed to analyze, validate and fix Docker Compose files. It helps
-identify errors, style violations, and potential issues, ensuring your configurations are
-robust, maintainable, and free from common pitfalls.
+identify errors, style violations, and potential issues, ensuring your configurations are robust, maintainable, and free
+from common pitfalls.
 
 ## Features
 
@@ -367,8 +367,14 @@ For more details and advanced configuration, see the
 
 ### GitLab CI Example
 
-Automate linting as part of your CI/CD pipeline by adding the Docker run command to your pipeline script. This ensures
-that your Docker Compose files are always checked for errors before deployment.
+Automate linting as part of your CI/CD pipeline by adding the Docker run command to your pipeline script or by adding
+DCLint as CI Component.
+
+This ensures that your Docker Compose files are always checked for errors before deployment.
+
+#### CI Job
+
+Use the Docker image directly:
 
 ```yaml
 lint-docker-compose:
@@ -381,6 +387,21 @@ lint-docker-compose:
     reports:
       codequality: gl-codequality.json
 ```
+
+Minimal working example of DCLint integration in GitLab CI, including widget output and failure handling:
+[dclint/gitlab-ci-example](https://gitlab.com/dclint/gitlab-ci-example).
+
+#### CI Component
+
+Use the GitLab Component:
+
+```yaml
+include:
+  - component: $CI_SERVER_FQDN/dclint/ci-component/dclint@v{$COMPONENT_VERSION}
+```
+
+Full reference for inputs, usage patterns, and advanced configuration:
+[catalog/dclint/ci-component](https://gitlab.com/explore/catalog/dclint/ci-component).
 
 ## Using as a `pre-commit` hook
 
@@ -481,6 +502,9 @@ If you have any questions or suggestions, feel free to reach out:
 - **Х/Twitter**: [zavoloklom](https://x.com/zavoloklom)
 - **Instagram**: [zavoloklom](https://www.instagram.com/zavoloklom/)
 - **GitHub**: [zavoloklom](https://github.com/zavoloklom)
+
+A detailed devlog and roadmap for DCLint is available on Patreon:
+[patreon.com/c/zavoloklom](https://www.patreon.com/c/zavoloklom)
 
 Also, you can support this project with a one-time donation or becoming a sponsor:
 
