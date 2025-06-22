@@ -335,35 +335,40 @@ You can integrate `DCLint` into your GitHub Actions workflow to automatically li
 pull request.
 
 The official GitHub Action
-[`zavoloklom/dclint-github-action`](https://github.com/docker-compose-linter/dclint-github-action) provides three
-variants:
+[`docker-compose-linter/dclint-github-action`](https://github.com/docker-compose-linter/dclint-github-action) provides
+three variants:
 
-| Variant       | Action                                             | Description                                                                                                          |
-| ------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| **Base**      | `zavoloklom/dclint-github-action`                  | Runs `dclint` via `npx` (requires Node.js in the runner)                                                             |
-| **Docker**    | `zavoloklom/dclint-github-action/docker-action`    | Runs `dclint` inside a Docker container (requires Docker in the runner)                                              |
-| **Reviewdog** | `zavoloklom/dclint-github-action/reviewdog-action` | Integrates `dclint` with [reviewdog](https://github.com/reviewdog/reviewdog) for inline annotations in pull requests |
+| Variant       | Action                                                        | Description                                                                                                          |
+| ------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Base**      | `docker-compose-linter/dclint-github-action`                  | Runs `dclint` via `npx` (requires Node.js in the runner)                                                             |
+| **Docker**    | `docker-compose-linter/dclint-github-action/docker-action`    | Runs `dclint` inside a Docker container (requires Docker in the runner)                                              |
+| **Reviewdog** | `docker-compose-linter/dclint-github-action/reviewdog-action` | Integrates `dclint` with [reviewdog](https://github.com/reviewdog/reviewdog) for inline annotations in pull requests |
 
 #### Example usage
 
 ```yaml
 name: Lint Docker Compose
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-  lint:
+  dclint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: zavoloklom/dclint-github-action@v{$ACTION_VERSION}
+      - uses: docker-compose-linter/dclint-github-action@v{$ACTION_VERSION}
         with:
-          path: ./compose/
+          path: ./path-to-compose-files/
           recursive: true
 ```
 
 For more details and advanced configuration, see the
-[dclint-github-action repository](https://github.com/docker-compose-linter/dclint-github-action).
+[dclint-github-action repository](https://github.com/docker-compose-linter/dclint-github-action) and
+[example-github-action repository](https://github.com/docker-compose-linter/example-github-action).
 
 ### GitLab CI Example
 
