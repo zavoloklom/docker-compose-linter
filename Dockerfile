@@ -1,4 +1,4 @@
-FROM node:22.15-alpine3.21 AS builder
+FROM node:22.15-alpine3.21@sha256:152270cd4bd094d216a84cbc3c5eb1791afb05af00b811e2f0f04bdc6c473602 AS builder
 
 WORKDIR /dclint
 
@@ -23,7 +23,7 @@ RUN mkdir -p /dependencies/lib /dependencies/usr/lib && \
         fi; \
     done
 
-FROM alpine:3.21 AS alpine-version
+FROM alpine:3.21@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c AS alpine-version
 
 ENV NODE_NO_WARNINGS=1
 
