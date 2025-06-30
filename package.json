@@ -104,7 +104,7 @@
     "globals": "16.2.0",
     "husky": "9.1.7",
     "markdownlint-cli2": "0.18.1",
-    "rollup": "4.43.0",
+    "rollup": "4.44.1",
     "semantic-release": "24.2.5",
     "tap-xunit": "2.4.1",
     "tsimp": "2.0.12",
