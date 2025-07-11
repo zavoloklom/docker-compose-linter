@@ -37,6 +37,10 @@ from common pitfalls.
 - **Anchor Support:** Supports YAML anchors for shared configuration sections, with
   [some limitations](#anchor-handling).
 
+You can explore the online version here: <https://dclint-website.vercel.app/> (thanks to
+[BenRoe](https://github.com/BenRoe) for the implementation). Note that this site is not official. I have no control
+over it and take no responsibility for its contents, uptime, or any potential issues.
+
 ## Table of Contents
 
 - [Usage with Node.js](#usage-with-nodejs)
