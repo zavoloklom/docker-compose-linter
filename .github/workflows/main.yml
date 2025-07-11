@@ -54,7 +54,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        run: wget -qO - https://coverage.codacy.com/get.sh | bash -s -- report -r ./coverage/cobertura-coverage.xml
+        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/cobertura-coverage.xml
 
       - name: Build the project
         run: npm run build:cli
