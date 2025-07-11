@@ -38,8 +38,8 @@ from common pitfalls.
   [some limitations](#anchor-handling).
 
 You can explore the online version here: <https://dclint-website.vercel.app/> (thanks to
-[BenRoe](https://github.com/BenRoe) for the implementation). Note that this site is not official. I have no control
-over it and take no responsibility for its contents, uptime, or any potential issues.
+[BenRoe](https://github.com/BenRoe) for the implementation). Note that this site is not official. I have no control over
+it and take no responsibility for its contents, uptime, or any potential issues.
 
 ## Table of Contents
 
@@ -433,6 +433,14 @@ repos:
 
 For additional options and docker-based integration, see
 [pre-commit-dclint](https://github.com/docker-compose-linter/pre-commit-dclint).
+
+## Using with `MegaLinter`
+
+`DCLint` can also be used as a [MegaLinter](https://nvuillam.github.io/mega-linter/) plugin to integrate Compose file
+linting into your CI pipelines.
+
+For more details, see the plugin repository:
+[mega-linter-plugin-dclint](https://github.com/wesley-dean/mega-linter-plugin-dclint).
 
 ## Alternatives
 
