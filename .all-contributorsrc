@@ -71,6 +71,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/643834?v=4",
       "profile": "https://benjaminroesner.com/",
       "contributions": ["ideas"]
+    },
+    {
+      "login": "wesley-dean",
+      "name": "Wes Dean",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9680323?v=4",
+      "profile": "https://github.com/wesley-dean",
+      "contributions": ["ideas"]
     }
   ],
   "contributorsPerLine": 7,
