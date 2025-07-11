@@ -10,9 +10,7 @@
   "projectOwner": "zavoloklom",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "imageSize": 100,
   "commit": false,
   "commitConvention": "angular",
@@ -23,68 +21,59 @@
       "name": "Szymon Filipiak",
       "avatar_url": "https://avatars.githubusercontent.com/u/25361786?v=4",
       "profile": "https://github.com/szymon-filipiak",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     },
     {
       "login": "salzig",
       "name": "Ben Rexin",
       "avatar_url": "https://avatars.githubusercontent.com/u/99911?v=4",
       "profile": "http://salzsee.info/",
-      "contributions": [
-        "code",
-        "doc",
-        "test"
-      ]
+      "contributions": ["code", "doc", "test"]
     },
     {
       "login": "adaliszk",
       "name": "Ádám Liszkai",
       "avatar_url": "https://avatars.githubusercontent.com/u/5189131?v=4",
       "profile": "https://adaliszk.io/",
-      "contributions": [
-        "ideas"
-      ]
+      "contributions": ["ideas"]
     },
     {
       "login": "AdamVig",
       "name": "Adam Vigneaux",
       "avatar_url": "https://avatars.githubusercontent.com/u/5354752?v=4",
       "profile": "https://adamvig.com/",
-      "contributions": [
-        "code",
-        "doc"
-      ]
+      "contributions": ["code", "doc"]
     },
     {
       "login": "s-weigand",
       "name": "Sebastian Weigand",
       "avatar_url": "https://avatars.githubusercontent.com/u/9513634?v=4",
       "profile": "https://github.com/s-weigand",
-      "contributions": [
-        "ideas"
-      ]
+      "contributions": ["ideas"]
     },
     {
       "login": "Horstage",
       "name": "Jan Eil",
       "avatar_url": "https://avatars.githubusercontent.com/u/16322246?v=4",
       "profile": "https://janeil.de",
-      "contributions": [
-        "ideas"
-      ]
+      "contributions": ["ideas"]
     },
     {
       "login": "OhMyMndy",
       "name": "Mandy Schoep",
       "avatar_url": "https://avatars.githubusercontent.com/u/2277717?v=4",
       "profile": "https://www.ohmymndy.com",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
+    },
+    {
+      "login": "BenRoe",
+      "name": "Ben",
+      "avatar_url": "https://avatars.githubusercontent.com/u/643834?v=4",
+      "profile": "https://benjaminroesner.com/",
+      "contributions": ["ideas"]
     }
   ],
   "contributorsPerLine": 7,
   "linkToUsage": false
 }
+
