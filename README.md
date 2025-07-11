@@ -478,6 +478,9 @@ Thanks goes to these wonderful people ([emoji keys explanation](https://allcontr
       <td align="center" valign="top" width="14.28%"><a href="https://janeil.de"><img src="https://avatars.githubusercontent.com/u/16322246?v=4?s=100" width="100px;" alt="Jan Eil"/><br /><sub><b>Jan Eil</b></sub></a><br /><a href="https://github.com/zavoloklom/docker-compose-linter/discussions?discussions_q=author%3AHorstage" title="Participated in discussions or provided ideas">💡</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.ohmymndy.com"><img src="https://avatars.githubusercontent.com/u/2277717?v=4?s=100" width="100px;" alt="Mandy Schoep"/><br /><sub><b>Mandy Schoep</b></sub></a><br /><a href="https://github.com/zavoloklom/docker-compose-linter/commits?author=OhMyMndy" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://benjaminroesner.com/"><img src="https://avatars.githubusercontent.com/u/643834?v=4?s=100" width="100px;" alt="Ben"/><br /><sub><b>Ben</b></sub></a><br /><a href="https://github.com/zavoloklom/docker-compose-linter/discussions?discussions_q=author%3ABenRoe" title="Participated in discussions or provided ideas">💡</a></td>
+    </tr>
   </tbody>
 </table>
 
