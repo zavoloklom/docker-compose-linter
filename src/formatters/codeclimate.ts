@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+
 import type { LintResult } from '../linter/linter.types';
 
 const generateFingerprint = (data: (string | null)[], hashes: Set<string>): string => {

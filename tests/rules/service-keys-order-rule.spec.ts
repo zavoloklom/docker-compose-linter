@@ -1,8 +1,9 @@
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import { normalizeYAML } from '../test-utils';
+
 import ServiceKeysOrderRule, { GroupOrderEnum } from '../../src/rules/service-keys-order-rule';
+import { normalizeYAML } from '../test-utils';
+
 import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
@@ -39,7 +40,7 @@ services:
 `;
 
 // @ts-ignore TS2349
-test('ServiceKeysOrderRule: should return a warning when service keys are in the wrong order', (t: ExecutionContext) => {
+test('ServiceKeysOrderRule: should return a warning when service keys are in the wrong order', (t) => {
   const rule = new ServiceKeysOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -63,7 +64,7 @@ test('ServiceKeysOrderRule: should return a warning when service keys are in the
 });
 
 // @ts-ignore TS2349
-test('ServiceKeysOrderRule: should not return warnings when service keys are in the correct order', (t: ExecutionContext) => {
+test('ServiceKeysOrderRule: should not return warnings when service keys are in the correct order', (t) => {
   const rule = new ServiceKeysOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -76,7 +77,7 @@ test('ServiceKeysOrderRule: should not return warnings when service keys are in 
 });
 
 // @ts-ignore TS2349
-test('ServiceKeysOrderRule: should respect custom groupOrder and groups from options', (t: ExecutionContext) => {
+test('ServiceKeysOrderRule: should respect custom groupOrder and groups from options', (t) => {
   const customGroups = {
     [GroupOrderEnum.CoreDefinitions]: ['container_name', 'build', 'image'],
     [GroupOrderEnum.Networking]: ['extra_hosts', 'ports'],
@@ -131,7 +132,7 @@ services:
 });
 
 // @ts-ignore TS2349
-test('ServiceKeysOrderRule: should use default options when no options are provided', (t: ExecutionContext) => {
+test('ServiceKeysOrderRule: should use default options when no options are provided', (t) => {
   const rule = new ServiceKeysOrderRule();
 
   const yamlWithDefaultOrderViolation = `
@@ -168,7 +169,7 @@ services:
 });
 
 // @ts-ignore TS2349
-test('ServiceKeysOrderRule: should fix the order of service keys', (t: ExecutionContext) => {
+test('ServiceKeysOrderRule: should fix the order of service keys', (t) => {
   const rule = new ServiceKeysOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectOrder);
 

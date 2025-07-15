@@ -1,4 +1,4 @@
-import { parseDocument, Document, ToStringOptions } from 'yaml';
+import { Document, ToStringOptions, parseDocument } from 'yaml';
 
 const YAML_STRINGIFY_OPTIONS: ToStringOptions = {
   blockQuote: true,

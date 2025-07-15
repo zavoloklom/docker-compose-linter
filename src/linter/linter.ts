@@ -1,18 +1,20 @@
 import fs from 'node:fs';
-import { parseDocument, YAMLError } from 'yaml';
-import { findFilesForLinting } from '../util/files-finder';
-import { loadLintRules } from '../util/rules-utils';
-import { Logger, LOG_SOURCE } from '../util/logger';
-import { validationComposeSchema } from '../util/compose-validation';
+import { YAMLError, parseDocument } from 'yaml';
+
 import { ComposeValidationError } from '../errors/compose-validation-error';
-import { loadFormatter } from '../util/formatter-loader';
 import {
   extractDisableLineRules,
   extractGlobalDisableRules,
   startsWithDisableFileComment,
 } from '../util/comments-handler';
+import { validationComposeSchema } from '../util/compose-validation';
+import { findFilesForLinting } from '../util/files-finder';
+import { loadFormatter } from '../util/formatter-loader';
+import { LOG_SOURCE, Logger } from '../util/logger';
+import { loadLintRules } from '../util/rules-utils';
+
+import type { LintContext, LintResult } from './linter.types';
 import type { Config } from '../config/config.types';
-import type { LintResult, LintContext } from './linter.types';
 import type { Rule, RuleMessage } from '../rules/rules.types';
 
 class DCLinter {

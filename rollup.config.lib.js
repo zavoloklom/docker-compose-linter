@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+
 import baseConfig from './rollup.config.base.js';
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));

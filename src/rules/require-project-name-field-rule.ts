@@ -1,5 +1,5 @@
+import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
-import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export default class RequireProjectNameFieldRule implements Rule {
   static readonly name = 'require-project-name-field';

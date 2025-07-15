@@ -1,11 +1,11 @@
-import fs from 'node:fs';
-import nodeResolve from '@rollup/plugin-node-resolve';
+import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
-import typescript from '@rollup/plugin-typescript';
-import { babel } from '@rollup/plugin-babel';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
+import fs from 'node:fs';
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const version = process.env.VERSION ?? packageJson?.version;

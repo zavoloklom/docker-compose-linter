@@ -1,8 +1,10 @@
 import { isMap, isScalar } from 'yaml';
-import { parseYAML } from '../util/yaml-utils';
+
 import { findLineNumberForService } from '../util/line-finder';
+import { parseYAML } from '../util/yaml-utils';
+
+import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
-import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export interface ServiceImageRequireExplicitTagRuleInputOptions {
   prohibitedTags?: string[];

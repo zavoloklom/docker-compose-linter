@@ -1,8 +1,10 @@
-import { isSeq, isScalar, isMap, isPair } from 'yaml';
-import { parseYAML, stringifyDocument } from '../util/yaml-utils';
+import { isMap, isPair, isScalar, isSeq } from 'yaml';
+
 import { findLineNumberForService } from '../util/line-finder';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
+
+import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
-import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export default class ServiceDependenciesAlphabeticalOrderRule implements Rule {
   static readonly name = 'service-dependencies-alphabetical-order';

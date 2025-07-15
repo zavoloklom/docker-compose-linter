@@ -1,7 +1,8 @@
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
-import { normalizeYAML } from '../test-utils';
+
 import RequireQuotesInPortsRule from '../../src/rules/require-quotes-in-ports-rule';
+import { normalizeYAML } from '../test-utils';
+
 import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
@@ -44,7 +45,7 @@ services:
 const pathToFile = '/docker-compose.yml';
 
 // @ts-ignore TS2349
-test('RequireQuotesInPortsRule: should return a warning when ports are not quoted', (t: ExecutionContext) => {
+test('RequireQuotesInPortsRule: should return a warning when ports are not quoted', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
   const context: LintContext = {
     path: pathToFile,
@@ -63,7 +64,7 @@ test('RequireQuotesInPortsRule: should return a warning when ports are not quote
 });
 
 // @ts-ignore TS2349
-test('RequireQuotesInPortsRule: should not return warnings when ports are quoted with single quotes', (t: ExecutionContext) => {
+test('RequireQuotesInPortsRule: should not return warnings when ports are quoted with single quotes', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
   const context: LintContext = {
     path: pathToFile,
@@ -76,7 +77,7 @@ test('RequireQuotesInPortsRule: should not return warnings when ports are quoted
 });
 
 // @ts-ignore TS2349
-test('RequireQuotesInPortsRule: should not return warnings when ports are quoted with double quotes', (t: ExecutionContext) => {
+test('RequireQuotesInPortsRule: should not return warnings when ports are quoted with double quotes', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'double' });
   const context: LintContext = {
     path: pathToFile,
@@ -89,7 +90,7 @@ test('RequireQuotesInPortsRule: should not return warnings when ports are quoted
 });
 
 // @ts-ignore TS2349
-test('RequireQuotesInPortsRule: should handle absence of ports and expose sections gracefully', (t: ExecutionContext) => {
+test('RequireQuotesInPortsRule: should handle absence of ports and expose sections gracefully', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
   const context: LintContext = {
     path: pathToFile,
@@ -102,7 +103,7 @@ test('RequireQuotesInPortsRule: should handle absence of ports and expose sectio
 });
 
 // @ts-ignore TS2349
-test('RequireQuotesInPortsRule: should fix unquoted ports by adding single quotes and not modify already quoted ports', (t: ExecutionContext) => {
+test('RequireQuotesInPortsRule: should fix unquoted ports by adding single quotes and not modify already quoted ports', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
 
   const fixedYAML = rule.fix(yamlWithoutQuotes);
@@ -114,7 +115,7 @@ test('RequireQuotesInPortsRule: should fix unquoted ports by adding single quote
 });
 
 // @ts-ignore TS2349
-test('RequireQuotesInPortsRule: should fix double quotes ports by changing them to single quotes', (t: ExecutionContext) => {
+test('RequireQuotesInPortsRule: should fix double quotes ports by changing them to single quotes', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
 
   const fixedYAML = rule.fix(yamlWithDoubleQuotes);
@@ -126,7 +127,7 @@ test('RequireQuotesInPortsRule: should fix double quotes ports by changing them 
 });
 
 // @ts-ignore TS2349
-test('RequireQuotesInPortsRule: should fix unquoted ports by adding double quotes and not modify already quoted ports', (t: ExecutionContext) => {
+test('RequireQuotesInPortsRule: should fix unquoted ports by adding double quotes and not modify already quoted ports', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'double' });
 
   const fixedYAML = rule.fix(yamlWithoutQuotes);
@@ -138,7 +139,7 @@ test('RequireQuotesInPortsRule: should fix unquoted ports by adding double quote
 });
 
 // @ts-ignore TS2349
-test('RequireQuotesInPortsRule: should fix single quotes ports by changing them to double quotes', (t: ExecutionContext) => {
+test('RequireQuotesInPortsRule: should fix single quotes ports by changing them to double quotes', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'double' });
 
   const fixedYAML = rule.fix(yamlWithSingleQuotes);

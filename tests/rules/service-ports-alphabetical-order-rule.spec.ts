@@ -1,8 +1,9 @@
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import { normalizeYAML } from '../test-utils';
+
 import ServicePortsAlphabeticalOrderRule from '../../src/rules/service-ports-alphabetical-order-rule';
+import { normalizeYAML } from '../test-utils';
+
 import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
@@ -49,7 +50,7 @@ services:
 `;
 
 // @ts-ignore TS2349
-test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are not alphabetically ordered', (t: ExecutionContext) => {
+test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are not alphabetically ordered', (t) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -64,7 +65,7 @@ test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are 
 });
 
 // @ts-ignore TS2349
-test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports are alphabetically ordered', (t: ExecutionContext) => {
+test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports are alphabetically ordered', (t) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -77,7 +78,7 @@ test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports a
 });
 
 // @ts-ignore TS2349
-test('ServicePortsAlphabeticalOrderRule: should fix the order of ports', (t: ExecutionContext) => {
+test('ServicePortsAlphabeticalOrderRule: should fix the order of ports', (t) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectPortOrder);
 

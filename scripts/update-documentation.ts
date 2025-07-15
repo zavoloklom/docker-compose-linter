@@ -1,11 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import * as changeCase from 'change-case';
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import * as changeCase from 'change-case';
 import { format } from 'prettier';
-import { loadLintRules } from '../src/util/rules-utils';
+
 import { getRuleDefinition } from './utils';
+import { loadLintRules } from '../src/util/rules-utils';
+
 import type { RuleDefinition } from '../src/rules/rules.types';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');

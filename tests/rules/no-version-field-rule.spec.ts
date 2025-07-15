@@ -1,6 +1,7 @@
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
+
 import NoVersionFieldRule from '../../src/rules/no-version-field-rule';
+
 import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
@@ -18,7 +19,7 @@ services:
 `;
 
 // @ts-ignore TS2349
-test('NoVersionFieldRule: should return an error when "version" field is present', (t: ExecutionContext) => {
+test('NoVersionFieldRule: should return an error when "version" field is present', (t) => {
   const rule = new NoVersionFieldRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -41,7 +42,7 @@ test('NoVersionFieldRule: should return an error when "version" field is present
 });
 
 // @ts-ignore TS2349
-test('NoVersionFieldRule: should not return errors when "version" field is not present', (t: ExecutionContext) => {
+test('NoVersionFieldRule: should not return errors when "version" field is not present', (t) => {
   const rule = new NoVersionFieldRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -60,7 +61,7 @@ test('NoVersionFieldRule: should not return errors when "version" field is not p
 });
 
 // @ts-ignore TS2349
-test('NoVersionFieldRule: should fix by removing the "version" field', (t: ExecutionContext) => {
+test('NoVersionFieldRule: should fix by removing the "version" field', (t) => {
   const rule = new NoVersionFieldRule();
   const fixedYAML = rule.fix(yamlWithVersion);
 
@@ -68,7 +69,7 @@ test('NoVersionFieldRule: should fix by removing the "version" field', (t: Execu
 });
 
 // @ts-ignore TS2349
-test('NoVersionFieldRule: should not modify YAML without "version" field', (t: ExecutionContext) => {
+test('NoVersionFieldRule: should not modify YAML without "version" field', (t) => {
   const rule = new NoVersionFieldRule();
   const fixedYAML = rule.fix(yamlWithoutVersion);
 

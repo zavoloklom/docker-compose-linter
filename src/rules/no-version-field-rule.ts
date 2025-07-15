@@ -1,6 +1,7 @@
 import { findLineNumberByKey } from '../util/line-finder';
+
+import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
-import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export default class NoVersionFieldRule implements Rule {
   static readonly name = 'no-version-field';
