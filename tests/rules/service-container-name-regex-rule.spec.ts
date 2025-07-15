@@ -2,6 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import ServiceContainerNameRegexRule from '../../src/rules/service-container-name-regex-rule';
+import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -30,12 +31,8 @@ test('ServiceContainerNameRegexRule: should return an error for invalid containe
     sourceCode: yamlWithInvalidContainerName,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 1, 'There should be one error when the container name is invalid.');
-
-  const expectedMessage =
-    'Service "web" has an invalid container name "my-app@123". It must match the regex pattern /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/.';
-  t.true(errors[0].message.includes(expectedMessage));
+  const expectedMessages = [rule.getMessage({ serviceName: 'web', containerName: 'my-app@123' })];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -47,6 +44,6 @@ test('ServiceContainerNameRegexRule: should not return an error for valid contai
     sourceCode: yamlWithValidContainerName,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no errors when the container name is valid.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });

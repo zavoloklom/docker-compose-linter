@@ -49,15 +49,20 @@ async function validateDocumentation(ruleDefinition: RuleDefinition) {
       hasValidationErrors = true;
     }
 
+    // Minimal required length to be considered meaningful
+    const MIN_EXAMPLE_LENGTH = 20;
+    const MIN_DETAILS_LENGTH = 200;
+
     const problematicExampleMatch = /## Problematic Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/i.exec(content);
     const correctExampleMatch = /## Correct Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/i.exec(content);
 
-    const hasProblematicExample = problematicExampleMatch && problematicExampleMatch[1].trim().length >= 20;
-    const hasCorrectExample = correctExampleMatch && correctExampleMatch[1].trim().length >= 20;
+    const hasProblematicExample =
+      problematicExampleMatch && problematicExampleMatch[1].trim().length >= MIN_EXAMPLE_LENGTH;
+    const hasCorrectExample = correctExampleMatch && correctExampleMatch[1].trim().length >= MIN_EXAMPLE_LENGTH;
 
     const detailsMatch = /## Rule Details and Rationale\n\n([^#]+)/.exec(content);
     const detailsContent = detailsMatch ? detailsMatch[1].trim() : '';
-    const hasDetails = detailsContent.length >= 200;
+    const hasDetails = detailsContent.length >= MIN_DETAILS_LENGTH;
 
     const hasVersion = /## Version\n\n.*?\[v\d+\.\d+\.\d+]\(.*?\)/.test(content);
     const hasReferences = /## References\n\n- \[.*?]\(.*?\)/.test(content);

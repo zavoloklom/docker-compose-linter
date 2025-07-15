@@ -1,6 +1,7 @@
 import test from 'ava';
 
 import NoQuotesInVolumesRule from '../../src/rules/no-quotes-in-volumes-rule';
+import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -28,8 +29,8 @@ test('NoQuotesInVolumesRule: should not return errors for YAML without quotes in
     sourceCode: correctYAML,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no errors for correct YAML.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -41,11 +42,8 @@ test('NoQuotesInVolumesRule: should return errors for YAML with quotes in volume
     sourceCode: incorrectYAML,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 1, 'There should be one error for YAML with quoted volume name.');
-  t.is(errors[0].message, 'Quotes should not be used in volume names.');
-  t.is(errors[0].rule, 'no-quotes-in-volumes');
-  t.is(errors[0].severity, 'info');
+  const expectedMessages = [rule.getMessage()];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349

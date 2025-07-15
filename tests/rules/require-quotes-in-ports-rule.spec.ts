@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import RequireQuotesInPortsRule from '../../src/rules/require-quotes-in-ports-rule';
-import { normalizeYAML } from '../test-utils';
+import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -53,14 +53,8 @@ test('RequireQuotesInPortsRule: should return a warning when ports are not quote
     sourceCode: yamlWithoutQuotes,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 3, 'There should be one warning when ports are not quoted.');
-
-  const expectedMessage = 'Ports in `ports` and `expose` sections should be enclosed in quotes.';
-
-  errors.forEach((error, index) => {
-    t.true(error.message.includes(expectedMessage));
-  });
+  const expectedMessages = [rule.getMessage(), rule.getMessage(), rule.getMessage()];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -72,8 +66,8 @@ test('RequireQuotesInPortsRule: should not return warnings when ports are quoted
     sourceCode: yamlWithSingleQuotes,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when ports are quoted with single quotes.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -85,8 +79,8 @@ test('RequireQuotesInPortsRule: should not return warnings when ports are quoted
     sourceCode: yamlWithDoubleQuotes,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when ports are quoted with double quotes.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -98,8 +92,8 @@ test('RequireQuotesInPortsRule: should handle absence of ports and expose sectio
     sourceCode: yamlWithoutPorts,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when `ports` and `expose` sections are absent.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349

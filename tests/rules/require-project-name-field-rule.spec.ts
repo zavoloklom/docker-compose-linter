@@ -1,6 +1,7 @@
 import test from 'ava';
 
 import RequireProjectNameFieldRule from '../../src/rules/require-project-name-field-rule';
+import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -33,11 +34,8 @@ test('RequiredProjectNameFieldRule: should return a warning when "name" field is
     sourceCode: yamlWithoutName,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 1, 'There should be one warning when the "name" field is missing.');
-  t.is(errors[0].message, 'The "name" field should be present.');
-  t.is(errors[0].rule, 'require-project-name-field');
-  t.is(errors[0].severity, 'minor');
+  const expectedMessages = [rule.getMessage()];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -56,6 +54,6 @@ test('RequiredProjectNameFieldRule: should not return warnings when "name" field
     sourceCode: yamlWithName,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when the "name" field is present.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });

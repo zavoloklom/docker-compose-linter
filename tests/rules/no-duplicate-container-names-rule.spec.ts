@@ -2,6 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import NoDuplicateContainerNamesRule from '../../src/rules/no-duplicate-container-names-rule';
+import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -36,12 +37,10 @@ test('NoDuplicateContainerNamesRule: should return an error when duplicate conta
     sourceCode: yamlWithDuplicateContainerNames,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 1, 'There should be one error when duplicate container names are found.');
-
-  const expectedMessage =
-    'Service "db" has a duplicate container name "my_container" with service "web". Container names MUST BE unique.';
-  t.true(errors[0].message.includes(expectedMessage));
+  const expectedMessages = [
+    rule.getMessage({ serviceName: 'db', containerName: 'my_container', anotherService: 'web' }),
+  ];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -53,6 +52,6 @@ test('NoDuplicateContainerNamesRule: should not return errors when container nam
     sourceCode: yamlWithUniqueContainerNames,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no errors when container names are unique.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
