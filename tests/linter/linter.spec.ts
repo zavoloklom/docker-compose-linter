@@ -99,8 +99,7 @@ test('DCLinter: should disable linter for a file', async (t) => {
   const mockFindFiles = (): string[] => mockFilePaths;
 
   const mockWriteFileSync = (filePath: string, content: string): void => {
-    // Normalize the content by trimming leading/trailing whitespace
-    // and remove all excess newlines to compare correctly
+    // Normalize the content by trimming leading/trailing whitespace and remove all excess newlines to compare correctly
     const originalContent = normalizeYAML(mockReadFileSync());
     const actualContent = normalizeYAML(content);
 
@@ -231,7 +230,7 @@ test('DCLinter: should apply fixes correctly while ignoring disabled rules', asy
 
 // @ts-ignore TS2349
 test('DCLinter: adds error message for invalid YAML (YAMLError)', async (t) => {
-  const mockReadFileSync = () => 'invalid: [unclosed'; // недопустимый YAML
+  const mockReadFileSync = () => 'invalid: [unclosed';
 
   const ERROR_POSITION = { line: 3, col: 5 };
   const mockParseDocument = () => {
@@ -253,6 +252,7 @@ test('DCLinter: adds error message for invalid YAML (YAMLError)', async (t) => {
 
   const linter = new DCLinter(config);
   const result = linter.lintFiles([mockFilePath], false);
+  // eslint-disable-next-line prefer-destructuring
   const message = result[0].messages[0];
 
   t.is(message.rule, 'invalid-yaml');
@@ -284,6 +284,7 @@ test('DCLinter: adds error message for ComposeValidationError', async (t) => {
 
   const linter = new DCLinter(config);
   const result = linter.lintFiles([mockFilePath], false);
+  // eslint-disable-next-line prefer-destructuring
   const message = result[0].messages[0];
 
   t.is(message.rule, 'invalid-schema');
@@ -305,6 +306,7 @@ test('DCLinter: adds error message for unknown error', async (t) => {
 
   const linter = new DCLinter(config);
   const result = linter.lintFiles([mockFilePath], false);
+  // eslint-disable-next-line prefer-destructuring
   const message = result[0].messages[0];
 
   t.is(message.rule, 'unknown-error');

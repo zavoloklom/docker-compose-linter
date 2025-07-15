@@ -65,7 +65,7 @@ export default function rdjson(results: LintResult[]): string {
               line: message.endLine ?? message.line ?? 1,
               column: message.endColumn ?? message.column ?? 1,
             }
-          : undefined;
+          : null;
 
       const diagnostic: RdjsonDiagnostic = {
         message: message.message,

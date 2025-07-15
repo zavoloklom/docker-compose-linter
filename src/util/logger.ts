@@ -17,9 +17,7 @@ class Logger {
   private readonly debugMode: boolean = false;
 
   private constructor(debug?: boolean) {
-    if (debug !== undefined) {
-      this.debugMode = debug;
-    }
+    this.debugMode = debug ?? false;
   }
 
   public static init(debug?: boolean): Logger {

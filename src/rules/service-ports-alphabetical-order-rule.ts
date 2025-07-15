@@ -52,7 +52,7 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
       if (!isSeq(ports)) return;
 
       const extractedPorts = ports.items.map((port) => extractPublishedPortValueWithProtocol(port).port);
-      const sortedPorts = [...extractedPorts].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+      const sortedPorts = [...extractedPorts].sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
 
       if (JSON.stringify(extractedPorts) !== JSON.stringify(sortedPorts)) {
         const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, 'ports');
@@ -95,7 +95,7 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
         const valueA = extractPublishedPortValueWithProtocol(a).port;
         const valueB = extractPublishedPortValueWithProtocol(b).port;
 
-        return valueA.localeCompare(valueB, undefined, { numeric: true });
+        return valueA.localeCompare(valueB, 'en', { numeric: true });
       });
     });
 
