@@ -1,7 +1,7 @@
 import { isIP } from 'node:net';
 import { isMap, isScalar } from 'yaml';
 
-function extractPublishedPortValueWithProtocol(yamlNode: unknown): { port: string; protocol: string } {
+const extractPublishedPortValueWithProtocol = (yamlNode: unknown): { port: string; protocol: string } => {
   if (isScalar(yamlNode)) {
     const value = String(yamlNode.value);
 
@@ -31,9 +31,9 @@ function extractPublishedPortValueWithProtocol(yamlNode: unknown): { port: strin
   }
 
   return { port: '', protocol: 'tcp' };
-}
+};
 
-function extractPublishedPortInterfaceValue(yamlNode: unknown): string {
+const extractPublishedPortInterfaceValue = (yamlNode: unknown): string => {
   if (isScalar(yamlNode)) {
     const value = String(yamlNode.value);
 
@@ -57,9 +57,9 @@ function extractPublishedPortInterfaceValue(yamlNode: unknown): string {
   }
 
   return '';
-}
+};
 
-function parsePortsRange(port: string): string[] {
+const parsePortsRange = (port: string): string[] => {
   const [start, end] = port.split('-').map(Number);
 
   if (Number.isNaN(start) || Number.isNaN(end)) {
@@ -80,6 +80,6 @@ function parsePortsRange(port: string): string[] {
     ports.push(i.toString());
   }
   return ports;
-}
+};
 
 export { extractPublishedPortValueWithProtocol, extractPublishedPortInterfaceValue, parsePortsRange };

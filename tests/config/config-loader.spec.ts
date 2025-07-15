@@ -12,7 +12,7 @@ type MockOptions = {
   searchReturnsNull?: boolean;
 };
 
-async function createMockedLoader(options: MockOptions = {}): Promise<ConfigLoader> {
+const createMockedLoader = async (options: MockOptions = {}): Promise<ConfigLoader> => {
   const { isFileFound = true, searchReturnsNull = false } = options;
 
   // Fake config returned by explorer.load()
@@ -43,7 +43,7 @@ async function createMockedLoader(options: MockOptions = {}): Promise<ConfigLoad
   );
 
   return ConfigLoader.init();
-}
+};
 
 // @ts-ignore TS2349
 test('loads config from custom file path if it exists', async (t) => {

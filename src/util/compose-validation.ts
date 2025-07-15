@@ -5,32 +5,29 @@ import { ComposeValidationError } from '../errors/compose-validation-error';
 
 type Schema = Record<string, unknown>;
 
-function updateSchema(schema: Schema): Schema {
+const updateSchema = (schema: Schema): Schema => {
   if (typeof schema !== 'object') return schema;
 
   // Fix for id in compose.schema file
   if ('id' in schema) {
-    // eslint-disable-next-line no-param-reassign
     delete schema.id;
   }
 
   Object.entries(schema).forEach(([key, value]) => {
     if (typeof value === 'object' && value !== null) {
-      // eslint-disable-next-line no-param-reassign
       schema[key] = updateSchema(value as Schema);
     }
 
     // Fix for $schema in compose.schema file
     if (key === '$schema' && value === 'https://json-schema.org/draft-07/schema') {
-      // eslint-disable-next-line no-param-reassign
       schema[key] = 'http://json-schema.org/draft-07/schema#';
     }
   });
 
   return schema;
-}
+};
 
-function validationComposeSchema(content: object) {
+const validationComposeSchema = (content: object) => {
   const ajv = new Ajv({
     allErrors: true,
     strict: false,
@@ -48,6 +45,6 @@ function validationComposeSchema(content: object) {
       throw new ComposeValidationError(error);
     });
   }
-}
+};
 
 export { validationComposeSchema };

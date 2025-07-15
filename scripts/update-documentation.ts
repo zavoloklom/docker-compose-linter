@@ -12,7 +12,7 @@ import type { RuleDefinition } from '../src/rules/rules.types';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');
 
-function generateRulesTable(ruleDefinitionList: RuleDefinition[]) {
+const generateRulesTable = (ruleDefinitionList: RuleDefinition[]) => {
   const tableHeader = `
 | Name | Description |   |
 |------|-------------|---|`;
@@ -25,9 +25,9 @@ function generateRulesTable(ruleDefinitionList: RuleDefinition[]) {
   });
 
   return `${tableHeader}\n${tableRows.join('\n')}\n`;
-}
+};
 
-async function updateRulesReference(ruleDefinitionList: RuleDefinition[]) {
+const updateRulesReference = async (ruleDefinitionList: RuleDefinition[]) => {
   const rulesFilePath = join(documentationDirectory, './rules.md');
 
   try {
@@ -72,9 +72,9 @@ async function updateRulesReference(ruleDefinitionList: RuleDefinition[]) {
       console.error(`Unexpected error: ${JSON.stringify(error)}`);
     }
   }
-}
+};
 
-async function updateDocumentation(ruleDefinition: RuleDefinition) {
+const updateDocumentation = async (ruleDefinition: RuleDefinition) => {
   const documentFilePath = join(documentationDirectory, `./rules/${ruleDefinition.name}-rule.md`);
 
   try {
@@ -94,9 +94,9 @@ async function updateDocumentation(ruleDefinition: RuleDefinition) {
       console.error(`Unexpected error: ${JSON.stringify(error)}`);
     }
   }
-}
+};
 
-async function main() {
+const main = async () => {
   const rules = loadLintRules({ rules: {}, quiet: false, debug: false, exclude: [] });
   const ruleDefinitionList = [];
   const promises = [];
@@ -112,6 +112,6 @@ async function main() {
 
   // Update rules reference
   await updateRulesReference(ruleDefinitionList);
-}
+};
 
 await main();

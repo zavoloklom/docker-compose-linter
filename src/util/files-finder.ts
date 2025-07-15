@@ -4,7 +4,7 @@ import { basename, join, resolve } from 'node:path';
 import { Logger } from './logger';
 import { FileNotFoundError } from '../errors/file-not-found-error';
 
-export function findFilesForLinting(paths: string[], recursive: boolean, excludePaths: string[]): string[] {
+const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: string[]): string[] => {
   const logger = Logger.init();
   logger.debug('UTIL', `Looking for compose files in ${paths.toString()}`);
 
@@ -74,4 +74,6 @@ export function findFilesForLinting(paths: string[], recursive: boolean, exclude
   );
 
   return filesToCheck;
-}
+};
+
+export { findFilesForLinting };

@@ -13,7 +13,7 @@ const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '..
 
 let hasValidationErrors = false;
 
-async function validateDocumentation(ruleDefinition: RuleDefinition) {
+const validateDocumentation = async (ruleDefinition: RuleDefinition) => {
   const documentFilePath = join(documentationDirectory, `rules/${ruleDefinition.name}-rule.md`);
 
   try {
@@ -106,9 +106,9 @@ async function validateDocumentation(ruleDefinition: RuleDefinition) {
       console.error(`Unexpected error: ${JSON.stringify(error)}`);
     }
   }
-}
+};
 
-async function main() {
+const main = async () => {
   const rules = loadLintRules({ rules: {}, quiet: false, debug: false, exclude: [] });
   const promises = [];
 
@@ -126,6 +126,6 @@ async function main() {
   } else {
     console.log('\nAll validations passed successfully.');
   }
-}
+};
 
 await main();

@@ -1,4 +1,4 @@
-function startsWithDisableFileComment(content: string): boolean {
+const startsWithDisableFileComment = (content: string): boolean => {
   // Split content into lines and process the first non-empty, non-YAML separator line
   const lines = content.split('\n').map((line) => line.trim());
   for (const line of lines) {
@@ -7,9 +7,9 @@ function startsWithDisableFileComment(content: string): boolean {
     return line.startsWith('# dclint disable-file');
   }
   return false;
-}
+};
 
-function extractGlobalDisableRules(content: string): Set<string> {
+const extractGlobalDisableRules = (content: string): Set<string> => {
   const disableRules = new Set<string>();
 
   // Split content into lines and process the first non-empty, non-YAML separator line
@@ -33,9 +33,9 @@ function extractGlobalDisableRules(content: string): Set<string> {
   }
 
   return disableRules;
-}
+};
 
-function extractDisableLineRules(content: string): Map<number, Set<string>> {
+const extractDisableLineRules = (content: string): Map<number, Set<string>> => {
   const disableRulesPerLine = new Map<number, Set<string>>();
   const lines = content.split('\n');
 
@@ -62,6 +62,6 @@ function extractDisableLineRules(content: string): Map<number, Set<string>> {
   });
 
   return disableRulesPerLine;
-}
+};
 
 export { startsWithDisableFileComment, extractGlobalDisableRules, extractDisableLineRules };
