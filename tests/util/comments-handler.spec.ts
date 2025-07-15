@@ -1,9 +1,10 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import test from 'ava';
+
 import {
-  startsWithDisableFileComment,
   extractDisableLineRules,
   extractGlobalDisableRules,
+  startsWithDisableFileComment,
 } from '../../src/util/comments-handler';
 
 // @ts-ignore TS2349

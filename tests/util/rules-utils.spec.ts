@@ -2,8 +2,9 @@
 
 import test from 'ava';
 import esmock from 'esmock';
+
 import type { Config } from '../../src/config/config.types';
-import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMessage } from '../../src/rules/rules.types';
+import type { Rule, RuleCategory, RuleMessage, RuleSeverity, RuleType } from '../../src/rules/rules.types';
 
 class MockRule implements Rule {
   name = 'mock-rule';

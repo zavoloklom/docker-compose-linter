@@ -1,8 +1,10 @@
-import { isMap, isSeq, isScalar, Scalar, ParsedNode, Pair } from 'yaml';
-import { parseYAML, stringifyDocument } from '../util/yaml-utils';
+import { Pair, ParsedNode, Scalar, isMap, isScalar, isSeq } from 'yaml';
+
 import { findLineNumberForService } from '../util/line-finder';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
+
+import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
-import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export interface RequireQuotesInPortsRuleInputOptions {
   quoteType?: 'single' | 'double';

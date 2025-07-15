@@ -1,7 +1,9 @@
 import { resolve } from 'node:path';
-import type { LintResult } from '../linter/linter.types';
+
 import { Logger } from './logger';
 import Formatters from '../formatters/index';
+
+import type { LintResult } from '../linter/linter.types';
 
 type FormatterFunction = (results: LintResult[]) => string;
 

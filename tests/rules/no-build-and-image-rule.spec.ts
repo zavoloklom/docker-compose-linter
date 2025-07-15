@@ -1,7 +1,8 @@
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
+
 import NoBuildAndImageRule from '../../src/rules/no-build-and-image-rule';
+
 import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML with services using both build and image
@@ -49,7 +50,7 @@ services:
 const filePath = '/docker-compose.yml';
 
 // @ts-ignore TS2349
-test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service', (t: ExecutionContext) => {
+test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service', (t) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
     path: filePath,
@@ -72,7 +73,7 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
 });
 
 // @ts-ignore TS2349
-test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service and checkPullPolicy is false', (t: ExecutionContext) => {
+test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service and checkPullPolicy is false', (t) => {
   const rule = new NoBuildAndImageRule({ checkPullPolicy: false });
   const context: LintContext = {
     path: filePath,
@@ -95,7 +96,7 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
 });
 
 // @ts-ignore TS2349
-test('NoBuildAndImageRule: should not return warnings when "build" and "image" are used with pull_policy and checkPullPolicy is true', (t: ExecutionContext) => {
+test('NoBuildAndImageRule: should not return warnings when "build" and "image" are used with pull_policy and checkPullPolicy is true', (t) => {
   const rule = new NoBuildAndImageRule({ checkPullPolicy: true });
   const context: LintContext = {
     path: filePath,
@@ -112,7 +113,7 @@ test('NoBuildAndImageRule: should not return warnings when "build" and "image" a
 });
 
 // @ts-ignore TS2349
-test('NoBuildAndImageRule: should respect default options when no options are provided', (t: ExecutionContext) => {
+test('NoBuildAndImageRule: should respect default options when no options are provided', (t) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
     path: filePath,
@@ -129,7 +130,7 @@ test('NoBuildAndImageRule: should respect default options when no options are pr
 });
 
 // @ts-ignore TS2349
-test('NoBuildAndImageRule: should not return warnings when only "build" is used', (t: ExecutionContext) => {
+test('NoBuildAndImageRule: should not return warnings when only "build" is used', (t) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
     path: filePath,
@@ -142,7 +143,7 @@ test('NoBuildAndImageRule: should not return warnings when only "build" is used'
 });
 
 // @ts-ignore TS2349
-test('NoBuildAndImageRule: should not return warnings when only "image" is used', (t: ExecutionContext) => {
+test('NoBuildAndImageRule: should not return warnings when only "image" is used', (t) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
     path: filePath,

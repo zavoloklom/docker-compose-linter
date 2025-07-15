@@ -3,8 +3,10 @@
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadLintRules } from '../src/util/rules-utils';
+
 import { getRuleDefinition } from './utils';
+import { loadLintRules } from '../src/util/rules-utils';
+
 import type { RuleDefinition } from '../src/rules/rules.types';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');

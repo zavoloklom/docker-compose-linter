@@ -1,11 +1,12 @@
-import { existsSync } from 'node:fs';
-import { cosmiconfigSync } from 'cosmiconfig';
 import { Ajv } from 'ajv';
-import { Logger, LOG_SOURCE } from '../util/logger';
-import { schemaLoader } from '../util/schema-loader';
+import { cosmiconfigSync } from 'cosmiconfig';
+import { existsSync } from 'node:fs';
+
 import { ConfigValidationError } from '../errors/config-validation-error';
 import { FileNotFoundError } from '../errors/file-not-found-error';
 import rules from '../rules/index';
+import { LOG_SOURCE, Logger } from '../util/logger';
+import { schemaLoader } from '../util/schema-loader';
 
 import type { Config } from './config.types';
 import type { CLIConfig } from '../cli/cli.types';

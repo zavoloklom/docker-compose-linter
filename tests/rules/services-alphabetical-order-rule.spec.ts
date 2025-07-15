@@ -1,8 +1,9 @@
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
-import { normalizeYAML } from '../test-utils';
+
 import ServicesAlphabeticalOrderRule from '../../src/rules/services-alphabetical-order-rule';
+import { normalizeYAML } from '../test-utils';
+
 import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
@@ -35,7 +36,7 @@ services:
 `;
 
 // @ts-ignore TS2349
-test('ServicesAlphabeticalOrderRule: should return a warning when services are out of order', (t: ExecutionContext) => {
+test('ServicesAlphabeticalOrderRule: should return a warning when services are out of order', (t) => {
   const rule = new ServicesAlphabeticalOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -53,7 +54,7 @@ test('ServicesAlphabeticalOrderRule: should return a warning when services are o
 });
 
 // @ts-ignore TS2349
-test('ServicesAlphabeticalOrderRule: should not return warnings when services are in alphabetical order', (t: ExecutionContext) => {
+test('ServicesAlphabeticalOrderRule: should not return warnings when services are in alphabetical order', (t) => {
   const rule = new ServicesAlphabeticalOrderRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -66,7 +67,7 @@ test('ServicesAlphabeticalOrderRule: should not return warnings when services ar
 });
 
 // @ts-ignore TS2349
-test('ServicesAlphabeticalOrderRule: should fix the order of services', (t: ExecutionContext) => {
+test('ServicesAlphabeticalOrderRule: should fix the order of services', (t) => {
   const rule = new ServicesAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectOrder);
 

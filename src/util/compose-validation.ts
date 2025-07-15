@@ -1,6 +1,7 @@
 import { Ajv, ErrorObject } from 'ajv';
-import { ComposeValidationError } from '../errors/compose-validation-error';
+
 import { schemaLoader } from './schema-loader';
+import { ComposeValidationError } from '../errors/compose-validation-error';
 
 type Schema = Record<string, unknown>;
 

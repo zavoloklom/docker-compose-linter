@@ -1,9 +1,11 @@
-import { isSeq, isScalar, isMap } from 'yaml';
-import { parseYAML, stringifyDocument } from '../util/yaml-utils';
+import { isMap, isScalar, isSeq } from 'yaml';
+
 import { findLineNumberForService } from '../util/line-finder';
 import { extractPublishedPortValueWithProtocol } from '../util/service-ports-parser';
+import { parseYAML, stringifyDocument } from '../util/yaml-utils';
+
+import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
-import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export default class ServicePortsAlphabeticalOrderRule implements Rule {
   static readonly name = 'service-ports-alphabetical-order';

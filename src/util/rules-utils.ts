@@ -1,6 +1,7 @@
 import { Logger } from './logger';
 import Rules from '../rules/index';
-import type { Config, ConfigRuleLevel, ConfigRule } from '../config/config.types';
+
+import type { Config, ConfigRule, ConfigRuleLevel } from '../config/config.types';
 import type { Rule, RuleType } from '../rules/rules.types';
 
 function loadLintRules(config: Config): Rule[] {

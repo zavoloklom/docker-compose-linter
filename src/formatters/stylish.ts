@@ -1,5 +1,6 @@
 import { resolve } from 'node:path';
 import pc from 'picocolors';
+
 import type { LintResult } from '../linter/linter.types';
 
 export default function stylishFormatter(results: LintResult[]): string {

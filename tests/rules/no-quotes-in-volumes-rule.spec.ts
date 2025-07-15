@@ -1,6 +1,7 @@
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
+
 import NoQuotesInVolumesRule from '../../src/rules/no-quotes-in-volumes-rule';
+
 import type { LintContext } from '../../src/linter/linter.types';
 
 // Sample YAML for tests
@@ -19,7 +20,7 @@ services:
 `;
 
 // @ts-ignore TS2349
-test('NoQuotesInVolumesRule: should not return errors for YAML without quotes in volumes', (t: ExecutionContext) => {
+test('NoQuotesInVolumesRule: should not return errors for YAML without quotes in volumes', (t) => {
   const rule = new NoQuotesInVolumesRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -32,7 +33,7 @@ test('NoQuotesInVolumesRule: should not return errors for YAML without quotes in
 });
 
 // @ts-ignore TS2349
-test('NoQuotesInVolumesRule: should return errors for YAML with quotes in volumes', (t: ExecutionContext) => {
+test('NoQuotesInVolumesRule: should return errors for YAML with quotes in volumes', (t) => {
   const rule = new NoQuotesInVolumesRule();
   const context: LintContext = {
     path: '/docker-compose.yml',
@@ -48,7 +49,7 @@ test('NoQuotesInVolumesRule: should return errors for YAML with quotes in volume
 });
 
 // @ts-ignore TS2349
-test('NoQuotesInVolumesRule: should fix YAML with quotes in volumes', (t: ExecutionContext) => {
+test('NoQuotesInVolumesRule: should fix YAML with quotes in volumes', (t) => {
   const rule = new NoQuotesInVolumesRule();
   const fixedYAML = rule.fix(incorrectYAML);
 
@@ -57,7 +58,7 @@ test('NoQuotesInVolumesRule: should fix YAML with quotes in volumes', (t: Execut
 });
 
 // @ts-ignore TS2349
-test('NoQuotesInVolumesRule: should not modify YAML without quotes in volumes', (t: ExecutionContext) => {
+test('NoQuotesInVolumesRule: should not modify YAML without quotes in volumes', (t) => {
   const rule = new NoQuotesInVolumesRule();
   const fixedYAML = rule.fix(correctYAML);
 

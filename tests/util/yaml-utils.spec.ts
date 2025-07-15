@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { parseYAML, stringifyDocument } from '../../src/util/yaml-utils';
 
 // @ts-ignore TS2349

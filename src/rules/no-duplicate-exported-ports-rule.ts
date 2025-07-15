@@ -1,9 +1,11 @@
-import { isMap, isSeq, isScalar } from 'yaml';
-import { parseYAML } from '../util/yaml-utils';
+import { isMap, isScalar, isSeq } from 'yaml';
+
 import { findLineNumberForService } from '../util/line-finder';
 import { extractPublishedPortValueWithProtocol, parsePortsRange } from '../util/service-ports-parser';
+import { parseYAML } from '../util/yaml-utils';
+
+import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
-import type { Rule, RuleCategory, RuleSeverity, RuleType, RuleMeta, RuleMessage } from './rules.types';
 
 export default class NoDuplicateExportedPortsRule implements Rule {
   static readonly name = 'no-duplicate-exported-ports';

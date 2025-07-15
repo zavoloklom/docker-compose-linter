@@ -1,6 +1,6 @@
 import { createWriteStream } from 'node:fs';
-import { join, dirname } from 'node:path';
 import { get } from 'node:https';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const url = 'https://raw.githubusercontent.com/compose-spec/compose-spec/main/schema/compose-spec.json';

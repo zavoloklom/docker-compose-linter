@@ -1,7 +1,8 @@
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
 import { parseDocument } from 'yaml';
+
 import NoDuplicateExportedPortsRule from '../../src/rules/no-duplicate-exported-ports-rule';
+
 import type { LintContext } from '../../src/linter/linter.types';
 
 // YAML with multiple duplicate exported ports
@@ -119,7 +120,7 @@ services:
 const filePath = '/docker-compose.yml';
 
 // @ts-ignore TS2349
-test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate exported ports are found', (t: ExecutionContext) => {
+test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate exported ports are found', (t) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
     path: filePath,
@@ -144,7 +145,7 @@ test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate
 });
 
 // @ts-ignore TS2349
-test('NoDuplicateExportedPortsRule: should not return errors when exported ports are unique', (t: ExecutionContext) => {
+test('NoDuplicateExportedPortsRule: should not return errors when exported ports are unique', (t) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
     path: filePath,
@@ -157,7 +158,7 @@ test('NoDuplicateExportedPortsRule: should not return errors when exported ports
 });
 
 // @ts-ignore TS2349
-test('NoDuplicateExportedPortsRule: should return an error when range overlap is detected', (t: ExecutionContext) => {
+test('NoDuplicateExportedPortsRule: should return an error when range overlap is detected', (t) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
     path: filePath,
@@ -179,7 +180,7 @@ test('NoDuplicateExportedPortsRule: should return an error when range overlap is
 });
 
 // @ts-ignore TS2349
-test('NoDuplicateExportedPortsRule: should not return errors when same ports have different protocols', (t: ExecutionContext) => {
+test('NoDuplicateExportedPortsRule: should not return errors when same ports have different protocols', (t) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
     path: filePath,

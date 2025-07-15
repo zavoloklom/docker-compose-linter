@@ -1,5 +1,4 @@
-import type { Document } from 'yaml';
-import { isMap, isSeq, Node, isScalar } from 'yaml';
+import { type Document, Node, isMap, isScalar, isSeq } from 'yaml';
 
 /**
  * Finds the line number where the key is located in the content.

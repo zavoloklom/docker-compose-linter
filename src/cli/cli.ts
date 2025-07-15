@@ -3,10 +3,12 @@
 import { writeFileSync } from 'node:fs';
 import yargsLib from 'yargs';
 import { hideBin } from 'yargs/helpers';
+
 import { ConfigLoader } from '../config/config-loader';
 import { DCLinter } from '../linter/linter';
+import { LOG_SOURCE, Logger } from '../util/logger';
+
 import type { CLIConfig } from './cli.types';
-import { Logger, LOG_SOURCE } from '../util/logger';
 
 async function main() {
   process.env.NODE_NO_WARNINGS = '1';

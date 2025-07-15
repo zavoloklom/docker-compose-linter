@@ -1,9 +1,11 @@
 import test from 'ava';
 import esmock from 'esmock';
-import type { CLIConfig } from '../../src/cli/cli.types';
-import { FileNotFoundError } from '../../src/errors/file-not-found-error';
-import type { ConfigLoader } from '../../src/config/config-loader';
+
 import { ConfigValidationError } from '../../src/errors/config-validation-error';
+import { FileNotFoundError } from '../../src/errors/file-not-found-error';
+
+import type { CLIConfig } from '../../src/cli/cli.types';
+import type { ConfigLoader } from '../../src/config/config-loader';
 
 type MockOptions = {
   isFileFound?: boolean;

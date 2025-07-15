@@ -1,14 +1,15 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import test from 'ava';
-import type { ExecutionContext } from 'ava';
 import esmock from 'esmock';
 import { YAMLError } from 'yaml';
-import { normalizeYAML } from '../test-utils';
+
+import { ComposeValidationError } from '../../src/errors/compose-validation-error';
 import { Logger } from '../../src/util/logger';
+import { normalizeYAML } from '../test-utils';
+
 import type { Config } from '../../src/config/config.types';
 import type { LintResult } from '../../src/linter/linter.types';
 import type { Rule } from '../../src/rules/rules.types';
-import { ComposeValidationError } from '../../src/errors/compose-validation-error';
 
 // Sample configuration
 const config: Config = {
@@ -59,7 +60,7 @@ services:
 `;
 
 // @ts-ignore TS2349
-test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
+test('DCLinter: should lint files correctly', async (t) => {
   const mockFindFiles = (): string[] => [mockFilePath];
   const mockLoadLintRules = (): Rule[] => [mockRule];
   const mockReadFileSync = (): string => mockFileContent;
@@ -87,7 +88,7 @@ test('DCLinter: should lint files correctly', async (t: ExecutionContext) => {
 });
 
 // @ts-ignore TS2349
-test('DCLinter: should disable linter for a file', async (t: ExecutionContext) => {
+test('DCLinter: should disable linter for a file', async (t) => {
   const mockReadFileSync = (): string => `# dclint disable-file
     version: '3'
     services:
@@ -119,7 +120,7 @@ test('DCLinter: should disable linter for a file', async (t: ExecutionContext) =
 });
 
 // @ts-ignore TS2349
-test('DCLinter: should disable specific rule for part of the file', async (t: ExecutionContext) => {
+test('DCLinter: should disable specific rule for part of the file', async (t) => {
   const mockReadFileSync = (): string => `--- # dclint disable require-project-name-field
     services:
       web:
@@ -138,7 +139,7 @@ test('DCLinter: should disable specific rule for part of the file', async (t: Ex
 });
 
 // @ts-ignore TS2349
-test('DCLinter: should lint multiple files correctly', async (t: ExecutionContext) => {
+test('DCLinter: should lint multiple files correctly', async (t) => {
   const mockFindFiles = (): string[] => mockFilePaths;
   const mockLoadLintRules = (): Rule[] => [mockRule];
   const mockReadFileSync = (filePath: string): string => mockFileContent;
@@ -164,7 +165,7 @@ test('DCLinter: should lint multiple files correctly', async (t: ExecutionContex
 });
 
 // @ts-ignore TS2349
-test('DCLinter: should fix files', async (t: ExecutionContext) => {
+test('DCLinter: should fix files', async (t) => {
   const mockFindFiles = (): string[] => [mockFilePath];
   const mockLoadLintRules = (): Rule[] => [mockRule];
   const mockReadFileSync = (): string => mockFileContent;
@@ -194,7 +195,7 @@ test('DCLinter: should fix files', async (t: ExecutionContext) => {
 });
 
 // @ts-ignore TS2349
-test('DCLinter: should apply fixes correctly while ignoring disabled rules', async (t: ExecutionContext) => {
+test('DCLinter: should apply fixes correctly while ignoring disabled rules', async (t) => {
   const mockReadFileSync = (): string => `
     # dclint disable mock-rule
     version: '3'
