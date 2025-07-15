@@ -2,7 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import ServicesAlphabeticalOrderRule from '../../src/rules/services-alphabetical-order-rule';
-import { normalizeYAML } from '../test-utils';
+import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -44,13 +44,12 @@ test('ServicesAlphabeticalOrderRule: should return a warning when services are o
     sourceCode: yamlWithIncorrectOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 3, 'There should be 3 warnings when services are out of order.');
-
-  // Check error messages
-  t.true(errors[0].message.includes('Service "b-service" should be before "database".'));
-  t.true(errors[1].message.includes('Service "app" should be before "b-service".'));
-  t.true(errors[2].message.includes('Service "cache" should be before "database".'));
+  const expectedMessages = [
+    rule.getMessage({ serviceName: 'b-service', misplacedBefore: 'database' }),
+    rule.getMessage({ serviceName: 'app', misplacedBefore: 'b-service' }),
+    rule.getMessage({ serviceName: 'cache', misplacedBefore: 'database' }),
+  ];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -62,8 +61,8 @@ test('ServicesAlphabeticalOrderRule: should not return warnings when services ar
     sourceCode: yamlWithCorrectOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when services are in alphabetical order.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349

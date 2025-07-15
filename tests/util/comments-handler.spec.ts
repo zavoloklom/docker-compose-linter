@@ -118,9 +118,10 @@ test('extractDisableLineRules should correctly extract rules for disabling from 
     key: value 2  # dclint disable-line no-quotes-in-volumes
     key: value 3
   `;
+  const DISABLED_LINE = 3;
   const result = extractDisableLineRules(content);
   t.deepEqual(
-    [...(result.get(3) || [])],
+    [...(result.get(DISABLED_LINE) || [])],
     ['no-quotes-in-volumes'],
     'Should extract the correct rule ("no-quotes-in-volumes") for the second line',
   );
@@ -133,9 +134,10 @@ test('extractDisableLineRules should correctly handle multiple rules for a line 
     key: value 2  # dclint disable-line no-quotes-in-volumes no-unbound-port-interfaces
     key: value 3
   `;
+  const DISABLED_LINE = 3;
   const result = extractDisableLineRules(content);
   t.deepEqual(
-    [...(result.get(3) || [])],
+    [...(result.get(DISABLED_LINE) || [])],
     ['no-quotes-in-volumes', 'no-unbound-port-interfaces'],
     'Should extract multiple rules ("no-quotes-in-volumes", "no-unbound-port-interfaces") for the second line',
   );
@@ -148,10 +150,11 @@ test('extractDisableLineRules should correctly handle rules from a comment on th
     # dclint disable-line no-quotes-in-volumes
     key: value 2
   `;
+  const DISABLED_LINE = 4;
   const result = extractDisableLineRules(content);
 
   t.deepEqual(
-    [...(result.get(4) || [])],
+    [...(result.get(DISABLED_LINE) || [])],
     ['no-quotes-in-volumes'],
     'Should extract the correct rule ("no-quotes-in-volumes") for the third line (previous comment)',
   );
@@ -164,26 +167,12 @@ test('extractDisableLineRules should correctly handle multiple rules from a comm
     # dclint disable-line no-quotes-in-volumes no-unbound-port-interfaces
     key: value 2
   `;
+  const DISABLED_LINE = 4;
   const result = extractDisableLineRules(content);
   t.deepEqual(
-    [...(result.get(4) || [])],
+    [...(result.get(DISABLED_LINE) || [])],
     ['no-quotes-in-volumes', 'no-unbound-port-interfaces'],
     'Should extract multiple rules ("no-quotes-in-volumes", "no-unbound-port-interfaces") for the third line (previous comment)',
-  );
-});
-
-// @ts-ignore TS2349
-test('extractDisableLineRules should return an empty set if no disable-line comment is present', (t) => {
-  const content = `
-    key: value 1
-    key: value 2
-    key: value 3
-  `;
-  const result = extractDisableLineRules(content);
-  t.deepEqual(
-    [...(result.get(2) || [])],
-    [],
-    'Should return an empty set if no disable-line comment is present on that line',
   );
 });
 
@@ -194,9 +183,10 @@ test('extractDisableLineRules should disable all rules for a line with empty dis
     key: value 2 # dclint disable-line
     key: value 3
   `;
+  const DISABLED_LINE = 3;
   const result = extractDisableLineRules(content);
   t.deepEqual(
-    [...(result.get(3) || [])],
+    [...(result.get(DISABLED_LINE) || [])],
     ['*'],
     'Should disable all rules when there is no specific rule in the comment',
   );
@@ -209,6 +199,18 @@ test('extractDisableLineRules should disable all rules for the next line if the 
     # dclint disable-line
     key: value 2
   `;
+  const DISABLED_LINE = 4;
   const result = extractDisableLineRules(content);
-  t.deepEqual([...(result.get(4) || [])], ['*'], 'Should disable all rules for the line after the comment');
+  t.deepEqual([...(result.get(DISABLED_LINE) || [])], ['*'], 'Should disable all rules for the line after the comment');
+});
+
+// @ts-ignore TS2349
+test('extractDisableLineRules should return an empty set if no disable-line comment is present', (t) => {
+  const content = `
+    key: value 1
+    key: value 2
+    key: value 3
+  `;
+  const result = extractDisableLineRules(content);
+  t.is(result.size, 0, 'Should return empty map if no disable-line comments are present');
 });

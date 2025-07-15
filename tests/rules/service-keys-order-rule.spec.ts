@@ -2,7 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import ServiceKeysOrderRule, { GroupOrderEnum } from '../../src/rules/service-keys-order-rule';
-import { normalizeYAML } from '../test-utils';
+import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -48,19 +48,16 @@ test('ServiceKeysOrderRule: should return a warning when service keys are in the
     sourceCode: yamlWithIncorrectOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 4, 'There should be two warnings when service keys are out of order.');
-
-  const expectedMessages = [
-    'Key "ports" in service "web" is out of order.',
-    'Key "environment" in service "web" is out of order.',
-    'Key "volumes" in service "web" is out of order.',
-    'Key "cpu_rt_period" in service "web" is out of order.',
+  const correctOrder = [
+    'image, build, container_name, depends_on, volumes, volumes_from, configs, secrets, environment, env_file, ports, networks, network_mode, extra_hosts, command, entrypoint, working_dir, restart, healthcheck, logging, labels, user, isolation, annotations, cpu_rt_period, cpu_rt_runtime',
   ];
-
-  errors.forEach((error, index) => {
-    t.true(error.message.includes(expectedMessages[index]));
-  });
+  const expectedMessages = [
+    rule.getMessage({ serviceName: 'web', key: 'ports', correctOrder }),
+    rule.getMessage({ serviceName: 'web', key: 'environment', correctOrder }),
+    rule.getMessage({ serviceName: 'web', key: 'volumes', correctOrder }),
+    rule.getMessage({ serviceName: 'web', key: 'cpu_rt_period', correctOrder }),
+  ];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -72,8 +69,8 @@ test('ServiceKeysOrderRule: should not return warnings when service keys are in 
     sourceCode: yamlWithCorrectOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when service keys are in the correct order.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349

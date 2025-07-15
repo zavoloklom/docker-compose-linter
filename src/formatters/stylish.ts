@@ -21,8 +21,12 @@ export default function stylishFormatter(results: LintResult[]): string {
     result.messages.forEach((message) => {
       const { type } = message;
       const color = type === 'error' ? pc.red : pc.yellow;
-      const line = message.line.toString().padStart(4, ' ');
-      const column = message.column.toString().padEnd(4, ' ');
+
+      // Pad line/column numbers to align up to 4-digit values
+      const PAD = 4;
+
+      const line = message.line.toString().padStart(PAD, ' ');
+      const column = message.column.toString().padEnd(PAD, ' ');
 
       const position = pc.dim(`${line}:${column}`);
       const formattedType = color(type);

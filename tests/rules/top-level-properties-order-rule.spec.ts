@@ -2,7 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import TopLevelPropertiesOrderRule, { TopLevelKeys } from '../../src/rules/top-level-properties-order-rule';
-import { normalizeYAML } from '../test-utils';
+import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -52,13 +52,24 @@ test('TopLevelPropertiesOrderRule: should return a warning when top-level proper
     sourceCode: yamlWithIncorrectOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 3, 'There should be 3 warnings for out-of-order properties.');
-
-  // Check error messages
-  t.true(errors[0].message.includes('Property "x-b" is out of order.'));
-  t.true(errors[1].message.includes('Property "x-a" is out of order.'));
-  t.true(errors[2].message.includes('Property "networks" is out of order.'));
+  const correctOrder = [
+    'x-a',
+    'x-b',
+    'version',
+    'name',
+    'include',
+    'services',
+    'networks',
+    'volumes',
+    'secrets',
+    'configs',
+  ];
+  const expectedMessages = [
+    rule.getMessage({ key: 'x-b', correctOrder }),
+    rule.getMessage({ key: 'x-a', correctOrder }),
+    rule.getMessage({ key: 'networks', correctOrder }),
+  ];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -70,8 +81,8 @@ test('TopLevelPropertiesOrderRule: should not return warnings when top-level pro
     sourceCode: yamlWithCorrectOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when top-level properties are in the correct order.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -138,14 +149,14 @@ test('TopLevelPropertiesOrderRule: should return warnings based on custom order'
     sourceCode: yamlWithCustomOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 4, 'There should be 4 warnings for out-of-order properties based on the custom order.');
-
-  // Check error messages
-  t.true(errors[0].message.includes('Property "version" is out of order.'));
-  t.true(errors[1].message.includes('Property "volumes" is out of order.'));
-  t.true(errors[2].message.includes('Property "x-a" is out of order.'));
-  t.true(errors[3].message.includes('Property "networks" is out of order.'));
+  const correctOrder = ['version', 'services', 'volumes', 'networks', 'x-a', 'x-b'];
+  const expectedMessages = [
+    rule.getMessage({ key: 'version', correctOrder }),
+    rule.getMessage({ key: 'volumes', correctOrder }),
+    rule.getMessage({ key: 'x-a', correctOrder }),
+    rule.getMessage({ key: 'networks', correctOrder }),
+  ];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -166,8 +177,8 @@ networks:
     sourceCode: yamlWithoutXProperties,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when there are no x-* properties.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349

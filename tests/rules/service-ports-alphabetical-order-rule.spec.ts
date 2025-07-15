@@ -2,7 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import ServicePortsAlphabeticalOrderRule from '../../src/rules/service-ports-alphabetical-order-rule';
-import { normalizeYAML } from '../test-utils';
+import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -58,10 +58,8 @@ test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are 
     sourceCode: yamlWithIncorrectPortOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 1, 'There should be one warning when ports are out of order.');
-
-  t.true(errors[0].message.includes(`Ports in service "web" should be in alphabetical order.`));
+  const expectedMessages = [rule.getMessage({ serviceName: 'web' })];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -73,8 +71,8 @@ test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports a
     sourceCode: yamlWithCorrectPortOrder,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when ports are in alphabetical order.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349

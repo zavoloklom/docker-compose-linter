@@ -2,6 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import NoUnboundPortInterfacesRule from '../../src/rules/no-unbound-port-interfaces-rule';
+import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -47,18 +48,15 @@ test('NoUnboundPortInterfacesRule: should return multiple errors when duplicate 
     sourceCode: yamlWithImplicitListenEverywherePorts,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 3, 'There should be two errors when ports without host_ip are found.');
-
   const expectedMessages = [
-    'Service "a-service" is exporting port "8080:80" without specifying the interface to listen on.',
-    'Service "a-service" is exporting port "8080" without specifying the interface to listen on.',
-    'Service "b-service" is exporting port "{"target":1000,"published":8081,"protocol":"tcp","mode":"host"}" without specifying the interface to listen on.',
+    rule.getMessage({ serviceName: 'a-service', port: '8080:80' }),
+    rule.getMessage({ serviceName: 'a-service', port: '8080' }),
+    rule.getMessage({
+      serviceName: 'b-service',
+      port: '{"target":1000,"published":8081,"protocol":"tcp","mode":"host"}',
+    }),
   ];
-
-  errors.forEach((error, index) => {
-    t.true(error.message.includes(expectedMessages[index]));
-  });
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -70,6 +68,6 @@ test('NoUnboundPortInterfacesRule: should not return errors when exported ports 
     sourceCode: yamlWithExplicitListenIPPorts,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should not be any errors.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });

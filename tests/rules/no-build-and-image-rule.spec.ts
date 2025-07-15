@@ -2,6 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import NoBuildAndImageRule from '../../src/rules/no-build-and-image-rule';
+import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -58,18 +59,8 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
     sourceCode: yamlWithBuildAndImage,
   };
 
-  const errors = rule.check(context);
-  t.is(
-    errors.length,
-    2,
-    'There should be two warnings when both "build" and "image" are used and checkPullPolicy is false.',
-  );
-
   const expectedMessages = [rule.getMessage({ serviceName: 'web' }), rule.getMessage({ serviceName: 'db' })];
-
-  errors.forEach((error, index) => {
-    t.true(error.message === expectedMessages[index]);
-  });
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -81,18 +72,8 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
     sourceCode: yamlWithBuildImageAndPullPolicy,
   };
 
-  const errors = rule.check(context);
-  t.is(
-    errors.length,
-    2,
-    'There should be two warnings when both "build" and "image" are used and checkPullPolicy is false.',
-  );
-
   const expectedMessages = [rule.getMessage({ serviceName: 'web' }), rule.getMessage({ serviceName: 'db' })];
-
-  errors.forEach((error, index) => {
-    t.true(error.message === expectedMessages[index]);
-  });
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -104,12 +85,8 @@ test('NoBuildAndImageRule: should not return warnings when "build" and "image" a
     sourceCode: yamlWithBuildImageAndPullPolicy,
   };
 
-  const errors = rule.check(context);
-  t.is(
-    errors.length,
-    0,
-    'There should be no warnings when "build" and "image" are used together with pull_policy and checkPullPolicy is true.',
-  );
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -121,12 +98,8 @@ test('NoBuildAndImageRule: should respect default options when no options are pr
     sourceCode: yamlWithBuildImageAndPullPolicy,
   };
 
-  const errors = rule.check(context);
-  t.is(
-    errors.length,
-    0,
-    'There should be no warnings when "build" and "image" are used together with pull_policy and default checkPullPolicy is true.',
-  );
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -138,8 +111,8 @@ test('NoBuildAndImageRule: should not return warnings when only "build" is used'
     sourceCode: yamlWithOnlyBuild,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when only "build" is used.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -151,6 +124,6 @@ test('NoBuildAndImageRule: should not return warnings when only "image" is used'
     sourceCode: yamlWithOnlyImage,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no warnings when only "image" is used.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });

@@ -13,8 +13,10 @@ services:
     image: postgres
 `;
 
+  const EXPECTED_LINE = 5;
   const line = findLineNumberByKey(yamlContent, 'image');
-  t.is(line, 5, 'Should return the correct line number for the key "image"');
+
+  t.is(line, EXPECTED_LINE, 'Should return the correct line number for the key "image"');
 });
 
 // @ts-ignore TS2349
@@ -28,8 +30,10 @@ services:
     image: postgres
 `;
 
+  const EXPECTED_LINE = 1;
   const line = findLineNumberByKey(yamlContent, 'nonexistentKey');
-  t.is(line, 1, 'Should return 1 when the key does not exist');
+
+  t.is(line, EXPECTED_LINE, `Should return ${EXPECTED_LINE} when the key does not exist`);
 });
 
 // @ts-ignore TS2349
@@ -45,8 +49,10 @@ services:
     image: postgres
 `;
 
+  const EXPECTED_LINE = 6;
   const line = findLineNumberByKey(yamlContent, 'ports');
-  t.is(line, 6, 'Should return the correct line number for the nested key "ports"');
+
+  t.is(line, EXPECTED_LINE, 'Should return the correct line number for the nested key "ports"');
 });
 
 // @ts-ignore TS2349
@@ -60,8 +66,10 @@ services:
     image: postgres
 `;
 
+  const EXPECTED_LINE = 5;
   const line = findLineNumberByValue(yamlContent, 'nginx');
-  t.is(line, 5, 'Should return the correct line number for the value "nginx"');
+
+  t.is(line, EXPECTED_LINE, 'Should return the correct line number for the value "nginx"');
 });
 
 // @ts-ignore TS2349
@@ -75,8 +83,10 @@ services:
     image: postgres
 `;
 
+  const EXPECTED_LINE = 1;
   const line = findLineNumberByValue(yamlContent, 'nonexistentValue');
-  t.is(line, 1, 'Should return 1 when the value does not exist');
+
+  t.is(line, EXPECTED_LINE, `Should return ${EXPECTED_LINE} when the value does not exist`);
 });
 
 // @ts-ignore TS2349
@@ -90,6 +100,8 @@ services:
       - "80:80"
 `;
 
+  const EXPECTED_LINE = 7;
   const line = findLineNumberByValue(yamlContent, '80:80');
-  t.is(line, 7, 'Should return the correct line number for the value "80:80"');
+
+  t.is(line, EXPECTED_LINE, 'Should return the correct line number for the value "80:80"');
 });

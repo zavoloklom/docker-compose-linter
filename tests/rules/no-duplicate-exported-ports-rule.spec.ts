@@ -2,6 +2,7 @@ import test from 'ava';
 import { parseDocument } from 'yaml';
 
 import NoDuplicateExportedPortsRule from '../../src/rules/no-duplicate-exported-ports-rule';
+import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
 
@@ -128,20 +129,14 @@ test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate
     sourceCode: yamlWithDuplicatePorts,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 5, 'There should be five errors when duplicate exported ports are found.');
-
   const expectedMessages = [
-    'Service "b-service" is exporting port "8080" which is already used by service "a-service".',
-    'Service "c-service" is exporting port "8080" which is already used by service "a-service".',
-    'Service "d-service" is exporting port "8080" which is already used by service "a-service".',
-    'Service "e-service" is exporting port "8080" which is already used by service "a-service".',
-    'Service "f-service" is exporting port "8080" which is already used by service "a-service".',
+    rule.getMessage({ serviceName: 'b-service', publishedPort: '8080', anotherService: 'a-service' }),
+    rule.getMessage({ serviceName: 'c-service', publishedPort: '8080', anotherService: 'a-service' }),
+    rule.getMessage({ serviceName: 'd-service', publishedPort: '8080', anotherService: 'a-service' }),
+    rule.getMessage({ serviceName: 'e-service', publishedPort: '8080', anotherService: 'a-service' }),
+    rule.getMessage({ serviceName: 'f-service', publishedPort: '8080', anotherService: 'a-service' }),
   ];
-
-  errors.forEach((error, index) => {
-    t.true(error.message.includes(expectedMessages[index]));
-  });
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -153,8 +148,8 @@ test('NoDuplicateExportedPortsRule: should not return errors when exported ports
     sourceCode: yamlWithUniquePorts,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no errors when exported ports are unique.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -166,17 +161,11 @@ test('NoDuplicateExportedPortsRule: should return an error when range overlap is
     sourceCode: yamlWithRangeOverlap,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 2, 'There should be two errors when range overlap is detected.');
-
   const expectedMessages = [
-    'Service "b-service" is exporting port "8094" which is already used by service "a-service".',
-    'Service "d-service" is exporting port "8000-8085" which is already used by service "c-service".',
+    rule.getMessage({ serviceName: 'b-service', publishedPort: '8094', anotherService: 'a-service' }),
+    rule.getMessage({ serviceName: 'd-service', publishedPort: '8000-8085', anotherService: 'c-service' }),
   ];
-
-  errors.forEach((error, index) => {
-    t.true(error.message.includes(expectedMessages[index]));
-  });
+  runRuleTest(t, rule, context, expectedMessages);
 });
 
 // @ts-ignore TS2349
@@ -188,6 +177,6 @@ test('NoDuplicateExportedPortsRule: should not return errors when same ports hav
     sourceCode: yamlWithDifferentProtocols,
   };
 
-  const errors = rule.check(context);
-  t.is(errors.length, 0, 'There should be no errors when ports have different protocols.');
+  const expectedMessages: string[] = [];
+  runRuleTest(t, rule, context, expectedMessages);
 });

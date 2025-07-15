@@ -232,9 +232,16 @@ test('DCLinter: should apply fixes correctly while ignoring disabled rules', asy
 // @ts-ignore TS2349
 test('DCLinter: adds error message for invalid YAML (YAMLError)', async (t) => {
   const mockReadFileSync = () => 'invalid: [unclosed'; // недопустимый YAML
+
+  const ERROR_POSITION = { line: 3, col: 5 };
   const mockParseDocument = () => {
-    const error = new YAMLError('YAMLParseError', [3, 5], 'BAD_DIRECTIVE', 'Mock YAML error');
-    error.linePos = [{ line: 3, col: 5 }];
+    const error = new YAMLError(
+      'YAMLParseError',
+      [ERROR_POSITION.line, ERROR_POSITION.col],
+      'BAD_DIRECTIVE',
+      'Mock YAML error',
+    );
+    error.linePos = [ERROR_POSITION];
     return { errors: [error] };
   };
 
@@ -249,8 +256,8 @@ test('DCLinter: adds error message for invalid YAML (YAMLError)', async (t) => {
   const message = result[0].messages[0];
 
   t.is(message.rule, 'invalid-yaml');
-  t.is(message.line, 3);
-  t.is(message.column, 5);
+  t.is(message.line, ERROR_POSITION.line);
+  t.is(message.column, ERROR_POSITION.col);
   t.is(message.message, 'Invalid YAML format.');
 });
 
