@@ -1,4 +1,4 @@
-import net from 'node:net';
+import { isIP } from 'node:net';
 import { isMap, isScalar } from 'yaml';
 
 function extractPublishedPortValueWithProtocol(yamlNode: unknown): { port: string; protocol: string } {
@@ -9,14 +9,14 @@ function extractPublishedPortValueWithProtocol(yamlNode: unknown): { port: strin
     const [portPart, protocol] = value.split('/');
 
     // Extract the actual port, ignoring host/ip
-    // eslint-disable-next-line sonarjs/slow-regex
+    // eslint-disable-next-line sonarjs/slow-regex,require-unicode-regexp
     const parts = portPart.split(/:(?![^[]*])/);
 
     if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
       parts[0] = parts[0].slice(1, -1);
     }
 
-    if (net.isIP(parts[0])) {
+    if (isIP(parts[0])) {
       return { port: String(parts[1]), protocol: protocol || 'tcp' };
     }
 
@@ -38,14 +38,14 @@ function extractPublishedPortInterfaceValue(yamlNode: unknown): string {
     const value = String(yamlNode.value);
 
     // Split on single colon
-    // eslint-disable-next-line sonarjs/slow-regex
+    // eslint-disable-next-line sonarjs/slow-regex,require-unicode-regexp
     const parts = value.split(/:(?![^[]*])/);
 
     if (parts[0].startsWith('[') && parts[0].endsWith(']')) {
       parts[0] = parts[0].slice(1, -1);
     }
 
-    if (net.isIP(parts[0])) {
+    if (isIP(parts[0])) {
       return String(parts[0]);
     }
 

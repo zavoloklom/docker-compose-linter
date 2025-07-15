@@ -93,6 +93,13 @@ test('extractPublishedPortInterfaceValue should return correct IP for scalar wit
 });
 
 // @ts-ignore TS2349
+test('extractPublishedPortInterfaceValue should return correct IP for scalar with IPv6 2', (t) => {
+  const scalarNode = new Scalar('[2001:db8::1]:80');
+  const result = extractPublishedPortInterfaceValue(scalarNode);
+  t.is(result, '2001:db8::1');
+});
+
+// @ts-ignore TS2349
 test('extractPublishedPortInterfaceValue should return empty string for unknown node type', (t) => {
   const result = extractPublishedPortInterfaceValue({});
   t.is(result, '');

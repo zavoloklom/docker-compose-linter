@@ -4,7 +4,7 @@ import { type ExecutionContext } from 'ava';
 import { type LintContext } from '../src/linter/linter.types';
 import { type Rule } from '../src/rules/rules.types';
 
-const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/g, ' ').trim();
+const normalizeYAML = (yaml: string) => yaml.replaceAll(/\s+/gu, ' ').trim();
 
 // Helper for testing rules
 function runRuleTest(t: ExecutionContext, rule: Rule, context: LintContext, expectedMessages: string[]) {

@@ -8,7 +8,7 @@ import { type Document, Node, isMap, isScalar, isSeq } from 'yaml';
  */
 function findLineNumberByKey(content: string, key: string): number {
   const lines = content.split('\n');
-  const regex = new RegExp(`^\\s*${key}:`, 'i');
+  const regex = new RegExp(`^\\s*${key}:`, 'iu');
 
   let lineNumber = 1; // Lines start from 1, not 0
   for (const line of lines) {

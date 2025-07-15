@@ -21,7 +21,7 @@ export default class ServiceContainerNameRegexRule implements Rule {
   public severity: RuleSeverity = 'critical';
 
   // see https://docs.docker.com/reference/compose-file/services/#container_name
-  private static readonly containerNameRegex = /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/;
+  private static readonly containerNameRegex = /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/u;
 
   public meta: RuleMeta = {
     description: `Container names must match the pattern \`${ServiceContainerNameRegexRule.containerNameRegex}\` to comply with Docker naming conventions.`,

@@ -1,7 +1,7 @@
 import type { LintResult } from '../linter/linter.types';
 
 function escapeXml(unsafe: string): string {
-  return unsafe.replaceAll(/[<>&'"]/g, (character) => {
+  return unsafe.replaceAll(/[<>&'"]/gu, (character) => {
     switch (character) {
       case '<':
         return '&lt;';

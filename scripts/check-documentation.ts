@@ -19,31 +19,31 @@ async function validateDocumentation(ruleDefinition: RuleDefinition) {
   try {
     const content = await readFile(documentFilePath, 'utf8');
 
-    const ruleNameMatch = /- \*\*Rule Name:\*\* (.+)/.exec(content);
+    const ruleNameMatch = /- \*\*Rule Name:\*\* (.+)/u.exec(content);
     if (!ruleNameMatch?.[1].trim()) {
       console.warn(`Rule Name is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const typeMatch = /- \*\*Type:\*\* (.+)/.exec(content);
+    const typeMatch = /- \*\*Type:\*\* (.+)/u.exec(content);
     if (!typeMatch?.[1].trim()) {
       console.warn(`Type is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const categoryMatch = /- \*\*Category:\*\* (.+)/.exec(content);
+    const categoryMatch = /- \*\*Category:\*\* (.+)/u.exec(content);
     if (!categoryMatch?.[1].trim()) {
       console.warn(`Category is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const severityMatch = /- \*\*Severity:\*\* (.+)/.exec(content);
+    const severityMatch = /- \*\*Severity:\*\* (.+)/u.exec(content);
     if (!severityMatch?.[1].trim()) {
       console.warn(`Severity is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const fixableMatch = /- \*\*Fixable:\*\* (.+)/.exec(content);
+    const fixableMatch = /- \*\*Fixable:\*\* (.+)/u.exec(content);
     if (!fixableMatch?.[1].trim()) {
       console.warn(`Fixable is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
@@ -53,22 +53,24 @@ async function validateDocumentation(ruleDefinition: RuleDefinition) {
     const MIN_EXAMPLE_LENGTH = 20;
     const MIN_DETAILS_LENGTH = 200;
 
-    const problematicExampleMatch = /## Problematic Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/i.exec(content);
-    const correctExampleMatch = /## Correct Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/i.exec(content);
+    const problematicExampleMatch = /## Problematic Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/iu.exec(content);
+    const correctExampleMatch = /## Correct Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/iu.exec(content);
 
     const hasProblematicExample =
       problematicExampleMatch && problematicExampleMatch[1].trim().length >= MIN_EXAMPLE_LENGTH;
     const hasCorrectExample = correctExampleMatch && correctExampleMatch[1].trim().length >= MIN_EXAMPLE_LENGTH;
 
-    const detailsMatch = /## Rule Details and Rationale\n\n([^#]+)/.exec(content);
+    const detailsMatch = /## Rule Details and Rationale\n\n([^#]+)/u.exec(content);
     const detailsContent = detailsMatch ? detailsMatch[1].trim() : '';
     const hasDetails = detailsContent.length >= MIN_DETAILS_LENGTH;
 
+    // eslint-disable-next-line require-unicode-regexp
     const hasVersion = /## Version\n\n.*?\[v\d+\.\d+\.\d+]\(.*?\)/.test(content);
+    // eslint-disable-next-line require-unicode-regexp
     const hasReferences = /## References\n\n- \[.*?]\(.*?\)/.test(content);
 
     if (ruleDefinition.hasOptions) {
-      const hasOptionsSection = /## Options\n\n/.test(content);
+      const hasOptionsSection = /## Options\n\n/u.test(content);
       if (!hasOptionsSection) {
         console.warn(`Missing Options section for rule with options in ${documentFilePath}`);
         hasValidationErrors = true;
