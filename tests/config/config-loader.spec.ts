@@ -84,7 +84,6 @@ test('merges CLI arguments into config', async (t) => {
     formatter: '',
     maxWarnings: 0,
     recursive: false,
-    config: undefined,
     quiet: true,
     debug: true,
     exclude: ['node_modules'],
@@ -136,8 +135,8 @@ test('throws ConfigValidationError when schema validation fails', async (t) => {
 
   // @ts-ignore
   configLoader.config = {
-    // @ts-expect-error
-    rules: 123, // should be an object
+    // @ts-expect-error `rules` should be an object
+    rules: 123,
     quiet: false,
     debug: false,
     exclude: [],
