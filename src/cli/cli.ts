@@ -10,7 +10,7 @@ import { LOG_SOURCE, Logger } from '../util/logger';
 
 import type { CLIConfig } from './cli.types';
 
-async function main() {
+const main = async () => {
   process.env.NODE_NO_WARNINGS = '1';
   const { argv } = yargsLib(hideBin(process.argv))
     .usage('Usage: $0 <files..> [options]')
@@ -149,7 +149,7 @@ async function main() {
 
   logger.debug(LOG_SOURCE.CLI, 'All files are valid.');
   process.exit(0);
-}
+};
 
 // eslint-disable-next-line unicorn/prefer-top-level-await
 main().catch((error: unknown) => {

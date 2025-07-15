@@ -6,7 +6,7 @@ import { type Document, Node, isMap, isScalar, isSeq } from 'yaml';
  * @param key The key to search for in the content.
  * @returns number The line number where the key is found, or 1 if not found.
  */
-function findLineNumberByKey(content: string, key: string): number {
+const findLineNumberByKey = (content: string, key: string): number => {
   const lines = content.split('\n');
   const regex = new RegExp(`^\\s*${key}:`, 'iu');
 
@@ -18,7 +18,7 @@ function findLineNumberByKey(content: string, key: string): number {
     lineNumber += 1;
   }
   return 1; // Default to 1 if the key is not found
-}
+};
 
 /**
  * Finds the line number where the value is located in the content.
@@ -26,33 +26,33 @@ function findLineNumberByKey(content: string, key: string): number {
  * @param value The value to search for in the content.
  * @returns number The line number where the key is found, or 1 if not found.
  */
-function findLineNumberByValue(content: string, value: string): number {
+const findLineNumberByValue = (content: string, value: string): number => {
   const lineIndex = content.split('\n').findIndex((line) => line.includes(value));
   return lineIndex === -1 ? 1 : lineIndex + 1;
-}
+};
 
 /**
  * Refactored helper to get service block line number
  */
-function getServiceStartLine(service: Node, content: string): number {
+const getServiceStartLine = (service: Node, content: string): number => {
   if (service.range) {
     const [start] = service.range;
     return content.slice(0, start).split('\n').length - 1;
   }
   return 1;
-}
+};
 
 /**
  * Refactored helper to get key line number
  */
-function getKeyLine(keyNode: Node, content: string): number {
+const getKeyLine = (keyNode: Node, content: string): number => {
   if (keyNode.range) {
     const [start] = keyNode.range;
     const line = content.slice(0, start).split('\n').length;
     return isScalar(keyNode) ? line : line - 1;
   }
   return 1;
-}
+};
 
 /**
  * Finds the line number where the service, key, or value is located in the YAML content.
@@ -67,13 +67,13 @@ function getKeyLine(keyNode: Node, content: string): number {
  * @param value The optional value to search for within the key's content.
  * @returns number The line number where the service, key, or value is found, or 1 if not found.
  */
-function findLineNumberForService(
+const findLineNumberForService = (
   document: Document,
   content: string,
   serviceName: string,
   key?: string,
   value?: string,
-): number {
+): number => {
   const services = document.get('services') as Node;
   if (!isMap(services)) {
     return 1;
@@ -127,6 +127,6 @@ function findLineNumberForService(
   }
 
   return 1; // Default to 1 if the key or value is not found
-}
+};
 
 export { findLineNumberByKey, findLineNumberByValue, findLineNumberForService };

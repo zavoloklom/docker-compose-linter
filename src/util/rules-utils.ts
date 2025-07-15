@@ -4,7 +4,7 @@ import Rules from '../rules/index';
 import type { Config, ConfigRule, ConfigRuleLevel } from '../config/config.types';
 import type { Rule, RuleType } from '../rules/rules.types';
 
-function loadLintRules(config: Config): Rule[] {
+const loadLintRules = (config: Config): Rule[] => {
   const logger = Logger.init();
   const activeRules: Rule[] = [];
 
@@ -46,6 +46,6 @@ function loadLintRules(config: Config): Rule[] {
   });
 
   return activeRules;
-}
+};
 
 export { loadLintRules };

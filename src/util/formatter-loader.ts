@@ -7,7 +7,7 @@ import type { LintResult } from '../linter/linter.types';
 
 type FormatterFunction = (results: LintResult[]) => string;
 
-async function importFormatter(modulePath: string): Promise<FormatterFunction> {
+const importFormatter = async (modulePath: string): Promise<FormatterFunction> => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const Formatter = (await import(modulePath)).default;
@@ -15,9 +15,9 @@ async function importFormatter(modulePath: string): Promise<FormatterFunction> {
   } catch {
     throw new Error(`Module at ${modulePath} does not export a default formatter.`);
   }
-}
+};
 
-export async function loadFormatter(formatterName: string): Promise<FormatterFunction> {
+const loadFormatter = async (formatterName: string): Promise<FormatterFunction> => {
   const logger = Logger.init();
 
   if (formatterName.startsWith('.')) {
@@ -41,4 +41,6 @@ export async function loadFormatter(formatterName: string): Promise<FormatterFun
 
   logger.warn(`Unknown formatter: ${formatterName}. Using default - stylish.`);
   return Formatters.stylishFormatter;
-}
+};
+
+export { loadFormatter };

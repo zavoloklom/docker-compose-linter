@@ -1,7 +1,7 @@
 import composeSchema from '../../schemas/compose.schema.json' with { type: 'json' };
 import linterConfigSchema from '../../schemas/linter-config.schema.json' with { type: 'json' };
 
-function schemaLoader(schemaName: string): Record<string, unknown> {
+const schemaLoader = (schemaName: string): Record<string, unknown> => {
   switch (schemaName) {
     case 'compose':
       return composeSchema;
@@ -10,6 +10,6 @@ function schemaLoader(schemaName: string): Record<string, unknown> {
     default:
       return {};
   }
-}
+};
 
 export { schemaLoader };

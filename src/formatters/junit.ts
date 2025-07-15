@@ -1,6 +1,6 @@
 import type { LintResult } from '../linter/linter.types';
 
-function escapeXml(unsafe: string): string {
+const escapeXml = (unsafe: string): string => {
   return unsafe.replaceAll(/[<>&'"]/gu, (character) => {
     switch (character) {
       case '<':
@@ -17,9 +17,9 @@ function escapeXml(unsafe: string): string {
         return character;
     }
   });
-}
+};
 
-export default function junitFormatter(results: LintResult[]): string {
+const junitFormatter = (results: LintResult[]): string => {
   const testSuites = results
     .map((result) => {
       const testCases = result.messages
@@ -44,4 +44,6 @@ export default function junitFormatter(results: LintResult[]): string {
 <testsuites>
     ${testSuites}
 </testsuites>`;
-}
+};
+
+export default junitFormatter;

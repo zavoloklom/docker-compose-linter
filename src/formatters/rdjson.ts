@@ -40,7 +40,7 @@ interface RdjsonDiagnostic {
   original_output?: string;
 }
 
-function mapSeverity(type: RuleType): RdjsonDiagnostic['severity'] {
+const mapSeverity = (type: RuleType): RdjsonDiagnostic['severity'] => {
   switch (type) {
     case 'error':
       return 'ERROR';
@@ -49,7 +49,7 @@ function mapSeverity(type: RuleType): RdjsonDiagnostic['severity'] {
     default:
       return 'INFO';
   }
-}
+};
 
 export default function rdjson(results: LintResult[]): string {
   const diagnostics = results.flatMap((result) =>

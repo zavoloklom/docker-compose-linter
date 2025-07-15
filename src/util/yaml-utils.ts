@@ -21,12 +21,12 @@ const YAML_STRINGIFY_OPTIONS: ToStringOptions = {
   verifyAliasOrder: true,
 };
 
-function parseYAML(content: string): Document.Parsed {
+const parseYAML = (content: string): Document.Parsed => {
   return parseDocument(content);
-}
+};
 
-function stringifyDocument(document: Document.Parsed): string {
+const stringifyDocument = (document: Document.Parsed): string => {
   return document.toString(YAML_STRINGIFY_OPTIONS);
-}
+};
 
 export { parseYAML, stringifyDocument };
