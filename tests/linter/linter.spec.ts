@@ -190,8 +190,8 @@ test('DCLinter: should fix files', async (t) => {
   linter.fixFiles([mockFilePath], false, true);
 
   // Assertions
-  t.regex(loggedOutput, /Dry run - changes for file/, 'Dry run should output changes');
-  t.regex(loggedOutput, /nginx:latest/, 'Dry run output should contain "nginx:latest"');
+  t.regex(loggedOutput, /Dry run - changes for file/u, 'Dry run should output changes');
+  t.regex(loggedOutput, /nginx:latest/u, 'Dry run output should contain "nginx:latest"');
 });
 
 // @ts-ignore TS2349

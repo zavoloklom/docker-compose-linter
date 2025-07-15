@@ -17,7 +17,7 @@ function extractGlobalDisableRules(content: string): Set<string> {
   for (const line of lines) {
     // eslint-disable-next-line no-continue
     if (line === '' || line === '---') continue;
-    const disableMatch = /#\s*dclint\s+disable\s*(.*)/.exec(line);
+    const disableMatch = /#\s*dclint\s+disable\s*(.*)/u.exec(line);
     if (disableMatch) {
       const rules = disableMatch[1].trim();
 
@@ -26,7 +26,7 @@ function extractGlobalDisableRules(content: string): Set<string> {
         disableRules.add('*');
       } else {
         // Otherwise, disable specific rules mentioned
-        rules.split(/\s+/).forEach((rule) => disableRules.add(rule));
+        rules.split(/\s+/u).forEach((rule) => disableRules.add(rule));
       }
     }
     break;
@@ -44,7 +44,7 @@ function extractDisableLineRules(content: string): Map<number, Set<string>> {
     const isCommentLine = line.trim().startsWith('#');
     const lineNumber = isCommentLine ? index + 2 : index + 1;
 
-    const disableMatch = /#\s*dclint\s+disable-line\s*(.*)/.exec(line);
+    const disableMatch = /#\s*dclint\s+disable-line\s*(.*)/u.exec(line);
     if (!disableMatch) return;
 
     const rules = disableMatch[1].trim();
@@ -57,7 +57,7 @@ function extractDisableLineRules(content: string): Map<number, Set<string>> {
     if (rules === '') {
       disableRulesPerLine.get(lineNumber)?.add('*');
     } else {
-      rules.split(/\s+/).forEach((rule) => disableRulesPerLine.get(lineNumber)?.add(rule));
+      rules.split(/\s+/u).forEach((rule) => disableRulesPerLine.get(lineNumber)?.add(rule));
     }
   });
 

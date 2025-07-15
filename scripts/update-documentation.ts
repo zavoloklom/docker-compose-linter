@@ -36,7 +36,7 @@ async function updateRulesReference(ruleDefinitionList: RuleDefinition[]) {
 
     const categoryRegex =
       // eslint-disable-next-line sonarjs/slow-regex
-      /(## (Style|Security|Best Practice|Performance))([\s\S]*?)(\n\|.*?\|[\s\S]*?\n\|.*?\|[\s\S]*?)(?=\n##|$)/g;
+      /(## (Style|Security|Best Practice|Performance))([\s\S]*?)(\n\|.*?\|[\s\S]*?\n\|.*?\|[\s\S]*?)(?=\n##|$)/gu;
 
     const updatedContent = existingContent.replaceAll(
       categoryRegex,
@@ -81,7 +81,7 @@ async function updateDocumentation(ruleDefinition: RuleDefinition) {
     let updatedContent = await readFile(documentFilePath, 'utf8');
 
     const metaRegex =
-      /- \*\*Rule Name:\*\* .*?\n- \*\*Type:\*\* .*?\n- \*\*Category:\*\* .*?\n- \*\*Severity:\*\* .*?\n- \*\*Fixable:\*\* .*?\n/;
+      /- \*\*Rule Name:\*\* .*?\n- \*\*Type:\*\* .*?\n- \*\*Category:\*\* .*?\n- \*\*Severity:\*\* .*?\n- \*\*Fixable:\*\* .*?\n/u;
     const metaSection = `- **Rule Name:** ${ruleDefinition.name}\n- **Type:** ${ruleDefinition.type}\n- **Category:** ${ruleDefinition.category}\n- **Severity:** ${ruleDefinition.severity}\n- **Fixable:** ${ruleDefinition.fixable}\n`;
     updatedContent = updatedContent.replace(metaRegex, metaSection);
 

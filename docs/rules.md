@@ -30,13 +30,13 @@ unnecessary complexity.
 Security rules focus on identifying potential vulnerabilities in your Docker Compose files. These rules help prevent
 common security risks, such as exposing sensitive data or using unsafe configurations.
 
-| Name                                                                                     | Description                                                                                                       |       |
-| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----- |
-| [No Duplicate Container Names](./rules/no-duplicate-container-names-rule.md)             | Container names must be unique to prevent conflicts and ensure proper container management.                       | 🔴    |
-| [No Duplicate Exported Ports](./rules/no-duplicate-exported-ports-rule.md)               | Exported ports must be unique to avoid conflicts.                                                                 | 🔴    |
-| [No Unbound Port Interfaces](./rules/no-unbound-port-interfaces-rule.md)                 | Exported ports must be bound to specific interfaces to avoid unintentional exposure.                              | 🔴    |
-| [Service Container Name Regex](./rules/service-container-name-regex-rule.md)             | Container names must match the pattern `/^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/` to comply with Docker naming conventions. | 🔴    |
-| [Service Image Require Explicit Tag](./rules/service-image-require-explicit-tag-rule.md) | Services must use a specific image tag instead of "latest", "stable" or similar or no tag.                        | 🔴 ⚙️ |
+| Name                                                                                     | Description                                                                                                        |       |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----- |
+| [No Duplicate Container Names](./rules/no-duplicate-container-names-rule.md)             | Container names must be unique to prevent conflicts and ensure proper container management.                        | 🔴    |
+| [No Duplicate Exported Ports](./rules/no-duplicate-exported-ports-rule.md)               | Exported ports must be unique to avoid conflicts.                                                                  | 🔴    |
+| [No Unbound Port Interfaces](./rules/no-unbound-port-interfaces-rule.md)                 | Exported ports must be bound to specific interfaces to avoid unintentional exposure.                               | 🔴    |
+| [Service Container Name Regex](./rules/service-container-name-regex-rule.md)             | Container names must match the pattern `/^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/u` to comply with Docker naming conventions. | 🔴    |
+| [Service Image Require Explicit Tag](./rules/service-image-require-explicit-tag-rule.md) | Services must use a specific image tag instead of "latest", "stable" or similar or no tag.                         | 🔴 ⚙️ |
 
 ## Best Practice
 
