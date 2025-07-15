@@ -1,8 +1,8 @@
 import type { LintResult } from '../linter/linter.types';
 
 function escapeXml(unsafe: string): string {
-  return unsafe.replaceAll(/[<>&'"]/g, (c) => {
-    switch (c) {
+  return unsafe.replaceAll(/[<>&'"]/g, (character) => {
+    switch (character) {
       case '<':
         return '&lt;';
       case '>':
@@ -14,7 +14,7 @@ function escapeXml(unsafe: string): string {
       case "'":
         return '&apos;';
       default:
-        return c;
+        return character;
     }
   });
 }

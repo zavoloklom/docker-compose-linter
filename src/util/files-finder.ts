@@ -16,7 +16,7 @@ export function findFilesForLinting(paths: string[], recursive: boolean, exclude
   // Combine default excludes with user-specified exclude paths
   const excludeSet = new Set(defaultExcludes);
   if (excludePaths && excludePaths.length > 0) {
-    excludePaths.forEach((p) => excludeSet.add(p));
+    excludePaths.forEach((path) => excludeSet.add(path));
   }
   const exclude = [...excludeSet];
   logger.debug('UTIL', `Paths to exclude: ${exclude.toString()}`);
@@ -30,13 +30,13 @@ export function findFilesForLinting(paths: string[], recursive: boolean, exclude
       throw new FileNotFoundError(fileOrDirectory);
     }
 
-    let allPaths: string[] = [];
+    let allPaths: string[];
 
     const fileOrDirectoryStats = fs.statSync(fileOrDirectory);
 
     if (fileOrDirectoryStats.isDirectory()) {
       try {
-        allPaths = fs.readdirSync(resolve(fileOrDirectory)).map((f) => join(fileOrDirectory, f));
+        allPaths = fs.readdirSync(resolve(fileOrDirectory)).map((file) => join(fileOrDirectory, file));
       } catch (error) {
         logger.debug('UTIL', `Error reading directory: ${fileOrDirectory}`, error);
         allPaths = [];
