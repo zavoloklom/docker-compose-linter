@@ -50,18 +50,18 @@ export default class NoDuplicateExportedPortsRule implements Rule {
 
     const exportedPortsMap: Map<string, string> = new Map();
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!isMap(service) || !service.has('ports')) return;
+      if (!isMap(service) || !service.has('ports')) continue;
 
       const ports = service.get('ports');
-      if (!isSeq(ports)) return;
+      if (!isSeq(ports)) continue;
 
-      ports.items.forEach((portItem) => {
+      for (const portItem of ports.items) {
         const { port, protocol } = extractPublishedPortValueWithProtocol(portItem);
         const currentPortRange = parsePortsRange(port);
 
@@ -95,14 +95,14 @@ export default class NoDuplicateExportedPortsRule implements Rule {
         });
 
         // Map ports to the service
-        currentPortRange.forEach((rangePort) => {
+        for (const rangePort of currentPortRange) {
           const rangeKey = `${rangePort}/${protocol}`;
           if (!exportedPortsMap.has(rangeKey)) {
             exportedPortsMap.set(rangeKey, serviceName);
           }
-        });
-      });
-    });
+        }
+      }
+    }
 
     return errors;
   }

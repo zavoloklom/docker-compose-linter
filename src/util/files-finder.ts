@@ -16,7 +16,7 @@ const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: 
   // Combine default excludes with user-specified exclude paths
   const excludeSet = new Set(defaultExcludes);
   if (excludePaths && excludePaths.length > 0) {
-    excludePaths.forEach((path) => excludeSet.add(path));
+    for (const path of excludePaths) excludeSet.add(path);
   }
   const exclude = [...excludeSet];
   logger.debug('UTIL', `Paths to exclude: ${exclude.toString()}`);
@@ -24,7 +24,7 @@ const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: 
   // Regular expression to match [compose*.yml, compose*.yaml, docker-compose*.yml, docker-compose*.yaml] files
   const dockerComposePattern = /^(?:docker-)?compose.*\.ya?ml$/u;
 
-  paths.forEach((fileOrDirectory) => {
+  for (const fileOrDirectory of paths) {
     if (!fs.existsSync(fileOrDirectory)) {
       logger.debug('UTIL', `File or directory not found: ${fileOrDirectory}`);
       throw new FileNotFoundError(fileOrDirectory);
@@ -42,11 +42,11 @@ const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: 
         allPaths = [];
       }
 
-      allPaths.forEach((path) => {
+      for (const path of allPaths) {
         // Skip files and directories listed in the exclude array
         if (exclude.some((ex) => path.includes(ex))) {
           logger.debug('UTIL', `Excluding ${path}`);
-          return;
+          continue;
         }
 
         const pathStats = fs.statSync(resolve(path));
@@ -62,11 +62,11 @@ const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: 
           // Add the file to the list if it matches the pattern
           filesToCheck.push(path);
         }
-      });
+      }
     } else if (fileOrDirectoryStats.isFile()) {
       filesToCheck.push(fileOrDirectory);
     }
-  });
+  }
 
   logger.debug(
     'UTIL',

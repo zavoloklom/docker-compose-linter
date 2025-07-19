@@ -1,4 +1,4 @@
-import { Ajv, ErrorObject } from 'ajv';
+import { Ajv } from 'ajv';
 
 import { schemaLoader } from './schema-loader';
 import { ComposeValidationError } from '../errors/compose-validation-error';
@@ -13,7 +13,7 @@ const updateSchema = (schema: Schema): Schema => {
     delete schema.id;
   }
 
-  Object.entries(schema).forEach(([key, value]) => {
+  for (const [key, value] of Object.entries(schema)) {
     if (typeof value === 'object' && value !== null) {
       schema[key] = updateSchema(value as Schema);
     }
@@ -22,7 +22,7 @@ const updateSchema = (schema: Schema): Schema => {
     if (key === '$schema' && value === 'https://json-schema.org/draft-07/schema') {
       schema[key] = 'http://json-schema.org/draft-07/schema#';
     }
-  });
+  }
 
   return schema;
 };
@@ -41,9 +41,8 @@ const validationComposeSchema = (content: object) => {
   const valid = validate(content);
 
   if (!valid && Array.isArray(validate.errors)) {
-    validate.errors.forEach((error: ErrorObject) => {
-      throw new ComposeValidationError(error);
-    });
+    // TODO: Get all errors
+    throw new ComposeValidationError(validate.errors[0]);
   }
 };
 

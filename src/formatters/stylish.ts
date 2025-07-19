@@ -10,15 +10,13 @@ export default function stylishFormatter(results: LintResult[]): string {
   let fixableErrorCount = 0;
   let fixableWarningCount = 0;
 
-  results.forEach((result) => {
-    if (result.messages.length === 0) {
-      return;
-    }
+  for (const result of results) {
+    if (result.messages.length === 0) continue;
 
     const filePath = pc.underline(resolve(result.filePath));
     output += `\n${filePath}\n`;
 
-    result.messages.forEach((message) => {
+    for (const message of result.messages) {
       const { type } = message;
       const color = type === 'error' ? pc.red : pc.yellow;
 
@@ -45,8 +43,8 @@ export default function stylishFormatter(results: LintResult[]): string {
           fixableWarningCount += 1;
         }
       }
-    });
-  });
+    }
+  }
 
   const totalProblems = errorCount + warningCount;
   if (totalProblems > 0) {

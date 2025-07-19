@@ -40,18 +40,18 @@ export default class NoUnboundPortInterfacesRule implements Rule {
 
     if (!isMap(services)) return [];
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!isMap(service) || !service.has('ports')) return;
+      if (!isMap(service) || !service.has('ports')) continue;
 
       const ports = service.get('ports');
-      if (!isSeq(ports)) return;
+      if (!isSeq(ports)) continue;
 
-      ports.items.forEach((portItem) => {
+      for (const portItem of ports.items) {
         const publishedInterface = extractPublishedPortInterfaceValue(portItem);
 
         if (publishedInterface === '') {
@@ -75,8 +75,9 @@ export default class NoUnboundPortInterfacesRule implements Rule {
             },
           });
         }
-      });
-    });
+      }
+    }
+
     return errors;
   }
 }

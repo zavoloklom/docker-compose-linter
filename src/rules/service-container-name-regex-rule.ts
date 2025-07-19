@@ -42,13 +42,13 @@ export default class ServiceContainerNameRegexRule implements Rule {
 
     if (!isMap(services)) return [];
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!isMap(service) || !service.has('container_name')) return;
+      if (!isMap(service) || !service.has('container_name')) continue;
 
       const containerName = String(service.get('container_name'));
 
@@ -70,7 +70,7 @@ export default class ServiceContainerNameRegexRule implements Rule {
           },
         });
       }
-    });
+    }
 
     return errors;
   }

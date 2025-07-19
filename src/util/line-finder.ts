@@ -103,18 +103,18 @@ const findLineNumberForService = (
 
   if (isSeq(keyNode)) {
     let line = 1;
-    keyNode.items.forEach((item) => {
+    for (const item of keyNode.items) {
       if (isScalar(item) && String(item.value) === String(value) && item.range) {
         const [start] = item.range;
         line = content.slice(0, start).split('\n').length;
       }
-    });
+    }
     return line;
   }
 
   if (isMap(keyNode)) {
     let line = 1;
-    keyNode.items.forEach((item) => {
+    for (const item of keyNode.items) {
       const keyItem = item.key;
       const valueItem = item.value;
 
@@ -122,7 +122,7 @@ const findLineNumberForService = (
         const [start] = valueItem.range;
         line = content.slice(0, start).split('\n').length;
       }
-    });
+    }
     return line;
   }
 

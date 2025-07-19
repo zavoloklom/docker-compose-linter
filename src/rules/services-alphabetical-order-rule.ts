@@ -35,14 +35,14 @@ export default class ServicesAlphabeticalOrderRule implements Rule {
   private static findMisplacedService(processedServices: string[], currentService: string): string | null {
     let misplacedBefore = '';
 
-    processedServices.forEach((previousService) => {
+    for (const processedService of processedServices) {
       if (
-        previousService.localeCompare(currentService) > 0 &&
-        (!misplacedBefore || previousService.localeCompare(misplacedBefore) < 0)
+        processedService.localeCompare(currentService) > 0 &&
+        (!misplacedBefore || processedService.localeCompare(misplacedBefore) < 0)
       ) {
-        misplacedBefore = previousService;
+        misplacedBefore = processedService;
       }
-    });
+    }
 
     return misplacedBefore;
   }
@@ -56,8 +56,8 @@ export default class ServicesAlphabeticalOrderRule implements Rule {
 
     const processedServices: string[] = [];
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const misplacedBefore = ServicesAlphabeticalOrderRule.findMisplacedService(processedServices, serviceName);
@@ -83,7 +83,7 @@ export default class ServicesAlphabeticalOrderRule implements Rule {
       }
 
       processedServices.push(serviceName);
-    });
+    }
 
     return errors;
   }
@@ -103,9 +103,9 @@ export default class ServicesAlphabeticalOrderRule implements Rule {
       return 0;
     });
 
-    sortedItems.forEach((item) => {
+    for (const item of sortedItems) {
       sortedServices.add(item);
-    });
+    }
 
     parsedDocument.set('services', sortedServices);
 

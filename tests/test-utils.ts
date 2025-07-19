@@ -12,9 +12,9 @@ const runRuleTest = (t: ExecutionContext, rule: Rule, context: LintContext, expe
 
   t.is(errors.length, expectedMessages.length, 'Number of errors should match the number of expected messages.');
 
-  expectedMessages.forEach((message, index) => {
-    t.is(errors[index].message, message);
-  });
+  for (const [index, expectedMessage] of expectedMessages.entries()) {
+    t.is(errors[index].message, expectedMessage);
+  }
 };
 
 export { normalizeYAML, runRuleTest };

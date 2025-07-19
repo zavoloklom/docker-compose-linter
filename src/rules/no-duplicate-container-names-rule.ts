@@ -49,8 +49,8 @@ export default class NoDuplicateContainerNamesRule implements Rule {
 
     const containerNames: Map<string, string> = new Map();
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
@@ -85,7 +85,7 @@ export default class NoDuplicateContainerNamesRule implements Rule {
           containerNames.set(containerName, serviceName);
         }
       }
-    });
+    }
 
     return errors;
   }

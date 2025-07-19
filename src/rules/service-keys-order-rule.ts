@@ -114,23 +114,23 @@ export default class ServiceKeysOrderRule implements Rule {
 
     if (!isMap(services)) return [];
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!isMap(service)) return;
+      if (!isMap(service)) continue;
 
       const keys = service.items.map((key) => String(key.key));
 
       const correctOrder = this.getCorrectOrder(keys);
       let lastSeenIndex = -1;
 
-      keys.forEach((key) => {
+      for (const key of keys) {
         const expectedIndex = correctOrder.indexOf(key);
 
-        if (expectedIndex === -1) return;
+        if (expectedIndex === -1) continue;
 
         if (expectedIndex < lastSeenIndex) {
           const line = findLineNumberForService(parsedDocument, context.sourceCode, serviceName, key);
@@ -153,8 +153,8 @@ export default class ServiceKeysOrderRule implements Rule {
         }
 
         lastSeenIndex = expectedIndex;
-      });
-    });
+      }
+    }
 
     return errors;
   }
@@ -165,37 +165,37 @@ export default class ServiceKeysOrderRule implements Rule {
 
     if (!isMap(services)) return content;
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!isMap(service)) return;
+      if (!isMap(service)) continue;
 
       const keys = service.items.map((item) => (isScalar(item.key) ? String(item.key.value) : '')).filter(Boolean);
 
       const correctOrder = this.getCorrectOrder(keys);
       const orderedService = new YAMLMap<unknown, unknown>();
 
-      correctOrder.forEach((key) => {
+      for (const key of correctOrder) {
         const item = service.items.find((node) => isScalar(node.key) && node.key.value === key);
         if (item) {
           orderedService.add(item);
         }
-      });
+      }
 
-      keys.forEach((key) => {
+      for (const key of keys) {
         if (!correctOrder.includes(key)) {
           const item = service.items.find((node) => isScalar(node.key) && node.key.value === key);
           if (item) {
             orderedService.add(item);
           }
         }
-      });
+      }
 
       services.set(serviceName, orderedService);
-    });
+    }
 
     return stringifyDocument(parsedDocument);
   }

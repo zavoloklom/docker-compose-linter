@@ -40,16 +40,16 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
 
     if (!isMap(services)) return [];
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!isMap(service) || !isSeq(service.get('ports'))) return;
+      if (!isMap(service) || !isSeq(service.get('ports'))) continue;
 
       const ports = service.get('ports');
-      if (!isSeq(ports)) return;
+      if (!isSeq(ports)) continue;
 
       const extractedPorts = ports.items.map((port) => extractPublishedPortValueWithProtocol(port).port);
       const sortedPorts = [...extractedPorts].sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
@@ -71,7 +71,7 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
           },
         });
       }
-    });
+    }
 
     return errors;
   }
@@ -83,13 +83,13 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
 
     if (!isMap(services)) return content;
 
-    services.items.forEach((serviceItem) => {
+    for (const serviceItem of services.items) {
       const service = serviceItem.value;
 
-      if (!isMap(service) || !isSeq(service.get('ports'))) return;
+      if (!isMap(service) || !isSeq(service.get('ports'))) continue;
 
       const ports = service.get('ports');
-      if (!isSeq(ports)) return;
+      if (!isSeq(ports)) continue;
 
       ports.items.sort((a, b) => {
         const valueA = extractPublishedPortValueWithProtocol(a).port;
@@ -97,7 +97,7 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
 
         return valueA.localeCompare(valueB, 'en', { numeric: true });
       });
-    });
+    }
 
     return stringifyDocument(parsedDocument);
   }

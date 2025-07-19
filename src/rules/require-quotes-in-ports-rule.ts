@@ -63,30 +63,26 @@ export default class RequireQuotesInPortsRule implements Rule {
   ) {
     if (!document || !isMap(document)) return;
 
-    document.items.forEach((item) => {
-      if (!isMap(item.value)) return;
+    const services = document.get('services');
+    if (!isMap(services)) return;
 
-      const serviceMap = item.value;
-      serviceMap.items.forEach((service) => {
-        if (!isMap(service.value)) return;
-
-        const nodes = service.value.items.find((node) => isScalar(node.key) && node.key.value === section);
-        if (nodes && isSeq(nodes.value)) {
-          nodes.value.items.forEach((node) => {
-            if (isScalar(node)) {
-              callback(service, node);
-            }
-          });
+    for (const serviceItem of services.items) {
+      if (!isMap(serviceItem.value)) continue;
+      const nodes = serviceItem.value.get(section);
+      if (!nodes || !isSeq(nodes)) continue;
+      for (const node of nodes.items) {
+        if (isScalar(node)) {
+          callback(serviceItem, node);
         }
-      });
-    });
+      }
+    }
   }
 
   public check(context: LintContext): RuleMessage[] {
     const errors: RuleMessage[] = [];
     const parsedDocument = parseYAML(context.sourceCode);
 
-    this.options.portsSections.forEach((section) => {
+    for (const section of this.options.portsSections) {
       RequireQuotesInPortsRule.extractValues(parsedDocument.contents, section, (service, port) => {
         if (port.type !== this.getQuoteType()) {
           errors.push({
@@ -113,7 +109,7 @@ export default class RequireQuotesInPortsRule implements Rule {
           });
         }
       });
-    });
+    }
 
     return errors;
   }
@@ -121,7 +117,7 @@ export default class RequireQuotesInPortsRule implements Rule {
   public fix(content: string): string {
     const parsedDocument = parseYAML(content);
 
-    this.options.portsSections.forEach((section) => {
+    for (const section of this.options.portsSections) {
       RequireQuotesInPortsRule.extractValues(parsedDocument.contents, section, (service, port) => {
         if (port.type !== this.getQuoteType()) {
           const newPort = new Scalar(String(port.value));
@@ -129,7 +125,7 @@ export default class RequireQuotesInPortsRule implements Rule {
           Object.assign(port, newPort);
         }
       });
-    });
+    }
 
     return stringifyDocument(parsedDocument);
   }
