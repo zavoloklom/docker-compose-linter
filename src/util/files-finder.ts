@@ -22,7 +22,7 @@ const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: 
   logger.debug('UTIL', `Paths to exclude: ${exclude.toString()}`);
 
   // Regular expression to match [compose*.yml, compose*.yaml, docker-compose*.yml, docker-compose*.yaml] files
-  const dockerComposePattern = /^(docker-)?compose.*\.ya?ml$/u;
+  const dockerComposePattern = /^(?:docker-)?compose.*\.ya?ml$/u;
 
   paths.forEach((fileOrDirectory) => {
     if (!fs.existsSync(fileOrDirectory)) {

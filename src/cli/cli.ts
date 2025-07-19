@@ -133,6 +133,7 @@ const main = async () => {
   if (cliArguments.outputFile) {
     writeFileSync(cliArguments.outputFile, formattedResults);
   } else {
+    // eslint-disable-next-line no-console
     console.log(formattedResults);
   }
 
@@ -153,6 +154,7 @@ const main = async () => {
 
 // eslint-disable-next-line unicorn/prefer-top-level-await
 main().catch((error: unknown) => {
+  // eslint-disable-next-line no-console
   console.error(error);
   process.exit(1);
 });

@@ -1,4 +1,4 @@
-/* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable sonarjs/cognitive-complexity, no-console */
 
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -19,32 +19,32 @@ const validateDocumentation = async (ruleDefinition: RuleDefinition) => {
   try {
     const content = await readFile(documentFilePath, 'utf8');
 
-    const ruleNameMatch = /- \*\*Rule Name:\*\* (.+)/u.exec(content);
-    if (!ruleNameMatch?.[1].trim()) {
+    const ruleNameMatch = /- \*\*Rule Name:\*\* \S+/u.test(content);
+    if (!ruleNameMatch) {
       console.warn(`Rule Name is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const typeMatch = /- \*\*Type:\*\* (.+)/u.exec(content);
-    if (!typeMatch?.[1].trim()) {
+    const typeMatch = /- \*\*Type:\*\* \S+/u.test(content);
+    if (!typeMatch) {
       console.warn(`Type is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const categoryMatch = /- \*\*Category:\*\* (.+)/u.exec(content);
-    if (!categoryMatch?.[1].trim()) {
+    const categoryMatch = /- \*\*Category:\*\* \S+/u.test(content);
+    if (!categoryMatch) {
       console.warn(`Category is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const severityMatch = /- \*\*Severity:\*\* (.+)/u.exec(content);
-    if (!severityMatch?.[1].trim()) {
+    const severityMatch = /- \*\*Severity:\*\* \S+/u.test(content);
+    if (!severityMatch) {
       console.warn(`Severity is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const fixableMatch = /- \*\*Fixable:\*\* (.+)/u.exec(content);
-    if (!fixableMatch?.[1].trim()) {
+    const fixableMatch = /- \*\*Fixable:\*\* \S+/u.test(content);
+    if (!fixableMatch) {
       console.warn(`Fixable is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
@@ -53,21 +53,21 @@ const validateDocumentation = async (ruleDefinition: RuleDefinition) => {
     const MIN_EXAMPLE_LENGTH = 20;
     const MIN_DETAILS_LENGTH = 200;
 
-    const problematicExampleMatch = /## Problematic Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/iu.exec(content);
-    const correctExampleMatch = /## Correct Code Example[^\n]*\n+```yaml\n([\s\S]*?)```/iu.exec(content);
+    const problematicExampleMatch = /## Problematic Code Example[^\n]*\n+```yaml\n(?<example>[\s\S]*?)```/iu.exec(
+      content,
+    );
+    const correctExampleMatch = /## Correct Code Example[^\n]*\n+```yaml\n(?<example>[\s\S]*?)```/iu.exec(content);
 
     const hasProblematicExample =
-      problematicExampleMatch && problematicExampleMatch[1].trim().length >= MIN_EXAMPLE_LENGTH;
-    const hasCorrectExample = correctExampleMatch && correctExampleMatch[1].trim().length >= MIN_EXAMPLE_LENGTH;
+      problematicExampleMatch?.groups && problematicExampleMatch.groups.example.trim().length >= MIN_EXAMPLE_LENGTH;
+    const hasCorrectExample =
+      correctExampleMatch?.groups && correctExampleMatch.groups.example.trim().length >= MIN_EXAMPLE_LENGTH;
 
-    const detailsMatch = /## Rule Details and Rationale\n\n([^#]+)/u.exec(content);
-    const detailsContent = detailsMatch ? detailsMatch[1].trim() : '';
-    const hasDetails = detailsContent.length >= MIN_DETAILS_LENGTH;
+    const detailsMatch = /## Rule Details and Rationale\n\n(?<details>[^#]+)/u.exec(content);
+    const hasDetails = detailsMatch?.groups && detailsMatch.groups.details.trim().length >= MIN_DETAILS_LENGTH;
 
-    // eslint-disable-next-line require-unicode-regexp
-    const hasVersion = /## Version\n\n.*?\[v\d+\.\d+\.\d+]\(.*?\)/.test(content);
-    // eslint-disable-next-line require-unicode-regexp
-    const hasReferences = /## References\n\n- \[.*?]\(.*?\)/.test(content);
+    const hasVersion = /## Version\n\n.*?\[v\d+\.\d+\.\d+\]\(.*?\)/u.test(content);
+    const hasReferences = /## References\n\n- \[.*?\]\(.*?\)/u.test(content);
 
     if (ruleDefinition.hasOptions) {
       const hasOptionsSection = /## Options\n\n/u.test(content);

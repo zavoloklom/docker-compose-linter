@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import pc from 'picocolors';
 
 // Exported constants for log sources
