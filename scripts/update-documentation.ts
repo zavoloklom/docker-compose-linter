@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies, no-console */
 import * as changeCase from 'change-case';
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -36,28 +36,21 @@ const updateRulesReference = async (ruleDefinitionList: RuleDefinition[]) => {
 
     const categoryRegex =
       // eslint-disable-next-line sonarjs/slow-regex
-      /(## (Style|Security|Best Practice|Performance))([\s\S]*?)(\n\|.*?\|[\s\S]*?\n\|.*?\|[\s\S]*?)(?=\n##|$)/gu;
+      /(?<header>## (?<category>Style|Security|Best Practice|Performance))(?<description>[\s\S]*?)(?<table>\n\|.*?\|[\s\S]*?\n\|.*?\|[\s\S]*?)(?=\n##|$)/gu;
 
-    const updatedContent = existingContent.replaceAll(
-      categoryRegex,
-      (match, header: string, category: string, description: string) => {
-        console.log(`Updating category: ${category}`);
+    let updatedContent = existingContent;
+    for (const match of existingContent.matchAll(categoryRegex)) {
+      const { header, category, description } = match.groups ?? {};
+      if (!header || !category) continue;
+      console.log(`Updating category: ${category}`);
 
-        const categoryRules = ruleDefinitionList.filter(
-          (ruleDefinition) => ruleDefinition.category === changeCase.kebabCase(category),
-        );
-        console.log(`Found ${categoryRules.length} rules for category: ${category}`);
+      const rules = ruleDefinitionList.filter((rule) => rule.category === changeCase.kebabCase(category));
+      console.log(`Found ${rules.length} rules for category: ${category}`);
+      if (rules.length === 0) continue;
 
-        if (categoryRules.length === 0) {
-          return match;
-        }
-
-        const newTable = generateRulesTable(categoryRules);
-        const cleanDescription = description.trim();
-
-        return `${header}\n\n${cleanDescription}\n\n${newTable}`;
-      },
-    );
+      const replacement = [header, '', description.trim(), '', generateRulesTable(rules)].join('\n\n');
+      updatedContent = updatedContent.replace(match[0], replacement);
+    }
 
     console.log(`Writing updated content to: ${rulesFilePath}`);
     const formattedContent = await format(updatedContent, {

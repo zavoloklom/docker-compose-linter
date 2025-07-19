@@ -81,6 +81,7 @@ export default function rdjson(results: LintResult[]): string {
           value: message.rule,
           ...(message.meta?.url ? { url: message.meta.url } : {}),
         },
+        // eslint-disable-next-line camelcase
         original_output: JSON.stringify(message),
       };
 

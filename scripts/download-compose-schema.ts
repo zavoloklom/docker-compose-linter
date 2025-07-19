@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createWriteStream } from 'node:fs';
 import { get } from 'node:https';
 import { dirname, join } from 'node:path';

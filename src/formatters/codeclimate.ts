@@ -31,6 +31,7 @@ export default function codeclimateFormatter(results: LintResult[]): string {
   const issues = results.flatMap((result) => {
     return result.messages.map((message) => ({
       type: 'issue',
+      // eslint-disable-next-line camelcase
       check_name: message.rule,
       description: message.message,
       content: {

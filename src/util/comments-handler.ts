@@ -2,7 +2,6 @@ const startsWithDisableFileComment = (content: string): boolean => {
   // Split content into lines and process the first non-empty, non-YAML separator line
   const lines = content.split('\n').map((line) => line.trim());
   for (const line of lines) {
-    // eslint-disable-next-line no-continue
     if (line === '' || line === '---') continue;
     return line.startsWith('# dclint disable-file');
   }
@@ -15,11 +14,10 @@ const extractGlobalDisableRules = (content: string): Set<string> => {
   // Split content into lines and process the first non-empty, non-YAML separator line
   const lines = content.split('\n').map((line) => line.trim());
   for (const line of lines) {
-    // eslint-disable-next-line no-continue
     if (line === '' || line === '---') continue;
-    const disableMatch = /#\s*dclint\s+disable\s*(.*)/u.exec(line);
-    if (disableMatch) {
-      const rules = disableMatch[1].trim();
+    const disableMatch = /#\s*dclint\s+disable\s*(?<rules>.*)/u.exec(line);
+    if (disableMatch?.groups) {
+      const rules = disableMatch.groups.rules.trim();
 
       // If no specific rules are provided, disable all rules
       if (rules === '') {
@@ -44,10 +42,10 @@ const extractDisableLineRules = (content: string): Map<number, Set<string>> => {
     const isCommentLine = line.trim().startsWith('#');
     const lineNumber = isCommentLine ? index + 2 : index + 1;
 
-    const disableMatch = /#\s*dclint\s+disable-line\s*(.*)/u.exec(line);
-    if (!disableMatch) return;
+    const disableMatch = /#\s*dclint\s+disable-line\s*(?<rules>.*)/u.exec(line);
+    if (!disableMatch?.groups) return;
 
-    const rules = disableMatch[1].trim();
+    const rules = disableMatch.groups.rules.trim();
 
     if (!disableRulesPerLine.has(lineNumber)) {
       disableRulesPerLine.set(lineNumber, new Set());
