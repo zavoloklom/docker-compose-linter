@@ -24,7 +24,9 @@ const extractGlobalDisableRules = (content: string): Set<string> => {
         disableRules.add('*');
       } else {
         // Otherwise, disable specific rules mentioned
-        rules.split(/\s+/u).forEach((rule) => disableRules.add(rule));
+        for (const rule of rules.split(/\s+/u)) {
+          disableRules.add(rule);
+        }
       }
     }
     break;
@@ -37,13 +39,13 @@ const extractDisableLineRules = (content: string): Map<number, Set<string>> => {
   const disableRulesPerLine = new Map<number, Set<string>>();
   const lines = content.split('\n');
 
-  lines.forEach((line, index) => {
+  for (const [index, line] of lines.entries()) {
     // Check if the line is a comment
     const isCommentLine = line.trim().startsWith('#');
     const lineNumber = isCommentLine ? index + 2 : index + 1;
 
     const disableMatch = /#\s*dclint\s+disable-line\s*(?<rules>.*)/u.exec(line);
-    if (!disableMatch?.groups) return;
+    if (!disableMatch?.groups) continue;
 
     const rules = disableMatch.groups.rules.trim();
 
@@ -55,9 +57,11 @@ const extractDisableLineRules = (content: string): Map<number, Set<string>> => {
     if (rules === '') {
       disableRulesPerLine.get(lineNumber)?.add('*');
     } else {
-      rules.split(/\s+/u).forEach((rule) => disableRulesPerLine.get(lineNumber)?.add(rule));
+      for (const rule of rules.split(/\s+/u)) {
+        disableRulesPerLine.get(lineNumber)?.add(rule);
+      }
     }
-  });
+  }
 
   return disableRulesPerLine;
 };

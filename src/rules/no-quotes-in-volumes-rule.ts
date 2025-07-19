@@ -35,23 +35,20 @@ export default class NoQuotesInVolumesRule implements Rule {
   private static extractVolumes(document: ParsedNode | null, callback: (volume: Scalar) => void) {
     if (!document || !isMap(document)) return;
 
-    document.items.forEach((item) => {
-      if (!isMap(item.value)) return;
+    const services = document.get('services');
+    if (!isMap(services)) return;
 
-      const serviceMap = item.value;
-      serviceMap.items.forEach((service) => {
-        if (!isMap(service.value)) return;
-
-        const volumes = service.value.items.find((node) => isScalar(node.key) && node.key.value === 'volumes');
-        if (!volumes || !isSeq(volumes.value)) return;
-
-        volumes.value.items.forEach((volume) => {
-          if (isScalar(volume)) {
-            callback(volume);
-          }
-        });
-      });
-    });
+    for (const serviceItem of services.items) {
+      if (!isMap(serviceItem.value)) continue;
+      const volumes = serviceItem.value.get('volumes');
+      if (!volumes || !isSeq(volumes)) continue;
+      for (const volume of volumes.items) {
+        // TODO: Handle non-scalar volumes
+        if (isScalar(volume)) {
+          callback(volume);
+        }
+      }
+    }
   }
 
   public check(context: LintContext): RuleMessage[] {

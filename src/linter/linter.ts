@@ -38,9 +38,9 @@ class DCLinter {
     const globalDisableRules = extractGlobalDisableRules(context.sourceCode);
     const disableLineRules = extractDisableLineRules(context.sourceCode);
 
-    this.rules.forEach((rule) => {
+    for (const rule of this.rules) {
       // Ignore rule from comments
-      if (globalDisableRules.has('*') || globalDisableRules.has(rule.name)) return;
+      if (globalDisableRules.has('*') || globalDisableRules.has(rule.name)) continue;
 
       const ruleMessages = rule.check(context).filter((message) => {
         const disableRulesForLine = disableLineRules.get(message.line);
@@ -52,7 +52,7 @@ class DCLinter {
         return !disableRulesForLine || !disableRulesForLine.has(rule.name);
       });
       messages.push(...ruleMessages);
-    });
+    }
 
     return messages;
   }
@@ -61,14 +61,14 @@ class DCLinter {
     let fixedContent = content;
     const globalDisableRules = extractGlobalDisableRules(fixedContent);
 
-    this.rules.forEach((rule) => {
+    for (const rule of this.rules) {
       // Ignore rule from comments
-      if (globalDisableRules.has('*') || globalDisableRules.has(rule.name)) return;
+      if (globalDisableRules.has('*') || globalDisableRules.has(rule.name)) continue;
 
       if (typeof rule.fix === 'function') {
         fixedContent = rule.fix(fixedContent);
       }
-    });
+    }
 
     return fixedContent;
   }
@@ -82,9 +82,8 @@ class DCLinter {
       const parsedDocument = parseDocument(context.sourceCode, { merge: true });
 
       if (parsedDocument.errors && parsedDocument.errors.length > 0) {
-        parsedDocument.errors.forEach((error) => {
-          throw error;
-        });
+        // TODO: Throw all errors
+        throw parsedDocument.errors[0];
       }
 
       // Use Record<string, unknown> to type the parsed content safely
@@ -147,7 +146,7 @@ class DCLinter {
     const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
     this.logger.debug(LOG_SOURCE.LINTER, `Compose files for linting: ${files.toString()}`);
 
-    files.forEach((file) => {
+    for (const file of files) {
       this.logger.debug(LOG_SOURCE.LINTER, `Linting file: ${file}`);
 
       const { context, messages } = DCLinter.validateFile(file);
@@ -169,9 +168,10 @@ class DCLinter {
         fixableErrorCount,
         fixableWarningCount,
       });
-    });
+    }
 
     this.logger.debug(LOG_SOURCE.LINTER, 'Linting result:', JSON.stringify(lintResults));
+
     return lintResults;
   }
 
@@ -179,13 +179,15 @@ class DCLinter {
     const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
     this.logger.debug(LOG_SOURCE.LINTER, `Compose files for fixing: ${files.toString()}`);
 
-    files.forEach((file) => {
+    for (const file of files) {
       this.logger.debug(LOG_SOURCE.LINTER, `Fixing file: ${file}`);
 
       const { context, messages } = DCLinter.validateFile(file);
       if (!context) {
         this.logger.debug(LOG_SOURCE.LINTER, `Skipping file due to validation errors: ${file}`);
-        messages.forEach((message) => this.logger.debug(LOG_SOURCE.LINTER, JSON.stringify(message)));
+        for (const message of messages) {
+          this.logger.debug(LOG_SOURCE.LINTER, JSON.stringify(message));
+        }
         return;
       }
 
@@ -198,7 +200,7 @@ class DCLinter {
         fs.writeFileSync(file, content, 'utf8');
         this.logger.debug(LOG_SOURCE.LINTER, `File fixed: ${file}`);
       }
-    });
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this

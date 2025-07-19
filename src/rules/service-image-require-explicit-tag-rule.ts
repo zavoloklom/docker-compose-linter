@@ -64,13 +64,13 @@ export default class ServiceImageRequireExplicitTagRule implements Rule {
 
     if (!isMap(services)) return [];
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!isMap(service) || !service.has('image')) return;
+      if (!isMap(service) || !service.has('image')) continue;
 
       const image = String(service.get('image'));
 
@@ -92,7 +92,7 @@ export default class ServiceImageRequireExplicitTagRule implements Rule {
           },
         });
       }
-    });
+    }
 
     return errors;
   }

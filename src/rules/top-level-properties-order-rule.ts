@@ -85,7 +85,7 @@ export default class TopLevelPropertiesOrderRule implements Rule {
 
     let lastSeenIndex = -1;
 
-    topLevelKeys.forEach((key) => {
+    for (const key of topLevelKeys) {
       const expectedIndex = correctOrder.indexOf(key);
 
       if (expectedIndex === -1 || expectedIndex < lastSeenIndex) {
@@ -108,7 +108,7 @@ export default class TopLevelPropertiesOrderRule implements Rule {
       } else {
         lastSeenIndex = expectedIndex;
       }
-    });
+    }
 
     return errors;
   }
@@ -131,12 +131,12 @@ export default class TopLevelPropertiesOrderRule implements Rule {
 
     const reorderedMap = new YAMLMap<unknown, unknown>();
 
-    correctOrder.forEach((key) => {
+    for (const key of correctOrder) {
       const item = contents.items.find((node) => isScalar(node.key) && String(node.key.value) === key);
       if (item) {
         reorderedMap.items.push(item);
       }
-    });
+    }
 
     parsedDocument.contents = reorderedMap as unknown as typeof parsedDocument.contents;
 

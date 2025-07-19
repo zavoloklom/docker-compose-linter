@@ -56,13 +56,13 @@ export default class NoBuildAndImageRule implements Rule {
 
     if (!isMap(services)) return [];
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!isMap(service)) return;
+      if (!isMap(service)) continue;
 
       const hasBuild = service.has('build');
       const hasImage = service.has('image');
@@ -85,7 +85,7 @@ export default class NoBuildAndImageRule implements Rule {
           },
         });
       }
-    });
+    }
 
     return errors;
   }

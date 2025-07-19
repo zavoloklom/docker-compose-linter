@@ -51,16 +51,16 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements Rule {
 
     if (!isMap(services)) return [];
 
-    services.items.forEach((serviceItem) => {
-      if (!isScalar(serviceItem.key)) return;
+    for (const serviceItem of services.items) {
+      if (!isScalar(serviceItem.key)) continue;
 
       const serviceName = String(serviceItem.key.value);
       const service = serviceItem.value;
 
-      if (!service || !isMap(service)) return;
+      if (!service || !isMap(service)) continue;
 
       const dependsOn = service.get('depends_on');
-      if (!isSeq(dependsOn) && !isMap(dependsOn)) return;
+      if (!isSeq(dependsOn) && !isMap(dependsOn)) continue;
 
       const extractedDependencies = dependsOn.items.map((item) =>
         ServiceDependenciesAlphabeticalOrderRule.extractServiceName(item),
@@ -84,7 +84,7 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements Rule {
           },
         });
       }
-    });
+    }
 
     return errors;
   }
@@ -96,19 +96,19 @@ export default class ServiceDependenciesAlphabeticalOrderRule implements Rule {
 
     if (!isMap(services)) return content;
 
-    services.items.forEach((serviceItem) => {
+    for (const serviceItem of services.items) {
       const service = serviceItem.value;
-      if (!service || !isMap(service)) return;
+      if (!service || !isMap(service)) continue;
 
       const dependsOn = service.get('depends_on');
-      if (!isSeq(dependsOn) && !isMap(dependsOn)) return;
+      if (!isSeq(dependsOn) && !isMap(dependsOn)) continue;
 
       dependsOn.items.sort((a, b) => {
         const valueA = ServiceDependenciesAlphabeticalOrderRule.extractServiceName(a);
         const valueB = ServiceDependenciesAlphabeticalOrderRule.extractServiceName(b);
         return valueA.localeCompare(valueB);
       });
-    });
+    }
 
     return stringifyDocument(parsedDocument);
   }

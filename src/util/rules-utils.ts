@@ -8,10 +8,10 @@ const loadLintRules = (config: Config): Rule[] => {
   const logger = Logger.init();
   const activeRules: Rule[] = [];
 
-  Object.values(Rules).forEach((RuleClass) => {
+  for (const RuleClass of Object.values(Rules)) {
     if (typeof RuleClass !== 'function') {
       logger.error(`Error loading rule: ${String(RuleClass)}`);
-      return;
+      continue;
     }
 
     try {
@@ -43,7 +43,7 @@ const loadLintRules = (config: Config): Rule[] => {
     } catch (error) {
       logger.error(`Error loading rule: ${RuleClass?.name}`, error);
     }
-  });
+  }
 
   return activeRules;
 };
