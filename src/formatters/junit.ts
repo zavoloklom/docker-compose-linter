@@ -1,23 +1,6 @@
-import type { LintResult } from '../linter/linter.types';
+import { escapeXml } from '../util/escape-xml';
 
-const escapeXml = (unsafe: string): string => {
-  return unsafe.replaceAll(/[<>&'"]/gu, (character) => {
-    switch (character) {
-      case '<':
-        return '&lt;';
-      case '>':
-        return '&gt;';
-      case '&':
-        return '&amp;';
-      case '"':
-        return '&quot;';
-      case "'":
-        return '&apos;';
-      default:
-        return character;
-    }
-  });
-};
+import type { LintResult } from '../linter/linter.types';
 
 const junitFormatter = (results: LintResult[]): string => {
   const testSuites = results
