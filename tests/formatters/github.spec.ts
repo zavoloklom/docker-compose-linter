@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import githubFormatter from '../../src/formatters/github';
+import { githubFormatter } from '../../src/formatters/github';
 
 import type { LintResult } from '../../src/linter/linter.types';
 

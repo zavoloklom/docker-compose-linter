@@ -1,152 +1,141 @@
-/* eslint-disable max-classes-per-file, class-methods-use-this */
-
 import test from 'ava';
 import esmock from 'esmock';
 
-import type { Config } from '../../src/config/config.types';
-import type { Rule, RuleCategory, RuleMessage, RuleSeverity, RuleType } from '../../src/rules/rules.types';
+import * as Rules from '../../src/rules/index';
+import { RequireQuotesInPortsRule } from '../../src/rules/require-quotes-in-ports-rule';
+import { loadLintRules } from '../../src/util/rules-utils';
 
-class MockRule implements Rule {
-  name = 'mock-rule';
+import type { Config, ConfigRule } from '../../src/config/config.types';
+import type { Rule, RuleName } from '../../src/rules/rules.types';
 
-  type: RuleType = 'warning';
+// Grab all your exported rule classes
+const ruleClasses = Object.values(Rules).filter((rule) => typeof rule === 'function') as Array<
+  new (...arguments_: Rule[]) => Rule
+>;
+const ruleNames = ruleClasses.map((cls) => (cls as unknown as Rule).name).sort((a, b) => a.localeCompare(b));
 
-  category: RuleCategory = 'style';
-
-  severity: RuleSeverity = 'minor';
-
-  fixable = true;
-
-  meta = { description: 'Mock rule description', url: 'https://example.com' };
-
-  check(content: object, type?: RuleType): RuleMessage[] {
-    return [];
-  }
-
-  fix(content: string): string {
-    return '';
-  }
-
-  getMessage(details?: object): string {
-    return '';
-  }
-}
-
-class AnotherMockRule implements Rule {
-  name = 'another-mock-rule';
-
-  type: RuleType = 'error';
-
-  category: RuleCategory = 'security';
-
-  severity: RuleSeverity = 'critical';
-
-  fixable = false;
-
-  meta = { description: 'Another mock rule description', url: 'https://example.com/another' };
-
-  options: { customOption: boolean };
-
-  check(content: object, type?: RuleType): RuleMessage[] {
-    return [];
-  }
-
-  getMessage(details?: object): string {
-    return '';
-  }
-
-  constructor(options?: { customOption: boolean }) {
-    const defaultOptions = {
-      customOption: false,
-    };
-    this.options = { ...defaultOptions, ...options };
-  }
-}
+const makeConfig = (overrides: { [ruleName: RuleName]: ConfigRule }): Config => ({
+  rules: overrides,
+  quiet: false,
+  debug: false,
+  exclude: [],
+});
 
 // @ts-ignore TS2349
-test('loadLintRules - should load and configure rules based on config', async (t) => {
-  // Mock configuration
-  const mockConfig: Config = {
-    rules: {
-      'mock-rule': [2],
-      'another-mock-rule': [1, { customOption: true }],
-    },
-    quiet: false,
-    debug: false,
-    exclude: [],
+test('empty config loads all rules', (t) => {
+  const config = makeConfig({});
+  const active = loadLintRules(config);
+  const activeNames = active.map((rule) => rule.name).sort((a, b) => a.localeCompare(b));
+
+  t.deepEqual(activeNames, ruleNames);
+});
+
+// @ts-ignore TS2349
+test('disabling one rule excludes it', (t) => {
+  // eslint-disable-next-line prefer-destructuring
+  const disabled = ruleNames[0];
+  const config = makeConfig({ [disabled]: 0 });
+  const active = loadLintRules(config);
+  const activeNames = active.map((rule) => rule.name);
+
+  t.is(active.length, ruleClasses.length - 1, 'should load all but the disabled rule');
+  t.false(activeNames.includes(disabled));
+});
+
+// @ts-ignore TS2349
+test('single-level config sets target to warning and loads all rules', (t) => {
+  // eslint-disable-next-line prefer-destructuring
+  const target = ruleNames[1];
+  const config = makeConfig({ [target]: 1 });
+  const active = loadLintRules(config);
+
+  t.is(active.length, ruleClasses.length, 'should load every rule');
+
+  const targetInst = active.find((rule) => rule.name === target);
+  t.truthy(targetInst);
+  t.is(targetInst!.type, 'warning', 'target rule type should be warning');
+
+  // Other rules unchanged (not warning if originally different)
+  for (const inst of active) {
+    if (inst.name === target) continue;
+    if (inst.type === 'warning') continue; // Skip if default was warning
+    t.not(inst.name, target, `rule ${inst.name} should retain its original type`);
+  }
+});
+
+// @ts-ignore TS2349
+test('array config sets error level and passes options', (t) => {
+  const target = RequireQuotesInPortsRule.name;
+  const options = { quoteType: 'single' };
+  const config = makeConfig({ [target]: [2, options] });
+  const active = loadLintRules(config);
+  const expectedOptions = {
+    portsSections: ['ports', 'expose'],
+    quoteType: 'single',
   };
 
-  // Mock logger
-  const mockLogger = {
+  // All rules should load
+  t.is(active.length, ruleClasses.length, 'should load every rule');
+
+  // Target rule should have error level and correct options
+  const instance = active.find((rule) => rule.name === target) as Rule;
+  t.truthy(instance, 'target rule should be present');
+  t.is(instance.type, 'error', 'target rule type should be error');
+  t.deepEqual(instance.options, expectedOptions, 'target rule options should be passed through');
+});
+
+// @ts-ignore TS2349
+test('non-function export logs error and skips', async (t) => {
+  let loggedMessage = '';
+  const fakeLogger = {
     init: () => ({
-      error: () => {},
+      error: (message: string) => {
+        loggedMessage = message;
+      },
     }),
   };
 
   // Mock `Rules` module and `Logger` dependency
-  const { loadLintRules }: { loadLintRules: (config: Config) => Promise<Rule[]> } = await esmock(
+  const stubRules = { __esModule: true, NotARule: { toString: () => 'NotARule' } };
+  const { loadLintRules: stubbedLoader }: { loadLintRules: (config: Config) => Promise<Rule[]> } = await esmock(
     '../../src/util/rules-utils',
     {
-      '../../src/util/logger': { Logger: mockLogger },
-      '../../src/rules/index': { default: { MockRule, AnotherMockRule } },
+      '../../src/util/logger': { Logger: fakeLogger },
+      '../../src/rules/index': stubRules,
     },
   );
 
-  const rules = await loadLintRules(mockConfig);
+  const active = await stubbedLoader(makeConfig({}));
 
-  t.is(rules.length, 2);
-
-  const [rule1, rule2] = rules;
-
-  t.is(rule1.name, 'mock-rule');
-  t.is(rule1.type, 'error');
-  t.is(rule1.category, 'style');
-  t.true(rule1.fixable);
-
-  t.is(rule2.name, 'another-mock-rule');
-  t.is(rule2.type, 'warning');
-  t.is(rule2.category, 'security');
-  t.false(rule2.fixable);
-  // @ts-expect-error
-  t.truthy(rule2.options?.customOption);
+  t.is(active.length, ruleClasses.length, 'Wrong rule should not skip rule loading');
+  t.is(loggedMessage, 'Error loading rule: [object Object]');
 });
 
 // @ts-ignore TS2349
-test('loadLintRules - should log error for invalid rules', async (t) => {
-  const mockConfig: Config = {
-    rules: {},
-    quiet: false,
-    debug: false,
-    exclude: [],
-  };
-
-  // Mock Logger
-  const loggerError = [];
-  const mockLogger = {
+test('constructor throws logs error and skips', async (t) => {
+  const loggerError: string[] = [];
+  const fakeLogger = {
     init: () => ({
-      error: (message: string) => loggerError.push(message),
-      info: () => {},
-      warn: () => {},
-      debug: () => {},
+      error: (message: string, error: Error) => loggerError.push(message),
     }),
   };
 
-  // Mock `Rules` module with an invalid rule
-  const { loadLintRules }: { loadLintRules: (config: Config) => Promise<Rule[]> } = await esmock(
+  class ThrowingRule {
+    static readonly name = 'ThrowingRule';
+    constructor() {
+      throw new Error('broken');
+    }
+  }
+  const { loadLintRules: stubLoader }: { loadLintRules: (config: Config) => Promise<Rule[]> } = await esmock(
     '../../src/util/rules-utils',
     {
-      '../../src/util/logger': { Logger: mockLogger },
-      '../../src/rules/index': {
-        default: {
-          // Invalid rule without required structure
-          InvalidRule: 'test',
-        },
-      },
+      '../../src/util/logger': { Logger: fakeLogger },
+      '../../src/rules/index': { ThrowingRule },
     },
   );
 
-  const rules = await loadLintRules(mockConfig);
+  const active = await stubLoader(makeConfig({}));
 
-  t.is(rules.length, 0);
-  t.is(loggerError.length, 2);
+  t.is(active.length, ruleClasses.length, 'Constructor failure should not skip rule loading');
+  t.is(loggerError[0], 'Error loading rule: ThrowingRule');
 });

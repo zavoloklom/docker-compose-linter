@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import ServiceDependenciesAlphabeticalOrderRule from '../../src/rules/service-dependencies-alphabetical-order-rule';
+import { ServiceDependenciesAlphabeticalOrderRule } from '../../src/rules/service-dependencies-alphabetical-order-rule';
 import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

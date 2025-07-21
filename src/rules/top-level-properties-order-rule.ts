@@ -6,7 +6,7 @@ import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export interface TopLevelPropertiesOrderRuleInputOptions {
+interface TopLevelPropertiesOrderRuleInputOptions {
   customOrder?: TopLevelKeys[];
 }
 
@@ -14,7 +14,7 @@ interface TopLevelPropertiesOrderRuleOptions {
   customOrder: TopLevelKeys[];
 }
 
-export enum TopLevelKeys {
+enum TopLevelKeys {
   XProperties = 'x-properties',
   Version = 'version',
   Name = 'name',
@@ -26,7 +26,7 @@ export enum TopLevelKeys {
   Configs = 'configs',
 }
 
-export default class TopLevelPropertiesOrderRule implements Rule {
+class TopLevelPropertiesOrderRule implements Rule {
   static readonly name = 'top-level-properties-order';
 
   // eslint-disable-next-line class-methods-use-this
@@ -143,3 +143,5 @@ export default class TopLevelPropertiesOrderRule implements Rule {
     return stringifyDocument(parsedDocument);
   }
 }
+
+export { type TopLevelPropertiesOrderRuleInputOptions, TopLevelKeys, TopLevelPropertiesOrderRule };

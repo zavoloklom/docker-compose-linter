@@ -1,8 +1,8 @@
 import { generateFingerprint } from '../util/generate-fingerprint';
 
-import type { LintResult } from '../linter/linter.types';
+import type { FormatterFunction } from './formatter.types';
 
-export default function codeclimateFormatter(results: LintResult[]): string {
+const codeclimateFormatter: FormatterFunction = (results) => {
   const hashes = new Set<string>();
 
   const issues = results.flatMap((result) => {
@@ -41,4 +41,6 @@ export default function codeclimateFormatter(results: LintResult[]): string {
   });
 
   return JSON.stringify(issues);
-}
+};
+
+export { codeclimateFormatter };

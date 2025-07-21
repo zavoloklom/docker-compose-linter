@@ -1,7 +1,7 @@
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export default class RequireProjectNameFieldRule implements Rule {
+class RequireProjectNameFieldRule implements Rule {
   static readonly name = 'require-project-name-field';
 
   // eslint-disable-next-line class-methods-use-this
@@ -48,3 +48,5 @@ export default class RequireProjectNameFieldRule implements Rule {
     return errors;
   }
 }
+
+export { RequireProjectNameFieldRule };

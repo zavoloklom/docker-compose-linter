@@ -40,4 +40,5 @@ const rollup = (outDirectory, declaration = false, minify = false) => {
   return { plugins };
 };
 
+// eslint-disable-next-line import/no-default-export
 export default rollup;

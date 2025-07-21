@@ -6,7 +6,7 @@ import { parseYAML } from '../util/yaml-utils';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export interface NoBuildAndImageRuleInputOptions {
+interface NoBuildAndImageRuleInputOptions {
   checkPullPolicy?: boolean;
 }
 
@@ -14,7 +14,7 @@ interface NoBuildAndImageRuleOptions {
   checkPullPolicy: boolean;
 }
 
-export default class NoBuildAndImageRule implements Rule {
+class NoBuildAndImageRule implements Rule {
   static readonly name = 'no-build-and-image';
 
   // eslint-disable-next-line class-methods-use-this
@@ -90,3 +90,5 @@ export default class NoBuildAndImageRule implements Rule {
     return errors;
   }
 }
+
+export { type NoBuildAndImageRuleInputOptions, NoBuildAndImageRule };

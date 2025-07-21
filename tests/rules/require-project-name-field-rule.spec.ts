@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import RequireProjectNameFieldRule from '../../src/rules/require-project-name-field-rule';
+import { RequireProjectNameFieldRule } from '../../src/rules/require-project-name-field-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

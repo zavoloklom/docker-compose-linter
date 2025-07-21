@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import codeclimateFormatter from '../../src/formatters/codeclimate';
+import { codeclimateFormatter } from '../../src/formatters/codeclimate';
 
 import type { LintResult } from '../../src/linter/linter.types';
 

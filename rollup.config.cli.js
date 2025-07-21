@@ -5,6 +5,7 @@ import baseConfig from './rollup.config.base.js';
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const dependencies = Object.keys(packageJson.dependencies || {});
 
+// eslint-disable-next-line import/no-default-export
 export default {
   ...baseConfig('bin', false, false),
   input: 'src/cli/cli.ts',

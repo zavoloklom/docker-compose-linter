@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import RequireQuotesInPortsRule from '../../src/rules/require-quotes-in-ports-rule';
+import { RequireQuotesInPortsRule } from '../../src/rules/require-quotes-in-ports-rule';
 import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

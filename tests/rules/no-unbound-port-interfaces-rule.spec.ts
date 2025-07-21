@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import NoUnboundPortInterfacesRule from '../../src/rules/no-unbound-port-interfaces-rule';
+import { NoUnboundPortInterfacesRule } from '../../src/rules/no-unbound-port-interfaces-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

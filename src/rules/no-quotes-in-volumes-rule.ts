@@ -6,7 +6,7 @@ import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export default class NoQuotesInVolumesRule implements Rule {
+class NoQuotesInVolumesRule implements Rule {
   static readonly name = 'no-quotes-in-volumes';
 
   // eslint-disable-next-line class-methods-use-this
@@ -90,3 +90,5 @@ export default class NoQuotesInVolumesRule implements Rule {
     return stringifyDocument(parsedDocument);
   }
 }
+
+export { NoQuotesInVolumesRule };

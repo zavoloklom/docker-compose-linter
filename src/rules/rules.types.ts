@@ -1,6 +1,6 @@
-import rules from './index';
+import * as Rules from './index';
 
-type RuleClass = (typeof rules)[keyof typeof rules];
+type RuleClass = (typeof Rules)[keyof typeof Rules];
 type RuleInstance = InstanceType<RuleClass>;
 type RuleName = RuleInstance['name'];
 

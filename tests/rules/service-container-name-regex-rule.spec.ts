@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import ServiceContainerNameRegexRule from '../../src/rules/service-container-name-regex-rule';
+import { ServiceContainerNameRegexRule } from '../../src/rules/service-container-name-regex-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

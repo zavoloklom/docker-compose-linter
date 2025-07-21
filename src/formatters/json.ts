@@ -1,5 +1,7 @@
-import type { LintResult } from '../linter/linter.types';
+import type { FormatterFunction } from './formatter.types';
 
-export default function jsonFormatter(results: LintResult[]): string {
+const jsonFormatter: FormatterFunction = (results) => {
   return JSON.stringify(results, null, 2);
-}
+};
+
+export { jsonFormatter };

@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import NoDuplicateExportedPortsRule from '../../src/rules/no-duplicate-exported-ports-rule';
+import { NoDuplicateExportedPortsRule } from '../../src/rules/no-duplicate-exported-ports-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

@@ -6,7 +6,7 @@ import { parseYAML } from '../util/yaml-utils';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export interface ServiceImageRequireExplicitTagRuleInputOptions {
+interface ServiceImageRequireExplicitTagRuleInputOptions {
   prohibitedTags?: string[];
 }
 
@@ -14,7 +14,7 @@ interface ServiceImageRequireExplicitTagRuleOptions {
   prohibitedTags: string[];
 }
 
-export default class ServiceImageRequireExplicitTagRule implements Rule {
+class ServiceImageRequireExplicitTagRule implements Rule {
   static readonly name = 'service-image-require-explicit-tag';
 
   // eslint-disable-next-line class-methods-use-this
@@ -97,3 +97,5 @@ export default class ServiceImageRequireExplicitTagRule implements Rule {
     return errors;
   }
 }
+
+export { type ServiceImageRequireExplicitTagRuleInputOptions, ServiceImageRequireExplicitTagRule };

@@ -7,7 +7,7 @@ import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export default class ServicePortsAlphabeticalOrderRule implements Rule {
+class ServicePortsAlphabeticalOrderRule implements Rule {
   static readonly name = 'service-ports-alphabetical-order';
 
   // eslint-disable-next-line class-methods-use-this
@@ -102,3 +102,5 @@ export default class ServicePortsAlphabeticalOrderRule implements Rule {
     return stringifyDocument(parsedDocument);
   }
 }
+
+export { ServicePortsAlphabeticalOrderRule };

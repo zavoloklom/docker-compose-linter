@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import junitFormatter from '../../src/formatters/junit';
+import { junitFormatter } from '../../src/formatters/junit';
 
 import type { LintResult } from '../../src/linter/linter.types';
 
