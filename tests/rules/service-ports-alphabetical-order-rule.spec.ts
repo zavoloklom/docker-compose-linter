@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import ServicePortsAlphabeticalOrderRule from '../../src/rules/service-ports-alphabetical-order-rule';
+import { ServicePortsAlphabeticalOrderRule } from '../../src/rules/service-ports-alphabetical-order-rule';
 import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

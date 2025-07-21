@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
 
 import { ConfigValidationError } from '../errors/config-validation-error';
 import { FileNotFoundError } from '../errors/file-not-found-error';
-import rules from '../rules/index';
+import * as Rules from '../rules/index';
 import { LOG_SOURCE, Logger } from '../util/logger';
 import { schemaLoader } from '../util/schema-loader';
 
@@ -65,7 +65,7 @@ class ConfigLoader {
     }
 
     // Validate rules names
-    const allowedRuleNames = new Set(Object.values(rules).map((ruleClass) => ruleClass.name));
+    const allowedRuleNames = new Set(Object.values(Rules).map((ruleClass) => ruleClass.name));
 
     for (const ruleName of Object.keys(this.config.rules)) {
       // @ts-expect-error

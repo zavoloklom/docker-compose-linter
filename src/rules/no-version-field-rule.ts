@@ -3,7 +3,7 @@ import { findLineNumberByKey } from '../util/line-finder';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export default class NoVersionFieldRule implements Rule {
+class NoVersionFieldRule implements Rule {
   static readonly name = 'no-version-field';
 
   // eslint-disable-next-line class-methods-use-this
@@ -62,3 +62,5 @@ export default class NoVersionFieldRule implements Rule {
     return lines.join('\n');
   }
 }
+
+export { NoVersionFieldRule };

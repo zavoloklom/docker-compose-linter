@@ -1,8 +1,8 @@
 import { escapeXml } from '../util/escape-xml';
 
-import type { LintResult } from '../linter/linter.types';
+import type { FormatterFunction } from './formatter.types';
 
-const junitFormatter = (results: LintResult[]): string => {
+const junitFormatter: FormatterFunction = (results) => {
   const testSuites = results
     .map((result) => {
       const testCases = result.messages
@@ -29,4 +29,4 @@ const junitFormatter = (results: LintResult[]): string => {
 </testsuites>`;
 };
 
-export default junitFormatter;
+export { junitFormatter };

@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import NoDuplicateContainerNamesRule from '../../src/rules/no-duplicate-container-names-rule';
+import { NoDuplicateContainerNamesRule } from '../../src/rules/no-duplicate-container-names-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

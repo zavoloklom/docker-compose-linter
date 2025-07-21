@@ -1,7 +1,7 @@
 import test from 'ava';
 import { resolve } from 'node:path';
 
-import stylishFormatter from '../../src/formatters/stylish';
+import { stylishFormatter } from '../../src/formatters/stylish';
 
 import type { LintResult } from '../../src/linter/linter.types';
 

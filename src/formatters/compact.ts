@@ -1,6 +1,6 @@
-import type { LintResult } from '../linter/linter.types';
+import type { FormatterFunction } from './formatter.types';
 
-export default function compactFormatter(results: LintResult[]): string {
+const compactFormatter: FormatterFunction = (results) => {
   return results
     .map((result) => {
       return result.messages
@@ -10,4 +10,6 @@ export default function compactFormatter(results: LintResult[]): string {
         .join('\n');
     })
     .join('\n\n');
-}
+};
+
+export { compactFormatter };

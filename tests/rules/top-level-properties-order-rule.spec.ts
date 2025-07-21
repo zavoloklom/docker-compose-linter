@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import TopLevelPropertiesOrderRule, { TopLevelKeys } from '../../src/rules/top-level-properties-order-rule';
+import { TopLevelKeys, TopLevelPropertiesOrderRule } from '../../src/rules/top-level-properties-order-rule';
 import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

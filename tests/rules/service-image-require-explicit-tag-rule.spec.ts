@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import ServiceImageRequireExplicitTagRule from '../../src/rules/service-image-require-explicit-tag-rule';
+import { ServiceImageRequireExplicitTagRule } from '../../src/rules/service-image-require-explicit-tag-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

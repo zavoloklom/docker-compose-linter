@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import NoQuotesInVolumesRule from '../../src/rules/no-quotes-in-volumes-rule';
+import { NoQuotesInVolumesRule } from '../../src/rules/no-quotes-in-volumes-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
@@ -11,6 +11,12 @@ services:
   web:
     volumes:
       - data
+      - type: volume
+        source: db-data
+        target: /data
+        volume:
+          nocopy: true
+          subpath: sub    
 `;
 
 const incorrectYAML = `
@@ -18,6 +24,12 @@ services:
   web:
     volumes:
       - "data"
+      - type: volume
+        source: "db-data"
+        target: '/data'
+        volume:
+          nocopy: true
+          subpath: 'sub' 
 `;
 
 // @ts-ignore TS2349

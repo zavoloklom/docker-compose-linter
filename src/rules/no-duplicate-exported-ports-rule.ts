@@ -7,7 +7,7 @@ import { parseYAML } from '../util/yaml-utils';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export default class NoDuplicateExportedPortsRule implements Rule {
+class NoDuplicateExportedPortsRule implements Rule {
   static readonly name = 'no-duplicate-exported-ports';
 
   // eslint-disable-next-line class-methods-use-this
@@ -107,3 +107,5 @@ export default class NoDuplicateExportedPortsRule implements Rule {
     return errors;
   }
 }
+
+export { NoDuplicateExportedPortsRule };

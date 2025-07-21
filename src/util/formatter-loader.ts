@@ -1,19 +1,16 @@
 import { resolve } from 'node:path';
 
 import { Logger } from './logger';
-import Formatters from '../formatters/index';
+import * as Formatters from '../formatters/index';
 
-import type { LintResult } from '../linter/linter.types';
-
-type FormatterFunction = (results: LintResult[]) => string;
+import type { FormatterFunction } from '../formatters/formatter.types';
 
 const importFormatter = async (modulePath: string): Promise<FormatterFunction> => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-    const Formatter = (await import(modulePath)).default;
-    return Formatter as FormatterFunction;
+    const module = (await import(modulePath)) as { default?: unknown; [k: string]: unknown };
+    return (module.default ?? Object.values(module)[0]) as FormatterFunction;
   } catch {
-    throw new Error(`Module at ${modulePath} does not export a default formatter.`);
+    throw new Error(`Module at ${modulePath} does not export a formatter.`);
   }
 };
 
@@ -33,13 +30,14 @@ const loadFormatter = async (formatterName: string): Promise<FormatterFunction> 
     return formatterModule;
   }
 
-  const formatterFunction = Formatters[`${formatterName}Formatter` as keyof typeof Formatters];
-  if (formatterFunction) {
+  const key = `${formatterName}Formatter` as keyof typeof Formatters;
+  if (key in Formatters) {
     logger.debug('UTIL', `Using built-in formatter: ${formatterName}`);
-    return formatterFunction as FormatterFunction;
+    // eslint-disable-next-line import/namespace
+    return Formatters[key];
   }
 
-  logger.warn(`Unknown formatter: ${formatterName}. Using default - stylish.`);
+  logger.debug('UTIL', `Unknown formatter: ${formatterName}. Using default - stylish.`);
   return Formatters.stylishFormatter;
 };
 

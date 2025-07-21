@@ -1,9 +1,9 @@
 import { resolve } from 'node:path';
 import pc from 'picocolors';
 
-import type { LintResult } from '../linter/linter.types';
+import type { FormatterFunction } from './formatter.types';
 
-export default function stylishFormatter(results: LintResult[]): string {
+const stylishFormatter: FormatterFunction = (results) => {
   let output = '';
   let errorCount = 0;
   let warningCount = 0;
@@ -64,4 +64,6 @@ export default function stylishFormatter(results: LintResult[]): string {
   }
 
   return output;
-}
+};
+
+export { stylishFormatter };

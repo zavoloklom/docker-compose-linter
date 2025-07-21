@@ -6,7 +6,7 @@ import { parseYAML } from '../util/yaml-utils';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export default class NoDuplicateContainerNamesRule implements Rule {
+class NoDuplicateContainerNamesRule implements Rule {
   static readonly name = 'no-duplicate-container-names';
 
   // eslint-disable-next-line class-methods-use-this
@@ -90,3 +90,5 @@ export default class NoDuplicateContainerNamesRule implements Rule {
     return errors;
   }
 }
+
+export { NoDuplicateContainerNamesRule };

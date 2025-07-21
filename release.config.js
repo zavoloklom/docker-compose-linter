@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 export default {
   branches: ['main', { name: 'beta', prerelease: true, channel: 'beta' }],
   plugins: [

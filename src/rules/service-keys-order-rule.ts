@@ -6,7 +6,7 @@ import { parseYAML, stringifyDocument } from '../util/yaml-utils';
 import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType } from './rules.types';
 import type { LintContext } from '../linter/linter.types';
 
-export interface ServiceKeysOrderRuleInputOptions {
+interface ServiceKeysOrderRuleInputOptions {
   groupOrder?: GroupOrderEnum[];
   groups?: Partial<Record<GroupOrderEnum, string[]>>;
 }
@@ -16,7 +16,7 @@ interface ServiceKeysOrderRuleOptions {
   groups: Record<GroupOrderEnum, string[]>;
 }
 
-export enum GroupOrderEnum {
+enum GroupOrderEnum {
   CoreDefinitions = 'Core Definitions',
   ServiceDependencies = 'Service Dependencies',
   DataManagementAndConfiguration = 'Data Management and Configuration',
@@ -28,7 +28,7 @@ export enum GroupOrderEnum {
   Other = 'Other',
 }
 
-export default class ServiceKeysOrderRule implements Rule {
+class ServiceKeysOrderRule implements Rule {
   static readonly name = 'service-keys-order';
 
   // eslint-disable-next-line class-methods-use-this
@@ -200,3 +200,5 @@ export default class ServiceKeysOrderRule implements Rule {
     return stringifyDocument(parsedDocument);
   }
 }
+
+export { type ServiceKeysOrderRuleInputOptions, GroupOrderEnum, ServiceKeysOrderRule };

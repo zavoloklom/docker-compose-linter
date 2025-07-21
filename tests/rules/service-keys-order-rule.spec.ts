@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import ServiceKeysOrderRule, { GroupOrderEnum } from '../../src/rules/service-keys-order-rule';
+import { GroupOrderEnum, ServiceKeysOrderRule } from '../../src/rules/service-keys-order-rule';
 import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

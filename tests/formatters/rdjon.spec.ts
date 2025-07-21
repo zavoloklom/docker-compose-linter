@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import rdjson from '../../src/formatters/rdjson';
+import { rdjsonFormatter } from '../../src/formatters/rdjson';
 
 import type { LintResult } from '../../src/linter/linter.types';
 
@@ -49,7 +49,7 @@ test('RDJson Formatter: basic diagnostic without end position or fix', (t) => {
     ],
   };
 
-  const actual = JSON.parse(rdjson(input)) as [];
+  const actual = JSON.parse(rdjsonFormatter(input)) as [];
   t.deepEqual(actual, expected);
 });
 
@@ -121,6 +121,6 @@ test('RDJson Formatter: diagnostic with end position, code URL, and suggestion',
     ],
   };
 
-  const actual = JSON.parse(rdjson(input)) as [];
+  const actual = JSON.parse(rdjsonFormatter(input)) as [];
   t.deepEqual(actual, expected);
 });

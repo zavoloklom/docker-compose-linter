@@ -3,9 +3,9 @@
  * See <https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error>
  */
 
-import type { LintResult } from '../linter/linter.types';
+import type { FormatterFunction } from './formatter.types';
 
-export default function githubFormatter(results: LintResult[]): string {
+const githubFormatter: FormatterFunction = (results) => {
   return results
     .flatMap((result) =>
       result.messages.map((message) => {
@@ -18,4 +18,6 @@ export default function githubFormatter(results: LintResult[]): string {
       }),
     )
     .join('\n');
-}
+};
+
+export { githubFormatter };

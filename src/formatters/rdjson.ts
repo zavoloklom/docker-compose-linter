@@ -3,7 +3,7 @@
  * Scheme <https://github.com/reviewdog/reviewdog/blob/master/proto/rdf/jsonschema/Diagnostic.json>
  */
 
-import type { LintResult } from '../linter/linter.types';
+import type { FormatterFunction } from './formatter.types';
 import type { RuleType } from '../rules/rules.types';
 
 interface RdjsonPosition {
@@ -51,7 +51,7 @@ const mapSeverity = (type: RuleType): RdjsonDiagnostic['severity'] => {
   }
 };
 
-export default function rdjson(results: LintResult[]): string {
+const rdjsonFormatter: FormatterFunction = (results) => {
   const diagnostics = results.flatMap((result) =>
     result.messages.map((message) => {
       const start = {
@@ -108,4 +108,6 @@ export default function rdjson(results: LintResult[]): string {
     },
     diagnostics,
   });
-}
+};
+
+export { rdjsonFormatter };

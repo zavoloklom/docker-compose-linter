@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import jsonFormatter from '../../src/formatters/json';
+import { jsonFormatter } from '../../src/formatters/json';
 
 import type { LintResult } from '../../src/linter/linter.types';
 

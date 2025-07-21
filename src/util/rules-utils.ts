@@ -1,5 +1,5 @@
 import { Logger } from './logger';
-import Rules from '../rules/index';
+import * as Rules from '../rules/index';
 
 import type { Config, ConfigRule, ConfigRuleLevel } from '../config/config.types';
 import type { Rule, RuleType } from '../rules/rules.types';

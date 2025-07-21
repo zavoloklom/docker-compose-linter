@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import NoBuildAndImageRule from '../../src/rules/no-build-and-image-rule';
+import { NoBuildAndImageRule } from '../../src/rules/no-build-and-image-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';

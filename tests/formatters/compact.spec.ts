@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import compactFormatter from '../../src/formatters/compact';
+import { compactFormatter } from '../../src/formatters/compact';
 
 import type { LintResult } from '../../src/linter/linter.types';
 

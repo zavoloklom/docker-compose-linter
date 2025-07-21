@@ -2,7 +2,7 @@
 import pc from 'picocolors';
 
 // Exported constants for log sources
-export const LOG_SOURCE = {
+const LOG_SOURCE = {
   LINTER: 'LINTER',
   CONFIG: 'CONFIG',
   CLI: 'CLI',
@@ -74,4 +74,4 @@ class Logger {
   }
 }
 
-export { Logger };
+export { LOG_SOURCE, Logger };

@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import NoVersionFieldRule from '../../src/rules/no-version-field-rule';
+import { NoVersionFieldRule } from '../../src/rules/no-version-field-rule';
 import { runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
