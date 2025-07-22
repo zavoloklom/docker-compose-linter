@@ -131,11 +131,11 @@ x-b:
 
 test('TopLevelPropertiesOrderRule: should return warnings based on custom order', (t) => {
   const customOrder = [
-    TopLevelKeys.Version,
-    TopLevelKeys.Services,
-    TopLevelKeys.Volumes,
-    TopLevelKeys.Networks,
-    TopLevelKeys.XProperties,
+    TopLevelKeys.VERSION,
+    TopLevelKeys.SERVICES,
+    TopLevelKeys.VOLUMES,
+    TopLevelKeys.NETWORKS,
+    TopLevelKeys.X_PROPERTIES,
   ];
 
   const rule = new TopLevelPropertiesOrderRule({ customOrder });
@@ -178,11 +178,11 @@ networks:
 
 test('TopLevelPropertiesOrderRule: should fix the order of top-level properties based on custom order', (t) => {
   const customOrder = [
-    TopLevelKeys.Version,
-    TopLevelKeys.Services,
-    TopLevelKeys.Volumes,
-    TopLevelKeys.Networks,
-    TopLevelKeys.XProperties,
+    TopLevelKeys.VERSION,
+    TopLevelKeys.SERVICES,
+    TopLevelKeys.VOLUMES,
+    TopLevelKeys.NETWORKS,
+    TopLevelKeys.X_PROPERTIES,
   ];
 
   const rule = new TopLevelPropertiesOrderRule({ customOrder });

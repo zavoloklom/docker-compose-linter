@@ -8,6 +8,7 @@ const loadLintRules = (config: Config): Rule[] => {
   const logger = Logger.init();
   const activeRules: Rule[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   for (const RuleClass of Object.values(Rules)) {
     if (typeof RuleClass !== 'function') {
       logger.error(`Error loading rule: ${String(RuleClass)}`);

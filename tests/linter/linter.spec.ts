@@ -64,7 +64,7 @@ test('DCLinter: should lint files correctly', async (t) => {
   const mockLoadLintRules = (): Rule[] => [mockRule];
   const mockReadFileSync = (): string => mockFileContent;
 
-  // Use esmock to mock both rules-loader and files-finder modules
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     '../../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
@@ -73,10 +73,8 @@ test('DCLinter: should lint files correctly', async (t) => {
 
   const linter = new DCLinter(config);
 
-  // Call lintFiles method
   const result: LintResult[] = linter.lintFiles([mockFilePath], false);
 
-  // Assertions
   t.is(result.length, 1, 'One file should be linted');
   t.is(result[0].filePath, mockFilePath, 'The linted file path should match the mock file path');
   t.is(result[0].messages.length, 1, 'There should be one lint message');
@@ -104,6 +102,7 @@ test('DCLinter: should disable linter for a file', async (t) => {
     t.is(actualContent, originalContent, 'The content should remain unchanged as the rule is disabled');
   };
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     'node:fs': { readFileSync: mockReadFileSync, writeFileSync: mockWriteFileSync },
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
@@ -125,6 +124,7 @@ test('DCLinter: should disable specific rule for part of the file', async (t) =>
   `;
   const mockFindFiles = (): string[] => mockFilePaths;
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     'node:fs': { readFileSync: mockReadFileSync },
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
@@ -140,6 +140,7 @@ test('DCLinter: should lint multiple files correctly', async (t) => {
   const mockReadFileSync = (filePath: string): string => mockFileContent;
 
   // Use esmock to mock both rules-loader and files-finder modules
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     '../../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
     '../../src/util/files-finder': { findFilesForLinting: mockFindFiles },
@@ -160,7 +161,7 @@ test('DCLinter: should lint multiple files correctly', async (t) => {
 });
 
 test('DCLinter: should fix files', async (t) => {
-  // Use esmock to mock both rules-loader and files-finder modules
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     '../../src/util/rules-utils': { loadLintRules: (): Rule[] => [mockRule] },
     '../../src/util/files-finder': { findFilesForLinting: (): string[] => [mockFilePath] },
@@ -205,6 +206,7 @@ test('DCLinter: should apply fixes correctly while ignoring disabled rules', asy
     t.is(actualContent, originalContent, 'The content should remain unchanged as the rule is disabled');
   };
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     'node:fs': { readFileSync: mockReadFileSync, writeFileSync: mockWriteFileSync },
     '../../src/util/rules-utils': { loadLintRules: mockLoadLintRules },
@@ -235,6 +237,7 @@ test('DCLinter: adds error message for invalid YAML (YAMLError)', async (t) => {
     return { errors: [error] };
   };
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     'node:fs': { readFileSync: mockReadFileSync },
     yaml: { parseDocument: mockParseDocument },
@@ -265,6 +268,7 @@ test('DCLinter: adds error message for ComposeValidationError', async (t) => {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     'node:fs': { readFileSync: mockReadFileSync },
     yaml: { parseDocument: mockParseDocument },
@@ -287,6 +291,7 @@ test('DCLinter: adds error message for unknown error', async (t) => {
     throw new Error('Unexpected crash');
   };
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     'node:fs': { readFileSync: mockReadFileSync },
     yaml: { parseDocument: mockParseDocument },
@@ -305,6 +310,7 @@ test('DCLinter: adds error message for unknown error', async (t) => {
 test('DCLinter: calls formatter and returns formatted result', async (t) => {
   const mockFormatter = (results: LintResult[]) => `Formatted ${results.length} result(s)`;
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     '../../src/util/formatter-loader': { loadFormatter: () => mockFormatter },
   });
@@ -331,6 +337,7 @@ test('DCLinter: should filter out rule message if line has disable-line *', asyn
     image: nginx # dclint disable-line *
   `;
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
     '../../src/util/rules-utils': { loadLintRules: () => [mockRule] },
     '../../src/util/files-finder': { findFilesForLinting: () => ['mock.yaml'] },

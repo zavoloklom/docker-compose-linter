@@ -10,7 +10,7 @@ import {
 import { validationComposeSchema } from '../util/compose-validation';
 import { findFilesForLinting } from '../util/files-finder';
 import { loadFormatter } from '../util/formatter-loader';
-import { LOG_SOURCE, Logger } from '../util/logger';
+import { LogSource, Logger } from '../util/logger';
 import { loadLintRules } from '../util/rules-utils';
 
 import type { LintContext, LintResult } from './linter.types';
@@ -144,10 +144,10 @@ class DCLinter {
   public lintFiles(paths: string[], doRecursiveSearch: boolean): LintResult[] {
     const lintResults: LintResult[] = [];
     const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
-    this.logger.debug(LOG_SOURCE.LINTER, `Compose files for linting: ${files.toString()}`);
+    this.logger.debug(LogSource.LINTER, `Compose files for linting: ${files.toString()}`);
 
     for (const file of files) {
-      this.logger.debug(LOG_SOURCE.LINTER, `Linting file: ${file}`);
+      this.logger.debug(LogSource.LINTER, `Linting file: ${file}`);
 
       const { context, messages } = DCLinter.validateFile(file);
       if (context) {
@@ -170,23 +170,23 @@ class DCLinter {
       });
     }
 
-    this.logger.debug(LOG_SOURCE.LINTER, 'Linting result:', JSON.stringify(lintResults));
+    this.logger.debug(LogSource.LINTER, 'Linting result:', JSON.stringify(lintResults));
 
     return lintResults;
   }
 
   public fixFiles(paths: string[], doRecursiveSearch: boolean, dryRun: boolean = false): void {
     const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
-    this.logger.debug(LOG_SOURCE.LINTER, `Compose files for fixing: ${files.toString()}`);
+    this.logger.debug(LogSource.LINTER, `Compose files for fixing: ${files.toString()}`);
 
     for (const file of files) {
-      this.logger.debug(LOG_SOURCE.LINTER, `Fixing file: ${file}`);
+      this.logger.debug(LogSource.LINTER, `Fixing file: ${file}`);
 
       const { context, messages } = DCLinter.validateFile(file);
       if (!context) {
-        this.logger.debug(LOG_SOURCE.LINTER, `Skipping file due to validation errors: ${file}`);
+        this.logger.debug(LogSource.LINTER, `Skipping file due to validation errors: ${file}`);
         for (const message of messages) {
-          this.logger.debug(LOG_SOURCE.LINTER, JSON.stringify(message));
+          this.logger.debug(LogSource.LINTER, JSON.stringify(message));
         }
         return;
       }
@@ -198,7 +198,7 @@ class DCLinter {
         this.logger.info('\n\n', content);
       } else {
         fs.writeFileSync(file, content, 'utf8');
-        this.logger.debug(LOG_SOURCE.LINTER, `File fixed: ${file}`);
+        this.logger.debug(LogSource.LINTER, `File fixed: ${file}`);
       }
     }
   }

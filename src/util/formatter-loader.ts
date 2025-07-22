@@ -1,6 +1,6 @@
 import { resolve } from 'node:path';
 
-import { Logger } from './logger';
+import { LogSource, Logger } from './logger';
 import * as Formatters from '../formatters/index';
 
 import type { FormatterFunction } from '../formatters/formatter.types';
@@ -20,24 +20,24 @@ const loadFormatter = async (formatterName: string): Promise<FormatterFunction> 
   if (formatterName.startsWith('.')) {
     const fullPath = resolve(formatterName);
     const formatterModule = await importFormatter(fullPath);
-    logger.debug('UTIL', `Using formatter: ${fullPath}`);
+    logger.debug(LogSource.UTIL, `Using formatter: ${fullPath}`);
     return formatterModule;
   }
 
   if (formatterName.includes('dclint-formatter-')) {
     const formatterModule = await importFormatter(formatterName);
-    logger.debug('UTIL', `Using formatter: ${formatterName}`);
+    logger.debug(LogSource.UTIL, `Using formatter: ${formatterName}`);
     return formatterModule;
   }
 
   const key = `${formatterName}Formatter` as keyof typeof Formatters;
   if (key in Formatters) {
-    logger.debug('UTIL', `Using built-in formatter: ${formatterName}`);
+    logger.debug(LogSource.UTIL, `Using built-in formatter: ${formatterName}`);
     // eslint-disable-next-line import/namespace
     return Formatters[key];
   }
 
-  logger.debug('UTIL', `Unknown formatter: ${formatterName}. Using default - stylish.`);
+  logger.debug(LogSource.UTIL, `Unknown formatter: ${formatterName}. Using default - stylish.`);
   return Formatters.stylishFormatter;
 };
 

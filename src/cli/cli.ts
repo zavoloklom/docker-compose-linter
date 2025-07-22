@@ -6,7 +6,7 @@ import { hideBin } from 'yargs/helpers';
 
 import { ConfigLoader } from '../config/config-loader';
 import { DCLinter } from '../linter/linter';
-import { LOG_SOURCE, Logger } from '../util/logger';
+import { LogSource, Logger } from '../util/logger';
 
 import type { CLIConfig } from './cli.types';
 
@@ -94,8 +94,8 @@ const main = async () => {
 
   const logger = Logger.init(cliArguments.debug);
 
-  logger.debug(LOG_SOURCE.CLI, 'Debug mode is ON');
-  logger.debug(LOG_SOURCE.CLI, 'Arguments:', cliArguments);
+  logger.debug(LogSource.CLI, 'Debug mode is ON');
+  logger.debug(LogSource.CLI, 'Arguments:', cliArguments);
 
   const config = ConfigLoader.init(cliArguments.debug)
     .load(cliArguments.config)
@@ -104,7 +104,7 @@ const main = async () => {
     .validate()
     .get();
 
-  logger.debug(LOG_SOURCE.CLI, 'Final config:', config);
+  logger.debug(LogSource.CLI, 'Final config:', config);
 
   const linter = new DCLinter(config);
 
@@ -138,17 +138,17 @@ const main = async () => {
   }
 
   if (totalErrors > 0) {
-    logger.debug(LOG_SOURCE.CLI, `${totalErrors} errors found`);
+    logger.debug(LogSource.CLI, `${totalErrors} errors found`);
     process.exit(1);
   } else if (cliArguments.maxWarnings >= 0 && totalWarnings > cliArguments.maxWarnings) {
     logger.debug(
-      LOG_SOURCE.CLI,
+      LogSource.CLI,
       `Warning threshold exceeded: ${totalWarnings} warnings (max allowed: ${cliArguments.maxWarnings})`,
     );
     process.exit(1);
   }
 
-  logger.debug(LOG_SOURCE.CLI, 'All files are valid.');
+  logger.debug(LogSource.CLI, 'All files are valid.');
   process.exit(0);
 };
 

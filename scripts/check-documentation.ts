@@ -19,32 +19,32 @@ const validateDocumentation = async (ruleDefinition: RuleDefinition) => {
   try {
     const content = await readFile(documentFilePath, 'utf8');
 
-    const ruleNameMatch = /- \*\*Rule Name:\*\* \S+/u.test(content);
-    if (!ruleNameMatch) {
+    const isRuleNameMatch = /- \*\*Rule Name:\*\* \S+/u.test(content);
+    if (!isRuleNameMatch) {
       console.warn(`Rule Name is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const typeMatch = /- \*\*Type:\*\* \S+/u.test(content);
-    if (!typeMatch) {
+    const isTypeMatch = /- \*\*Type:\*\* \S+/u.test(content);
+    if (!isTypeMatch) {
       console.warn(`Type is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const categoryMatch = /- \*\*Category:\*\* \S+/u.test(content);
-    if (!categoryMatch) {
+    const isCategoryMatch = /- \*\*Category:\*\* \S+/u.test(content);
+    if (!isCategoryMatch) {
       console.warn(`Category is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const severityMatch = /- \*\*Severity:\*\* \S+/u.test(content);
-    if (!severityMatch) {
+    const isSeverityMatch = /- \*\*Severity:\*\* \S+/u.test(content);
+    if (!isSeverityMatch) {
       console.warn(`Severity is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }
 
-    const fixableMatch = /- \*\*Fixable:\*\* \S+/u.test(content);
-    if (!fixableMatch) {
+    const isFixableMatch = /- \*\*Fixable:\*\* \S+/u.test(content);
+    if (!isFixableMatch) {
       console.warn(`Fixable is missing or empty in metadata block of ${documentFilePath}`);
       hasValidationErrors = true;
     }

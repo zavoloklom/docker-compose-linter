@@ -7,25 +7,25 @@ import type { Rule, RuleCategory, RuleMessage, RuleMeta, RuleSeverity, RuleType 
 import type { LintContext } from '../linter/linter.types';
 
 interface ServiceKeysOrderRuleInputOptions {
-  groupOrder?: GroupOrderEnum[];
-  groups?: Partial<Record<GroupOrderEnum, string[]>>;
+  groupOrder?: ServiceKeyGroup[];
+  groups?: Partial<Record<ServiceKeyGroup, string[]>>;
 }
 
 interface ServiceKeysOrderRuleOptions {
-  groupOrder: GroupOrderEnum[];
-  groups: Record<GroupOrderEnum, string[]>;
+  groupOrder: ServiceKeyGroup[];
+  groups: Record<ServiceKeyGroup, string[]>;
 }
 
-enum GroupOrderEnum {
-  CoreDefinitions = 'Core Definitions',
-  ServiceDependencies = 'Service Dependencies',
-  DataManagementAndConfiguration = 'Data Management and Configuration',
-  EnvironmentConfiguration = 'Environment Configuration',
-  Networking = 'Networking',
-  RuntimeBehavior = 'Runtime Behavior',
-  OperationalMetadata = 'Operational Metadata',
-  SecurityAndExecutionContext = 'Security and Execution Context',
-  Other = 'Other',
+enum ServiceKeyGroup {
+  CORE = 'Core Definitions',
+  DEPENDENCIES = 'Service Dependencies',
+  DATA_MANAGEMENT = 'Data Management and Configuration',
+  ENVIRONMENT = 'Environment Configuration',
+  NETWORK = 'Networking',
+  RUNTIME = 'Runtime Behavior',
+  METADATA = 'Operational Metadata',
+  SECURITY = 'Security and Execution Context',
+  OTHER = 'Other',
 }
 
 class ServiceKeysOrderRule implements Rule {
@@ -67,26 +67,26 @@ class ServiceKeysOrderRule implements Rule {
   constructor(options?: ServiceKeysOrderRuleInputOptions) {
     const defaultOptions: ServiceKeysOrderRuleOptions = {
       groups: {
-        [GroupOrderEnum.CoreDefinitions]: ['image', 'build', 'container_name'],
-        [GroupOrderEnum.ServiceDependencies]: ['depends_on'],
-        [GroupOrderEnum.DataManagementAndConfiguration]: ['volumes', 'volumes_from', 'configs', 'secrets'],
-        [GroupOrderEnum.EnvironmentConfiguration]: ['environment', 'env_file'],
-        [GroupOrderEnum.Networking]: ['ports', 'networks', 'network_mode', 'extra_hosts'],
-        [GroupOrderEnum.RuntimeBehavior]: ['command', 'entrypoint', 'working_dir', 'restart', 'healthcheck'],
-        [GroupOrderEnum.OperationalMetadata]: ['logging', 'labels'],
-        [GroupOrderEnum.SecurityAndExecutionContext]: ['user', 'isolation'],
-        [GroupOrderEnum.Other]: [],
+        [ServiceKeyGroup.CORE]: ['image', 'build', 'container_name'],
+        [ServiceKeyGroup.DEPENDENCIES]: ['depends_on'],
+        [ServiceKeyGroup.DATA_MANAGEMENT]: ['volumes', 'volumes_from', 'configs', 'secrets'],
+        [ServiceKeyGroup.ENVIRONMENT]: ['environment', 'env_file'],
+        [ServiceKeyGroup.NETWORK]: ['ports', 'networks', 'network_mode', 'extra_hosts'],
+        [ServiceKeyGroup.RUNTIME]: ['command', 'entrypoint', 'working_dir', 'restart', 'healthcheck'],
+        [ServiceKeyGroup.METADATA]: ['logging', 'labels'],
+        [ServiceKeyGroup.SECURITY]: ['user', 'isolation'],
+        [ServiceKeyGroup.OTHER]: [],
       },
       groupOrder: [
-        GroupOrderEnum.CoreDefinitions,
-        GroupOrderEnum.ServiceDependencies,
-        GroupOrderEnum.DataManagementAndConfiguration,
-        GroupOrderEnum.EnvironmentConfiguration,
-        GroupOrderEnum.Networking,
-        GroupOrderEnum.RuntimeBehavior,
-        GroupOrderEnum.OperationalMetadata,
-        GroupOrderEnum.SecurityAndExecutionContext,
-        GroupOrderEnum.Other,
+        ServiceKeyGroup.CORE,
+        ServiceKeyGroup.DEPENDENCIES,
+        ServiceKeyGroup.DATA_MANAGEMENT,
+        ServiceKeyGroup.ENVIRONMENT,
+        ServiceKeyGroup.NETWORK,
+        ServiceKeyGroup.RUNTIME,
+        ServiceKeyGroup.METADATA,
+        ServiceKeyGroup.SECURITY,
+        ServiceKeyGroup.OTHER,
       ],
     };
 
@@ -201,4 +201,4 @@ class ServiceKeysOrderRule implements Rule {
   }
 }
 
-export { type ServiceKeysOrderRuleInputOptions, GroupOrderEnum, ServiceKeysOrderRule };
+export { type ServiceKeysOrderRuleInputOptions, ServiceKeyGroup, ServiceKeysOrderRule };

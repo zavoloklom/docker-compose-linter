@@ -2,15 +2,13 @@
 import pc from 'picocolors';
 
 // Exported constants for log sources
-const LOG_SOURCE = {
-  LINTER: 'LINTER',
-  CONFIG: 'CONFIG',
-  CLI: 'CLI',
-  UTIL: 'UTIL',
-  RULE: 'RULE',
-} as const;
-
-type LogSource = (typeof LOG_SOURCE)[keyof typeof LOG_SOURCE];
+enum LogSource {
+  LINTER = 'LINTER',
+  CONFIG = 'CONFIG',
+  CLI = 'CLI',
+  UTIL = 'UTIL',
+  RULE = 'RULE',
+}
 
 class Logger {
   private static instance: Logger;
@@ -74,4 +72,4 @@ class Logger {
   }
 }
 
-export { LOG_SOURCE, Logger };
+export { LogSource, Logger };

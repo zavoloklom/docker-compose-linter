@@ -15,15 +15,15 @@ interface TopLevelPropertiesOrderRuleOptions {
 }
 
 enum TopLevelKeys {
-  XProperties = 'x-properties',
-  Version = 'version',
-  Name = 'name',
-  Include = 'include',
-  Services = 'services',
-  Networks = 'networks',
-  Volumes = 'volumes',
-  Secrets = 'secrets',
-  Configs = 'configs',
+  X_PROPERTIES = 'x-properties',
+  VERSION = 'version',
+  NAME = 'name',
+  INCLUDE = 'include',
+  SERVICES = 'services',
+  NETWORKS = 'networks',
+  VOLUMES = 'volumes',
+  SECRETS = 'secrets',
+  CONFIGS = 'configs',
 }
 
 class TopLevelPropertiesOrderRule implements Rule {
@@ -52,15 +52,15 @@ class TopLevelPropertiesOrderRule implements Rule {
   constructor(options?: TopLevelPropertiesOrderRuleInputOptions) {
     const defaultOptions: TopLevelPropertiesOrderRuleOptions = {
       customOrder: [
-        TopLevelKeys.XProperties,
-        TopLevelKeys.Version,
-        TopLevelKeys.Name,
-        TopLevelKeys.Include,
-        TopLevelKeys.Services,
-        TopLevelKeys.Networks,
-        TopLevelKeys.Volumes,
-        TopLevelKeys.Secrets,
-        TopLevelKeys.Configs,
+        TopLevelKeys.X_PROPERTIES,
+        TopLevelKeys.VERSION,
+        TopLevelKeys.NAME,
+        TopLevelKeys.INCLUDE,
+        TopLevelKeys.SERVICES,
+        TopLevelKeys.NETWORKS,
+        TopLevelKeys.VOLUMES,
+        TopLevelKeys.SECRETS,
+        TopLevelKeys.CONFIGS,
       ],
     };
     this.options = { ...defaultOptions, ...options };
@@ -80,7 +80,7 @@ class TopLevelPropertiesOrderRule implements Rule {
 
     // Replace 'TopLevelKeys.XProperties' in the order with the actual sorted x-prefixed properties
     const correctOrder = this.options.customOrder.flatMap((key) =>
-      key === TopLevelKeys.XProperties ? sortedXProperties : [key],
+      key === TopLevelKeys.X_PROPERTIES ? sortedXProperties : [key],
     );
 
     let lastSeenIndex = -1;
@@ -126,7 +126,7 @@ class TopLevelPropertiesOrderRule implements Rule {
     const sortedXProperties = topLevelKeys.filter((key) => key.startsWith('x-')).sort((a, b) => a.localeCompare(b));
 
     const correctOrder = this.options.customOrder.flatMap((key) =>
-      key === TopLevelKeys.XProperties ? sortedXProperties : [key],
+      key === TopLevelKeys.X_PROPERTIES ? sortedXProperties : [key],
     );
 
     const reorderedMap = new YAMLMap<unknown, unknown>();
