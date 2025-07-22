@@ -9,11 +9,11 @@ import type { ConfigLoader } from '../../src/config/config-loader';
 
 type MockOptions = {
   isFileFound?: boolean;
-  searchReturnsNull?: boolean;
+  isSearchReturnsNull?: boolean;
 };
 
 const createMockedLoader = async (options: MockOptions = {}): Promise<ConfigLoader> => {
-  const { isFileFound = true, searchReturnsNull = false } = options;
+  const { isFileFound = true, isSearchReturnsNull = false } = options;
 
   // Fake config returned by explorer.load()
   const fakeConfig = {
@@ -31,9 +31,10 @@ const createMockedLoader = async (options: MockOptions = {}): Promise<ConfigLoad
   const mockExistsSync = () => isFileFound;
   const mockExplorer = () => ({
     load: () => fakeConfig,
-    search: () => (searchReturnsNull ? null : fakeConfig),
+    search: () => (isSearchReturnsNull ? null : fakeConfig),
   });
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { ConfigLoader } = await esmock<typeof import('../../src/config/config-loader')>(
     '../../src/config/config-loader',
     {
@@ -113,7 +114,7 @@ test('throws on unknown rule name in config', async (t) => {
 });
 
 test('uses DEFAULT_CONFIG when no config file is found and no path is provided', async (t) => {
-  const configLoader = await createMockedLoader({ searchReturnsNull: true });
+  const configLoader = await createMockedLoader({ isSearchReturnsNull: true });
 
   const config = configLoader.load().get();
 

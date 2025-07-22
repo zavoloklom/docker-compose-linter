@@ -38,9 +38,9 @@ const validationComposeSchema = (content: object) => {
 
   const composeSchema = schemaLoader('compose');
   const validate = ajv.compile(updateSchema(composeSchema));
-  const valid = validate(content);
+  const isValid = validate(content);
 
-  if (!valid && Array.isArray(validate.errors)) {
+  if (!isValid && Array.isArray(validate.errors)) {
     // TODO: Get all errors
     throw new ComposeValidationError(validate.errors[0]);
   }

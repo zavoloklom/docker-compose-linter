@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parseDocument } from 'yaml';
 
-import { GroupOrderEnum, ServiceKeysOrderRule } from '../../src/rules/service-keys-order-rule';
+import { ServiceKeyGroup, ServiceKeysOrderRule } from '../../src/rules/service-keys-order-rule';
 import { normalizeYAML, runRuleTest } from '../test-utils';
 
 import type { LintContext } from '../../src/linter/linter.types';
@@ -73,11 +73,11 @@ test('ServiceKeysOrderRule: should not return warnings when service keys are in 
 
 test('ServiceKeysOrderRule: should respect custom groupOrder and groups from options', (t) => {
   const customGroups = {
-    [GroupOrderEnum.CoreDefinitions]: ['container_name', 'build', 'image'],
-    [GroupOrderEnum.Networking]: ['extra_hosts', 'ports'],
+    [ServiceKeyGroup.CORE]: ['container_name', 'build', 'image'],
+    [ServiceKeyGroup.NETWORK]: ['extra_hosts', 'ports'],
   };
 
-  const customGroupOrder = [GroupOrderEnum.Networking, GroupOrderEnum.CoreDefinitions];
+  const customGroupOrder = [ServiceKeyGroup.NETWORK, ServiceKeyGroup.CORE];
 
   const rule = new ServiceKeysOrderRule({
     groups: customGroups,

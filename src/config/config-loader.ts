@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import { ConfigValidationError } from '../errors/config-validation-error';
 import { FileNotFoundError } from '../errors/file-not-found-error';
 import * as Rules from '../rules/index';
-import { LOG_SOURCE, Logger } from '../util/logger';
+import { LogSource, Logger } from '../util/logger';
 import { schemaLoader } from '../util/schema-loader';
 
 import type { Config } from './config.types';
@@ -35,26 +35,26 @@ class ConfigLoader {
     const explorer = cosmiconfigSync('dclint');
 
     if (path && !existsSync(path)) {
-      this.logger.debug(LOG_SOURCE.CONFIG, `Configuration file not found at custom path: ${path}`);
+      this.logger.debug(LogSource.CONFIG, `Configuration file not found at custom path: ${path}`);
       throw new FileNotFoundError(path);
     }
 
     const result = path ? explorer.load(path) : explorer.search();
 
     if (result && result.config) {
-      this.logger.debug(LOG_SOURCE.CONFIG, `Configuration load from ${result.filepath}.`);
+      this.logger.debug(LogSource.CONFIG, `Configuration load from ${result.filepath}.`);
       this.config = result.config as unknown as Config;
       return this;
     }
 
-    this.logger.debug(LOG_SOURCE.CONFIG, 'Configuration file not found. Using default.');
+    this.logger.debug(LogSource.CONFIG, 'Configuration file not found. Using default.');
     this.config = DEFAULT_CONFIG;
 
     return this;
   }
 
   validate(): this {
-    this.logger.debug(LOG_SOURCE.CONFIG, 'Starting config validation');
+    this.logger.debug(LogSource.CONFIG, 'Starting config validation');
 
     const ajv = new Ajv();
     const schema = schemaLoader('linter-config');
@@ -81,7 +81,7 @@ class ConfigLoader {
       }
     }
 
-    this.logger.debug(LOG_SOURCE.CONFIG, 'Validation complete');
+    this.logger.debug(LogSource.CONFIG, 'Validation complete');
     return this;
   }
 
