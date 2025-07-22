@@ -2,7 +2,6 @@ import test from 'ava';
 
 import { parseYAML, stringifyDocument } from '../../src/util/yaml-utils';
 
-// @ts-ignore TS2349
 test('parse should return a YAML Document object', (t) => {
   const yaml = `
 services:
@@ -13,12 +12,11 @@ services:
 
   t.truthy(document);
   t.is(typeof document.toString, 'function');
-  // @ts-expect-error
+  // @ts-expect-error TS2571 Object is of type unknown
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
   t.is(document.get('services').get('web')?.get('image'), 'nginx');
 });
 
-// @ts-ignore TS2349
 test('stringify should produce YAML string with configured options', (t) => {
   const yaml = `
 services:
@@ -40,7 +38,6 @@ services:
   );
 });
 
-// @ts-ignore TS2349
 test('stringify should preserve structure after parse -> stringify', (t) => {
   const yaml = `
 services:

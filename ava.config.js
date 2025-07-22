@@ -8,6 +8,9 @@ export default {
     js: true,
   },
   nodeArguments: ['--import=tsimp/import', '--no-warnings'],
+  environmentVariables: {
+    TSIMP_DIAG: 'ignore',
+  },
   timeout: '2m',
   serial: true,
   concurrency: 1,

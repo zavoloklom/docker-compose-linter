@@ -45,7 +45,6 @@ const createMockedLoader = async (options: MockOptions = {}): Promise<ConfigLoad
   return ConfigLoader.init();
 };
 
-// @ts-ignore TS2349
 test('loads config from custom file path if it exists', async (t) => {
   const configLoader = await createMockedLoader({ isFileFound: true });
 
@@ -61,7 +60,6 @@ test('loads config from custom file path if it exists', async (t) => {
   });
 });
 
-// @ts-ignore TS2349
 test('throws if config file is not found at custom path', async (t) => {
   const configLoader = await createMockedLoader({ isFileFound: false });
 
@@ -72,7 +70,6 @@ test('throws if config file is not found at custom path', async (t) => {
   t.true(error instanceof FileNotFoundError);
 });
 
-// @ts-ignore TS2349
 test('merges CLI arguments into config', async (t) => {
   const configLoader = await createMockedLoader({ isFileFound: true });
 
@@ -98,10 +95,10 @@ test('merges CLI arguments into config', async (t) => {
   t.is(config.rules['no-version-field'], 0);
 });
 
-// @ts-ignore TS2349
 test('throws on unknown rule name in config', async (t) => {
   const configLoader = await createMockedLoader({ isFileFound: true });
-  // @ts-expect-error
+
+  // @ts-expect-error Property config is private and only accessible within class ConfigLoader
   configLoader.config = {
     rules: {
       'non-existent-rule': 1,
@@ -115,7 +112,6 @@ test('throws on unknown rule name in config', async (t) => {
   t.assert(error?.message.includes('Unknown rule name "non-existent-rule"'));
 });
 
-// @ts-ignore TS2349
 test('uses DEFAULT_CONFIG when no config file is found and no path is provided', async (t) => {
   const configLoader = await createMockedLoader({ searchReturnsNull: true });
 
@@ -129,13 +125,12 @@ test('uses DEFAULT_CONFIG when no config file is found and no path is provided',
   });
 });
 
-// @ts-ignore TS2349
 test('throws ConfigValidationError when schema validation fails', async (t) => {
   const configLoader = await createMockedLoader();
 
-  // @ts-ignore
+  // @ts-expect-error Property config is private and only accessible within class ConfigLoader
   configLoader.config = {
-    // @ts-expect-error `rules` should be an object
+    // @ts-expect-error Property `rules` should be an object
     rules: 123,
     quiet: false,
     debug: false,

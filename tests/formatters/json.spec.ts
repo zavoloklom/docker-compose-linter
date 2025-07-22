@@ -4,7 +4,6 @@ import { jsonFormatter } from '../../src/formatters/json';
 
 import type { LintResult } from '../../src/linter/linter.types';
 
-// @ts-ignore TS2349
 test('JSON Formatter: single LintResult', (t) => {
   const input: LintResult[] = [
     {
@@ -56,7 +55,6 @@ test('JSON Formatter: single LintResult', (t) => {
   t.is(actual, expected);
 });
 
-// @ts-ignore TS2349
 test('JSON Formatter: multiple LintResults', (t) => {
   const input: LintResult[] = [
     {

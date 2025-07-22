@@ -22,7 +22,6 @@ services:
     container_name: "my-app-123"
 `;
 
-// @ts-ignore TS2349
 test('ServiceContainerNameRegexRule: should return an error for invalid container name', (t) => {
   const rule = new ServiceContainerNameRegexRule();
   const context: LintContext = {
@@ -35,7 +34,6 @@ test('ServiceContainerNameRegexRule: should return an error for invalid containe
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServiceContainerNameRegexRule: should not return an error for valid container name', (t) => {
   const rule = new ServiceContainerNameRegexRule();
   const context: LintContext = {

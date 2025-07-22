@@ -39,7 +39,6 @@ const mockStatSync = (filePath: string) => {
 };
 const mockExistsSync = () => true;
 
-// @ts-ignore TS2349
 test('findFilesForLinting: should handle recursive search and find only compose files in directory and exclude node_modules', async (t) => {
   // Use esmock to mock fs module
   const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder')>(
@@ -62,7 +61,6 @@ test('findFilesForLinting: should handle recursive search and find only compose 
   );
 });
 
-// @ts-ignore TS2349
 test('findFilesForLinting: should return file directly if file is passed and search only compose in directory', async (t) => {
   // Use esmock to mock fs module
   const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder')>(
@@ -85,7 +83,6 @@ test('findFilesForLinting: should return file directly if file is passed and sea
   );
 });
 
-// @ts-ignore TS2349
 test('findFilesForLinting: should throw error if path does not exist', async (t) => {
   // Use esmock to mock fs module
   const { findFilesForLinting } = await esmock<typeof import('../../src/util/files-finder')>(

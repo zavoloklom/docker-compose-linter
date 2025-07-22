@@ -39,7 +39,6 @@ services:
     cpu_rt_runtime: '400ms'
 `;
 
-// @ts-ignore TS2349
 test('ServiceKeysOrderRule: should return a warning when service keys are in the wrong order', (t) => {
   const rule = new ServiceKeysOrderRule();
   const context: LintContext = {
@@ -60,7 +59,6 @@ test('ServiceKeysOrderRule: should return a warning when service keys are in the
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServiceKeysOrderRule: should not return warnings when service keys are in the correct order', (t) => {
   const rule = new ServiceKeysOrderRule();
   const context: LintContext = {
@@ -73,7 +71,6 @@ test('ServiceKeysOrderRule: should not return warnings when service keys are in 
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServiceKeysOrderRule: should respect custom groupOrder and groups from options', (t) => {
   const customGroups = {
     [GroupOrderEnum.CoreDefinitions]: ['container_name', 'build', 'image'],
@@ -128,7 +125,6 @@ services:
   );
 });
 
-// @ts-ignore TS2349
 test('ServiceKeysOrderRule: should use default options when no options are provided', (t) => {
   const rule = new ServiceKeysOrderRule();
 
@@ -165,7 +161,6 @@ services:
   );
 });
 
-// @ts-ignore TS2349
 test('ServiceKeysOrderRule: should fix the order of service keys', (t) => {
   const rule = new ServiceKeysOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectOrder);

@@ -4,7 +4,6 @@ import { codeclimateFormatter } from '../../src/formatters/codeclimate';
 
 import type { LintResult } from '../../src/linter/linter.types';
 
-// @ts-ignore TS2349
 test('Codeclimate Formatter: single LintResult with one message', (t) => {
   const input: LintResult[] = [
     {
@@ -55,7 +54,6 @@ test('Codeclimate Formatter: single LintResult with one message', (t) => {
   t.deepEqual(actual, expected);
 });
 
-// @ts-ignore TS2349
 test('Codeclimate Formatter: multiple files and messages', (t) => {
   const input: LintResult[] = [
     {

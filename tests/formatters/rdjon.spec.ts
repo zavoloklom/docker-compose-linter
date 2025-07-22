@@ -4,7 +4,6 @@ import { rdjsonFormatter } from '../../src/formatters/rdjson';
 
 import type { LintResult } from '../../src/linter/linter.types';
 
-// @ts-ignore TS2349
 test('RDJson Formatter: basic diagnostic without end position or fix', (t) => {
   const input: LintResult[] = [
     {
@@ -53,7 +52,6 @@ test('RDJson Formatter: basic diagnostic without end position or fix', (t) => {
   t.deepEqual(actual, expected);
 });
 
-// @ts-ignore TS2349
 test('RDJson Formatter: diagnostic with end position, code URL, and suggestion', (t) => {
   const input: LintResult[] = [
     {

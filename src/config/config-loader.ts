@@ -65,10 +65,9 @@ class ConfigLoader {
     }
 
     // Validate rules names
-    const allowedRuleNames = new Set(Object.values(Rules).map((ruleClass) => ruleClass.name));
+    const allowedRuleNames = new Set<string>(Object.values(Rules).map((ruleClass) => ruleClass.name));
 
     for (const ruleName of Object.keys(this.config.rules)) {
-      // @ts-expect-error
       if (!allowedRuleNames.has(ruleName)) {
         throw new ConfigValidationError([
           {

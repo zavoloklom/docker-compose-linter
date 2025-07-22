@@ -50,7 +50,6 @@ services:
 
 const filePath = '/docker-compose.yml';
 
-// @ts-ignore TS2349
 test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service', (t) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
@@ -63,7 +62,6 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoBuildAndImageRule: should return a warning when both "build" and "image" are used in a service and checkPullPolicy is false', (t) => {
   const rule = new NoBuildAndImageRule({ checkPullPolicy: false });
   const context: LintContext = {
@@ -76,7 +74,6 @@ test('NoBuildAndImageRule: should return a warning when both "build" and "image"
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoBuildAndImageRule: should not return warnings when "build" and "image" are used with pull_policy and checkPullPolicy is true', (t) => {
   const rule = new NoBuildAndImageRule({ checkPullPolicy: true });
   const context: LintContext = {
@@ -89,7 +86,6 @@ test('NoBuildAndImageRule: should not return warnings when "build" and "image" a
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoBuildAndImageRule: should respect default options when no options are provided', (t) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
@@ -102,7 +98,6 @@ test('NoBuildAndImageRule: should respect default options when no options are pr
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoBuildAndImageRule: should not return warnings when only "build" is used', (t) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {
@@ -115,7 +110,6 @@ test('NoBuildAndImageRule: should not return warnings when only "build" is used'
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoBuildAndImageRule: should not return warnings when only "image" is used', (t) => {
   const rule = new NoBuildAndImageRule();
   const context: LintContext = {

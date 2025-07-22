@@ -2,7 +2,6 @@ import test from 'ava';
 
 import { findLineNumberByKey, findLineNumberByValue } from '../../src/util/line-finder';
 
-// @ts-ignore TS2349
 test('findLineNumberByKey: should return the correct line number when the key exists', (t) => {
   const yamlContent = `
 version: '3'
@@ -19,7 +18,6 @@ services:
   t.is(line, EXPECTED_LINE, 'Should return the correct line number for the key "image"');
 });
 
-// @ts-ignore TS2349
 test('findLineNumberByKey: should return 1 when the key does not exist', (t) => {
   const yamlContent = `
 version: '3'
@@ -36,7 +34,6 @@ services:
   t.is(line, EXPECTED_LINE, `Should return ${EXPECTED_LINE} when the key does not exist`);
 });
 
-// @ts-ignore TS2349
 test('findLineNumberByKey: should work for nested keys', (t) => {
   const yamlContent = `
 version: '3'
@@ -55,7 +52,6 @@ services:
   t.is(line, EXPECTED_LINE, 'Should return the correct line number for the nested key "ports"');
 });
 
-// @ts-ignore TS2349
 test('findLineNumberByValue: should return the correct line number when the value exists', (t) => {
   const yamlContent = `
 version: '3'
@@ -72,7 +68,6 @@ services:
   t.is(line, EXPECTED_LINE, 'Should return the correct line number for the value "nginx"');
 });
 
-// @ts-ignore TS2349
 test('findLineNumberByValue: should return 0 when the value does not exist', (t) => {
   const yamlContent = `
 version: '3'
@@ -89,7 +84,6 @@ services:
   t.is(line, EXPECTED_LINE, `Should return ${EXPECTED_LINE} when the value does not exist`);
 });
 
-// @ts-ignore TS2349
 test('findLineNumberByValue: should return the correct line number for a value inside an array', (t) => {
   const yamlContent = `
 version: '3'

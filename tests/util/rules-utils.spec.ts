@@ -21,7 +21,6 @@ const makeConfig = (overrides: { [ruleName: RuleName]: ConfigRule }): Config => 
   exclude: [],
 });
 
-// @ts-ignore TS2349
 test('empty config loads all rules', (t) => {
   const config = makeConfig({});
   const active = loadLintRules(config);
@@ -30,7 +29,6 @@ test('empty config loads all rules', (t) => {
   t.deepEqual(activeNames, ruleNames);
 });
 
-// @ts-ignore TS2349
 test('disabling one rule excludes it', (t) => {
   // eslint-disable-next-line prefer-destructuring
   const disabled = ruleNames[0];
@@ -42,7 +40,6 @@ test('disabling one rule excludes it', (t) => {
   t.false(activeNames.includes(disabled));
 });
 
-// @ts-ignore TS2349
 test('single-level config sets target to warning and loads all rules', (t) => {
   // eslint-disable-next-line prefer-destructuring
   const target = ruleNames[1];
@@ -63,7 +60,6 @@ test('single-level config sets target to warning and loads all rules', (t) => {
   }
 });
 
-// @ts-ignore TS2349
 test('array config sets error level and passes options', (t) => {
   const target = RequireQuotesInPortsRule.name;
   const options = { quoteType: 'single' };
@@ -84,7 +80,6 @@ test('array config sets error level and passes options', (t) => {
   t.deepEqual(instance.options, expectedOptions, 'target rule options should be passed through');
 });
 
-// @ts-ignore TS2349
 test('non-function export logs error and skips', async (t) => {
   let loggedMessage = '';
   const fakeLogger = {
@@ -111,7 +106,6 @@ test('non-function export logs error and skips', async (t) => {
   t.is(loggedMessage, 'Error loading rule: [object Object]');
 });
 
-// @ts-ignore TS2349
 test('constructor throws logs error and skips', async (t) => {
   const loggerError: string[] = [];
   const fakeLogger = {
