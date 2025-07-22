@@ -7,7 +7,6 @@ import {
   startsWithDisableFileComment,
 } from '../../src/util/comments-handler';
 
-// @ts-ignore TS2349
 test('startsWithDisableFileComment should return true when content starts with "# dclint disable-file"', (t) => {
   const content = '# dclint disable-file\nversion: "3"';
   t.true(
@@ -16,7 +15,6 @@ test('startsWithDisableFileComment should return true when content starts with "
   );
 });
 
-// @ts-ignore TS2349
 test('startsWithDisableFileComment should return true when content starts with delimiter and "# dclint disable-file"', (t) => {
   const content = '---\n\n# dclint disable-file\nversion: "3"';
   t.true(
@@ -25,7 +23,6 @@ test('startsWithDisableFileComment should return true when content starts with d
   );
 });
 
-// @ts-ignore TS2349
 test('startsWithDisableFileComment should return false when content does not start with "# dclint disable-file"', (t) => {
   const content = 'version: "3"\n# dclint disable-file';
   t.false(
@@ -34,13 +31,11 @@ test('startsWithDisableFileComment should return false when content does not sta
   );
 });
 
-// @ts-ignore TS2349
 test('startsWithDisableFileComment should return false when content is empty', (t) => {
   const content = '';
   t.false(startsWithDisableFileComment(content), 'Function should return false if content is empty');
 });
 
-// @ts-ignore TS2349
 test('startsWithDisableFileComment should return false when content starts with different comment', (t) => {
   const content = '# some other comment\nversion: "3"';
   t.false(
@@ -49,7 +44,6 @@ test('startsWithDisableFileComment should return false when content starts with 
   );
 });
 
-// @ts-ignore TS2349
 test('extractGlobalDisableRules should disable all rules if # dclint disable is used without specific rules', (t) => {
   const content = `
     # dclint disable
@@ -64,7 +58,6 @@ test('extractGlobalDisableRules should disable all rules if # dclint disable is 
   );
 });
 
-// @ts-ignore TS2349
 test('extractGlobalDisableRules should find disable rules after delimiter', (t) => {
   const content = `
     ---
@@ -81,7 +74,6 @@ test('extractGlobalDisableRules should find disable rules after delimiter', (t) 
   );
 });
 
-// @ts-ignore TS2349
 test('extractGlobalDisableRules should disable specific rule if # dclint disable rule-name is used', (t) => {
   const content = `
     # dclint disable rule-name
@@ -96,7 +88,6 @@ test('extractGlobalDisableRules should disable specific rule if # dclint disable
   );
 });
 
-// @ts-ignore TS2349
 test('extractGlobalDisableRules should disable multiple specific rules if # dclint disable rule-name another-rule-name is used', (t) => {
   const content = `
     # dclint disable rule-name another-rule-name
@@ -111,7 +102,6 @@ test('extractGlobalDisableRules should disable multiple specific rules if # dcli
   );
 });
 
-// @ts-ignore TS2349
 test('extractDisableLineRules should correctly extract rules for disabling from a comment on the same line', (t) => {
   const content = `
     key: value 1
@@ -127,7 +117,6 @@ test('extractDisableLineRules should correctly extract rules for disabling from 
   );
 });
 
-// @ts-ignore TS2349
 test('extractDisableLineRules should correctly handle multiple rules for a line on the same line', (t) => {
   const content = `
     key: value 1
@@ -143,7 +132,6 @@ test('extractDisableLineRules should correctly handle multiple rules for a line 
   );
 });
 
-// @ts-ignore TS2349
 test('extractDisableLineRules should correctly handle rules from a comment on the previous line', (t) => {
   const content = `
     key: value 1
@@ -160,7 +148,6 @@ test('extractDisableLineRules should correctly handle rules from a comment on th
   );
 });
 
-// @ts-ignore TS2349
 test('extractDisableLineRules should correctly handle multiple rules from a comment on the previous line', (t) => {
   const content = `
     key: value 1
@@ -176,7 +163,6 @@ test('extractDisableLineRules should correctly handle multiple rules from a comm
   );
 });
 
-// @ts-ignore TS2349
 test('extractDisableLineRules should disable all rules for a line with empty disable-line comment', (t) => {
   const content = `
     key: value 1
@@ -192,7 +178,6 @@ test('extractDisableLineRules should disable all rules for a line with empty dis
   );
 });
 
-// @ts-ignore TS2349
 test('extractDisableLineRules should disable all rules for the next line if the comment is before', (t) => {
   const content = `
     key: value 1
@@ -204,7 +189,6 @@ test('extractDisableLineRules should disable all rules for the next line if the 
   t.deepEqual([...(result.get(DISABLED_LINE) || [])], ['*'], 'Should disable all rules for the line after the comment');
 });
 
-// @ts-ignore TS2349
 test('extractDisableLineRules should return an empty set if no disable-line comment is present', (t) => {
   const content = `
     key: value 1

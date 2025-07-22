@@ -5,7 +5,6 @@ import { stylishFormatter } from '../../src/formatters/stylish';
 
 import type { LintResult } from '../../src/linter/linter.types';
 
-// @ts-ignore TS2349
 test('stylishFormatter: single file explicit output', (t) => {
   const input: LintResult[] = [
     {
@@ -54,7 +53,6 @@ ${filePath}
   t.is(actual, expected);
 });
 
-// @ts-ignore TS2349
 test('stylishFormatter: multiple files explicit output', (t) => {
   const input: LintResult[] = [
     {

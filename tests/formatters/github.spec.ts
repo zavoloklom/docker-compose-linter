@@ -4,7 +4,6 @@ import { githubFormatter } from '../../src/formatters/github';
 
 import type { LintResult } from '../../src/linter/linter.types';
 
-// @ts-ignore TS2349
 test('Github Formatter: single LintResult with one message', (t) => {
   const input: LintResult[] = [
     {
@@ -35,7 +34,6 @@ test('Github Formatter: single LintResult with one message', (t) => {
   t.is(actual, expected);
 });
 
-// @ts-ignore TS2349
 test('Github Formatter: multiple LintResults and messages', (t) => {
   const input: LintResult[] = [
     {

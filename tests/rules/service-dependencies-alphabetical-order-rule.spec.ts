@@ -52,8 +52,6 @@ services:
 
 const filePath = '/docker-compose.yml';
 
-// Short syntax tests
-// @ts-ignore TS2349
 test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when short syntax services are not in alphabetical order', (t) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const context: LintContext = {
@@ -66,7 +64,6 @@ test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when sho
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when short syntax services are in alphabetical order', (t) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const context: LintContext = {
@@ -79,7 +76,6 @@ test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when 
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of short syntax services', (t) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectShortSyntax);
@@ -91,8 +87,6 @@ test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of short sy
   );
 });
 
-// Long syntax tests
-// @ts-ignore TS2349
 test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when long syntax services are not in alphabetical order', (t) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const context: LintContext = {
@@ -105,7 +99,6 @@ test('ServiceDependenciesAlphabeticalOrderRule: should return a warning when lon
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when long syntax services are in alphabetical order', (t) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const context: LintContext = {
@@ -118,7 +111,6 @@ test('ServiceDependenciesAlphabeticalOrderRule: should not return warnings when 
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServiceDependenciesAlphabeticalOrderRule: should fix the order of long syntax services', (t) => {
   const rule = new ServiceDependenciesAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectLongSyntax);

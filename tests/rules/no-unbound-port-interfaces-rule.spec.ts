@@ -39,7 +39,6 @@ services:
 
 const filePath = '/docker-compose.yml';
 
-// @ts-ignore TS2349
 test('NoUnboundPortInterfacesRule: should return multiple errors when duplicate exported ports are found', (t) => {
   const rule = new NoUnboundPortInterfacesRule();
   const context: LintContext = {
@@ -59,7 +58,6 @@ test('NoUnboundPortInterfacesRule: should return multiple errors when duplicate 
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoUnboundPortInterfacesRule: should not return errors when exported ports have host_ip configured', (t) => {
   const rule = new NoUnboundPortInterfacesRule();
   const context: LintContext = {

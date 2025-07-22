@@ -49,7 +49,6 @@ services:
       - "9090-9091:8080-8081"
 `;
 
-// @ts-ignore TS2349
 test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are not alphabetically ordered', (t) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const context: LintContext = {
@@ -62,7 +61,6 @@ test('ServicePortsAlphabeticalOrderRule: should return a warning when ports are 
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports are alphabetically ordered', (t) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const context: LintContext = {
@@ -75,7 +73,6 @@ test('ServicePortsAlphabeticalOrderRule: should not return warnings when ports a
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServicePortsAlphabeticalOrderRule: should fix the order of ports', (t) => {
   const rule = new ServicePortsAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectPortOrder);

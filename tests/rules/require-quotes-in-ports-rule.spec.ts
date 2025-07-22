@@ -44,7 +44,6 @@ services:
 
 const pathToFile = '/docker-compose.yml';
 
-// @ts-ignore TS2349
 test('RequireQuotesInPortsRule: should return a warning when ports are not quoted', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
   const context: LintContext = {
@@ -57,7 +56,6 @@ test('RequireQuotesInPortsRule: should return a warning when ports are not quote
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('RequireQuotesInPortsRule: should not return warnings when ports are quoted with single quotes', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
   const context: LintContext = {
@@ -70,7 +68,6 @@ test('RequireQuotesInPortsRule: should not return warnings when ports are quoted
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('RequireQuotesInPortsRule: should not return warnings when ports are quoted with double quotes', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'double' });
   const context: LintContext = {
@@ -83,7 +80,6 @@ test('RequireQuotesInPortsRule: should not return warnings when ports are quoted
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('RequireQuotesInPortsRule: should handle absence of ports and expose sections gracefully', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
   const context: LintContext = {
@@ -96,7 +92,6 @@ test('RequireQuotesInPortsRule: should handle absence of ports and expose sectio
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('RequireQuotesInPortsRule: should fix unquoted ports by adding single quotes and not modify already quoted ports', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
 
@@ -108,7 +103,6 @@ test('RequireQuotesInPortsRule: should fix unquoted ports by adding single quote
   );
 });
 
-// @ts-ignore TS2349
 test('RequireQuotesInPortsRule: should fix double quotes ports by changing them to single quotes', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'single' });
 
@@ -120,7 +114,6 @@ test('RequireQuotesInPortsRule: should fix double quotes ports by changing them 
   );
 });
 
-// @ts-ignore TS2349
 test('RequireQuotesInPortsRule: should fix unquoted ports by adding double quotes and not modify already quoted ports', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'double' });
 
@@ -132,7 +125,6 @@ test('RequireQuotesInPortsRule: should fix unquoted ports by adding double quote
   );
 });
 
-// @ts-ignore TS2349
 test('RequireQuotesInPortsRule: should fix single quotes ports by changing them to double quotes', (t) => {
   const rule = new RequireQuotesInPortsRule({ quoteType: 'double' });
 

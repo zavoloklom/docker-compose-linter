@@ -13,7 +13,6 @@ const normalize = (xml: string): string => {
     .join('\n');
 };
 
-// @ts-ignore TS2349
 test('JUnit Formatter: single LintResult with explicit output', (t) => {
   const input: LintResult[] = [
     {
@@ -52,7 +51,6 @@ test('JUnit Formatter: single LintResult with explicit output', (t) => {
   t.is(normalize(actual), normalize(expected));
 });
 
-// @ts-ignore TS2349
 test('JUnit Formatter: multiple LintResults with explicit output', (t) => {
   const input: LintResult[] = [
     {

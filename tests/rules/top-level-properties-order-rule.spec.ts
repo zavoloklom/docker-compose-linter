@@ -43,7 +43,6 @@ volumes:
 
 const filePath = '/docker-compose.yml';
 
-// @ts-ignore TS2349
 test('TopLevelPropertiesOrderRule: should return a warning when top-level properties are out of order', (t) => {
   const rule = new TopLevelPropertiesOrderRule();
   const context: LintContext = {
@@ -72,7 +71,6 @@ test('TopLevelPropertiesOrderRule: should return a warning when top-level proper
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('TopLevelPropertiesOrderRule: should not return warnings when top-level properties are in the correct order', (t) => {
   const rule = new TopLevelPropertiesOrderRule();
   const context: LintContext = {
@@ -85,7 +83,6 @@ test('TopLevelPropertiesOrderRule: should not return warnings when top-level pro
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('TopLevelPropertiesOrderRule: should fix the order of top-level properties', (t) => {
   const rule = new TopLevelPropertiesOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectOrder);
@@ -132,7 +129,6 @@ x-b:
   some-key: some-value
 `;
 
-// @ts-ignore TS2349
 test('TopLevelPropertiesOrderRule: should return warnings based on custom order', (t) => {
   const customOrder = [
     TopLevelKeys.Version,
@@ -159,7 +155,6 @@ test('TopLevelPropertiesOrderRule: should return warnings based on custom order'
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('TopLevelPropertiesOrderRule: should handle absence of x-* properties correctly', (t) => {
   const yamlWithoutXProperties = `
 version: '3'
@@ -181,7 +176,6 @@ networks:
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('TopLevelPropertiesOrderRule: should fix the order of top-level properties based on custom order', (t) => {
   const customOrder = [
     TopLevelKeys.Version,

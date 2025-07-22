@@ -59,7 +59,6 @@ services:
     image: nginx
 `;
 
-// @ts-ignore TS2349
 test('DCLinter: should lint files correctly', async (t) => {
   const mockFindFiles = (): string[] => [mockFilePath];
   const mockLoadLintRules = (): Rule[] => [mockRule];
@@ -87,7 +86,6 @@ test('DCLinter: should lint files correctly', async (t) => {
   t.is(result[0].warningCount, 0, 'There should be no warnings');
 });
 
-// @ts-ignore TS2349
 test('DCLinter: should disable linter for a file', async (t) => {
   const mockReadFileSync = (): string => `# dclint disable-file
     version: '3'
@@ -118,7 +116,6 @@ test('DCLinter: should disable linter for a file', async (t) => {
   linter.fixFiles([mockFilePath], false, false); // Dry run is set to false
 });
 
-// @ts-ignore TS2349
 test('DCLinter: should disable specific rule for part of the file', async (t) => {
   const mockReadFileSync = (): string => `--- # dclint disable require-project-name-field
     services:
@@ -137,7 +134,6 @@ test('DCLinter: should disable specific rule for part of the file', async (t) =>
   t.is(result[0].messages.length, 0, 'No messages should be present when rule is disabled for part of file');
 });
 
-// @ts-ignore TS2349
 test('DCLinter: should lint multiple files correctly', async (t) => {
   const mockFindFiles = (): string[] => mockFilePaths;
   const mockLoadLintRules = (): Rule[] => [mockRule];
@@ -163,7 +159,6 @@ test('DCLinter: should lint multiple files correctly', async (t) => {
   t.is(result[1].messages.length, 1, 'There should be one lint message for the second file');
 });
 
-// @ts-ignore TS2349
 test('DCLinter: should fix files', async (t) => {
   // Use esmock to mock both rules-loader and files-finder modules
   const { DCLinter } = await esmock<typeof import('../../src/linter/linter')>('../../src/linter/linter', {
@@ -191,7 +186,6 @@ test('DCLinter: should fix files', async (t) => {
   t.regex(loggedOutput, /nginx:latest/u, 'Dry run output should contain "nginx:latest"');
 });
 
-// @ts-ignore TS2349
 test('DCLinter: should apply fixes correctly while ignoring disabled rules', async (t) => {
   const mockReadFileSync = (): string => `
     # dclint disable mock-rule
@@ -226,7 +220,6 @@ test('DCLinter: should apply fixes correctly while ignoring disabled rules', asy
   // The "mock-rule" rule should be ignored as it was disabled globally in the first line
 });
 
-// @ts-ignore TS2349
 test('DCLinter: adds error message for invalid YAML (YAMLError)', async (t) => {
   const mockReadFileSync = () => 'invalid: [unclosed';
 
@@ -259,7 +252,6 @@ test('DCLinter: adds error message for invalid YAML (YAMLError)', async (t) => {
   t.is(message.message, 'Invalid YAML format.');
 });
 
-// @ts-ignore TS2349
 test('DCLinter: adds error message for ComposeValidationError', async (t) => {
   const mockReadFileSync = () => 'version: "3"';
   const mockParseDocument = () => ({ errors: [], toJS: () => ({}) });
@@ -289,7 +281,6 @@ test('DCLinter: adds error message for ComposeValidationError', async (t) => {
   t.true(message.message.includes('Mock schema error'));
 });
 
-// @ts-ignore TS2349
 test('DCLinter: adds error message for unknown error', async (t) => {
   const mockReadFileSync = () => 'version: "3"';
   const mockParseDocument = () => {
@@ -311,7 +302,6 @@ test('DCLinter: adds error message for unknown error', async (t) => {
   t.true(message.message.includes('Unexpected crash'));
 });
 
-// @ts-ignore TS2349
 test('DCLinter: calls formatter and returns formatted result', async (t) => {
   const mockFormatter = (results: LintResult[]) => `Formatted ${results.length} result(s)`;
 
@@ -335,7 +325,6 @@ test('DCLinter: calls formatter and returns formatted result', async (t) => {
   t.is(formatted, 'Formatted 1 result(s)');
 });
 
-// @ts-ignore TS2349
 test('DCLinter: should filter out rule message if line has disable-line *', async (t) => {
   const sourceWithDisableLine = `services:
   web:

@@ -120,7 +120,6 @@ services:
 
 const filePath = '/docker-compose.yml';
 
-// @ts-ignore TS2349
 test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate exported ports are found', (t) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
@@ -139,7 +138,6 @@ test('NoDuplicateExportedPortsRule: should return multiple errors when duplicate
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoDuplicateExportedPortsRule: should not return errors when exported ports are unique', (t) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
@@ -152,7 +150,6 @@ test('NoDuplicateExportedPortsRule: should not return errors when exported ports
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoDuplicateExportedPortsRule: should return an error when range overlap is detected', (t) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {
@@ -168,7 +165,6 @@ test('NoDuplicateExportedPortsRule: should return an error when range overlap is
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoDuplicateExportedPortsRule: should not return errors when same ports have different protocols', (t) => {
   const rule = new NoDuplicateExportedPortsRule();
   const context: LintContext = {

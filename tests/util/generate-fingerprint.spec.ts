@@ -15,7 +15,6 @@ const md5Of = (parts: string[]) => {
   return hash.digest('hex');
 };
 
-// @ts-ignore TS2349
 test('generateFingerprint returns stable MD5 and records it in the set', (t) => {
   const data = ['path/to/file.js', 'RULE_A', 'An error occurred', '42', '7'];
   const hashes = new Set<string>();
@@ -27,7 +26,6 @@ test('generateFingerprint returns stable MD5 and records it in the set', (t) => 
   t.true(hashes.has(expected), 'should add the fingerprint to the hashes set');
 });
 
-// @ts-ignore TS2349
 test.serial('generateFingerprint handles collisions by re‑hashing with Math.random', (t) => {
   const data = ['src/app.ts', 'RULE_B', 'Oops', '1', '2'];
   const original = md5Of(data);

@@ -4,7 +4,6 @@ import { compactFormatter } from '../../src/formatters/compact';
 
 import type { LintResult } from '../../src/linter/linter.types';
 
-// @ts-ignore TS2349
 test('Compact Formatter: single LintResult with one message', (t) => {
   const input: LintResult[] = [
     {
@@ -35,7 +34,6 @@ test('Compact Formatter: single LintResult with one message', (t) => {
   t.is(actual, expected);
 });
 
-// @ts-ignore TS2349
 test('Compact Formatter: multiple LintResults and messages', (t) => {
   const input: LintResult[] = [
     {

@@ -19,7 +19,6 @@ services:
     image: nginx
 `;
 
-// @ts-ignore TS2349
 test('RequiredProjectNameFieldRule: should return a warning when "name" field is missing', (t) => {
   const rule = new RequireProjectNameFieldRule();
   const context: LintContext = {
@@ -38,7 +37,6 @@ test('RequiredProjectNameFieldRule: should return a warning when "name" field is
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('RequiredProjectNameFieldRule: should not return warnings when "name" field is present', (t) => {
   const rule = new RequireProjectNameFieldRule();
   const context: LintContext = {

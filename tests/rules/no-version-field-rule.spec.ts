@@ -19,7 +19,6 @@ services:
     image: nginx
 `;
 
-// @ts-ignore TS2349
 test('NoVersionFieldRule: should return an error when "version" field is present', (t) => {
   const rule = new NoVersionFieldRule();
   const context: LintContext = {
@@ -39,7 +38,6 @@ test('NoVersionFieldRule: should return an error when "version" field is present
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoVersionFieldRule: should not return errors when "version" field is not present', (t) => {
   const rule = new NoVersionFieldRule();
   const context: LintContext = {
@@ -58,7 +56,6 @@ test('NoVersionFieldRule: should not return errors when "version" field is not p
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoVersionFieldRule: should fix by removing the "version" field', (t) => {
   const rule = new NoVersionFieldRule();
   const fixedYAML = rule.fix(yamlWithVersion);
@@ -66,7 +63,6 @@ test('NoVersionFieldRule: should fix by removing the "version" field', (t) => {
   t.false(fixedYAML.includes('version:'), 'The "version" field should be removed.');
 });
 
-// @ts-ignore TS2349
 test('NoVersionFieldRule: should not modify YAML without "version" field', (t) => {
   const rule = new NoVersionFieldRule();
   const fixedYAML = rule.fix(yamlWithoutVersion);

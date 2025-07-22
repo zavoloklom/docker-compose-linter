@@ -35,7 +35,6 @@ services:
     image: elastic
 `;
 
-// @ts-ignore TS2349
 test('ServicesAlphabeticalOrderRule: should return a warning when services are out of order', (t) => {
   const rule = new ServicesAlphabeticalOrderRule();
   const context: LintContext = {
@@ -52,7 +51,6 @@ test('ServicesAlphabeticalOrderRule: should return a warning when services are o
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServicesAlphabeticalOrderRule: should not return warnings when services are in alphabetical order', (t) => {
   const rule = new ServicesAlphabeticalOrderRule();
   const context: LintContext = {
@@ -65,7 +63,6 @@ test('ServicesAlphabeticalOrderRule: should not return warnings when services ar
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('ServicesAlphabeticalOrderRule: should fix the order of services', (t) => {
   const rule = new ServicesAlphabeticalOrderRule();
   const fixedYAML = rule.fix(yamlWithIncorrectOrder);

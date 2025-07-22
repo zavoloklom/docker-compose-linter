@@ -28,7 +28,6 @@ services:
     container_name: db_container
 `;
 
-// @ts-ignore TS2349
 test('NoDuplicateContainerNamesRule: should return an error when duplicate container names are found', (t) => {
   const rule = new NoDuplicateContainerNamesRule();
   const context: LintContext = {
@@ -43,7 +42,6 @@ test('NoDuplicateContainerNamesRule: should return an error when duplicate conta
   runRuleTest(t, rule, context, expectedMessages);
 });
 
-// @ts-ignore TS2349
 test('NoDuplicateContainerNamesRule: should not return errors when container names are unique', (t) => {
   const rule = new NoDuplicateContainerNamesRule();
   const context: LintContext = {
