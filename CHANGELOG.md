@@ -2,6 +2,153 @@
 
 > This file was generated automatically using [@semantic-release](https://github.com/semantic-release/semantic-release).
 
+## [3.1.0](https://github.com/zavoloklom/docker-compose-linter/compare/v3.0.0...v3.1.0) (2025-07-24)
+
+### Features
+
+- add `exports` section to package.json
+  ([507211f](https://github.com/zavoloklom/docker-compose-linter/commit/507211f92aca872a0a49b2a9c578fb4b1b3c8f3d))
+- update docker compose schema
+  ([534bca9](https://github.com/zavoloklom/docker-compose-linter/commit/534bca90279720ee990480279e14e1f4c0409844))
+
+### Code Refactoring
+
+- move helper functions from formatters to utils
+  ([b658fc6](https://github.com/zavoloklom/docker-compose-linter/commit/b658fc6ecdcbfa25fb16685496c00e98fa5f423a))
+
+### Tests
+
+- add tests for formatters
+  ([8506df2](https://github.com/zavoloklom/docker-compose-linter/commit/8506df2fd0c6cab698493c1bc8c9853248a89f81))
+- fix colors in tests
+  ([90c75eb](https://github.com/zavoloklom/docker-compose-linter/commit/90c75eb40d7006e576775da030be5944e044112c))
+
+### Dependencies
+
+- **dev:** bump @eslint/js from 9.28.0 to 9.29.0
+  ([0e64353](https://github.com/zavoloklom/docker-compose-linter/commit/0e643538b0d7bf395ca8565ebdcc6bb671e5333d))
+- **dev:** bump @eslint/js from 9.29.0 to 9.30.1
+  ([86462b1](https://github.com/zavoloklom/docker-compose-linter/commit/86462b14edda052330f5c617a6c9936fee223226))
+- **dev:** bump @rollup/plugin-commonjs from 28.0.3 to 28.0.5
+  ([20f62b8](https://github.com/zavoloklom/docker-compose-linter/commit/20f62b840ff2b7844937070da785482a08653c11))
+- **dev:** bump @rollup/plugin-commonjs from 28.0.5 to 28.0.6
+  ([4fed72b](https://github.com/zavoloklom/docker-compose-linter/commit/4fed72b64a16cf6aebe2ce6b55352652205b950f))
+- **dev:** bump @rollup/plugin-typescript from 12.1.2 to 12.1.3
+  ([0e14b44](https://github.com/zavoloklom/docker-compose-linter/commit/0e14b44aeaa4cf96ec5f937ddab46891911409d9))
+- **dev:** bump @rollup/plugin-typescript from 12.1.3 to 12.1.4
+  ([c9c89a7](https://github.com/zavoloklom/docker-compose-linter/commit/c9c89a734fe56e67f52b4ba8113adc58bbea2958))
+- **dev:** bump @types/node from 22.15.18 to 22.15.31
+  ([5dba50b](https://github.com/zavoloklom/docker-compose-linter/commit/5dba50b72f9e63af0fec57846603481b8ecd81c4))
+- **dev:** bump @types/node from 22.15.31 to 22.15.32
+  ([9d54729](https://github.com/zavoloklom/docker-compose-linter/commit/9d54729df3db391fc36edb85dbb4519f6667634c))
+- **dev:** bump eslint from 9.28.0 to 9.29.0
+  ([1136e18](https://github.com/zavoloklom/docker-compose-linter/commit/1136e183c4a7cf527355eb3dc9ded5810c24e152))
+- **dev:** bump eslint-plugin-prettier from 5.4.1 to 5.5.0
+  ([894df7f](https://github.com/zavoloklom/docker-compose-linter/commit/894df7f5ade7074e112e4b15f58c0efde0e3f334))
+- **dev:** bump eslint-plugin-sonarjs from 3.0.2 to 3.0.3
+  ([58d6dc3](https://github.com/zavoloklom/docker-compose-linter/commit/58d6dc38922f8f1341e14550c03097a65e3f312e))
+- **dev:** bump rollup from 4.43.0 to 4.44.2
+  ([d0f9a84](https://github.com/zavoloklom/docker-compose-linter/commit/d0f9a8458077f871cc19859d08b3211e9e947143))
+- **dev:** bump semantic-release from 24.2.5 to 24.2.6
+  ([e342f64](https://github.com/zavoloklom/docker-compose-linter/commit/e342f64e5178dd765a3fbcb8984ee05400b6aa25))
+- **dev:** bump typescript-eslint from 8.34.0 to 8.34.1
+  ([10b81bb](https://github.com/zavoloklom/docker-compose-linter/commit/10b81bbc4c62929015a7d4117edb5537aaaa04f7))
+
+### Documentation
+
+- add BenRoe as a contributor for ideas
+  ([38dc698](https://github.com/zavoloklom/docker-compose-linter/commit/38dc698a821b4fca2d6d053d0748fcdc6dbd905d)),
+  closes [#220](https://github.com/zavoloklom/docker-compose-linter/issues/220)
+- add GitLab CI Component usage example
+  ([0e9aa6a](https://github.com/zavoloklom/docker-compose-linter/commit/0e9aa6a8459bc45cce69c18f7f9cd015e0d83d29))
+- add link to online version
+  ([1fe752e](https://github.com/zavoloklom/docker-compose-linter/commit/1fe752e0c0e68eefa621b6e89508a74b017a2393)),
+  closes [#220](https://github.com/zavoloklom/docker-compose-linter/issues/220)
+- add MegaLinter section
+  ([13fc2c5](https://github.com/zavoloklom/docker-compose-linter/commit/13fc2c5e3760daf0ae03dbfb398ff09608606f1f)),
+  closes [#150](https://github.com/zavoloklom/docker-compose-linter/issues/150)
+- add OhMyMndy as a contributor for code
+  ([7e55a15](https://github.com/zavoloklom/docker-compose-linter/commit/7e55a15ec7794117094c7f3817a3ec72950982d4))
+- add wesley-dean as a contributor for ideas
+  ([a961f75](https://github.com/zavoloklom/docker-compose-linter/commit/a961f75e319058973bd265826103e5ab0f2b85bf)),
+  closes [#150](https://github.com/zavoloklom/docker-compose-linter/issues/150)
+- fix GitLab CI Example
+  ([bd3be31](https://github.com/zavoloklom/docker-compose-linter/commit/bd3be31ae7f8d2d6fbf6163bf11a3b5fabc42906))
+- fix table format
+  ([c906e69](https://github.com/zavoloklom/docker-compose-linter/commit/c906e69c3636b2c88a5d55e00b79644f238745cb))
+- update GitHub Action usage example
+  ([6d6e913](https://github.com/zavoloklom/docker-compose-linter/commit/6d6e9131db53e7e8abd5b1b2c2bb493b563d9d9c))
+- update Support section
+  ([374cddd](https://github.com/zavoloklom/docker-compose-linter/commit/374cddde90bf6d7543dfb22c6a59d8186837e62c))
+- update Supported Versions
+  ([19c3dac](https://github.com/zavoloklom/docker-compose-linter/commit/19c3daccf24761567c120392585aef1a91926a5f))
+
+### CI/CD
+
+- add exit early if no release
+  ([1d727c5](https://github.com/zavoloklom/docker-compose-linter/commit/1d727c5a28b25059cf68d1599f4d5f83bf0d49f2))
+- add workflow_dispatch for CodeQL and Scorecard
+  ([029a28b](https://github.com/zavoloklom/docker-compose-linter/commit/029a28b312858b3bf24f49928758fd23f8070e5c))
+- change codacy reporter script
+  ([ae3611c](https://github.com/zavoloklom/docker-compose-linter/commit/ae3611c1a8d3916001c9bafeb165a40a20d045b6))
+- **deps:** bump actions/download-artifact from 4.1.8 to 4.3.0
+  ([9b1669f](https://github.com/zavoloklom/docker-compose-linter/commit/9b1669fd18460baec3a41fd954c6b6db096c9131))
+- **deps:** bump docker/build-push-action from 6.10.0 to 6.18.0
+  ([25d6df2](https://github.com/zavoloklom/docker-compose-linter/commit/25d6df23b736ce9a68971af2df41f5acd1524058))
+- **deps:** bump docker/login-action from 3.3.0 to 3.4.0
+  ([adf8cdf](https://github.com/zavoloklom/docker-compose-linter/commit/adf8cdf3b5f4753edb5591f5dd30746661b3008f))
+- **deps:** bump docker/setup-buildx-action from 3.10.0 to 3.11.1
+  ([177aa0b](https://github.com/zavoloklom/docker-compose-linter/commit/177aa0b07ab536d96fb25b838959d01a7aad70b4))
+- **deps:** bump docker/setup-buildx-action from 3.8.0 to 3.10.0
+  ([7950537](https://github.com/zavoloklom/docker-compose-linter/commit/7950537a33263988f1815fe681cb88e6a371da17))
+- **deps:** bump github/codeql-action from 3.28.13 to 3.29.0
+  ([f51951a](https://github.com/zavoloklom/docker-compose-linter/commit/f51951ae9938fd6dd5d1f13bb265b6488612db82))
+- **deps:** bump github/codeql-action from 3.29.0 to 3.29.2
+  ([ab96e14](https://github.com/zavoloklom/docker-compose-linter/commit/ab96e14f988ddb19f8fa14f486969355d61721db))
+- **deps:** bump ossf/scorecard-action from 2.4.0 to 2.4.2
+  ([c006a4a](https://github.com/zavoloklom/docker-compose-linter/commit/c006a4a1c5e0c49551346e58948e86d3d1f86efe))
+- **deps:** bump step-security/harden-runner from 2.11.0 to 2.12.1
+  ([40edaa8](https://github.com/zavoloklom/docker-compose-linter/commit/40edaa8ba0f8463f2afd4bb8b04c6d7966548e6c))
+- **deps:** bump step-security/harden-runner from 2.12.1 to 2.12.2
+  ([6631244](https://github.com/zavoloklom/docker-compose-linter/commit/6631244ca393d4ac2f78707dc5e93d2237146241))
+- fix release job
+  ([cb83a0d](https://github.com/zavoloklom/docker-compose-linter/commit/cb83a0d2167b1e6be445bfed2aab08926b3fc3fd))
+- restrict permissions for GITHUB_TOKEN
+  ([198fad8](https://github.com/zavoloklom/docker-compose-linter/commit/198fad8633a8771a30a12b046d16a302c30b540e))
+- update node version for debug step
+  ([20f286d](https://github.com/zavoloklom/docker-compose-linter/commit/20f286da9557d795264123c62b83c1d0cc99c055))
+
+### Others
+
+- add FUNDING file
+  ([4c05b38](https://github.com/zavoloklom/docker-compose-linter/commit/4c05b387a7d5b7877966b997586bcd5b6470c279))
+- apply security best practices
+  ([6f65d68](https://github.com/zavoloklom/docker-compose-linter/commit/6f65d685a29730b696a26856a5598760403b4fd4))
+- implement new eslint ruleset (@typescript-eslint/ban-ts-comment)
+  ([b88091d](https://github.com/zavoloklom/docker-compose-linter/commit/b88091dbaf1908335b91420f52c0719fa2c63772))
+- implement new eslint ruleset (@typescript-eslint/naming-convention)
+  ([aeaadef](https://github.com/zavoloklom/docker-compose-linter/commit/aeaadef3e520a917a3eaf51d465f7fbbc62d2049))
+- implement new eslint ruleset (func-style to Function Expression)
+  ([e297b97](https://github.com/zavoloklom/docker-compose-linter/commit/e297b97fabe592e972d3106272a7d586e65e309c))
+- implement new eslint ruleset (id-lenght)
+  ([4a78b74](https://github.com/zavoloklom/docker-compose-linter/commit/4a78b74cc99fbcb925f8ee12c297405013acce1b))
+- implement new eslint ruleset (import/no-default-export)
+  ([0638679](https://github.com/zavoloklom/docker-compose-linter/commit/0638679c9b08356b31c131670b5c7b5f052985b3))
+- implement new eslint ruleset (import/order)
+  ([7734abf](https://github.com/zavoloklom/docker-compose-linter/commit/7734abfdb7b35ff83f167a5b083c4c5469b85a3d))
+- implement new eslint ruleset (no-console, camelcase, prefer-named-capture-group)
+  ([424b7f8](https://github.com/zavoloklom/docker-compose-linter/commit/424b7f89987dc13526b34278c37a3686caf581a5))
+- implement new eslint ruleset (no-magic-numbers) and refactor rules tests
+  ([a67fea5](https://github.com/zavoloklom/docker-compose-linter/commit/a67fea5ae3f7775fc594cb756c3a0924096994f6))
+- implement new eslint ruleset (no-undefined)
+  ([51c10f0](https://github.com/zavoloklom/docker-compose-linter/commit/51c10f0c802e112ebd0e631abf76dbb000fe47ad))
+- implement new eslint ruleset (require-unicode-regexp)
+  ([7a7ef86](https://github.com/zavoloklom/docker-compose-linter/commit/7a7ef865087a80f737efbec15120361f30e6d84a))
+- implement new eslint ruleset (unicorn/no-array-for-each)
+  ([cc36fa1](https://github.com/zavoloklom/docker-compose-linter/commit/cc36fa1f050e5dac90c6f80db7b5d2da1bd4b687))
+- switch eslint and prettier to @zavoloklom/shareable-configs
+  ([5bd1a2f](https://github.com/zavoloklom/docker-compose-linter/commit/5bd1a2fb4e5a1a5be806f767738b1264442f1e21))
+
 ## [3.0.0](https://github.com/zavoloklom/docker-compose-linter/compare/v2.2.2...v3.0.0) (2025-06-12)
 
 ### ⚠ BREAKING CHANGES
