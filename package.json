@@ -21,6 +21,15 @@
   "license": "MIT",
   "author": "Sergey Kupletsky <s.kupletsky@gmail.com> (https://github.com/zavoloklom)",
   "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/types/src/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.esm.js"
+    }
+  },
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/types/src/index.d.ts",
