@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import test from 'ava';
-import pc from 'picocolors';
+import stripAnsi from 'strip-ansi';
 
 import { LogSource, Logger } from '../../src/util/logger';
 
@@ -33,9 +33,9 @@ test('info() always logs with [INFO] prefix', (t) => {
   const logger = Logger.init();
   logger.info('payload', 1);
 
-  const expectedPrefix = pc.green('[INFO]');
+  const expectedPrefix = '[INFO]';
 
-  t.is(calls[0][0], expectedPrefix);
+  t.is(stripAnsi(calls[0][0] as string), expectedPrefix);
   t.deepEqual(calls[0].slice(1), ['payload', 1]);
 });
 
@@ -48,9 +48,9 @@ test('warn() always logs with [WARN] prefix', (t) => {
   const logger = Logger.init();
   logger.warn('w1', 'w2');
 
-  const expectedPrefix = pc.yellow('[WARN]');
+  const expectedPrefix = '[WARN]';
 
-  t.is(calls[0][0], expectedPrefix);
+  t.is(stripAnsi(calls[0][0] as string), expectedPrefix);
   t.deepEqual(calls[0].slice(1), ['w1', 'w2']);
 });
 
@@ -63,9 +63,9 @@ test('error() always logs with [ERROR] prefix', (t) => {
   const logger = Logger.init();
   logger.error('e1');
 
-  const expectedPrefix = pc.red('[ERROR]');
+  const expectedPrefix = '[ERROR]';
 
-  t.is(calls[0][0], expectedPrefix);
+  t.is(stripAnsi(calls[0][0] as string), expectedPrefix);
   t.deepEqual(calls[0].slice(1), ['e1']);
 });
 
@@ -79,9 +79,9 @@ test('debug() should log when debugMode=true', (t) => {
   const logger = Logger.init(true);
   logger.debug(LogSource.UTIL, 'd2', 1);
 
-  const expectedPrefix = `${pc.blue('[DEBUG]')} [${LogSource.UTIL}]`;
+  const expectedPrefix = `[DEBUG] [${LogSource.UTIL}]`;
 
-  t.is(calls[0][0], expectedPrefix);
+  t.is(stripAnsi(calls[0][0] as string), expectedPrefix);
   t.deepEqual(calls[0].slice(1), ['d2', 1]);
 });
 

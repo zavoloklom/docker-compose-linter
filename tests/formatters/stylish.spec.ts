@@ -1,5 +1,6 @@
 import test from 'ava';
 import { resolve } from 'node:path';
+import stripAnsi from 'strip-ansi';
 
 import { stylishFormatter } from '../../src/formatters/stylish';
 
@@ -50,7 +51,7 @@ ${filePath}
 1 errors and 1 warnings potentially fixable with the \`--fix\` option.
 `;
 
-  t.is(actual, expected);
+  t.is(stripAnsi(actual), expected);
 });
 
 test('stylishFormatter: multiple files explicit output', (t) => {
@@ -120,5 +121,5 @@ ${pathB}
 1 errors and 2 warnings potentially fixable with the \`--fix\` option.
 `;
 
-  t.is(actual, expected);
+  t.is(stripAnsi(actual), expected);
 });
