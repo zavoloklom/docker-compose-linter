@@ -1,6 +1,4 @@
 runtimes:
-    - node@22.2.0
-    - python@3.11.11
+    - node@22.15.0
 tools:
-    - eslint@9.26.0
-    - semgrep@1.78.0
+    - eslint@9.31.0
