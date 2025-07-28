@@ -42,6 +42,13 @@ jobs:
           npm run eslint
           npm run markdownlint
 
+      - name: Run Codacy CLI
+        uses: codacy/codacy-cli-v2-action@main
+        with:
+          project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          tool: eslint
+          upload_report: true
+
       - name: Run Hadolint on Dockerfile
         uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
         with:
