@@ -52,6 +52,7 @@ jobs:
       - name: Run Codacy CLI
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          COMMIT_SHA: ${{ github.sha }}
         run: |
           curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh -o codacy-cli
           chmod +x codacy-cli
