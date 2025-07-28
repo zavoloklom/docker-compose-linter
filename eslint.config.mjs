@@ -30,6 +30,6 @@ export default defineConfig([
   ava.configs['flat/recommended'],
   // Global ignores
   {
-    ignores: ['dist/', 'bin/', 'pkg/', 'coverage/', '.tsimp/', '.idea/', '.vscode/'],
+    ignores: ['dist/', 'bin/', 'pkg/', 'coverage/', '.tsimp/', '.idea/', '.vscode/', '.codacy/'],
   },
 ]);
