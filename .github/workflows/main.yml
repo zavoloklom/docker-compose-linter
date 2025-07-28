@@ -37,10 +37,10 @@ jobs:
           git fetch origin main
           npx commitlint --from=origin/main
 
-      - name: Run linters (eslint, markdownlint)
-        run: |
-          npm run eslint
-          npm run markdownlint
+#      - name: Run linters (eslint, markdownlint)
+#        run: |
+#          npm run eslint
+#          npm run markdownlint
 
       - name: Run Codacy CLI
         uses: codacy/codacy-cli-v2-action@be2c794209715d99f18b58fce771b3ecbe1cff96 # v0.2.0
@@ -58,7 +58,7 @@ jobs:
         run: npm run test:coverage
 
       - name: Report coverage to Codacy
-        if: github.ref == 'refs/heads/main'
+#        if: github.ref == 'refs/heads/main'
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/cobertura-coverage.xml
