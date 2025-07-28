@@ -55,7 +55,8 @@ jobs:
         run: |
           curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh -o codacy-cli
           chmod +x codacy-cli
-          ./codacy-cli init
+          ./codacy-cli install
+          mkdir -p .codacy/tools-configs
           cp -f eslint.config.mjs .codacy/tools-configs/eslint.config.mjs
           ./codacy-cli analyze -t eslint --format sarif -o eslint.sarif
           ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA
