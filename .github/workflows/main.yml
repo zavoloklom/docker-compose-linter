@@ -52,12 +52,18 @@ jobs:
       - name: Run Codacy CLI
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        run:
+        run: |
           alias codacy-cli="bash <(curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh)"
           codacy-cli init
           cp -f eslint.config.mjs .codacy/tools-configs/eslint.config.mjs
           codacy-cli analyze -t eslint --format sarif -o eslint.sarif
           codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA
+
+      # Upload the SARIF file generated in the previous step
+      - name: Upload SARIF results file
+        uses: github/codeql-action/upload-sarif@main
+        with:
+          sarif_file: results.sarif
 
       - name: Run Hadolint on Dockerfile
         uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
