@@ -42,12 +42,12 @@ jobs:
 #          npm run eslint
 #          npm run markdownlint
 
-#      - name: Run Codacy CLI
-#        uses: codacy/codacy-cli-v2-action@be2c794209715d99f18b58fce771b3ecbe1cff96 # v0.2.0
-#        with:
-#          project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-#          tool: eslint
-#          upload_report: true
+      - name: Run Codacy CLI
+        uses: codacy/codacy-cli-v2-action@be2c794209715d99f18b58fce771b3ecbe1cff96 # v0.2.0
+        with:
+          project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          tool: eslint
+          upload_report: true
 
 #      - name: Run Codacy CLI
 #        env:
@@ -61,18 +61,18 @@ jobs:
 #          cp -f eslint.config.mjs .codacy/tools-configs/eslint.config.mjs
 #          ./codacy-cli analyze -t eslint --format sarif -o eslint.sarif
 #          ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA
-
-      - name: Run Codacy CLI
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          COMMIT_SHA: ${{ github.sha }}
-        run: |
-          curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh -o codacy-cli
-          chmod +x codacy-cli
-          ls
-          npx eslint . -f @microsoft/eslint-formatter-sarif -o eslint.sarif --debug || true
-          cat eslint.sarif
-          ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA
+#
+#      - name: Run Codacy CLI
+#        env:
+#          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#          COMMIT_SHA: ${{ github.sha }}
+#        run: |
+#          curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh -o codacy-cli
+#          chmod +x codacy-cli
+#          ls
+#          npx eslint . -f @microsoft/eslint-formatter-sarif -o eslint.sarif --debug || true
+#          cat eslint.sarif
+#          ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA
 
       # Upload the SARIF file generated in the previous step
 #      - name: Upload SARIF results file
