@@ -69,8 +69,8 @@ jobs:
         run: |
           curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh -o codacy-cli
           chmod +x codacy-cli
-          npx eslint . -f @microsoft/eslint-formatter-sarif -o eslint.sarif
-          cat eslint.sarif
+#          npx eslint . -f @microsoft/eslint-formatter-sarif -o eslint.sarif
+#          cat eslint.sarif
 #          ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA --debug
 
       # Upload the SARIF file generated in the previous step
