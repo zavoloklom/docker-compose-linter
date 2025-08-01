@@ -42,12 +42,12 @@ jobs:
 #          npm run eslint
 #          npm run markdownlint
 
-      - name: Run Codacy CLI
-        uses: codacy/codacy-cli-v2-action@be2c794209715d99f18b58fce771b3ecbe1cff96 # v0.2.0
-        with:
-          project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          tool: eslint
-          upload_report: true
+#      - name: Run Codacy CLI
+#        uses: codacy/codacy-cli-v2-action@be2c794209715d99f18b58fce771b3ecbe1cff96 # v0.2.0
+#        with:
+#          project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#          tool: eslint
+#          upload_report: true
 
 #      - name: Run Codacy CLI
 #        env:
