@@ -72,7 +72,7 @@ jobs:
           ls
           npx eslint . -f @microsoft/eslint-formatter-sarif -o eslint.sarif --debug || true
           cat eslint.sarif
-          ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA --debug
+          ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA
 
       # Upload the SARIF file generated in the previous step
 #      - name: Upload SARIF results file
