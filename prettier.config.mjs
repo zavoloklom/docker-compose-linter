@@ -16,7 +16,6 @@ const config = {
   endOfLine: 'lf',
   quoteProps: 'as-needed',
   objectWrap: 'preserve',
-  plugins: ['prettier-plugin-packagejson'],
   overrides: [
     {
       files: '*.md',
