@@ -8,8 +8,7 @@ import {
   startsWithDisableFileComment,
 } from '../util/comments-handler';
 import { validationComposeSchema } from '../util/compose-validation';
-import { safeResolveFile } from '../util/file-security';
-import { findFilesForLinting } from '../util/files-finder';
+import { FileFinder } from '../util/file-finder';
 import { loadFormatter } from '../util/formatter-loader';
 import { LogSource, Logger } from '../util/logger';
 import { loadLintRules } from '../util/rules-utils';
@@ -25,11 +24,18 @@ class DCLinter {
 
   private logger: Logger;
 
+  private fileFinder: FileFinder;
+
   constructor(config: Config) {
     this.config = config;
     this.rules = [];
     this.logger = Logger.init(this.config?.debug);
     this.rules = loadLintRules(this.config);
+    this.fileFinder = new FileFinder({
+      recursive: true, // TODO: Should be this.config.recursive
+      excludePaths: this.config.exclude,
+      logger: this.logger,
+    });
   }
 
   private lintContent(context: LintContext): RuleMessage[] {
@@ -76,12 +82,10 @@ class DCLinter {
 
   private static validateFile(file: string): { context: LintContext | null; messages: RuleMessage[] } {
     const messages: RuleMessage[] = [];
-    const context: LintContext = { path: '', content: {}, sourceCode: '' };
+    const context: LintContext = { path: file, content: {}, sourceCode: '' };
 
     try {
-      const safePath = safeResolveFile(file);
-      context.path = safePath;
-      context.sourceCode = readFileSync(safePath, 'utf8');
+      context.sourceCode = readFileSync(file, 'utf8');
       const parsedDocument = parseDocument(context.sourceCode, { merge: true });
 
       if (parsedDocument.errors && parsedDocument.errors.length > 0) {
@@ -146,7 +150,7 @@ class DCLinter {
 
   public lintFiles(paths: string[], doRecursiveSearch: boolean): LintResult[] {
     const lintResults: LintResult[] = [];
-    const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
+    const files = this.fileFinder.find([...paths]);
     this.logger.debug(LogSource.LINTER, `Compose files for linting: ${files.toString()}`);
 
     for (const file of files) {
@@ -179,7 +183,7 @@ class DCLinter {
   }
 
   public fixFiles(paths: string[], doRecursiveSearch: boolean, dryRun: boolean = false): void {
-    const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
+    const files = this.fileFinder.find([...paths]);
     this.logger.debug(LogSource.LINTER, `Compose files for fixing: ${files.toString()}`);
 
     for (const file of files) {
