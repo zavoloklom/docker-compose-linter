@@ -25,6 +25,7 @@ const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: 
   const dockerComposePattern = /^(?:docker-)?compose.*\.ya?ml$/u;
 
   for (const fileOrDirectory of paths) {
+    // TODO: FIX
     if (!fs.existsSync(fileOrDirectory)) {
       logger.debug(LogSource.UTIL, `File or directory not found: ${fileOrDirectory}`);
       throw new FileNotFoundError(fileOrDirectory);
@@ -32,10 +33,12 @@ const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: 
 
     let allPaths: string[];
 
+    // TODO: FIX
     const fileOrDirectoryStats = fs.statSync(fileOrDirectory);
 
     if (fileOrDirectoryStats.isDirectory()) {
       try {
+        // TODO: FIX
         allPaths = fs.readdirSync(resolve(fileOrDirectory)).map((file) => join(fileOrDirectory, file));
       } catch (error) {
         logger.debug(LogSource.UTIL, `Error reading directory: ${fileOrDirectory}`, error);
@@ -49,6 +52,7 @@ const findFilesForLinting = (paths: string[], recursive: boolean, excludePaths: 
           continue;
         }
 
+        // TODO: FIX
         const pathStats = fs.statSync(resolve(path));
 
         if (pathStats.isDirectory()) {

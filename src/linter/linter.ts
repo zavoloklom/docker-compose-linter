@@ -1,4 +1,4 @@
-import fs from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { YAMLError, parseDocument } from 'yaml';
 
 import { ComposeValidationError } from '../errors/compose-validation-error';
@@ -8,7 +8,7 @@ import {
   startsWithDisableFileComment,
 } from '../util/comments-handler';
 import { validationComposeSchema } from '../util/compose-validation';
-import { findFilesForLinting } from '../util/files-finder';
+import { FileFinder } from '../util/file-finder';
 import { loadFormatter } from '../util/formatter-loader';
 import { LogSource, Logger } from '../util/logger';
 import { loadLintRules } from '../util/rules-utils';
@@ -24,11 +24,18 @@ class DCLinter {
 
   private logger: Logger;
 
+  private fileFinder: FileFinder;
+
   constructor(config: Config) {
     this.config = config;
     this.rules = [];
     this.logger = Logger.init(this.config?.debug);
     this.rules = loadLintRules(this.config);
+    this.fileFinder = new FileFinder({
+      recursive: true, // TODO: Should be this.config.recursive
+      excludePaths: this.config.exclude,
+      logger: this.logger,
+    });
   }
 
   private lintContent(context: LintContext): RuleMessage[] {
@@ -78,7 +85,7 @@ class DCLinter {
     const context: LintContext = { path: file, content: {}, sourceCode: '' };
 
     try {
-      context.sourceCode = fs.readFileSync(file, 'utf8');
+      context.sourceCode = readFileSync(file, 'utf8');
       const parsedDocument = parseDocument(context.sourceCode, { merge: true });
 
       if (parsedDocument.errors && parsedDocument.errors.length > 0) {
@@ -143,7 +150,7 @@ class DCLinter {
 
   public lintFiles(paths: string[], doRecursiveSearch: boolean): LintResult[] {
     const lintResults: LintResult[] = [];
-    const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
+    const files = this.fileFinder.find([...paths]);
     this.logger.debug(LogSource.LINTER, `Compose files for linting: ${files.toString()}`);
 
     for (const file of files) {
@@ -176,7 +183,7 @@ class DCLinter {
   }
 
   public fixFiles(paths: string[], doRecursiveSearch: boolean, dryRun: boolean = false): void {
-    const files = findFilesForLinting(paths, doRecursiveSearch, this.config.exclude);
+    const files = this.fileFinder.find([...paths]);
     this.logger.debug(LogSource.LINTER, `Compose files for fixing: ${files.toString()}`);
 
     for (const file of files) {
@@ -188,7 +195,7 @@ class DCLinter {
         for (const message of messages) {
           this.logger.debug(LogSource.LINTER, JSON.stringify(message));
         }
-        return;
+        continue;
       }
 
       const content = this.fixContent(context.sourceCode);
@@ -197,7 +204,7 @@ class DCLinter {
         this.logger.info(`Dry run - changes for file: ${file}`);
         this.logger.info('\n\n', content);
       } else {
-        fs.writeFileSync(file, content, 'utf8');
+        writeFileSync(context.path, content, 'utf8');
         this.logger.debug(LogSource.LINTER, `File fixed: ${file}`);
       }
     }
