@@ -1,5 +1,5 @@
 // eslint-disable-next-line max-classes-per-file
-import fs from 'node:fs';
+import { Dirent, Stats, existsSync, readdirSync, statSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
 import { safeResolveFile } from './files-handler';
@@ -50,7 +50,7 @@ class FileFinder {
   }
 
   private processEntry(raw: string, isTopLevel: boolean, accumulator: string[]): void {
-    if (isTopLevel && !fs.existsSync(raw)) {
+    if (isTopLevel && !existsSync(raw)) {
       this.logger.debug(LogSource.UTIL, `File or directory not found: ${raw}`);
       throw new FileNotFoundError(raw);
     }
@@ -78,18 +78,18 @@ class FileFinder {
       return;
     }
 
-    let stats: fs.Stats;
+    let stats: Stats;
     try {
-      stats = fs.statSync(realPath);
+      stats = statSync(realPath);
     } catch (error) {
       this.logger.debug(LogSource.UTIL, `Cannot stat path: ${realPath}`, error);
       return;
     }
 
     if (stats.isDirectory()) {
-      let entries: fs.Dirent[];
+      let entries: Dirent[];
       try {
-        entries = fs.readdirSync(realPath, { withFileTypes: true });
+        entries = readdirSync(realPath, { withFileTypes: true });
       } catch (error) {
         this.logger.debug(LogSource.UTIL, `Error reading directory: ${realPath}`, error);
         return;
