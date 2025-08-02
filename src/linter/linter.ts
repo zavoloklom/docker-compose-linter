@@ -1,4 +1,4 @@
-import fs from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { YAMLError, parseDocument } from 'yaml';
 
 import { ComposeValidationError } from '../errors/compose-validation-error';
@@ -8,6 +8,7 @@ import {
   startsWithDisableFileComment,
 } from '../util/comments-handler';
 import { validationComposeSchema } from '../util/compose-validation';
+import { safeResolveFile } from '../util/file-security';
 import { findFilesForLinting } from '../util/files-finder';
 import { loadFormatter } from '../util/formatter-loader';
 import { LogSource, Logger } from '../util/logger';
@@ -75,10 +76,12 @@ class DCLinter {
 
   private static validateFile(file: string): { context: LintContext | null; messages: RuleMessage[] } {
     const messages: RuleMessage[] = [];
-    const context: LintContext = { path: file, content: {}, sourceCode: '' };
+    const context: LintContext = { path: '', content: {}, sourceCode: '' };
 
     try {
-      context.sourceCode = fs.readFileSync(file, 'utf8');
+      const safePath = safeResolveFile(file);
+      context.path = safePath;
+      context.sourceCode = readFileSync(safePath, 'utf8');
       const parsedDocument = parseDocument(context.sourceCode, { merge: true });
 
       if (parsedDocument.errors && parsedDocument.errors.length > 0) {
@@ -188,7 +191,7 @@ class DCLinter {
         for (const message of messages) {
           this.logger.debug(LogSource.LINTER, JSON.stringify(message));
         }
-        return;
+        continue;
       }
 
       const content = this.fixContent(context.sourceCode);
@@ -197,7 +200,7 @@ class DCLinter {
         this.logger.info(`Dry run - changes for file: ${file}`);
         this.logger.info('\n\n', content);
       } else {
-        fs.writeFileSync(file, content, 'utf8');
+        writeFileSync(context.path, content, 'utf8');
         this.logger.debug(LogSource.LINTER, `File fixed: ${file}`);
       }
     }
