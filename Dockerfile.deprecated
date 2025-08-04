@@ -1,0 +1,45 @@
+ARG VERSION=latest
+
+# ----- ALPINE VARIANT -----
+FROM dclint/dclint:${VERSION}-alpine AS alpine-version
+
+ARG BUILD_DATE="0000-00-00T00:00:00+0000"
+ARG BUILD_VERSION="0.0.0"
+ARG BUILD_REVISION="deprecated"
+
+ENTRYPOINT ["/bin/sh", "-c", "echo '⚠️ This image (zavoloklom/dclint) has moved to docker.io/dclint/dclint.' >&2; exec /bin/dclint \"$@\"", "--"]
+
+LABEL \
+  org.opencontainers.image.title="Docker Compose Linter (Alpine)" \
+  org.opencontainers.image.description="⚠️ DEPRECATED: This image (zavoloklom/dclint) has moved to docker.io/dclint/dclint." \
+  org.opencontainers.image.created="${BUILD_DATE}" \
+  org.opencontainers.image.authors="Sergey Kupletsky <s.kupletsky@gmail.com>" \
+  org.opencontainers.image.url="https://github.com/docker-compose-linter/dclint" \
+  org.opencontainers.image.documentation="https://github.com/docker-compose-linter/dclint" \
+  org.opencontainers.image.source="https://github.com/docker-compose-linter/dclint.git" \
+  org.opencontainers.image.version="${BUILD_VERSION}" \
+  org.opencontainers.image.revision="${BUILD_REVISION}" \
+  org.opencontainers.image.vendor="Sergey Kupletsky" \
+  org.opencontainers.image.licenses="MIT"
+
+# ----- SCRATCH VARIANT -----
+FROM dclint/dclint:${VERSION} AS scratch-version
+
+ARG BUILD_DATE="0000-00-00T00:00:00+0000"
+ARG BUILD_VERSION="0.0.0"
+ARG BUILD_REVISION="deprecated"
+
+ENTRYPOINT ["/bin/sh", "-c", "echo '⚠️ This image (zavoloklom/dclint) has moved to docker.io/dclint/dclint.' >&2; exec /bin/dclint \"$@\"", "--"]
+
+LABEL \
+  org.opencontainers.image.title="Docker Compose Linter (Scratch)" \
+  org.opencontainers.image.description="⚠️ DEPRECATED: This image (zavoloklom/dclint) has moved to docker.io/dclint/dclint." \
+  org.opencontainers.image.created="${BUILD_DATE}" \
+  org.opencontainers.image.authors="Sergey Kupletsky <s.kupletsky@gmail.com>" \
+  org.opencontainers.image.url="https://github.com/docker-compose-linter/dclint" \
+  org.opencontainers.image.documentation="https://github.com/docker-compose-linter/dclint" \
+  org.opencontainers.image.source="https://github.com/docker-compose-linter/dclint.git" \
+  org.opencontainers.image.version="${BUILD_VERSION}" \
+  org.opencontainers.image.revision="${BUILD_REVISION}" \
+  org.opencontainers.image.vendor="Sergey Kupletsky" \
+  org.opencontainers.image.licenses="MIT"
