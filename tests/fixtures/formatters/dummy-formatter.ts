@@ -1,6 +1,6 @@
-import type { FormatterFunction } from '../../../src/formatters/formatter.types';
+import type { FormatterFunction } from '../../../src/domain/models/formatter';
 
-const dummyFormatter: FormatterFunction = (results) => {
+const dummyFormatter: FormatterFunction = (summary) => {
   return 'dummy';
 };
 

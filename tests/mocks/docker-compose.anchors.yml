@@ -8,6 +8,10 @@ x-shared-image: &shared-image
 x-shared-ports: &shared-ports
   - '81'
   - '80:80'
+x-shared-image-build: &shared-image-build
+  image: traefik/whoami
+  build:
+    context: .
 services:
   app_bar:
     image: traefik/whoami
@@ -15,8 +19,12 @@ services:
   app_foo:
     <<: *shared-links
     image: traefik/whoami:v1.10
+    build:
+      context: .
   bar:
     <<: *shared-image
     ports: *shared-ports
   foo:
-    <<: [*shared-image, *shared-links]
+    <<: [ *shared-image, *shared-links ]
+  xyz:
+    <<: *shared-image-build

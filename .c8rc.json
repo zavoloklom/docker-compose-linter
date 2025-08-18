@@ -4,6 +4,10 @@
   "include": ["src/**/*.ts"],
   "exclude": [
     "**/*.types.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "src/application/ports/**/*.ts",
+    "src/application/dto/**/*.ts",
+    "src/domain/models/**/*.ts",
+    "src/domain/dto/**/*.ts"
   ]
 }

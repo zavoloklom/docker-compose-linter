@@ -1,1 +1,1 @@
-export { DCLinter } from './linter/linter';
+export { DCLinter } from './sdk/dclinter';

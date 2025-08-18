@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "rules": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "number",
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "type": "array",
+            "items": [
+              {
+                "type": "number",
+                "enum": [
+                  0,
+                  1,
+                  2
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": true
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        ]
+      }
+    },
+    "quiet": {
+      "type": "boolean"
+    },
+    "debug": {
+      "type": "boolean"
+    },
+    "recursive": {
+      "type": "boolean"
+    },
+    "stats": {
+      "type": "boolean"
+    },
+    "exclude": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

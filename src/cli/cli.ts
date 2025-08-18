@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
-import { writeFileSync } from 'node:fs';
 import yargsLib from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import { ConfigLoader } from '../config/config-loader';
-import { DCLinter } from '../linter/linter';
-import { LogSource, Logger } from '../util/logger';
+import { CLI_DEFAULT_OPTIONS } from '../application/cli-options/defaults';
+import { LogSource } from '../application/ports/logger';
+import { AjvConfigValidator } from '../infrastructure/config/ajv-config-validator';
+import { CosmicConfigLoader } from '../infrastructure/config/cosmic-config-loader';
+import { ConsoleLogger } from '../infrastructure/logger/console-logger';
+import { DCLinter } from '../sdk/dclinter';
 
-import type { CLIConfig } from './cli.types';
+import type { CliOptions } from '../application/dto/cli-options';
 
 const main = async () => {
   process.env.NODE_NO_WARNINGS = '1';
@@ -27,23 +29,23 @@ const main = async () => {
       alias: 'r',
       type: 'boolean',
       description: 'Recursively search directories for Docker Compose files',
-      default: false,
+      default: CLI_DEFAULT_OPTIONS.recursive,
     })
     .option('fix', {
       type: 'boolean',
       description: 'Automatically fix problems',
-      default: false,
+      default: CLI_DEFAULT_OPTIONS.fix,
     })
     .option('fix-dry-run', {
       type: 'boolean',
       description: 'Automatically fix problems without saving the changes to the file system',
-      default: false,
+      default: CLI_DEFAULT_OPTIONS.fixDryRun,
     })
     .option('formatter', {
       alias: 'f',
       type: 'string',
       description: 'Use a specific output format - default: stylish',
-      default: 'stylish',
+      default: CLI_DEFAULT_OPTIONS.formatter,
     })
     .option('config', {
       alias: 'c',
@@ -54,7 +56,7 @@ const main = async () => {
       alias: 'q',
       type: 'boolean',
       description: 'Report errors only',
-      default: false,
+      default: CLI_DEFAULT_OPTIONS.quiet,
     })
     .option('output-file', {
       alias: 'o',
@@ -64,86 +66,83 @@ const main = async () => {
     .option('color', {
       type: 'boolean',
       description: 'Force enabling/disabling of color',
-      default: true,
+      default: CLI_DEFAULT_OPTIONS.color,
     })
     .option('debug', {
       type: 'boolean',
       description: 'Output debugging information',
-      default: false,
+      default: CLI_DEFAULT_OPTIONS.debug,
     })
     .option('exclude', {
       alias: 'e',
       type: 'array',
       description: 'Files or directories to exclude from the search',
-      default: [],
+      default: CLI_DEFAULT_OPTIONS.exclude,
     })
     .option('max-warnings', {
       type: 'number',
       description: 'Number of warnings to trigger nonzero exit code',
-      default: -1,
+      default: CLI_DEFAULT_OPTIONS.maxWarnings,
     })
     .option('disable-rule', {
       type: 'array',
       description: 'List of rule names to skip during linting',
-      default: [],
+      default: CLI_DEFAULT_OPTIONS.disableRule,
+    })
+    .option('stats', {
+      type: 'boolean',
+      description: 'Collect statistic data',
+      default: CLI_DEFAULT_OPTIONS.stats,
     })
     .help()
     .alias('version', 'v');
 
-  const cliArguments = argv as unknown as CLIConfig;
+  const cliOptions = argv as unknown as CliOptions;
 
-  const logger = Logger.init(cliArguments.debug);
+  const logger = ConsoleLogger.init(cliOptions.debug);
 
   logger.debug(LogSource.CLI, 'Debug mode is ON');
-  logger.debug(LogSource.CLI, 'Arguments:', cliArguments);
+  logger.debug(LogSource.CLI, 'Arguments:', JSON.stringify(cliOptions));
 
-  const config = ConfigLoader.init(cliArguments.debug)
-    .load(cliArguments.config)
-    .mergeCli(cliArguments)
+  const configValidator = new AjvConfigValidator();
+  const config = CosmicConfigLoader.init(configValidator, logger)
+    .load(cliOptions.config)
     .withDefaults()
+    .mergeCliOptions(cliOptions)
     .validate()
     .get();
 
-  logger.debug(LogSource.CLI, 'Final config:', config);
+  logger.debug(LogSource.CLI, 'Final config:\n', JSON.stringify(config, null, 2));
 
   const linter = new DCLinter(config);
 
-  if (cliArguments.fix || cliArguments.fixDryRun) {
-    linter.fixFiles(cliArguments.files, cliArguments.recursive, cliArguments.fixDryRun);
+  if (cliOptions.fix || cliOptions.fixDryRun) {
+    const fixSummary = await linter.fix(cliOptions.files, { dryRun: cliOptions.fixDryRun });
+    logger.debug(LogSource.CLI, 'Fix summary:\n', JSON.stringify(fixSummary, null, 2));
   }
 
-  let lintResults = linter.lintFiles(cliArguments.files, cliArguments.recursive);
+  const lintSummary = await linter.lint(cliOptions.files);
 
-  if (config.quiet) {
-    lintResults = lintResults
-      .map((result) => ({
-        ...result,
-        messages: result.messages.filter((message) => message.type === 'error'),
-        errorCount: result.messages.filter((message) => message.type === 'error').length,
-        warningCount: 0,
-      }))
-      .filter((result) => result.messages.length > 0);
-  }
+  logger.debug(LogSource.CLI, 'Lint summary:\n', JSON.stringify(lintSummary, null, 2));
+  logger.debug(LogSource.CLI, `${lintSummary.count.error} errors found`);
+  logger.debug(LogSource.CLI, `${lintSummary.count.warning} warnings found`);
 
-  const totalErrors = lintResults.reduce((count, result) => count + result.errorCount, 0);
-  const totalWarnings = lintResults.reduce((count, result) => count + result.warningCount, 0);
+  const formattedResults = await linter.format(lintSummary, cliOptions.formatter);
 
-  const formattedResults = await linter.formatResults(lintResults, cliArguments.formatter);
-
-  if (cliArguments.outputFile) {
-    writeFileSync(cliArguments.outputFile, formattedResults);
+  if (cliOptions.outputFile) {
+    // TODO: Change to format(lintSummary, { formatters:['pretty']}, output:['console'] })
+    // writeFileSync(cliOptions.outputFile, formattedResults);
   } else {
     // eslint-disable-next-line no-console
     console.log(formattedResults);
   }
 
-  if (totalErrors > 0) {
-    logger.debug(LogSource.CLI, `${totalErrors} errors found`);
+  if (lintSummary.count.error > 0) {
     process.exit(1);
-  } else if (cliArguments.maxWarnings >= 0 && totalWarnings > cliArguments.maxWarnings) {
+  } else if (!config.quiet && cliOptions.maxWarnings >= 0 && lintSummary.count.warning > cliOptions.maxWarnings) {
     logger.debug(
       LogSource.CLI,
-      `Warning threshold exceeded: ${totalWarnings} warnings (max allowed: ${cliArguments.maxWarnings})`,
+      `Warning threshold exceeded: ${lintSummary.count.warning} warnings (max allowed: ${cliOptions.maxWarnings})`,
     );
     process.exit(1);
   }
