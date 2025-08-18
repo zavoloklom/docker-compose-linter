@@ -4,10 +4,8 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { getRuleDefinition } from './utils';
-import { loadLintRules } from '../src/util/rules-utils';
-
-import type { RuleDefinition } from '../src/rules/rules.types';
+import { type RuleDefinition, getRuleDefinition } from './utils';
+import { DCLinter } from '../src/sdk/dclinter';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');
 
@@ -109,7 +107,8 @@ const validateDocumentation = async (ruleDefinition: RuleDefinition) => {
 };
 
 const main = async () => {
-  const rules = loadLintRules({ rules: {}, quiet: false, debug: false, exclude: [] });
+  const linter = new DCLinter();
+  const rules = await linter.getRules();
   const promises = [];
 
   for (const rule of rules) {

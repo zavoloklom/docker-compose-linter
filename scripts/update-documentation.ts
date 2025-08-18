@@ -5,10 +5,9 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { format } from 'prettier';
 
-import { getRuleDefinition } from './utils';
-import { loadLintRules } from '../src/util/rules-utils';
-
-import type { RuleDefinition } from '../src/rules/rules.types';
+import { type RuleDefinition, getRuleDefinition } from './utils';
+import { RuleCategory, RuleType } from '../src/domain/models/rule';
+import { DCLinter } from '../src/sdk/dclinter';
 
 const documentationDirectory = join(dirname(fileURLToPath(import.meta.url)), '../docs');
 
@@ -18,7 +17,7 @@ const generateRulesTable = (ruleDefinitionList: RuleDefinition[]) => {
 |------|-------------|---|`;
   const tableRows = ruleDefinitionList.map((ruleDefinition) => {
     const nameLink = `[${changeCase.capitalCase(ruleDefinition.name)}](./rules/${ruleDefinition.name}-rule.md)`;
-    const severityIcon = ruleDefinition.type === 'error' ? '🔴' : '🟡';
+    const severityIcon = ruleDefinition.type === RuleType.ERROR ? '🔴' : '🟡';
     const fixableIcon = ruleDefinition.fixable ? '🔧' : '';
     const optionsIcon = ruleDefinition.hasOptions ? '⚙️' : '';
     return `| ${nameLink} | ${ruleDefinition.meta.description} | ${severityIcon} ${fixableIcon} ${optionsIcon} |`;
@@ -34,9 +33,14 @@ const updateRulesReference = async (ruleDefinitionList: RuleDefinition[]) => {
     console.log(`Reading file from: ${rulesFilePath}`);
     const existingContent = await readFile(rulesFilePath, 'utf8');
 
+    const slugs = Object.values(RuleCategory);
+    const categoryPattern = slugs.map((category) => changeCase.capitalCase(category)).join('|');
+
+    console.log(categoryPattern);
+
     const categoryRegex =
       // eslint-disable-next-line sonarjs/slow-regex
-      /(?<header>## (?<category>Style|Security|Best Practice|Performance))(?<description>[\s\S]*?)(?<table>\n\|.*?\|[\s\S]*?\n\|.*?\|[\s\S]*?)(?=\n##|$)/gu;
+      /`(?<header>## (?<category>\$\{categoryPattern\}))(?<description>[\s\S]*?)(?<table>\n\|.*?\|[\s\S]*?\n\|.*?\|[\s\S]*?)(?=\n##|$)`/gu;
 
     let updatedContent = existingContent;
     for (const match of existingContent.matchAll(categoryRegex)) {
@@ -90,7 +94,9 @@ const updateDocumentation = async (ruleDefinition: RuleDefinition) => {
 };
 
 const main = async () => {
-  const rules = loadLintRules({ rules: {}, quiet: false, debug: false, exclude: [] });
+  const linter = new DCLinter();
+  const rules = await linter.getRules();
+
   const ruleDefinitionList = [];
   const promises = [];
 

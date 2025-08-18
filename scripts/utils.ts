@@ -1,8 +1,19 @@
-import type { Rule, RuleDefinition } from '../src/rules/rules.types';
+import type { Rule, RuleCategory, RuleMeta, RuleSeverity, RuleType } from '../src/domain/models/rule';
+
+interface RuleDefinition {
+  name: string;
+  type: RuleType;
+  category: RuleCategory;
+  severity: RuleSeverity;
+  fixable: boolean;
+  meta: RuleMeta;
+  hasFixFunction: boolean;
+  hasOptions: boolean;
+}
 
 const getRuleDefinition = (rule: Rule): RuleDefinition => {
   return {
-    name: rule.name,
+    name: rule.id,
     type: rule.type,
     category: rule.category,
     severity: rule.severity,
@@ -13,4 +24,4 @@ const getRuleDefinition = (rule: Rule): RuleDefinition => {
   };
 };
 
-export { getRuleDefinition };
+export { getRuleDefinition, type RuleDefinition };
