@@ -1,4 +1,4 @@
-FROM node:22.15-alpine3.21@sha256:152270cd4bd094d216a84cbc3c5eb1791afb05af00b811e2f0f04bdc6c473602 AS builder
+FROM node:24.6-alpine3.21@sha256:c9e2326c7bf56f4caf665d80a34cf29632f67ea281a2783d3a2b09fd3fe5b6bc AS builder
 
 WORKDIR /dclint
 
