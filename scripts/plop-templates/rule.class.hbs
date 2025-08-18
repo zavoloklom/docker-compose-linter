@@ -1,0 +1,84 @@
+import { createLintIssue } from '../../domain/diagnostics/create-lint-issue';
+import { {{#if (and hasOptions (not hasContext))}}type EmptyContext, {{/if}}type Rule, RuleCategory, type RuleMeta, RuleSeverity, RuleType } from '../../domain/models/rule';
+
+import type { LintIssue } from '../../domain/models/lint-issue';
+import type { YamlComposeDocument } from '../../infrastructure/yaml/yaml-compose-document';
+{{#if hasOptions}}
+
+interface {{pascalCase id}}RuleOptions {
+  // TODO: Describe Rule Options
+}
+{{/if}}
+{{#if hasContext}}
+
+interface {{pascalCase id}}IssueContext {
+  // TODO: Describe Rule violation context for message
+}
+{{/if}}
+
+class {{pascalCase id}}Rule implements Rule{{{ruleGenerics hasContext hasOptions id}}} {
+  static readonly ID = '{{id}}';
+  static readonly TYPE = RuleType.{{type}};
+
+  readonly id = {{pascalCase id}}Rule.ID;
+
+  readonly type: RuleType = {{pascalCase id}}Rule.TYPE;
+
+  readonly category: RuleCategory = RuleCategory.{{category}};
+
+  readonly severity: RuleSeverity = RuleSeverity.{{severity}};
+
+  readonly fixable: boolean = {{fixable}};
+
+  readonly meta: RuleMeta = {
+    // TODO: Provide short description of the rule.
+    description: '',
+    url: 'https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules/{{id}}-rule.md',
+  };
+{{#if hasOptions}}
+
+  readonly options: {{pascalCase id}}RuleOptions;
+
+  static readonly DEFAULT_OPTIONS: {{pascalCase id}}RuleOptions = {
+    // TODO: Default options
+  };
+
+  constructor(options: Partial<{{pascalCase id}}RuleOptions> = {}) {
+    this.options = { ...{{pascalCase id}}Rule.DEFAULT_OPTIONS, ...options };
+  }
+{{/if}}
+
+  check(document: YamlComposeDocument): LintIssue{{#if hasContext}}<{{pascalCase id}}IssueContext>{{/if}}[] {
+    const issues: LintIssue{{#if hasContext}}<{{pascalCase id}}IssueContext>{{/if}}[] = [];
+    // TODO: Implement
+    {{#if fixable}}
+    this.handleViolation(document, () => {
+      issues.push(createLintIssue());
+    });
+    {{/if}}
+    return issues;
+  }
+{{#if fixable}}
+
+  fix(document: YamlComposeDocument): YamlComposeDocument {
+    // TODO: Implement
+    this.handleViolation(document, () => {});
+    return document;
+  }
+{{/if}}
+
+  // eslint-disable-next-line class-methods-use-this
+  getMessage({{#if hasContext}}context: {{pascalCase id}}IssueContext{{/if}}): string {
+    // TODO: Return Issue Message in format `(Expected|Unexpected) <something> <in some context>. <additional details?>`
+    return '';
+  }
+{{#if fixable}}
+
+  // eslint-disable-next-line class-methods-use-this
+  private handleViolation(document: YamlComposeDocument, callback: () => void) {
+    // TODO: Implement
+  }
+{{/if}}
+}
+
+export { {{pascalCase id}}Rule{{#if hasOptions}}, type {{pascalCase id}}RuleOptions{{/if}}{{#if hasContext}}, type {{pascalCase id}}IssueContext{{/if}} };

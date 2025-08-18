@@ -1,0 +1,111 @@
+import test from 'ava';
+
+import { YamlComposeDocument } from '../../../src/infrastructure/yaml/yaml-compose-document';
+import { {{#if hasContext}}type {{pascalCase id}}IssueContext, {{/if}}{{pascalCase id}}Rule } from '../../../src/plugins/rules/{{kebabCase id}}-rule';
+import { type ExpectedIssue, runRuleTest } from '../../test-utils';
+
+const correctYaml{{#if hasOptions}}WithDefaultOptions{{/if}} = `
+# TODO: correct YAML for tests
+`;
+
+const invalidYaml{{#if hasOptions}}WithDefaultOptions{{/if}} = `
+# TODO: invalid YAML for tests
+`;
+{{#if hasOptions}}
+
+const yamlToTestOption<option-name> = `
+# TODO: invalid YAML for concrete option
+`;
+{{/if}}
+
+const FILE_PATH = '/docker-compose.yml';
+
+test('getMessage(): should provide correct message', (t) => {
+  const rule = new {{pascalCase id}}Rule();
+  {{#if hasContext}}
+  const issueContext: {{pascalCase id}}IssueContext = { key: 'value' };
+  {{/if}}
+  const expectedMessage = '';
+
+  t.regex(rule.getMessage({{#if hasContext}}issueContext{{/if}}), /^(?:Expected|Unexpected)/u);
+  t.is(rule.getMessage({{#if hasContext}}issueContext{{/if}}), expectedMessage);
+});
+
+test('check(): should not return errors for a compliant compose file', (t) => {
+  const rule = new {{pascalCase id}}Rule();
+  const context = new YamlComposeDocument(FILE_PATH, correctYaml{{#if hasOptions}}WithDefaultOptions{{/if}});
+
+  const expected: ExpectedIssue[] = [];
+  runRuleTest(t, rule, context, expected);
+});
+
+test('check(): should return errors when the rule is violated', (t) => {
+  const rule = new {{pascalCase id}}Rule();
+  const context = new YamlComposeDocument(FILE_PATH, invalidYaml{{#if hasOptions}}WithDefaultOptions{{/if}});
+
+  const expected: ExpectedIssue[] = [
+    {
+      message: rule.getMessage({ key: 'value' }),
+      line: 1,
+    },
+  ];
+  runRuleTest(t, rule, context, expected);
+});
+{{#if hasOptions}}
+
+test('check(): should return errors when <provide-option-name-and-value>', (t) => {
+  const rule = new {{pascalCase id}}Rule({ key: 'value' });
+  const context = new YamlComposeDocument(FILE_PATH, yamlToTestOption<option-name>);
+
+  const expected: ExpectedIssue[] = [
+    {
+      message: rule.getMessage({ key: 'value' }),
+      line: 1,
+    },
+  ];
+  runRuleTest(t, rule, context, expected);
+});
+{{/if}}
+{{#if fixable}}
+
+test('fix(): should fix YAML correctly', (t) => {
+  const rule = new {{pascalCase id}}Rule();
+  const context = new YamlComposeDocument(FILE_PATH, invalidYaml);
+  const fixedDocument = rule.fix(context);
+  const fixedYAML = fixedDocument.toString();
+  // TODO: Write some assertions
+});
+
+test('fix(): should not modify correct YAML', (t) => {
+  const rule = new {{pascalCase id}}Rule();
+  const context = new YamlComposeDocument(FILE_PATH, correctYaml);
+  const fixedDocument = rule.fix(context);
+  const fixedYAML = fixedDocument.toString();
+
+  t.is(fixedYAML.trim(), correctYaml.trim());
+});
+{{#if hasOptions}}
+
+test('fix(): should fix YAML correctly when <provide-option-name-and-value>', (t) => {
+  const rule = new {{pascalCase id}}Rule({ key: 'value' });
+  const context = new YamlComposeDocument(FILE_PATH, yamlToTestOption<option-name>);
+  const fixedDocument = rule.fix(context);
+  const fixedYAML = fixedDocument.toString();
+  // TODO: Write some assertions
+});
+{{/if}}
+{{/if}}
+
+// TODO: Write tests for edge cases
+test('check(): should ...', (t) => {
+  const rule = new {{pascalCase id}}Rule();
+  const context = new YamlComposeDocument(FILE_PATH, anotherYaml);
+
+  const expected: ExpectedIssue[] = [
+    {
+      message: rule.getMessage({ key: 'value' }),
+      line: 1,
+    },
+  ];
+  runRuleTest(t, rule, context, expected);
+});
