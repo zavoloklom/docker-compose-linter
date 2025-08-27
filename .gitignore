@@ -34,6 +34,10 @@
 # Runtime
 /.tsimp
 
+# Performance
+isolate-0x*.log
+*.cpuprofile
+
 # Generated files
 /sea-prep.blob
 /sea
