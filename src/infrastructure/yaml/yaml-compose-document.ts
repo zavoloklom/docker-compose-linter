@@ -26,6 +26,7 @@ class YamlComposeDocument implements ComposeDocument {
   readonly filePath: string;
   readonly suppressions: SuppressionIndex;
   readonly parsedDocument: Document.Parsed;
+  private services: YamlComposeService[];
   private readonly lineCounter: LineCounter;
 
   constructor(filePath: string, yamlContent: string) {
@@ -33,6 +34,7 @@ class YamlComposeDocument implements ComposeDocument {
     this.lineCounter = new LineCounter();
     this.parsedDocument = this.parseYaml(yamlContent);
     this.suppressions = buildSuppressionIndex(yamlContent);
+    this.services = [];
   }
 
   private parseYaml(yamlContent: string) {
@@ -71,10 +73,15 @@ class YamlComposeDocument implements ComposeDocument {
     this.parsedDocument.set(key, value);
   }
 
-  *getServices(): Generator<YamlComposeService> {
-    const services = this.parsedDocument.get('services');
+  getServices(): YamlComposeService[] {
+    if (this.services.length > 0) {
+      return this.services;
+    }
 
-    if (!isMap(services)) return;
+    const services = this.parsedDocument.get('services');
+    const servicesArray: YamlComposeService[] = [];
+
+    if (!isMap(services)) return servicesArray;
 
     for (const item of services.items) {
       const key = item.key;
@@ -82,8 +89,11 @@ class YamlComposeDocument implements ComposeDocument {
 
       if (!isScalar(key) || !isMap(value)) continue;
 
-      yield new YamlComposeService(item as Pair<Scalar, YAMLMap>);
+      servicesArray.push(new YamlComposeService(item as Pair<Scalar, YAMLMap>));
     }
+
+    this.services = servicesArray;
+    return servicesArray;
   }
 
   /**

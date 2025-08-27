@@ -175,7 +175,7 @@ test('check(): should detect non-alphabetical order when option { order: "alphab
 });
 
 test('fix(): should alphabetize top-level properties when option { order: "alphabetical" } is used', (t) => {
-  const options: Partial<OrderTopLevelPropertiesRuleOptions> = { order: 'alphabetical' as unknown as any };
+  const options: Partial<OrderTopLevelPropertiesRuleOptions> = { order: 'alphabetical' };
   const rule = new OrderTopLevelPropertiesRule(options);
   const context = new YamlComposeDocument(filePath, correctYaml);
   const fixedDocument = rule.fix(context);

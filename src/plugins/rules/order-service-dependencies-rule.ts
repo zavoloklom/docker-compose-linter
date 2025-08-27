@@ -1,4 +1,4 @@
-import { type ParsedNode, isPair, isScalar, isSeq, isMap, Pair } from "yaml";
+import { Pair, type ParsedNode, isMap, isPair, isScalar, isSeq } from 'yaml';
 
 import { createLintIssue } from '../../domain/diagnostics/create-lint-issue';
 import { type Rule, RuleCategory, type RuleMeta, RuleSeverity, RuleType } from '../../domain/models/rule';
@@ -66,10 +66,7 @@ class OrderServiceDependenciesRule implements Rule<OrderServiceDependenciesIssue
     return `Unexpected order of depends_on value "${context.dependency}" after "${context.misplacedAfter}" in service "${context.serviceName}".`;
   }
 
-  private handleViolation(
-    document: YamlComposeDocument,
-    callback: (serviceName: string, items: ParsedNode[]) => void,
-  ) {
+  private handleViolation(document: YamlComposeDocument, callback: (serviceName: string, items: ParsedNode[]) => void) {
     for (const service of document.getServices()) {
       const dependsOn = service.get('depends_on');
       if (!isSeq(dependsOn) && !isMap(dependsOn)) continue;

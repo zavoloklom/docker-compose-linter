@@ -1,4 +1,4 @@
-import type { ServiceImageDefinition } from "../models/compose-definitions/service-image";
+import type { ServiceImageDefinition } from '../models/compose-definitions/service-image';
 
 /**
  * Parses a Docker image string into its normalized definition per OCI/Docker rules.

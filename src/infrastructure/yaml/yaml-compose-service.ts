@@ -32,11 +32,6 @@ class YamlComposeService {
 
     return ports.items.filter((item) => isScalar(item) || isMap(item)).map((item) => new YamlComposeServicePort(item));
   }
-
-  getContainerName(): string {
-    return this.value.toJSON()?.container_name;
-    // Return String(this.value.get('container_name'));
-  }
 }
 
 export { YamlComposeService };
