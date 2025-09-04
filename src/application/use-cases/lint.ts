@@ -1,7 +1,8 @@
 import { createLintFileReport } from '../../domain/diagnostics/create-lint-file-report';
 import { createLintSummary } from '../../domain/diagnostics/create-lint-summary';
 import { lintContent } from '../../domain/services/lint-content';
-import { type Logger } from '../ports/logger';
+import { ApplicationError, ApplicationErrorCode } from '../errors/application-error';
+import { LogSource, type Logger } from '../ports/logger';
 
 import type { ComposeDocument } from '../../domain/models/compose-document';
 import type { LintFileReport } from '../../domain/models/lint-file-report';
@@ -28,13 +29,13 @@ type LintUseCaseDeps = {
   createLintSummaryImpl?: (reports: LintFileReport[], stats?: Pick<LintStats, 'times'>) => LintSummary;
 };
 
-// TODO: Log more info
 const lintUseCase = async (paths: string[], config: Config, deps: LintUseCaseDeps): Promise<LintSummary> => {
   const {
     rulesLoader,
     composeDocumentFactory,
     composeValidator,
     timer,
+    logger,
     lintContentImpl,
     createLintFileReportImpl,
     createLintSummaryImpl,
@@ -46,17 +47,39 @@ const lintUseCase = async (paths: string[], config: Config, deps: LintUseCaseDep
 
   timer.start('total');
 
-  const rules = await rulesLoader.load(config);
+  timer.start('loadRules');
+  let rules: Rule[];
+  try {
+    rules = await rulesLoader.load(config);
+  } catch (error) {
+    timer.stop('loadRules');
+    throw new ApplicationError('Failed to load rules', ApplicationErrorCode.E_RULE_LOAD, error, {
+      executionTime: timer.get('loadRules') || 'UNKNOWN',
+    });
+  }
+  timer.stop('loadRules');
+  logger.debug(LogSource.RULES, 'Rules loaded', {
+    activeRules: rules.length,
+    executionTime: timer.get('loadRules') || 'UNKNOWN',
+  });
 
+  timer.start('parse');
+  let documents: ComposeDocument[];
   const fileDiscoveryOptions = {
     recursive: config.recursive,
     exclude: config.exclude,
   };
-  timer.start('parse');
-  const documents = await composeDocumentFactory.fromPath(paths, fileDiscoveryOptions);
+  try {
+    documents = await composeDocumentFactory.fromPath(paths, fileDiscoveryOptions);
+  } catch (error) {
+    timer.stop('parse');
+    throw new ApplicationError('Failed to parse compose files', ApplicationErrorCode.E_YAML_PARSE, error, {
+      executionTime: timer.get('parse') || 'UNKNOWN',
+    });
+  }
   timer.stop('parse');
 
-  timer.start('operation');
+  timer.start('lint');
   const lintReports: LintFileReport[] = [];
   for (const document of documents) {
     const issues = [];
@@ -68,13 +91,18 @@ const lintUseCase = async (paths: string[], config: Config, deps: LintUseCaseDep
     }
     lintReports.push(makeFileReport(document.filePath, issues));
   }
-  timer.stop('operation');
+  timer.stop('lint');
 
   timer.stop('total');
 
   return config.stats
     ? makeSummary(lintReports, {
-        times: { parse: timer.get('parse'), lint: timer.get('operation'), total: timer.get('total') },
+        times: {
+          loadRules: timer.get('loadRules'),
+          parse: timer.get('parse'),
+          lint: timer.get('lint'),
+          total: timer.get('total'),
+        },
       })
     : makeSummary(lintReports);
 };

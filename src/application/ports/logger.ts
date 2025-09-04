@@ -1,16 +1,25 @@
 enum LogSource {
-  CORE = 'CORE',
+  CORE = 'CORE', // REMOVE
   CONFIG = 'CONFIG',
   CLI = 'CLI',
   UTIL = 'UTIL',
-  RULE = 'RULE',
+  RULES = 'RULES',
+  FS = 'FS',
+  COMPOSE = 'COMPOSE',
+}
+
+enum LogLevel {
+  DEBUG = 'DEBUG',
+  INFO = 'INFO',
+  WARN = 'WARN',
+  ERROR = 'ERROR',
 }
 
 interface Logger {
-  debug(source: LogSource, ...message: string[]): void;
-  info(...message: string[]): void;
-  warn(...message: string[]): void;
-  error(...message: string[]): void;
+  debug(source: LogSource, message: string, details?: Record<string, unknown>): void;
+  info(source: LogSource, message: string, details?: Record<string, unknown>): void;
+  warn(source: LogSource, message: string, details?: Record<string, unknown>): void;
+  error(source: LogSource, message: string, details?: Record<string, unknown>): void;
 }
 
-export { type Logger, LogSource };
+export { LogLevel, LogSource, type Logger };

@@ -1,4 +1,5 @@
 import { mergeWithDefaults } from '../application/config/merge-with-defaults';
+import { ApplicationError, ApplicationErrorCode } from '../application/errors/application-error';
 import { FormatterLoader } from '../application/ports/formatter-loader';
 import { type FixUseCase, type FixUseCaseOptions, makeFixUseCase } from '../application/use-cases/fix';
 import { type FormatUseCase, makeFormatUseCase } from '../application/use-cases/format';
@@ -76,7 +77,15 @@ export class DCLinter {
   }
 
   async lint(filePath: string[]): Promise<LintSummary> {
-    return await this.lintUseCase(filePath, this.config);
+    try {
+      return await this.lintUseCase(filePath, this.config);
+    } catch (error) {
+      let appError = error;
+      if (!(error instanceof ApplicationError)) {
+        appError = new ApplicationError('Unexpected error during lint run', ApplicationErrorCode.E_UNEXPECTED, error);
+      }
+      throw appError;
+    }
   }
 
   async fix(filePath: string[], options: Partial<FixUseCaseOptions> = {}): Promise<FixSummary> {

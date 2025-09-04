@@ -1,12 +1,14 @@
-import { CliOptions } from '../dto/cli-options';
 import { Config } from '../dto/config';
 
+type LoadedConfig = { config: Config; filepath: string };
+
 interface ConfigLoader {
-  get(): Config;
-  load(path?: string): this;
-  withDefaults(): this;
-  mergeCliOptions(options: CliOptions): this;
-  validate(): this;
+  /**
+   * Returns Config and it's location
+   *
+   * @param path Path to config file
+   */
+  load(path?: string): LoadedConfig | null;
 }
 
-export { ConfigLoader };
+export { ConfigLoader, LoadedConfig };

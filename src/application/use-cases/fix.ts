@@ -35,7 +35,9 @@ const fixUseCase = async (
 
   timer.start('total');
 
+  timer.start('loadRules');
   const rules = await rulesLoader.load(config);
+  timer.stop('loadRules');
 
   timer.start('parse');
   const fileDiscoveryOptions = {

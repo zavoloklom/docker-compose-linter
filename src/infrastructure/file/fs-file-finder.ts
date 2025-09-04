@@ -29,26 +29,25 @@ class FsFileFinder implements FileFinder {
 
   async discoverPaths(inputs: string[], options: Partial<FileDiscoveryOptions> = {}): Promise<string[]> {
     const discoveryOptions = this.mergeWithDefaultOptions(options);
-    this.logger.debug(LogSource.CORE, `Looking for compose files in ${inputs.join(', ')}`);
+    this.logger.debug(LogSource.FS, `Looking for compose files in ${inputs.join(', ')}`);
 
     const accumulator = new Set<string>();
 
     const realRoot = await realpath(discoveryOptions.allowedRoot);
 
     const tasks = inputs.map((path) => {
-      return this.processEntry(path, realRoot, discoveryOptions, accumulator).catch((error) => {
-        this.logger.debug(
-          LogSource.CORE,
-          `Unexpected error resolving path: ${path}`,
-          error instanceof Error ? error.message : '',
-        );
+      return this.processEntry(path, realRoot, discoveryOptions, accumulator).catch((error: NodeJS.ErrnoException) => {
+        this.logger.debug(LogSource.FS, `Unexpected error resolving path: ${path}`, {
+          msg: error?.message,
+          code: error?.code,
+        });
       });
     });
     await Promise.all(tasks);
 
     const results = [...accumulator];
     this.logger.debug(
-      LogSource.CORE,
+      LogSource.FS,
       `Found compose files in ${inputs.join(', ')}: ${results.length > 0 ? results.join(', ') : 'None'}`,
     );
 
@@ -111,7 +110,7 @@ class FsFileFinder implements FileFinder {
       const normalizedExcludedWithGuards = sep + normalize(rawExcluded) + sep;
 
       if (normalizedFullWithGuards.includes(normalizedExcludedWithGuards)) {
-        this.logger.debug(LogSource.CORE, `Excluding ${path}`);
+        this.logger.debug(LogSource.FS, `Excluding ${path}`);
         return true;
       }
     }

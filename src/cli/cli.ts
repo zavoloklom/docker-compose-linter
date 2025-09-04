@@ -4,11 +4,14 @@ import yargsLib from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { CLI_DEFAULT_OPTIONS } from '../application/cli-options/defaults';
-import { LogSource } from '../application/ports/logger';
+import { ApplicationError } from '../application/errors/application-error';
+import { LogLevel, LogSource } from '../application/ports/logger';
+import { makeResolveConfigUseCase } from '../application/use-cases/resolve-config';
 import { AjvConfigValidator } from '../infrastructure/config/ajv-config-validator';
 import { CosmicConfigLoader } from '../infrastructure/config/cosmic-config-loader';
 import { ConsoleLogger } from '../infrastructure/logger/console-logger';
 import { DCLinter } from '../sdk/dclinter';
+import { isError } from '../shared/errors-guards';
 
 import type { CliOptions } from '../application/dto/cli-options';
 
@@ -102,29 +105,28 @@ const main = async () => {
   const logger = ConsoleLogger.init(cliOptions.debug);
 
   logger.debug(LogSource.CLI, 'Debug mode is ON');
-  logger.debug(LogSource.CLI, 'Arguments:', JSON.stringify(cliOptions));
+  logger.debug(LogSource.CLI, 'CLI arguments loaded', { argv: JSON.stringify(cliOptions) });
 
-  const configValidator = new AjvConfigValidator();
-  const config = CosmicConfigLoader.init(configValidator, logger)
-    .load(cliOptions.config)
-    .withDefaults()
-    .mergeCliOptions(cliOptions)
-    .validate()
-    .get();
+  const resolveConfig = makeResolveConfigUseCase({
+    loader: new CosmicConfigLoader(),
+    validator: new AjvConfigValidator(),
+    logger,
+  });
+  const config = resolveConfig(cliOptions);
 
-  logger.debug(LogSource.CLI, 'Final config:\n', JSON.stringify(config, null, 2));
+  logger.debug(LogSource.CLI, 'Configuration result', { config: JSON.stringify(config) });
 
   const linter = new DCLinter(config);
 
   if (cliOptions.fix || cliOptions.fixDryRun) {
     const fixSummary = await linter.fix(cliOptions.files, { dryRun: cliOptions.fixDryRun });
-    logger.debug(LogSource.CLI, 'Fix summary:\n', JSON.stringify(fixSummary, null, 2));
+    // Logger.debug(LogSource.CLI, 'Fix summary:\n', JSON.stringify(fixSummary, null, 2));
   }
 
   const lintSummary = await linter.lint(cliOptions.files);
 
-  logger.debug(LogSource.CLI, 'Lint summary:\n', JSON.stringify(lintSummary, null, 2));
-  logger.debug(LogSource.CLI, `${lintSummary.count.error} errors found`);
+  //Logger.debug(LogSource.CLI, 'Lint summary:\n', JSON.stringify(lintSummary, null, 2));
+  logger.info(LogSource.CLI, `${lintSummary.count.error} errors found`);
   logger.debug(LogSource.CLI, `${lintSummary.count.warning} warnings found`);
 
   const formattedResults = await linter.format(lintSummary, cliOptions.formatter);
@@ -153,7 +155,19 @@ const main = async () => {
 
 // eslint-disable-next-line unicorn/prefer-top-level-await
 main().catch((error: unknown) => {
+  let messageArray: string[];
+  if (error instanceof ApplicationError) {
+    messageArray = ConsoleLogger.prepareMessage(LogLevel.ERROR, LogSource.CLI, error.message, {
+      code: error.code,
+      ...error?.details,
+    });
+  } else if (isError(error)) {
+    messageArray = ConsoleLogger.prepareMessage(LogLevel.ERROR, LogSource.CLI, error.message);
+  } else {
+    messageArray = ConsoleLogger.prepareMessage(LogLevel.ERROR, LogSource.CLI, String(error));
+  }
   // eslint-disable-next-line no-console
-  console.error(error);
+  console.error(...messageArray);
+
   process.exit(1);
 });
