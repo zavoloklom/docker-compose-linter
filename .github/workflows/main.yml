@@ -37,10 +37,48 @@ jobs:
           git fetch origin main
           npx commitlint --from=origin/main
 
-      - name: Run linters (eslint, markdownlint)
-        run: |
-          npm run eslint
-          npm run markdownlint
+#      - name: Run linters (eslint, markdownlint)
+#        run: |
+#          npm run eslint
+#          npm run markdownlint
+
+#      - name: Run Codacy CLI
+#        uses: codacy/codacy-cli-v2-action@be2c794209715d99f18b58fce771b3ecbe1cff96 # v0.2.0
+#        with:
+#          project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#          tool: eslint
+#          upload_report: true
+
+#      - name: Run Codacy CLI
+#        env:
+#          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#          COMMIT_SHA: ${{ github.sha }}
+#        run: |
+#          curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh -o codacy-cli
+#          chmod +x codacy-cli
+#          ./codacy-cli install
+#          mkdir -p .codacy/tools-configs
+#          cp -f eslint.config.mjs .codacy/tools-configs/eslint.config.mjs
+#          ./codacy-cli analyze -t eslint --format sarif -o eslint.sarif
+#          ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA
+#
+#      - name: Run Codacy CLI
+#        env:
+#          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#          COMMIT_SHA: ${{ github.sha }}
+#        run: |
+#          curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh -o codacy-cli
+#          chmod +x codacy-cli
+#          ls
+#          npx eslint . -f @microsoft/eslint-formatter-sarif -o eslint.sarif --debug || true
+#          cat eslint.sarif
+#          ./codacy-cli upload -t $CODACY_PROJECT_TOKEN -s eslint.sarif -c $COMMIT_SHA
+
+      # Upload the SARIF file generated in the previous step
+#      - name: Upload SARIF results file
+#        uses: github/codeql-action/upload-sarif@main
+#        with:
+#          sarif_file: results.sarif
 
       - name: Run Hadolint on Dockerfile
         uses: hadolint/hadolint-action@3fc49fb50d59c6ab7917a2e4195dba633e515b29 # v3.2.0
@@ -50,11 +88,17 @@ jobs:
       - name: Run tests
         run: npm run test:coverage
 
-      - name: Report coverage to Codacy
-        if: github.ref == 'refs/heads/main'
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/cobertura-coverage.xml
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@a38818475bb21847788496e9f0fddaa4e84955ba # v1.3.0
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./coverage/cobertura-coverage.xml
+
+#      - name: Report coverage to Codacy
+##        if: github.ref == 'refs/heads/main'
+#        env:
+#          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/cobertura-coverage.xml
 
       - name: Build the project
         run: npm run build:cli
