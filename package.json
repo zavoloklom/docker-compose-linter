@@ -108,7 +108,7 @@
     "husky": "9.1.7",
     "markdownlint-cli2": "0.18.1",
     "rollup": "4.46.2",
-    "semantic-release": "24.2.6",
+    "semantic-release": "24.2.7",
     "strip-ansi": "7.1.0",
     "tap-xunit": "2.4.1",
     "tsimp": "2.0.12",
