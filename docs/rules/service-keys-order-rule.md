@@ -197,7 +197,7 @@ custom configurations under `Environment Configuration` and `Networking`, you ca
             "ports",
             "networks",
             "network_mode",
-            "hostnames",
+            "hostname",
             "extra_hosts"
           ]
         }
