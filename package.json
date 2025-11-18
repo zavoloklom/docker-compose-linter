@@ -106,7 +106,7 @@
     "eslint-plugin-ava": "15.1.0",
     "esmock": "2.7.0",
     "husky": "9.1.7",
-    "markdownlint-cli2": "0.18.1",
+    "markdownlint-cli2": "0.19.0",
     "rollup": "4.46.2",
     "semantic-release": "24.2.6",
     "strip-ansi": "7.1.0",
