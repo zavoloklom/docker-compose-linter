@@ -101,7 +101,7 @@ behavior, which is vital for ensuring that the service starts, runs, and maintai
 
 ### Operational Metadata
 
-**Properties:** `logging`, `labels`
+**Properties:** `logging`, `labels`, `profiles`
 
 Metadata and logging configurations are important for monitoring, categorizing, and managing the service, but they are
 secondary to its core operation. By grouping them near the end, the focus remains on the services functionality, while

@@ -48,7 +48,7 @@ test('ServiceKeysOrderRule: should return a warning when service keys are in the
   };
 
   const correctOrder = [
-    'image, build, container_name, depends_on, volumes, volumes_from, configs, secrets, environment, env_file, ports, networks, network_mode, extra_hosts, command, entrypoint, working_dir, restart, healthcheck, logging, labels, user, isolation, annotations, cpu_rt_period, cpu_rt_runtime',
+    'image, build, container_name, depends_on, volumes, volumes_from, configs, secrets, environment, env_file, ports, networks, network_mode, extra_hosts, command, entrypoint, working_dir, restart, healthcheck, logging, labels, profiles, user, isolation, annotations, cpu_rt_period, cpu_rt_runtime',
   ];
   const expectedMessages = [
     rule.getMessage({ serviceName: 'web', key: 'ports', correctOrder }),
