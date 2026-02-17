@@ -13,6 +13,8 @@ List of built-in formatters:
 - stylish (default)
 - junit
 - codeclimate (also compatible with Gitlab CI)
+- github
+- rdjson
 
 ## Custom Formatters
 
